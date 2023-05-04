@@ -1,0 +1,101 @@
+@import 'reset';
+@import 'vars';
+
+html, body, .wrapper{
+    height: 100%;
+    width: 100%;
+    padding: 5px;
+}
+
+.wrapper{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.header{
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.logo__img{
+    width: 320px;
+}
+.main_menu{
+    margin-left: 100px;
+    &__list{
+        display: flex;
+    }
+    &__item{
+        margin: 0 10px;
+    }
+    &__link{
+        font-size: 22px;
+    }
+    &__link:hover{
+        color: red;
+        transition: 40ms;
+    }
+}
+.user{
+    display: flex;
+    margin: 0 20px 0 auto;
+    align-items: center;
+    cursor: pointer;
+    &__img{
+        width: 50px;
+        margin-right: 5px;
+    }
+    &__text:hover{
+        text-decoration: underline;
+        color: blue;
+        transition: 40ms;
+    }
+}
+
+main{
+    display: flex;
+    align-items: stretch;
+}
+
+
+
+.sidebar{
+    flex: 1;
+    background-color: antiquewhite;
+    margin-right: 20px;
+}
+
+.content{
+    flex: 5;
+    &__is-table{
+        width: 100%;
+    }
+    &__is-table, th,td{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    &__is-table td{
+        text-align: center;
+        padding: 0 5px;
+        cursor: pointer;
+    }
+    &__is-table td:nth-child(3){
+        text-align: left;
+    }
+
+    &__is-table tr:first-child{
+        height: 30px;
+    }
+    &__is-table tr{
+        height: 30px;
+    }
+
+}
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
