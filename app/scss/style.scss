@@ -70,11 +70,14 @@ main{
     flex: 5;
     &__is-table{
         width: 100%;
+        font-size: $is_table_font-size;
     }
     &__is-table, th,td{
         border: 1px solid black;
         border-collapse: collapse;
     }
+
+
     &__is-table td{
         text-align: center;
         padding: 0 5px;
