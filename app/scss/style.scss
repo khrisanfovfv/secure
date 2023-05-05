@@ -46,6 +46,9 @@ html, body, .wrapper{
         width: 50px;
         margin-right: 5px;
     }
+    &__text{
+        font-size: 18px;
+    }
     &__text:hover{
         text-decoration: underline;
         color: blue;
@@ -87,11 +90,17 @@ main{
         text-align: left;
     }
 
-    &__is-table tr:first-child{
-        height: 30px;
-    }
+    
     &__is-table tr{
-        height: 30px;
+        height: $is_table_row_height;
+    }
+
+    &__is-table tr:first-child:hover{
+        border: none;
+    }
+    
+    &__is-table tr:hover {
+        border: 2px solid grey;
     }
 
 }
