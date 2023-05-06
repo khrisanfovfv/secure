@@ -27,7 +27,78 @@
                 <p class="user__text">Иванова И.И.</p> 
             </div>
         </header>
-        <h1>Карточка информационной системы</h1>
+        <main class="main">
+            <div class="main__card">
+                <!-- main__card_form_table-->
+                <table class="main__card_form_table">
+                    <tr>
+                        <td>
+                            <label for="fullName">Полное наименование</label>
+                        </td>
+                        <td>
+                            <input type="text" name="fullName" id="fullName" size="80"><br>
+                        </td>
+                    </tr>
+                    <tr>
+                         <td>
+                            <label for="briefName">Краткое наименование</label>
+                        </td>
+                        <td>
+                            <input type="text" name="briefName" id="briefName" size="40">
+                        </td>
+                    </tr>
+                    <tr>
+                         <td>
+                            <input type="checkbox" name="certified" id="certified">
+                            <label for="certified">Аттестована</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="certifyDate">Дата аттестации</label>
+                        </td>
+                        <td>
+                            <input type="date" id="certifyDate" name="certifyDate">
+                        </td>
+                    </tr>
+                    <td>
+                        <label for="commissioningDate">Дата ввода в эксплуатацию</label>
+                    </td>
+                    <td>
+                        <input type="date"  id="commissioningDate" name="commissioningDate"><br>
+                    </td>
+                </table> <!-- /main__card_form_table -->
+                <p class="main__card_certificationActivity_title">Перечень мероприятий по аттестации</p>
+                <table class="main__card_certificationActivity_table">
+                    <th>№</th>
+                    <th>Начало мероприятия</th>
+                    <th>Окончание мероприятия</th>
+                    <th>ИС аттестована</th>
+                    <th>Дата аттестации</th>
+                    <th>Наличие замечаний</th>
+                    <tr>
+                        <td>1</td>
+                        <td>12.03.2020</td>
+                        <td>12.06.2020</td>
+                        <td>Нет</td>
+                        <td></td>
+                        <td>Да</td>
+                    </tr>
+                </table>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </div>
+        </main>
+        <footer class="footer">
+            <p class="footer__text">&copy Наимова Д.А., 2023</p3>
+        </footer>
     </div>
     
 </body>
