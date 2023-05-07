@@ -19,7 +19,6 @@
                     <li class="main_menu__item"><a class="main_menu__link" href="#">Настройки</a></li>
                     <li class="main_menu__item"><a class="main_menu__link" href="#">Контакты</a></li>
                     <li class="main_menu__item"><a class="main_menu__link" href="#">Помощь</a></li>
-
                 </ul>
             </div>
             <div class="user">
@@ -27,73 +26,58 @@
                 <p class="user__text">Иванова И.И.</p> 
             </div>
         </header>
-        <main class="main">
-            <div class="main__card">
-                <!-- main__card_form_table-->
-                <table class="main__card_form_table">
+        <main class="main"> 
+            <div class="card">
+                <div class="card__controls">
+                    <!-- Полное наименование -->
+                <label for="fullName">Полное наименование</label>
+                <textarea name="fullName" id="fullName" size="80" rows="3" cols="33">Автоматизированная система электронного документооборота органов исполнительной государственной власти Вологодской области</textarea>
+                <!-- Краткое наименование -->
+                <label for="briefName">Краткое наименование</label>
+                <input type="text" name="briefName" id="briefName" value="АСЭД" size="40">
+                <!-- Аттестована -->
+                <input  type="checkbox" name="certified" id="certified" size="40">
+                <label for="certified" class="label_checkbox">Аттестована</label>
+                <!-- Дата аттестации -->
+                <label for="certifyDate">Дата аттестации</label>
+                <input type="date" id="certifyDate" name="certifyDate" size="40">
+                <!-- Дата ввода в эксплуатацию -->
+                <label for="commissioningDate">Дата ввода в эксплуатацию</label>
+                <input type="date"  id="commissioningDate" name="commissioningDate" size="40"><br>
+                <!-- Наличие замечаний-->
+                <input  type="checkbox" name="has_remark" id="has_remark" size="40">
+                <label for="has_remark" class="label_checkbox">Есть замечания</label>
+                </div>
+                
+                <!-- Таблица с замечаниями-->
+                <table class="card__remarks">
                     <tr>
-                        <td>
-                            <label for="fullName">Полное наименование</label>
-                        </td>
-                        <td>
-                            <input type="text" name="fullName" id="fullName" size="80"><br>
-                        </td>
+                        <th style="width: 35px;" >№</th>
+                        <th style="width: 130px;" >Дата замечания</th>
+                        <th style="width: 130px;">Автор замечания</th>
+                        <th>Содержание амечания</th>
+                        <th style="width: 130px;">Устранено</th>
+                        <th style="width: 130px;">Дата устранения</th>
+                        <th style="width: 130px;">Кем устранено</th>
                     </tr>
                     <tr>
-                         <td>
-                            <label for="briefName">Краткое наименование</label>
-                        </td>
-                        <td>
-                            <input type="text" name="briefName" id="briefName" size="40">
-                        </td>
+                        <td contenteditable>1</td>
+                        <td contenteditable><input type="date" name="remarkDate" id="remarkDate"></td>
+                        <td contenteditable>Смирнов А.В.</td>
+                        <td contenteditable>Нет Антивируса</td>
+                        <td contenteditable><select name="eliminated" id="eliminated">
+                            <option value="yes">Да</option>
+                            <option value="no">Нет</option>
+                        </select></td>
+                        <td contenteditable><input type="date" name="eliminationDate" id="eliminationDate"></td>
+                        <td contenteditable>Петров А.Г.</td>
                     </tr>
-                    <tr>
-                         <td>
-                            <input type="checkbox" name="certified" id="certified">
-                            <label for="certified">Аттестована</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="certifyDate">Дата аттестации</label>
-                        </td>
-                        <td>
-                            <input type="date" id="certifyDate" name="certifyDate">
-                        </td>
-                    </tr>
-                    <td>
-                        <label for="commissioningDate">Дата ввода в эксплуатацию</label>
-                    </td>
-                    <td>
-                        <input type="date"  id="commissioningDate" name="commissioningDate"><br>
-                    </td>
-                </table> <!-- /main__card_form_table -->
-                <p class="main__card_certificationActivity_title">Перечень мероприятий по аттестации</p>
-                <table class="main__card_certificationActivity_table">
-                    <th>№</th>
-                    <th>Начало мероприятия</th>
-                    <th>Окончание мероприятия</th>
-                    <th>ИС аттестована</th>
-                    <th>Дата аттестации</th>
-                    <th>Наличие замечаний</th>
-                    <tr>
-                        <td>1</td>
-                        <td>12.03.2020</td>
-                        <td>12.06.2020</td>
-                        <td>Нет</td>
-                        <td></td>
-                        <td>Да</td>
-                    </tr>
+                    
                 </table>
-                
-                
-                
-                
-                
-                
-                
-                
-                
+
+            </div>
+            <div class="documents">
+
             </div>
         </main>
         <footer class="footer">
