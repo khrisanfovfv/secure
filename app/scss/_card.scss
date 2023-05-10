@@ -1,0 +1,46 @@
+.card{   
+    margin: 0 auto;
+    flex: 5;
+    align-items: stretch;
+    margin-right: 10px;
+    &__controls{
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 10px;
+    }
+    &__remarks{
+        margin-top: 20px;
+        width: 100%;
+        font-size: $is_table_font-size;
+    }
+    &__remarks, th,td{
+        border: thin solid black;
+        border-collapse: collapse;
+    }
+    &__remarks td{
+        text-align: center;
+        padding: 0 5px;
+    }
+}
+
+label{
+    grid-column: 1/2;
+}
+
+.label_checkbox{
+    grid-column: 2/3;
+}
+
+input[type=text], input[type=date],textarea{
+    grid-column: 2/3;
+}
+
+input[type=checkbox]{
+    grid-column: 1/2;
+}
+
+.documents{
+    flex: 1;
+    align-items: stretch;
+    border: thin solid black;
+}
