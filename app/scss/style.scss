@@ -61,6 +61,8 @@
 .main{
     display: flex;
     align-items: stretch;
+    height: calc(100%-100px);
+
 }
 
 
@@ -108,8 +110,11 @@
 }
 
 .footer{
+    display: flex;
     position: absolute;
     bottom: 0;
     width: 100%;
-    text-align: center;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
 }

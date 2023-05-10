@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>ИС Безопасность</title>
     <link rel="stylesheet" href="css/style.min.css">
 </head>
+
 <body>
     <div class="wrapper">
         <header class="header">
@@ -23,37 +25,84 @@
             </div>
             <div class="user">
                 <img class="user__img" src="images/user.png" alt="Пользователь">
-                <p class="user__text">Иванова И.И.</p> 
+                <p class="user__text">Иванова И.И.</p>
             </div>
         </header>
-        <main class="main"> 
+        <main class="main">
             <div class="card">
-                <div class="card__controls">
+                <ul class="main_tabs">
+                    <li class="main_tabs__item main_tabs__highlighted">Общая</li>
+                    <li class="main_tabs__item main_tabs__highlighted">Замечания по аттестации</li>
+                    <li class="main_tabs__item main_tabs__highlighted">Архив</li>
+                </ul>
+                <section class="card__general">
                     <!-- Полное наименование -->
-                <label for="fullName">Полное наименование</label>
-                <textarea name="fullName" id="fullName" size="80" rows="3" cols="33">Автоматизированная система электронного документооборота органов исполнительной государственной власти Вологодской области</textarea>
-                <!-- Краткое наименование -->
-                <label for="briefName">Краткое наименование</label>
-                <input type="text" name="briefName" id="briefName" value="АСЭД" size="40">
-                <!-- Аттестована -->
-                <input  type="checkbox" name="certified" id="certified" size="40">
-                <label for="certified" class="label_checkbox">Аттестована</label>
-                <!-- Дата аттестации -->
-                <label for="certifyDate">Дата аттестации</label>
-                <input type="date" id="certifyDate" name="certifyDate" size="40">
-                <!-- Дата ввода в эксплуатацию -->
-                <label for="commissioningDate">Дата ввода в эксплуатацию</label>
-                <input type="date"  id="commissioningDate" name="commissioningDate" size="40"><br>
-                <!-- Наличие замечаний-->
-                <input  type="checkbox" name="has_remark" id="has_remark" size="40">
-                <label for="has_remark" class="label_checkbox">Есть замечания</label>
-                </div>
-                
-                <!-- Таблица с замечаниями-->
-                <table class="card__remarks">
+                    <label for="fullName">Полное наименование</label>
+                    <textarea name="fullName" id="fullName" size="80" rows="3"
+                        cols="33">Автоматизированная система электронного документооборота органов исполнительной государственной власти Вологодской области</textarea>
+                    <!-- Краткое наименование -->
+                    <label for="briefName">Краткое наименование</label>
+                    <input type="text" name="briefName" id="briefName" value="АСЭД" size="40">
+                    <!-- Аттестована -->
+                    <input type="checkbox" name="certified" id="certified" size="40">
+                    <label for="certified" class="label_checkbox">Аттестована</label>
+                    <!-- Дата аттестации -->
+                    <label for="certifyDate">Дата аттестации</label>
+                    <input type="date" id="certifyDate" name="certifyDate" size="40">
+                    <!-- Дата ввода в эксплуатацию -->
+                    <label for="commissioningDate">Дата ввода в эксплуатацию</label>
+                    <input type="date" id="commissioningDate" name="commissioningDate" size="40"><br>
+                    <!-- Наличие замечаний-->
+                    <input type="checkbox" name="has_remark" id="has_remark" size="40">
+                    <label for="has_remark" class="label_checkbox">Есть замечания</label>
+                    <label for="certificate_file">Аттестат соответствия</label>
+                    <input type="file" name="certificate_file" id="certificate_file" accept="application/pdf">
+                    <label for="is_scope">Масштаб ИС</label>
+                    <select name="is_scope" id="is_scope">
+                        <option value="single">Одиночная</option>
+                        <option value="group">Групповая</option>
+                        <option value="corporate">Корпоративная</option>
+                    </select>
+                    <Label for="value_level">Уровень значимости информации</Label>
+                    <select name="value_level" id="value_level">
+                        <option value="k1">К1</option>
+                        <option value="k2">К2</option>
+                        <option value="k3">К3</option>
+                        <option value="k4">К4</option>
+                    </select>
+                    <label for="commissioning_date">Дата ввода в эксплуатацию</label>
+                    <input type="date" name="commissioning_date" id="commissioning_date">
+                    <p class="card__developper_title">Разработчик</p>
+                    <table class="card__developper_table">
+                        <thead>
+                            <th style="width: 35px;">№</th>
+                            <th>Полное наименование</th>
+                            <th style="width: 130px;">Краткое наименование</th>
+                            <th style="width: 130px;">ИНН</th>
+                            <th style="width: 130px;">Юридический адрес</th>
+                            <th style="width: 130px;">Адрес эл. почты</th>
+                            <th style="width: 130px;">Руководитель</th>     
+                            <th style="width: 130px;">Должность руководителя</th>              
+                        </thead>
+                        <tbody>
+                            <td>1</td>
+                            <td>ОАО Северная сбытовая компания Вологодской области</td>
+                            <td>ОАО СБК Вологда</td>
+                            <td>7736317095</td>
+                            <td>160000, Вологодская Область , г. Вологда, ул. Зосимовская, д. 49</td>
+                            <td>info@sevesk.ru</td>
+                            <td>Луцкович Виктор Евгеньевич</td>
+                            <td>Генеральный директор</td>
+                        </tbody>
+
+                    </table>
+                </section>
+
+                <section class="card__remarks">
+                    <table class="card__remarks_table">
                     <tr>
-                        <th style="width: 35px;" >№</th>
-                        <th style="width: 130px;" >Дата замечания</th>
+                        <th style="width: 35px;">№</th>
+                        <th style="width: 130px;">Дата замечания</th>
                         <th style="width: 130px;">Автор замечания</th>
                         <th>Содержание амечания</th>
                         <th style="width: 130px;">Устранено</th>
@@ -66,14 +115,18 @@
                         <td contenteditable>Смирнов А.В.</td>
                         <td contenteditable>Нет Антивируса</td>
                         <td contenteditable><select name="eliminated" id="eliminated">
-                            <option value="yes">Да</option>
-                            <option value="no">Нет</option>
-                        </select></td>
+                                <option value="yes">Да</option>
+                                <option value="no">Нет</option>
+                            </select></td>
                         <td contenteditable><input type="date" name="eliminationDate" id="eliminationDate"></td>
                         <td contenteditable>Петров А.Г.</td>
                     </tr>
-                    
                 </table>
+                </section>
+
+                <!-- Таблица с замечаниями-->
+
+                
 
             </div>
             <div class="documents">
@@ -84,6 +137,7 @@
             <p class="footer__text">&copy Наимова Д.А., 2023</p3>
         </footer>
     </div>
-    
+
 </body>
+
 </html>

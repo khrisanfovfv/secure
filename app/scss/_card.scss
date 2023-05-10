@@ -3,23 +3,48 @@
     flex: 5;
     align-items: stretch;
     margin-right: 10px;
-    &__controls{
+    &__general{
         display: grid;
         grid-template-columns: 200px 1fr;
         gap: 10px;
+        border: thin solid black;
+        padding: 5px;
+        margin-top: -1px;
+        background-color: rgb(236, 236, 236);
+        height: 100%;
     }
     &__remarks{
+        display: none;
+    }
+    &__remarks_table{
         margin-top: 20px;
         width: 100%;
         font-size: $is_table_font-size;
     }
-    &__remarks, th,td{
+    &__remarks_table, th,td{
         border: thin solid black;
         border-collapse: collapse;
     }
-    &__remarks td{
+    &__remarks_table td{
         text-align: center;
         padding: 0 5px;
+    }
+    &__developper_table{
+        border-collapse: collapse;
+    }
+}
+
+.main_tabs{
+    display: flex;
+
+    &__item{
+        margin: 0px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+    &__highlighted{
+        border: thin solid black;
+        background-color: rgb(236, 236, 236);
     }
 }
 
@@ -31,7 +56,7 @@ label{
     grid-column: 2/3;
 }
 
-input[type=text], input[type=date],textarea{
+input[type=text], input[type=date],textarea, select{
     grid-column: 2/3;
 }
 
