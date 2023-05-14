@@ -1,21 +1,35 @@
+/* Карточка документа */
 .card{   
     margin: 0 auto;
     flex: 5;
     align-items: stretch;
     margin-right: 10px;
+    /* Вкладка - Общая */
     &__general{
-        display: grid;
-        grid-template-columns: 200px 1fr;
-        gap: 10px;
+        margin-top: -1px;
+        display: flex;
+        flex-direction: column;
         border: thin solid black;
         padding: 5px;
+    }
+    /* Основные поля общей вкладки */
+    &__general_fields{
+        display: grid;
+        grid-template-columns: 200px 200px 200px 150px;
+        gap: 10px;
+        align-items: center;
+        padding: 5px;
         margin-top: -1px;
-        background-color: rgb(236, 236, 236);
-        height: 100%;
+        background-color: $main_tabs_hilighted_tabs
     }
+    /* Вкладка - Замечания по аттестации */
     &__remarks{
-        display: none;
+        margin-top: -1px;
+        display: grid;
+        border: thin solid black;
+        padding: 5px;
     }
+    /* Таблица вкладки - Замечания по аттестации */
     &__remarks_table{
         margin-top: 20px;
         width: 100%;
@@ -29,43 +43,219 @@
         text-align: center;
         padding: 0 5px;
     }
+    /* Информация о разработчике */
+    &__developper_title{
+        display: block;
+        margin: 5px 0;  
+        font-weight: bold;      
+    }
     &__developper_table{
+        width: 100%;
         border-collapse: collapse;
+    }
+    /* Вкладка - Контракты */
+    &__contracts{
+        margin-top: -1px;
+        border: thin solid black;
+        padding: 5px;
+    }
+    &__contracts_table
+    {
+        margin-top: 20px;
+        width: 100%;
+        font-size: $is_table_font-size;
+    }
+    &__contracts_table, th, td{
+        border: thin solid black;
+        border-collapse: collapse;
+    }
+    &__contracts_table tbody tr:hover {
+        border: 2px solid grey;
+        cursor: pointer;
+    }
+
+    /* Вкладка - Архив */
+    &__archive{
+        margin-top: -1px;
+        border: thin solid black;
+        padding: 5px;
+    }
+
+}
+
+.contract{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(128,128,128,0.5);
+    height: 100%;
+    border: thin solid black;    
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+    &__card{
+        width: 70%;
+        height: 70%;
+        border: thin solid black;
+        background-color: white;
+        opacity: 1;
     }
 }
 
+.window_button{
+    display: flex;
+    justify-content: right;
+    &__list{
+        display: flex;
+    }
+    &__item{
+
+    }
+    &__link img{
+        height: 15px;
+    }
+}
+
+/* Класс позволяющий скрывать вкладки*/
+.hide_tab{
+    display: none;
+}
+
+/* Панель вкладок */
 .main_tabs{
     display: flex;
-
+    /* Отдельная вкладка*/
     &__item{
         margin: 0px;
         padding: 10px 20px;
         cursor: pointer;
+        background-color:  rgb(236, 236, 236);
+        border-top: thin solid black;
+        border-left: thin solid black;
+        border-right: thin solid black;
+        border-bottom: thin solid black;
     }
+
+    &__item a{
+        color: black;
+    }
+    /* Класс для обозначения выделенной вкладки*/
     &__highlighted{
-        border: thin solid black;
-        background-color: rgb(236, 236, 236);
+        border-bottom: thin solid white;
+        background-color: $main_tabs_hilighted_tabs;
     }
 }
 
-label{
-    grid-column: 1/2;
+/* Расположение элементов вкладки - Общая*/
+#fullName_title{
+    grid-column: 1;
+}
+#fullName{
+    grid-column: 2/5;
+}
+#briefName_title{
+    grid-column: 1;
+}
+#briefName{
+    grid-column: 2/5;
+}
+#is_scope_title{
+    grid-column: 1;
+}
+#is_scope{
+    justify-self: start;
+}
+#value_level_title{
+    grid-column: 3;
+}
+#value_level{
+    grid-column: 4;
+    justify-self: right;
+}
+#certified{
+    grid-column: 1;
+    justify-self: end;
+}
+#certified_title{
+    grid-column: 2;
+}
+#certifyDate_title{
+    grid-column: 3
+}
+#certifyDate{
+    grid-column: 4;
+    justify-self: right;
+}
+#has_remark{
+    grid-column: 1;
+    justify-self: end;
+}
+#commissioningDate_title{
+    grid-column: 3;
+}
+#commissioningDate{
+    grid-column: 4;
+    justify-self: right;
+}
+#certificate_file_title{
+    grid-column: 1;
+}
+#certificate_file{
+    grid-column: 2/5;
 }
 
-.label_checkbox{
-    grid-column: 2/3;
-}
-
-input[type=text], input[type=date],textarea, select{
-    grid-column: 2/3;
-}
-
-input[type=checkbox]{
-    grid-column: 1/2;
-}
-
+/* Группа документы*/
 .documents{
     flex: 1;
     align-items: stretch;
     border: thin solid black;
+    &__title{
+        font-weight: bold;
+        padding: 5px;
+        font-size: 18px;
+    }
+    &__list{
+        margin: 5px;
+    }
+    &__item{
+        margin: 5px 0;
+    }
+    &__item:hover{
+        background-color: lightblue;
+    }
+    &__link{
+        display: flex;
+        align-items: center;
+    }
+    &__ico{
+        width: 32px;
+        margin-right: 10px;
+    }
+    &__name_item{
+        color: black;
+        font-size: 18px;
+    }
+}
+
+.table_buttons{
+    margin-top: 10px;
+}
+
+.table_buttons__list{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.table_buttons__item{
+    border: thin solid black;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 0 5px;
+}
+
+.table_buttons__link{
+    color: black;
 }

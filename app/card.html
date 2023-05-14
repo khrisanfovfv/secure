@@ -19,7 +19,7 @@
                 <ul class="main_menu__list">
                     <li class="main_menu__item"><a class="main_menu__link" href="#"> Отчеты</a></li>
                     <li class="main_menu__item"><a class="main_menu__link" href="#">Настройки</a></li>
-                    <li class="main_menu__item"><a class="main_menu__link" href="#">Контакты</a></li>
+                    <li class="main_menu__item"><a class="main_menu__link" href="#">Справочники</a></li>
                     <li class="main_menu__item"><a class="main_menu__link" href="#">Помощь</a></li>
                 </ul>
             </div>
@@ -31,47 +31,56 @@
         <main class="main">
             <div class="card">
                 <ul class="main_tabs">
-                    <li class="main_tabs__item main_tabs__highlighted">Общая</li>
-                    <li class="main_tabs__item main_tabs__highlighted">Замечания по аттестации</li>
-                    <li class="main_tabs__item main_tabs__highlighted">Архив</li>
+                    <li class="main_tabs__item main_tabs__highlighted"><a href="#card__general">Общая</a> </li>
+                    <li class="main_tabs__item"><a href="#card__remarks">Замечания по аттестации</a> </li>
+                    <li class="main_tabs__item"><a href="#card__contracts">Контракты</a> </li>
+                    <li class="main_tabs__item"><a href="#card__archive">Архив</a> </li>
                 </ul>
-                <section class="card__general">
-                    <!-- Полное наименование -->
-                    <label for="fullName">Полное наименование</label>
-                    <textarea name="fullName" id="fullName" size="80" rows="3"
-                        cols="33">Автоматизированная система электронного документооборота органов исполнительной государственной власти Вологодской области</textarea>
-                    <!-- Краткое наименование -->
-                    <label for="briefName">Краткое наименование</label>
-                    <input type="text" name="briefName" id="briefName" value="АСЭД" size="40">
-                    <!-- Аттестована -->
-                    <input type="checkbox" name="certified" id="certified" size="40">
-                    <label for="certified" class="label_checkbox">Аттестована</label>
-                    <!-- Дата аттестации -->
-                    <label for="certifyDate">Дата аттестации</label>
-                    <input type="date" id="certifyDate" name="certifyDate" size="40">
-                    <!-- Дата ввода в эксплуатацию -->
-                    <label for="commissioningDate">Дата ввода в эксплуатацию</label>
-                    <input type="date" id="commissioningDate" name="commissioningDate" size="40"><br>
-                    <!-- Наличие замечаний-->
-                    <input type="checkbox" name="has_remark" id="has_remark" size="40">
-                    <label for="has_remark" class="label_checkbox">Есть замечания</label>
-                    <label for="certificate_file">Аттестат соответствия</label>
-                    <input type="file" name="certificate_file" id="certificate_file" accept="application/pdf">
-                    <label for="is_scope">Масштаб ИС</label>
-                    <select name="is_scope" id="is_scope">
-                        <option value="single">Одиночная</option>
-                        <option value="group">Групповая</option>
-                        <option value="corporate">Корпоративная</option>
-                    </select>
-                    <Label for="value_level">Уровень значимости информации</Label>
-                    <select name="value_level" id="value_level">
-                        <option value="k1">К1</option>
-                        <option value="k2">К2</option>
-                        <option value="k3">К3</option>
-                        <option value="k4">К4</option>
-                    </select>
-                    <label for="commissioning_date">Дата ввода в эксплуатацию</label>
-                    <input type="date" name="commissioning_date" id="commissioning_date">
+                <!-- ВКЛАДКА ОБЩАЯ -->
+                <section class="card__general" id="card__general">
+                    <div class="card__general_fields">
+                        <!-- Полное наименование -->
+                        <label for="fullName" id="fullName_title">Полное наименование</label>
+                        <textarea id="fullName" name="fullName" size="80" rows="3"
+                            cols="33">Автоматизированная система электронного документооборота органов исполнительной государственной власти Вологодской области</textarea>
+                        <!-- Краткое наименование -->
+                        <label for="briefName" id="briefName_title">Краткое наименование</label>
+                        <input type="text" id="briefName" name="briefName" value="АСЭД" size="40">
+                        <!-- Масштаб ИС-->
+                        <label for="is_scope" id="is_scope_title">Масштаб ИС</label>
+                        <select id="is_scope" name="is_scope">
+                            <option value="single">Одиночная</option>
+                            <option value="group">Групповая</option>
+                            <option value="corporate">Корпоративная</option>
+                        </select>
+                        <!-- Уровень значимости информации -->
+                        <Label for="value_level" id="value_level_title">Уровень значимости информации</Label>
+                        <select id="value_level" name="value_level">
+                            <option value="k1">К1</option>
+                            <option value="k2">К2</option>
+                            <option value="k3">К3</option>
+                            <option value="k4">К4</option>
+                        </select>
+                        <!-- Аттестована -->
+                        <input type="checkbox" id="certified" name="certified" size="40">
+                        <label for="certified" id="certified_title" class="label_checkbox">Аттестована</label>
+                        <!-- Дата аттестации -->
+                        <label for="certifyDate" id="certifyDate_title">Дата аттестации</label>
+                        <input type="date" id="certifyDate" name="certifyDate" size="40">
+                        <!-- Наличие замечаний-->
+                        <input type="checkbox" id="has_remark" name="has_remark" size="40">
+                        <label for="has_remark" class="label_checkbox">Есть замечания</label>
+                        <!-- Дата ввода в эксплуатацию -->
+                        <label for="commissioningDate" id="commissioningDate_title">Дата ввода в эксплуатацию</label>
+                        <input type="date" id="commissioningDate" name="commissioningDate" size="40"><br>
+
+                        <!-- Аттестат соответствия-->
+                        <label for="certificate_file" id="certificate_file_title">Аттестат соответствия</label>
+                        <input type="file" id="certificate_file" name="certificate_file" accept="application/pdf">
+
+                    </div>
+
+                    <!-- Таблица с разработчиками -->
                     <p class="card__developper_title">Разработчик</p>
                     <table class="card__developper_table">
                         <thead>
@@ -79,10 +88,10 @@
                             <th>Полное наименование</th>
                             <th style="width: 130px;">Краткое наименование</th>
                             <th style="width: 130px;">ИНН</th>
-                            <th style="width: 130px;">Юридический адрес</th>
+                            <th style="width: 260px;">Юридический адрес</th>
                             <th style="width: 130px;">Адрес эл. почты</th>
-                            <th style="width: 130px;">Руководитель</th>     
-                            <th style="width: 130px;">Должность руководителя</th>              
+                            <th style="width: 130px;">Руководитель</th>
+                            <th style="width: 130px;">Должность руководителя</th>
                         </thead>
                         <tbody>
                             <td>1</td>
@@ -94,50 +103,140 @@
                             <td>Луцкович Виктор Евгеньевич</td>
                             <td>Генеральный директор</td>
                         </tbody>
-
                     </table>
                 </section>
 
-                <section class="card__remarks">
+                <!-- ВКЛАДКА ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ -->
+                <section class="card__remarks hide_tab" id="card__remarks">
                     <table class="card__remarks_table">
-                    <tr>
-                        <th style="width: 35px;">№</th>
-                        <th style="width: 130px;">Дата замечания</th>
-                        <th style="width: 130px;">Автор замечания</th>
-                        <th>Содержание амечания</th>
-                        <th style="width: 130px;">Устранено</th>
-                        <th style="width: 130px;">Дата устранения</th>
-                        <th style="width: 130px;">Кем устранено</th>
-                    </tr>
-                    <tr>
-                        <td contenteditable>1</td>
-                        <td contenteditable><input type="date" name="remarkDate" id="remarkDate"></td>
-                        <td contenteditable>Смирнов А.В.</td>
-                        <td contenteditable>Нет Антивируса</td>
-                        <td contenteditable><select name="eliminated" id="eliminated">
-                                <option value="yes">Да</option>
-                                <option value="no">Нет</option>
-                            </select></td>
-                        <td contenteditable><input type="date" name="eliminationDate" id="eliminationDate"></td>
-                        <td contenteditable>Петров А.Г.</td>
-                    </tr>
-                </table>
+                        <tr>
+                            <th style="width: 35px;">№</th>
+                            <th style="width: 130px;">Дата замечания</th>
+                            <th style="width: 130px;">Автор замечания</th>
+                            <th>Содержание амечания</th>
+                            <th style="width: 130px;">Устранено</th>
+                            <th style="width: 130px;">Дата устранения</th>
+                            <th style="width: 130px;">Кем устранено</th>
+                        </tr>
+                        <tr>
+                            <td contenteditable>1</td>
+                            <td contenteditable><input type="date" name="remarkDate" id="remarkDate"></td>
+                            <td contenteditable>Смирнов А.В.</td>
+                            <td contenteditable>Нет Антивируса</td>
+                            <td contenteditable><select name="eliminated" id="eliminated">
+                                    <option value="yes">Да</option>
+                                    <option value="no">Нет</option>
+                                </select></td>
+                            <td contenteditable><input type="date" name="eliminationDate" id="eliminationDate"></td>
+                            <td contenteditable>Петров А.Г.</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <!-- ВКЛАДКА КОНТРАКТЫ -->
+                <section class="card__contracts hide_tab" id="card__contracts">
+                    <!-- Кнопки для управления записями в таблице Контракты-->
+                    <div class="table_buttons">
+                        <ul class="table_buttons__list">
+                            <li class="table_buttons__item">
+                                <a href="create_contract" class="table_buttons__link">Создать</a>
+                            </li>
+                            <li class="table_buttons__item">
+                                <a href="copy_contract" class="table_buttons__link">Копировать</a>
+                            </li>
+                            <li class="table_buttons__item">
+                                <a href="edit_contract" class="table_buttons__link">Редактировать</a>
+                            </li>
+                            <li class="table_buttons__item">
+                                <a href="delete_contract" class="table_buttons__link">Удалить</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <table class="card__contracts_table">
+                        <thead>
+                            <tr>
+                                <th style="width:35px">№</th>
+                                <th style="width:130px">Номер</th>
+                                <th style="width:80px">Дата заключения</th>
+                                <th>Предмет котракта</th>
+                                <th style="width:100px">Тип контракта</th>
+                                <th style="width:230px">Ссылка на сайт закупок</th>
+                                <th style="width:230px">Заказчик</th>
+                                <th style="width:230px">Исполнитель</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>25-36/99-22</td>
+                                <td>25.03.2022</td>
+                                <td>Сопровождение ИС в 2023 году</td>
+                                <td>Поддержка</td>
+                                <td>zakupki.gov.ru/123587566/cardinfo255oh</td>
+                                <td>БУ ВО ЦИТ</td>
+                                <td>ООО Поддержка</td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </section>
+                <!-- ВКЛАДКА АРХИВ -->
+                <section class="card__archive hide_tab" id="card__archive">
+
                 </section>
 
                 <!-- Таблица с замечаниями-->
 
-                
+                <section class="contract hide_tab">
+                    <div class="contract__card">
+                        <div class="window_button">
+                            <ul class="window_button__list">
+                                <li class="window_buttin_item">
+                                    <a href="#" class="window_button__link">
+                                        <img src="./images/minimize-window.svg" alt="">
+                                    </a> 
+                                </li>
+                                <li class="window_buttin_item">
+                                    <a href="#" class="window_button__link">
+                                        <img src="./images/maximize-window.svg" alt="">
+                                    </a> 
+                                </li>
+                                <li class="window_buttin_item">
+                                    <a href="#" class="window_button__link">
+                                        <img src="./images/close-window.svg" alt="">
+                                    </a> 
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
 
             </div>
             <div class="documents">
-
+                <p class="documents__title">Документы</p>
+                <ul class="documents__list">
+                    <li class="documents__item">
+                        <a class="documents__link" href="">
+                            <img class="documents__ico" src="./images/pdf.svg" alt="">
+                            <p class="documents__name_item">Аттестат соответствия</p>
+                        </a>
+                    </li>
+                    <li class="documents__item">
+                        <a class="documents__link" href="">
+                            <img class="documents__ico" src="./images/ms-word.svg" alt="">
+                            <p class="documents__name_item">Технический паспорт</p>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </main>
         <footer class="footer">
             <p class="footer__text">&copy Наимова Д.А., 2023</p3>
         </footer>
     </div>
-
+    <script src="./js/main.min.js"></script>
 </body>
 
 </html>
