@@ -81,8 +81,8 @@
                     </div>
 
                     <!-- Таблица с разработчиками -->
-                    <p class="card__developper_title">Разработчик</p>
-                    <table class="card__developper_table">
+                    <p class="card__participant_title">Разработчик</p>
+                    <table class="card__participant_table">
                         <thead>
                             <th style="width: 35px;">№</th>
                             <th>Полное наименование</th>
@@ -107,7 +107,7 @@
                 </section>
 
                 <!-- ВКЛАДКА ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ -->
-                <section class="card__remarks hide_tab" id="card__remarks">
+                <section class="card__remarks hide" id="card__remarks">
                     <table class="card__remarks_table">
                         <tr>
                             <th style="width: 35px;">№</th>
@@ -134,7 +134,7 @@
                 </section>
 
                 <!-- ВКЛАДКА КОНТРАКТЫ -->
-                <section class="card__contracts hide_tab" id="card__contracts">
+                <section class="card__contracts hide" id="card__contracts">
                     <!-- Кнопки для управления записями в таблице Контракты-->
                     <div class="table_buttons">
                         <ul class="table_buttons__list">
@@ -183,37 +183,73 @@
                     </table>
                 </section>
                 <!-- ВКЛАДКА АРХИВ -->
-                <section class="card__archive hide_tab" id="card__archive">
+                <section class="card__archive hide" id="card__archive">
 
                 </section>
 
                 <!-- Таблица с замечаниями-->
 
-                <section class="contract hide_tab">
+                <section class="contract hide">
                     <div class="contract__card">
-                        <div class="window_button">
-                            <ul class="window_button__list">
-                                <li class="window_buttin_item">
-                                    <a href="#" class="window_button__link">
-                                        <img src="./images/minimize-window.svg" alt="">
-                                    </a> 
-                                </li>
-                                <li class="window_buttin_item">
-                                    <a href="#" class="window_button__link">
-                                        <img src="./images/maximize-window.svg" alt="">
-                                    </a> 
-                                </li>
-                                <li class="window_buttin_item">
-                                    <a href="#" class="window_button__link">
-                                        <img src="./images/close-window.svg" alt="">
-                                    </a> 
-                                </li>
-                            </ul>
+                        <div class="contract__card_topPanel">
+                            <a class="cardClose-link" href="#">
+                                <img class="cardClose-img" src="./images/close-window.svg" alt="Закрыть">
+                            </a>
+                        </div>
+                        <div class="contract__card_content">
+                            <!-- Номер контракта -->
+                            <label for="contractNumber" id="contractNumber_title"> Номер</label>
+                            <input type="text" id="contractNumber" name="contractNumber">
+                            <!-- Дата заключения контракта -->
+                            <label for="conclusionDate" id="conclusionDate_title">Дата заключения</label>
+                            <input type="date" id="conclusionDate" name="conclusionDate">
+                            <!-- Тип контракта -->
+                            <label for="contractType" id="contractType_title">Тип контракта</label>
+                            <select id="contractType" name="contractType">
+                                <option value="support">Поддержка</option>
+                                <option value="evolve">Развитие</option>
+                                <option value="sertification">Аттестация</option>
+                            </select>
+                            <!-- Ссылка на сайт закупок -->
+                            <label for="purchaseSite" id="purchaseSite_title">Ссылка на сайт закупок</label>
+                            <input type="text" id="purchaseSite" name="purchaseSite">
+                        </div>
+                        <!-- Стороны контракта -->
+                        <div class="contract__card_participants">
+                            <!-- Заказчики-->
+                            <div class="contract__card_participant">
+                                <p class="card__participant_title">Заказчик</p>
+                                <table class="card__participant_table">
+                                    <thead>
+                                        <th style="width: 35px;">№</th>
+                                        <th>Полное наименование</th>
+                                    </thead>
+                                    <tbody>
+                                        <td>1</td>
+                                        <td>ОАО Северная сбытовая компания Вологодской области</td>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Исполнители -->
+                            <div class="contract__card_participant">
+                                <p class="card__participant_title">Исполнитель</p>
+                                <table class="card__participant_table">
+                                    <thead>
+                                        <th style="width: 35px;">№</th>
+                                        <th>Полное наименование</th>
+                                    </thead>
+                                    <tbody>
+                                        <td>1</td>
+                                        <td>ОАО Северная сбытовая компания Вологодской области</td>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </section>
-
             </div>
+
+            <!-- ПАНЕЛЬ ДОКУМЕНТЫ -->
             <div class="documents">
                 <p class="documents__title">Документы</p>
                 <ul class="documents__list">

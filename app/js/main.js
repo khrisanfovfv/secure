@@ -17,16 +17,21 @@ $(function () {
         
         /* Скрываем все вкладки */
         card_tabs.forEach(item => {
-            $('#card__'+ item).addClass('hide_tab');
+            $('#card__'+ item).addClass('hide');
         });
         /* Показываем выбранную */
         tab=$(this).children().attr('href');
-        $(tab).removeClass('hide_tab');
+        $(tab).removeClass('hide');
     })
 
 
     /** Клик на строку в таблице Контракты */
     $('.card__contracts_table tbody tr').on('click',function(){
-        $('.contract').removeClass('hide_tab');
+        $('.contract').removeClass('hide');
+    })
+
+    /** Нажатие на кнопку Закрыть в карточке Контракт */
+    $('.cardClose-link').on('click', function(){
+        $('.contract').addClass('hide');
     })
 })
