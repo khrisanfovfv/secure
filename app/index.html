@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>ИС Безопасность</title>
     <link rel="stylesheet" href="css/style.min.css">
 </head>
+
 <body>
     <div class="wrapper">
         <header class="header">
@@ -24,45 +26,63 @@
             </div>
             <div class="user">
                 <img class="user__img" src="images/user.png" alt="Пользователь">
-                <p class="user__text">Иванова И.И.</p> 
+                <p class="user__text">Иванова И.И.</p>
             </div>
         </header>
         <main class="main">
-            
+
             <div class="sidebar">
 
             </div>
             <div class="content">
-                <p>Информационные системы</p>
-                <table class="content__is-table">
-                    <tr>
-                        <th style="width: 35px;">№</th>
-                        <th style="width: 200px;">Краткое наименование</th>
-                        <th>Полн. наименование</th>
-                        <th style="width: 130px;">Аттестована</th>
-                        <th style="width: 130px;">Дата посл. аттестации</th>
-                        <th style="width: 130px;">Срок след. аттестации</th>
-                        <th style="width: 130px;">Проблемы ИБ</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>АСЭД</td>
-                        <td>Автоматизированная система электронного документооборота органов исполнительной государственной власти области</td>
-                        <td>Нет</td>
-                        <td>01.01.2021</td>
-                        <td>01.01.2023</td>
-                        <td>Да</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Корпоративный портал</td>
-                        <td>Корпоративный портал Правительства Вологодской области</td>
-                        <td>Да</td>
-                        <td>30.04.2022</td>
-                        <td>30.04.2024</td>
-                        <td>Нет</td>
-                    </tr>
-                </table>
+                <div class="reference">
+                    <p class="reference__title">Справочник Информационные системы</p>
+                    <div class="reference__buttons">
+                        <input class="reference__button bg_blue" type="button" value="Создать" id="IS_create">
+                        <input class="reference__button bg_green"  type="button" value="Редактировать" id="IS_edit">
+                        <input class="reference__button bg_green"  type="button" value="Копировать" id="IS_copy">
+                        <input class="reference__button bg_red" type="button" value="Удалить" id="IS_delete">
+                        <input class="reference__button bg_orange" type="button" value="Эл. таб" id="IS_print">
+                    </div>
+                    <table class="reference__table" id="IS_table">
+                        <thead>
+                            <tr>
+                                <th style="width: 35px;">№</th>
+                                <th style="width: 200px;">Краткое наименование</th>
+                                <th>Полн. наименование</th>
+                                <th style="width: 130px;">Аттестована</th>
+                                <th style="width: 130px;">Дата посл. аттестации</th>
+                                <th style="width: 130px;">Срок след. аттестации</th>
+                                <th style="width: 130px;">Проблемы ИБ</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                            <td>1</td>
+                            <td>АСЭД</td>
+                            <td style="text-align: left;">Автоматизированная система электронного документооборота
+                                органов исполнительной
+                                государственной власти области</td>
+                            <td>Нет</td>
+                            <td>01.01.2021</td>
+                            <td>01.01.2023</td>
+                            <td>Да</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Корпоративный портал</td>
+                            <td style="text-align: left;">Корпоративный портал Правительства Вологодской области</td>
+                            <td>Да</td>
+                            <td>30.04.2022</td>
+                            <td>30.04.2024</td>
+                            <td>Нет</td>
+                        </tr>
+                        </tbody>
+                        
+                    </table>
+                </div>
+
             </div>
         </main>
         <footer class="footer">
@@ -71,4 +91,5 @@
     </div>
     <script src="js/main.min.js"></script>
 </body>
+
 </html>

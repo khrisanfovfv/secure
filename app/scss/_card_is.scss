@@ -1,0 +1,279 @@
+/* Карточка документа */
+.card_is{   
+    margin: 0 auto;
+    position: relative;
+    flex: 5;
+    align-items: stretch;
+    margin-right: 10px;
+    /* Вкладка - Общая */
+    &__general{
+        margin-top: -1px;
+        display: flex;
+        flex-direction: column;
+        border: thin solid black;
+        padding: 5px;
+    }
+    &__general_top{
+
+        display: flex;
+    }
+
+    &__general_admins{
+        margin-left: 20px;
+        margin-right: 15px;
+        width: 100%;
+    }
+    /* Основные поля общей вкладки */
+    &__general_fields{
+        display: grid;
+        grid-template-columns: 200px 200px 200px 150px;
+        gap: 10px;
+        align-items: center;
+        padding: 5px;
+        margin-top: -1px;
+        background-color: $main_tabs_hilighted_tabs
+    }
+
+    
+
+    /* Вкладка - Замечания по аттестации */
+    &__remarks{
+        margin-top: -1px;
+        display: grid;
+        border: thin solid black;
+        padding: 5px;
+    }
+    /* Таблица вкладки - Замечания по аттестации */
+    &__remarks_table{
+        margin-top: 20px;
+        width: 100%;
+        font-size: $is_table_font-size;
+    }
+    &__remarks_table, th,td{
+        border: thin solid black;
+        border-collapse: collapse;
+    }
+    &__remarks_table td{
+        text-align: center;
+        padding: 0 5px;
+    }
+
+    /* Вкладка - Контракты */
+    &__contracts{
+        margin-top: -1px;
+        border: thin solid black;
+        padding: 5px;
+    }
+
+    /* Вкладка - Архив */
+    &__archive{
+        margin-top: -1px;
+        border: thin solid black;
+        padding: 5px;
+    }
+
+}
+
+.contract{
+    width: 1200px;
+    height: 600px;
+    &__fields{
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 5px;
+        padding: 10px;
+    }
+
+    &__fields label{
+        grid-column: 1/4;
+    }
+    &__fields input{
+        height: 30px;
+    }
+    &__fields select{
+        height: 30px;
+    }
+    &__tables{
+        display: flex;
+    }
+    &__table{
+        margin: 10px;
+        flex: 1;
+    }
+    &__table thead{
+        height: 30px;
+    }
+    &__table, th,td{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+
+}
+
+.organisations{
+    width: 1200px;
+    height: 800px;
+    &__fields{
+        padding: 20px;
+    }
+}
+
+/*Поле с выбором из справочника*/
+.refRecord{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    &__field{
+        width: 100%;
+        height: 30px;
+        border: none;
+    }
+    &__button{
+        border: thin dotted black;
+        width: 30px;
+        height: 30px;
+        padding: 5px;
+        cursor: pointer;
+    }
+}
+
+/* КНОПКИ ДЕЙСТВИЯ С ЗАПИСЬЮ */
+.finish_buttons{
+    margin: 15px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.finish_buttons__button{
+    
+    width: 100px;
+    height: 30px;
+    margin-right: 50px;
+}
+
+
+/* Класс позволяющий скрывать объекты */
+.hide{
+    display: none;
+}
+
+/* Панель вкладок */
+.main_tabs{
+    display: flex;
+    /* Отдельная вкладка*/
+    &__item{
+        margin: 0px;
+        padding: 10px 20px;
+        cursor: pointer;
+        background-color:  rgb(236, 236, 236);
+        border-top: thin solid black;
+        border-left: thin solid black;
+        border-right: thin solid black;
+        border-bottom: thin solid black;
+    }
+
+    &__item a{
+        color: black;
+    }
+    /* Класс для обозначения выделенной вкладки*/
+    &__highlighted{
+        border-bottom: thin solid white;
+        background-color: $main_tabs_hilighted_tabs;
+    }
+}
+
+/* Расположение элементов вкладки - Общая*/
+
+/* Кнопка начать аттестацию*/
+#start_certification_button{
+    font-size: 16px;
+    grid-column: 4;
+}
+#fullName_title{
+    grid-column: 1;
+}
+#fullName{
+    grid-column: 2/5;
+}
+#briefName_title{
+    grid-column: 1;
+}
+#briefName{
+    grid-column: 2/5;
+}
+#is_scope_title{
+    grid-column: 1;
+}
+#is_scope{
+    justify-self: start;
+}
+#value_level_title{
+    grid-column: 3;
+}
+#value_level{
+    grid-column: 4;
+    justify-self: right;
+}
+#certified{
+    grid-column: 1;
+    justify-self: end;
+}
+#certified_title{
+    grid-column: 2;
+}
+#certifyDate_title{
+    grid-column: 3
+}
+#certifyDate{
+    grid-column: 4;
+    justify-self: right;
+}
+#has_remark{
+    grid-column: 1;
+    justify-self: end;
+}
+#commissioningDate_title{
+    grid-column: 3;
+}
+#commissioningDate{
+    grid-column: 4;
+    justify-self: right;
+}
+#certificate_file_title{
+    grid-column: 1;
+}
+#certificate_file{
+    grid-column: 2/5;
+}
+
+/* ДИАЛОГОВЫЕ ОКНА */
+.dialog{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 500px;
+    background-color: white;
+    border: 2px solid rgb(194, 194, 212);
+    border-radius: 10px;
+    &__header{
+        display: flex;
+        justify-content: right;
+    }
+    &__text{
+        display: block;
+        text-align: center;
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    &__buttons{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    &__button{
+        width: 100px;
+        height: 30px;
+        margin: 0 10px;
+    }
+}

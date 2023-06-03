@@ -1,5 +1,7 @@
 @import 'reset';
 @import 'vars';
+@import 'card_is';
+@import 'reference';
 @import 'card';
 
  html, body, .wrapper{
@@ -75,39 +77,8 @@
 
 .content{
     flex: 5;
-    &__is-table{
-        width: 100%;
-        font-size: $is_table_font-size;
-    }
-    &__is-table, th,td{
-        border: 1px solid black;
-        border-collapse: collapse;
-    }
-
-
-    &__is-table td{
-        text-align: center;
-        padding: 0 5px;
-        cursor: pointer;
-    }
-    &__is-table td:nth-child(3){
-        text-align: left;
-    }
-
-    
-    &__is-table tr{
-        height: $is_table_row_height;
-    }
-
-    &__is-table tr:first-child:hover{
-        border: none;
-    }
-    
-    &__is-table tr:hover {
-        border: 2px solid grey;
-    }
-
 }
+
 
 .footer{
     display: flex;

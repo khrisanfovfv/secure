@@ -1,5 +1,5 @@
 $(function () {
-    $('.content__is-table tr').slice(1).on('click', function(){
+    $('#IS_table tr').slice(1).on('click', function(){
         $("<a>").prop({
             target: "_blank",
             href: "card.html"
@@ -26,12 +26,18 @@ $(function () {
 
 
     /** Клик на строку в таблице Контракты */
-    $('.card__contracts_table tbody tr').on('click',function(){
+    $('#CONTRACT_table tbody tr').on('click', function(){
         $('.contract').removeClass('hide');
+    })    
+
+    /** Клик на кнопку закрыть */
+    $('.card__header_closeLink').on('click', function(){
+        // Получаем саму карточку
+        card=$(this).parent().parent().parent();
+        card.addClass('hide');
     })
 
-    /** Нажатие на кнопку Закрыть в карточке Контракт */
-    $('.cardClose-link').on('click', function(){
-        $('.contract').addClass('hide');
+    $('.button_cancel').on('click', function(){
+        $('.dialog').removeClass('hide');
     })
 })

@@ -1,0 +1,53 @@
+/* Класс справочник*/
+.reference{
+    &__title{
+        font-weight: bold;
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+    &__buttons{
+        margin: 10px 0;
+    }
+    &__button{
+        border-radius: 5px;
+        padding: 5px;
+        min-width: 150px;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        color: white;
+
+    }
+
+    &__table{
+        font-size: $is_table_font-size;
+        width: 100%;
+    }
+    &__table, th,td{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    &__table td{
+        text-align: center;
+        padding: 0 5px;
+        cursor: pointer;
+    }
+
+    &__table tbody tr:hover{
+        border: 2px solid gray;
+    }
+
+}
+
+.bg_blue{
+    background-color: rgb(0, 0, 255);
+}
+.bg_green{
+    background-color: green;
+}
+.bg_red{
+    background-color: red;
+}
+.bg_orange{
+    background-color: orange;
+}
