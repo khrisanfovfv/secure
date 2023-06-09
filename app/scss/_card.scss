@@ -44,6 +44,13 @@
         border: thin solid black;
         flex: 1;
     }
+    &__record{
+        width: 100%;
+        display: flex;
+    }
+    &__record input{
+        width: 100%;
+    }
 }
 
 /* Группа документы*/

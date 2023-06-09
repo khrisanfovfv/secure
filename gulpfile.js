@@ -8,7 +8,9 @@ const clean = require('gulp-clean');
 
 function scripts(){
     return src([
-        'node_modules/jquery/dist/jquery.js',
+        /*'node_modules/jquery/dist/jquery.js',*/
+        'app/plugins/jquery-ui-1.13.2/external/jquery/jquery.js',
+        'app/plugins/jquery-ui-1.13.2/jquery-ui.js',
         'app/js/main.js'
     ])
     .pipe(concat('main.min.js'))

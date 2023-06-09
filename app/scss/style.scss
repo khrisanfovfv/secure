@@ -3,6 +3,9 @@
 @import 'card_is';
 @import 'reference';
 @import 'card';
+@import '_administrator_card';
+@import '_contract_card';
+@import '_organisation_card';
 
  html, body, .wrapper{
     height: 100%;

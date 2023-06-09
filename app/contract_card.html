@@ -1,0 +1,97 @@
+<section class="background">
+    <div class="card contract">
+        <div class="card__header">
+            <h3 class="card__header_title">
+                Контракт
+            </h3>
+            <a href="#" class="card__header_closeLink">
+                <img class = "card__header_closeImg" src="images/close-window.svg" alt="close">
+            </a>
+            
+        </div>
+        <div class="card__content">
+            <div class="card__content_fields">
+                <div class="contract__fields">
+                    <!-- Номер контракта-->
+                    <label id="contract__number_label" for="contract__number"> Номер контракта</label>
+                    <input type="text" name="contract__number" id="contract__number">
+                    <!-- Дата заключения -->
+                    <label id="contract__conclusion_date_label" for="contract__conclusion_date">Дата заключения</label>
+                    <input type="date" name="contract__conclusion_date" id="contract__conclusion_date">
+                    <!-- Тип контракта -->
+                    <label id="contract__type_label" for="contract__type">Тип контракта</label>
+                    <select name="contract__type" id="contract__type">
+                        <option value="support">Поддержка</option>
+                        <option value="elaboration">Развитие</option>
+                    </select>
+                    <!-- Ссылка на сайт закупок -->
+                    <label id="contract__link_label" for="contract__link">Ссылка на сайт закупок</label>
+                    <input type="text" name="contract__link" id="contract__link">
+
+                </div>
+                <!-- Область с таблицами для заказчиков и исполнителей-->
+                <div class="contract__tables">
+                    <!-- Заказчик -->
+                    <table class="contract__table">
+                        <thead>
+                            <th style="width: 35px;">№</th>
+                            <th>Заказчик</th>
+                        </thead>
+                        <tbody>
+                            <td>1</td>
+                            <td>
+                                <div class="refRecord">
+                                    <input type="text" class="refRecord__field" value='Бюджетное учреждение в сфере информационных технологий Вологодской области "Центр инфорационных технологий"'></p>
+                                    <div class="refRecord__button">&#183;&#183;&#183;</div>
+                                </div>
+                            </td>
+                        </tbody>
+                    </table>
+                    <!-- Исполнитель -->
+                    <table class="contract__table">
+                        <thead>
+                            <th style="width: 35px;">№</th>
+                            <th>Исполнитель</th>
+                        </thead>
+                        <tbody>
+                            <td>1</td>
+                            <td>
+                                <div class="refRecord">
+                                    <input type="text" class="refRecord__field" value='Бюджетное учреждение в сфере информационных технологий Вологодской области "Центр инфорационных технологий"'></p>
+                                    <div class="refRecord__button">&#183;&#183;&#183;</div>
+                                </div>
+                            </td>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="finish_buttons">
+                    <input class="finish_buttons__button" type="button" value="OK">
+                    <input class="finish_buttons__button" type="button" value="Отмена">
+                </div>
+            </div>
+            <div class="attacments">
+                <p class="attacments__title">
+                    Документы
+                </p>
+                <ul class="attacments__list">
+                    <li class="attacments__item">
+                        <a class="attacments__link" href="">
+                            <img class="attacments__ico" src="./images/pdf.svg" alt="">
+                            <p class="attacments__name_item">Коммерческое предложение ООО "Старков групп"</p>
+                        </a>
+                    </li>
+                    <li class="attacments__item">
+                        <a class="attacments__link" href="">
+                            <img class="attacments__ico" src="./images/ms-word.svg" alt="">
+                            <p class="attacments__name_item">Техническое задание</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="card__footer">
+            Поддон
+        </div>
+    </div>
+    <script src="./js/main.min.js"></script>
+</section>

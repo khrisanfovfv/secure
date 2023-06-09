@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ИС Безопасность</title>
     <link rel="stylesheet" href="css/style.min.css">
+    <link rel="stylesheet" href="plugins/jquery-ui-1.13.2/jquery-ui.min.css">
 </head>
 
 <body>
@@ -28,7 +29,7 @@
                 <p class="user__text">Иванова И.И.</p>
             </div>
         </header>
-        <main class="main">
+        <main class="main" id="main">
             <div class="card_is">
                 <ul class="main_tabs">
                     <li class="main_tabs__item main_tabs__highlighted"><a href="#card_is__general">Общая</a> </li>
@@ -86,7 +87,7 @@
                     </div>
                     <div class="card_is__general_admins">
                         <p class="reference__title">Администраторы системы</p>
-                        <table class="reference__table">
+                        <table class="reference__table" id="card_is__administrators">
                             <thead>
                                 <th style="width: 35px;">№</th>
                                 <th>ФИО</th>
@@ -103,8 +104,6 @@
                                     <td>Петров Петр Петрович</td>
                                     <td>Замещающий</td>
                                 </tr>
-                                
-
                             </tbody>
                         </table>
                     </div>
@@ -113,9 +112,10 @@
 
                     <!-- Таблица с разработчиками -->
                     <p class="reference__title">Разработчик</p>
-                    <table class="reference__table">
+                    <table class="reference__table" id="card_is__developpers">
                         <thead>
-                            <th style="width: 35px;">№</th>
+                            <tr>
+                                <th style="width: 35px;">№</th>
                             <th>Полное наименование</th>
                             <th style="width: 130px;">Краткое наименование</th>
                             <th style="width: 130px;">ИНН</th>
@@ -123,16 +123,20 @@
                             <th style="width: 130px;">Адрес эл. почты</th>
                             <th style="width: 130px;">Руководитель</th>
                             <th style="width: 130px;">Должность руководителя</th>
+                            </tr>
                         </thead>
                         <tbody>
-                            <td>1</td>
-                            <td>ОАО Северная сбытовая компания Вологодской области</td>
-                            <td>ОАО СБК Вологда</td>
-                            <td>7736317095</td>
-                            <td>160000, Вологодская Область , г. Вологда, ул. Зосимовская, д. 49</td>
-                            <td>info@sevesk.ru</td>
-                            <td>Луцкович Виктор Евгеньевич</td>
-                            <td>Генеральный директор</td>
+                            <tr>
+                                <td>1</td>
+                                <td>ОАО Северная сбытовая компания Вологодской области</td>
+                                <td>ОАО СБК Вологда</td>
+                                <td>7736317095</td>
+                                <td>160000, Вологодская Область , г. Вологда, ул. Зосимовская, д. 49</td>
+                                <td>info@sevesk.ru</td>
+                                <td>Луцкович Виктор Евгеньевич</td>
+                                <td>Генеральный директор</td>
+                            </tr>
+                            
                         </tbody>
                     </table>
                 </section>
@@ -240,169 +244,10 @@
                 </ul>
             </div>
 
-            <!-- КАРТОЧКА СПРАВОЧНИКА КОНТРАКТЫ-->
-            <section class="background">
-                <div class="card contract">
-                    <div class="card__header">
-                        <h3 class="card__header_title">
-                            Контракт
-                        </h3>
-                        <a href="#" class="card__header_closeLink">
-                            <img class = "card__header_closeImg" src="images/close-window.svg" alt="close">
-                        </a>
-                        
-                    </div>
-                    <div class="card__content">
-                        <div class="card__content_fields">
-                            <div class="contract__fields">
-                                <!-- Номер контракта-->
-                                <label for="contract__number"> Номер контракта</label>
-                                <input type="text" name="contract__number" id="contract__number">
-                                <!-- Дата заключения -->
-                                <label for="contract__conclusion_date">Дата заключения</label>
-                                <input type="date" name="contract__conclusion_date" id="contract__conclusion_date">
-                                <!-- Тип контракта -->
-                                <label for="contract__type">Тип контракта</label>
-                                <select name="contract__type" id="contract__type">
-                                    <option value="support">Поддержка</option>
-                                    <option value="elaboration">Развитие</option>
-                                </select>
-                                <!-- Ссылка на сайт закупок -->
-                                <label for="contract__link">Ссылка на сайт закупок</label>
-                                <input type="text" name="contract__link" id="contract__link">
+            <!-- КАРТОЧКА АДМИНИСТРАТОРА -->
+            <div id="administrator_card" title="Карточка администратора">
 
-                            </div>
-                            <!-- Область с таблицами для заказчиков и исполнителей-->
-                            <div class="contract__tables">
-                                <!-- Заказчик -->
-                                <table class="contract__table">
-                                    <thead>
-                                        <th style="width: 35px;">№</th>
-                                        <th>Заказчик</th>
-                                    </thead>
-                                    <tbody>
-                                        <td>1</td>
-                                        <td>
-                                            <div class="refRecord">
-                                                <input type="text" class="refRecord__field" value='Бюджетное учреждение в сфере информационных технологий Вологодской области "Центр инфорационных технологий"'></p>
-                                                <div class="refRecord__button">&#183;&#183;&#183;</div>
-                                            </div>
-                                        </td>
-                                    </tbody>
-                                </table>
-                                <!-- Исполнитель -->
-                                <table class="contract__table">
-                                    <thead>
-                                        <th style="width: 35px;">№</th>
-                                        <th>Исполнитель</th>
-                                    </thead>
-                                    <tbody>
-                                        <td>1</td>
-                                        <td>
-                                            <div class="refRecord">
-                                                <input type="text" class="refRecord__field" value='Бюджетное учреждение в сфере информационных технологий Вологодской области "Центр инфорационных технологий"'></p>
-                                                <div class="refRecord__button">&#183;&#183;&#183;</div>
-                                            </div>
-                                        </td>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="finish_buttons">
-                                <input class="finish_buttons__button" type="button" value="OK">
-                                <input class="finish_buttons__button" type="button" value="Отмена">
-                            </div>
-                        </div>
-                        <div class="attacments">
-                            <p class="attacments__title">
-                                Документы
-                            </p>
-                            <ul class="attacments__list">
-                                <li class="attacments__item">
-                                    <a class="attacments__link" href="">
-                                        <img class="attacments__ico" src="./images/pdf.svg" alt="">
-                                        <p class="attacments__name_item">Коммерческое предложение ООО "Старков групп"</p>
-                                    </a>
-                                </li>
-                                <li class="attacments__item">
-                                    <a class="attacments__link" href="">
-                                        <img class="attacments__ico" src="./images/ms-word.svg" alt="">
-                                        <p class="attacments__name_item">Техническое задание</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="card__footer">
-                        Поддон
-                    </div>
-                </div>
-            </section>
-
-            <!-- КАРТОЧКА СПРАВОЧНИКА ОРГАНИЗАЦИИ -->
-            <section class="background">
-                <div class="card organisations">
-                    <div class="card__header">
-                        <h3 class="card__header_title">
-                            Организации
-                        </h3>
-                        <a href="#" class="card__header_closeLink">
-                            <img class = "card__header_closeImg" src="images/close-window.svg" alt="close">
-                        </a>
-                        
-                    </div>
-                    <div class="card__content">
-                        <div class="card__content_fields">
-                            <div class="organisations__fields">
-                                <div class="reference">
-                                    <div class="reference__buttons">
-                                        <input class="reference__button bg_blue" type="button" value="Создать" id="ORG_create">
-                                        <input class="reference__button bg_blue" type="button" value="Выбрать" id="ORG_select">
-                                        <input class="reference__button bg_green"  type="button" value="Редактировать" id="ORG_edit">
-                                        <input class="reference__button bg_green"  type="button" value="Копировать" id="ORG_copy">
-                                        <input class="reference__button bg_red" type="button" value="Удалить" id="ORG_delete">
-                                        <input class="reference__button bg_orange" type="button" value="Эл. таб" id="ORG_print">
-                                    </div>
-                                    <table class="reference__table" id="organisations_table">
-                                        <thead>
-                                            <tr>
-                                                <th style="width: 35px;">№</th>
-                                                <th style="width: 200px;">Краткое наименование</th>
-                                                <th>Полн. наименование</th>
-                                                <th style="width: 130px;">ИНН</th>
-                                                <th style="width: 260px;">Юр. адрес</th>
-                                            </tr>
-                                        </thead>
-                
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>БУ ВО "ЦИТ"</td>
-                                                <td style="text-align: left;">Бюджетное учреждение в сфере инфорационных технологий Вологодской облапсти “Центр информационных технологий”</td>
-                                                <td>3525249297</td>
-                                                <td>160000, Вологодская Область, г. Вологда, ул. Герцена, д.27</td> 
-                                            </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>ООО "Старков Групп"</td>
-                                            <td style="text-align: left;">Общество с ограниченной ответственостью "Старков Групп"</td>
-                                            <td>6686117949</td>
-                                            <td>	620075, Свердловская Область , г. Екатеринбург, ул. Шарташская, д. 8</td>
-                                            
-                                        </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <div class="finish_buttons">
-                                        <input class="finish_buttons__button" type="button" value="OK">
-                                        <input class="finish_buttons__button" type="button" value="Отмена">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            </div>
         </main>
         <footer class="footer">
             <p class="footer__text">&copy Наимова Д.А., 2023</p3>

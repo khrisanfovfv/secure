@@ -74,42 +74,6 @@
 
 }
 
-.contract{
-    width: 1200px;
-    height: 600px;
-    &__fields{
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        gap: 5px;
-        padding: 10px;
-    }
-
-    &__fields label{
-        grid-column: 1/4;
-    }
-    &__fields input{
-        height: 30px;
-    }
-    &__fields select{
-        height: 30px;
-    }
-    &__tables{
-        display: flex;
-    }
-    &__table{
-        margin: 10px;
-        flex: 1;
-    }
-    &__table thead{
-        height: 30px;
-    }
-    &__table, th,td{
-        border: 1px solid black;
-        border-collapse: collapse;
-    }
-
-
-}
 
 .organisations{
     width: 1200px;
@@ -153,10 +117,7 @@
 }
 
 
-/* Класс позволяющий скрывать объекты */
-.hide{
-    display: none;
-}
+
 
 /* Панель вкладок */
 .main_tabs{
