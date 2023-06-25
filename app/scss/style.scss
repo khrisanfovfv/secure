@@ -6,6 +6,8 @@
 @import '_administrator_card';
 @import '_contract_card';
 @import '_organisation_card';
+@import '_organisation_ref';
+@import '../plugins/tables_context_menu/context_menu.scss';
 
  html, body, .wrapper{
     height: 100%;
@@ -29,21 +31,72 @@
     width: 320px;
 }
 .main_menu{
+    position: relative;
     margin-left: 100px;
     &__list{
         display: flex;
     }
     &__item{
         margin: 0 10px;
-    }
-    &__link{
         font-size: 22px;
+        color: black;
+        cursor: pointer;
     }
+    &__item:hover{
+        color: cornflowerblue;
+    }
+
     &__link:hover{
         color: red;
         transition: 40ms;
     }
 }
+
+
+.submenu{
+    position: absolute;  
+    border: 2px solid gray;
+    background-color: white;
+    /*box-shadow: #888;*/
+    z-index: 2;
+
+    &__item{
+        margin: 5px 0;
+        padding: 0 5px;
+        display: flex;
+        white-space: nowrap;
+    }
+    &__item:hover{
+        background-color: lightskyblue;
+    }
+    &__link{
+        text-decoration: none;
+        font-size: 20px;
+        color: black;
+    }
+}
+
+#sm_references{
+    display: none;
+}
+
+#sm_help{
+    display: none;
+}
+
+.main_menu__item:hover #sm_references{
+    display:flex;
+}
+
+.main_menu__item:hover #sm_help{
+    display:flex;
+}
+
+
+
+
+
+
 .user{
     display: flex;
     margin: 0 20px 0 auto;
@@ -70,18 +123,9 @@
 
 }
 
-
-
-.sidebar{
-    flex: 1;
-    background-color: antiquewhite;
-    margin-right: 20px;
-}
-
 .content{
-    flex: 5;
+    width: 100%;
 }
-
 
 .footer{
     display: flex;

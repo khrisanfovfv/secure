@@ -11,38 +11,73 @@
 
 <body>
     <div class="wrapper">
+        <!-- Шапка сайта -->
         <header class="header">
             <div class="logo">
                 <img src="images/logo.png" alt="Логотип" class="logo__img">
             </div>
+            <!-- Основное меню -->
             <div class="main_menu">
                 <ul class="main_menu__list">
-                    <li class="main_menu__item"><a class="main_menu__link" href="#"> Отчеты</a></li>
-                    <li class="main_menu__item"><a class="main_menu__link" href="#">Настройки</a></li>
-                    <li class="main_menu__item"><a class="main_menu__link" href="#">Справочники</a></li>
-                    <li class="main_menu__item"><a class="main_menu__link" href="#">Помощь</a></li>
-
+                    <li class="main_menu__item">Отчеты</li>
+                    <li class="main_menu__item">Настройки</li>
+                    <li class="main_menu__item">
+                        <p>Справочники</p>
+                        <!-- Подменю Справочники-->
+                        <div class="submenu" id="sm_references">
+                            <ul class="submenu__list">
+                                <li class="submenu__item"><a class="submenu__link"
+                                        href="sm_references_administrators">Администраторы</a></li>
+                                <li class="submenu__item"><a class="submenu__link"
+                                        href="sm_referrenses_organisations">Организации</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="main_menu__item">
+                        <p>Помощь</p>
+                        <!-- Подменю Справочники-->
+                        <div class="submenu" id="sm_help">
+                            <ul class="submenu__list">
+                                <li class="submenu__item"><a class="submenu__link"
+                                        href="sm_references_help">Справка</a></li>
+                                <li class="submenu__item"><a class="submenu__link"
+                                        href="sm_referrenses_about">О программе</a></li>
+                            </ul>
+                        </div>    
+                    </li>
                 </ul>
             </div>
+            <!-- Пользователь -->
             <div class="user">
                 <img class="user__img" src="images/user.png" alt="Пользователь">
                 <p class="user__text">Иванова И.И.</p>
             </div>
         </header>
         <main class="main">
-
-            <div class="sidebar">
-
-            </div>
             <div class="content">
                 <div class="reference">
                     <p class="reference__title">Справочник Информационные системы</p>
                     <div class="reference__buttons">
-                        <input class="reference__button bg_blue" type="button" value="Создать" id="IS_create">
-                        <input class="reference__button bg_green"  type="button" value="Редактировать" id="IS_edit">
-                        <input class="reference__button bg_green"  type="button" value="Копировать" id="IS_copy">
-                        <input class="reference__button bg_red" type="button" value="Удалить" id="IS_delete">
-                        <input class="reference__button bg_orange" type="button" value="Эл. таб" id="IS_print">
+                        <button class="reference__button" id="IS_create">
+                            <img src="./images/new-document.png" alt="">
+                            <p>Создать</p>
+                        </button>
+                        <button class="reference__button" id="IS_edit">
+                            <img src="./images/pencil.png" alt="">
+                            <p>Редактировать</p>
+                        </button>
+                        <button class="reference__button" id="IS_copy">
+                            <img src="./images/files.png" alt="">
+                            <p>Копировать</p>
+                        </button>
+                        <button class="reference__button" id="IS_delete">
+                            <img src="./images/delete.png" alt="Удалить">
+                            <p>Удалить</p>
+                        </button>
+                        <button class="reference__button" id="IS_excel">
+                            <img src="./images/excel.png" alt="Удалить">
+                            <p>Эл. таб</p>
+                        </button>
                     </div>
                     <table class="reference__table" id="IS_table">
                         <thead>
@@ -58,7 +93,7 @@
                         </thead>
 
                         <tbody>
-                            <tr>
+                            <tr class="is_table_row">
                             <td>1</td>
                             <td>АСЭД</td>
                             <td style="text-align: left;">Автоматизированная система электронного документооборота
@@ -69,7 +104,7 @@
                             <td>01.01.2023</td>
                             <td>Да</td>
                         </tr>
-                        <tr>
+                        <tr class="is_table_row">
                             <td>2</td>
                             <td>Корпоративный портал</td>
                             <td style="text-align: left;">Корпоративный портал Правительства Вологодской области</td>
@@ -88,6 +123,25 @@
         <footer class="footer">
             <p class="footer__text">&copy Наимова Д.А., 2023</p3>
         </footer>
+
+        <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦ -->
+        <div class="context-menu" id="is_table_context">
+            <ul class="conext-menu__list">
+                <li class="context-menu__item">
+                    <img src="./images/pencil.png" alt=Редактировать">
+                    <p>Редактировать</p>
+                </li>
+                <li class="context-menu__item">
+                    <img src="./images/files.png" alt="Копировать">
+                    <p>Копировать</p>
+                </li>
+                <li class="context-menu__item">
+                    <img src="./images/delete.png" alt="Удалить">
+                    <p>Удалить</p>
+                </li>
+                
+            </ul>
+        </div>
     </div>
     <script src="js/main.min.js"></script>
 </body>

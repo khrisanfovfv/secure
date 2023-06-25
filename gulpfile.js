@@ -11,6 +11,7 @@ function scripts(){
         /*'node_modules/jquery/dist/jquery.js',*/
         'app/plugins/jquery-ui-1.13.2/external/jquery/jquery.js',
         'app/plugins/jquery-ui-1.13.2/jquery-ui.js',
+        'app/plugins/tables_context_menu/context_menu.js',
         'app/js/main.js'
     ])
     .pipe(concat('main.min.js'))
@@ -20,7 +21,7 @@ function scripts(){
 }
 
 function styles(){
-    return src('app/scss/style.scss')
+    return src(['app/scss/style.scss'])
     .pipe(autoprefixer({overrideBrowserslist: ['last 10 version']}))
     .pipe(concat('style.min.css'))
     .pipe(scss({outputStyle: 'compressed'}))
@@ -29,8 +30,8 @@ function styles(){
 }
 
 function watching(){
-    watch(['app/scss/*.scss'], styles)
-    watch(['app/js/main.js'], scripts)
+    watch('app/scss/*.scss', styles)
+    watch(['app/plugins/tables_context_menu/context_menu.js','app/js/main.js'], scripts)
     watch(['app/**/*.html']).on('change', browserSync.reload)
 }
 

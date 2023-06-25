@@ -18,10 +18,21 @@
             </div>
             <div class="main_menu">
                 <ul class="main_menu__list">
-                    <li class="main_menu__item"><a class="main_menu__link" href="#"> Отчеты</a></li>
-                    <li class="main_menu__item"><a class="main_menu__link" href="#">Настройки</a></li>
-                    <li class="main_menu__item"><a class="main_menu__link" href="#">Справочники</a></li>
-                    <li class="main_menu__item"><a class="main_menu__link" href="#">Помощь</a></li>
+                    <li class="main_menu__item">Отчеты</li>
+                    <li class="main_menu__item">Настройки</li>
+                    <li class="main_menu__item">
+                        <p>Справочники</p>
+                        <!-- Подменю Справочники-->
+                        <div class="submenu" id="sm_references">
+                            <ul class="submenu__list">
+                                <li class="submenu__item"><a class="submenu__link"
+                                        href="sm_references_administrators">Администраторы</a></li>
+                                <li class="submenu__item"><a class="submenu__link"
+                                        href="sm_referrenses_organisations">Организации</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="main_menu__item">Помощь</li>
                 </ul>
             </div>
             <div class="user">
@@ -42,73 +53,76 @@
                     <!-- Объединяет поля карточки и Таблицу с администраторами-->
                     <div class="card_is__general_top">
                         <!-- Поля карточки-->
-                    <div class="card_is__general_fields">
-                        <!-- Кнопка начать аттестацию -->
-                        <input id="start_certification_button" type="button" value="Начать аттестацию">
-                        <!-- Полное наименование -->
-                        <label for="fullName" id="fullName_title">Полное наименование</label>
-                        <textarea id="fullName" name="fullName" size="80" rows="3"
-                            cols="33">Автоматизированная система электронного документооборота органов исполнительной государственной власти Вологодской области</textarea>
-                        <!-- Краткое наименование -->
-                        <label for="briefName" id="briefName_title">Краткое наименование</label>
-                        <input type="text" id="briefName" name="briefName" value="АСЭД" size="40">
-                        <!-- Масштаб ИС-->
-                        <label for="is_scope" id="is_scope_title">Масштаб ИС</label>
-                        <select id="is_scope" name="is_scope">
-                            <option value="single">Одиночная</option>
-                            <option value="group">Групповая</option>
-                            <option value="corporate">Корпоративная</option>
-                        </select>
-                        <!-- Уровень значимости информации -->
-                        <Label for="value_level" id="value_level_title">Уровень значимости информации</Label>
-                        <select id="value_level" name="value_level">
-                            <option value="k1">К1</option>
-                            <option value="k2">К2</option>
-                            <option value="k3">К3</option>
-                            <option value="k4">К4</option>
-                        </select>
-                        <!-- Аттестована -->
-                        <input type="checkbox" id="certified" name="certified" size="40">
-                        <label for="certified" id="certified_title" class="label_checkbox">Аттестована</label>
-                        <!-- Дата аттестации -->
-                        <label for="certifyDate" id="certifyDate_title">Дата аттестации</label>
-                        <input type="date" id="certifyDate" name="certifyDate" size="40">
-                        <!-- Наличие замечаний-->
-                        <input type="checkbox" id="has_remark" name="has_remark" size="40">
-                        <label for="has_remark" class="label_checkbox">Есть замечания</label>
-                        <!-- Дата ввода в эксплуатацию -->
-                        <label for="commissioningDate" id="commissioningDate_title">Дата ввода в эксплуатацию</label>
-                        <input type="date" id="commissioningDate" name="commissioningDate" size="40"><br>
+                        <div class="card_is__general_fields">
+                            <!-- Кнопка начать аттестацию -->
+                            <input id="start_certification_button" type="button" value="Начать аттестацию">
+                            <!-- Полное наименование -->
+                            <label for="fullName" id="fullName_title">Полное наименование</label>
+                            <textarea id="fullName" name="fullName" size="80" rows="3"
+                                cols="33">Автоматизированная система электронного документооборота органов исполнительной государственной власти Вологодской области</textarea>
+                            <!-- Краткое наименование -->
+                            <label for="briefName" id="briefName_title">Краткое наименование</label>
+                            <input type="text" id="briefName" name="briefName" value="АСЭД" size="40">
+                            <!-- Масштаб ИС-->
+                            <label for="is_scope" id="is_scope_title">Масштаб ИС</label>
+                            <select id="is_scope" name="is_scope">
+                                <option value="single">Одиночная</option>
+                                <option value="group">Групповая</option>
+                                <option value="corporate">Корпоративная</option>
+                            </select>
+                            <!-- Уровень значимости информации -->
+                            <Label for="value_level" id="value_level_title">Уровень значимости информации</Label>
+                            <select id="value_level" name="value_level">
+                                <option value="k1">К1</option>
+                                <option value="k2">К2</option>
+                                <option value="k3">К3</option>
+                                <option value="k4">К4</option>
+                            </select>
+                            <!-- Аттестована -->
+                            <input type="checkbox" id="certified" name="certified" size="40">
+                            <label for="certified" id="certified_title" class="label_checkbox">Аттестована</label>
+                            <!-- Дата аттестации -->
+                            <label for="certifyDate" id="certifyDate_title">Дата аттестации</label>
+                            <input type="date" id="certifyDate" name="certifyDate" size="40">
+                            <!-- Наличие замечаний-->
+                            <input type="checkbox" id="has_remark" name="has_remark" size="40">
+                            <label for="has_remark" class="label_checkbox">Есть замечания</label>
+                            <!-- Дата ввода в эксплуатацию -->
+                            <label for="commissioningDate" id="commissioningDate_title">Дата ввода в
+                                эксплуатацию</label>
+                            <input type="date" id="commissioningDate" name="commissioningDate" size="40"><br>
 
-                        <!-- Аттестат соответствия-->
-                        <label for="certificate_file" id="certificate_file_title">Аттестат соответствия</label>
-                        <input type="file" id="certificate_file" name="certificate_file" accept="application/pdf">
+                            <!-- Аттестат соответствия-->
+                            <label for="certificate_file" id="certificate_file_title">Аттестат соответствия</label>
+                            <input type="file" id="certificate_file" name="certificate_file" accept="application/pdf">
 
+                        </div>
+
+                        <!-- Администраторы системы -->
+                        <div class="card_is__general_admins">
+                            <p class="reference__title">Администраторы системы</p>
+                            <table class="reference__table" id="card_is__administrators_table">
+                                <thead>
+                                    <th style="width: 35px;">№</th>
+                                    <th>ФИО</th>
+                                    <th>Тип</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Иванов Иван Иванович</td>
+                                        <td>Основной</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Петров Петр Петрович</td>
+                                        <td>Замещающий</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="card_is__general_admins">
-                        <p class="reference__title">Администраторы системы</p>
-                        <table class="reference__table" id="card_is__administrators">
-                            <thead>
-                                <th style="width: 35px;">№</th>
-                                <th>ФИО</th>
-                                <th>Тип</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Иванов Иван Иванович</td>
-                                    <td>Основной</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Петров Петр Петрович</td>
-                                    <td>Замещающий</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    </div>
-                    
+
 
                     <!-- Таблица с разработчиками -->
                     <p class="reference__title">Разработчик</p>
@@ -116,13 +130,13 @@
                         <thead>
                             <tr>
                                 <th style="width: 35px;">№</th>
-                            <th>Полное наименование</th>
-                            <th style="width: 130px;">Краткое наименование</th>
-                            <th style="width: 130px;">ИНН</th>
-                            <th style="width: 260px;">Юридический адрес</th>
-                            <th style="width: 130px;">Адрес эл. почты</th>
-                            <th style="width: 130px;">Руководитель</th>
-                            <th style="width: 130px;">Должность руководителя</th>
+                                <th>Полное наименование</th>
+                                <th style="width: 130px;">Краткое наименование</th>
+                                <th style="width: 130px;">ИНН</th>
+                                <th style="width: 260px;">Юридический адрес</th>
+                                <th style="width: 130px;">Адрес эл. почты</th>
+                                <th style="width: 130px;">Руководитель</th>
+                                <th style="width: 130px;">Должность руководителя</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -136,7 +150,7 @@
                                 <td>Луцкович Виктор Евгеньевич</td>
                                 <td>Генеральный директор</td>
                             </tr>
-                            
+
                         </tbody>
                     </table>
                 </section>
@@ -173,7 +187,8 @@
                     <!-- Кнопки для управления записями в таблице Контракты-->
                     <div class="reference__buttons">
                         <input class="reference__button bg_blue" type="button" value="Создать" id="CONTRACT_create">
-                        <input class="reference__button bg_green"  type="button" value="Редактировать" id="CONTRACT_edit">
+                        <input class="reference__button bg_green" type="button" value="Редактировать"
+                            id="CONTRACT_edit">
                         <input class="reference__button bg_red" type="button" value="Удалить" id="CONTRACT_delete">
                         <input class="reference__button bg_orange" type="button" value="Эл. таб" id="CONTRACT_print">
                     </div>
@@ -206,7 +221,7 @@
 
                         </tbody>
                     </table>
-                    
+
                 </section>
                 <!-- ВКЛАДКА АРХИВ -->
                 <section class="card__archive hide" id="card__archive">
@@ -215,14 +230,14 @@
 
                 <!-- Таблица с замечаниями-->
 
-                
+
 
                 <!-- Кнопки закрытия карточки -->
                 <div class="finish_buttons">
                     <input class="button_ok" type="button" value="OK">
                     <input class="button_cancel" type="button" value="Cancel">
                 </div>
-                
+
             </div> <!-- card -->
 
             <!-- ПАНЕЛЬ ДОКУМЕНТЫ -->
@@ -244,14 +259,20 @@
                 </ul>
             </div>
 
+
+            <!-- Справочник оганизации -->
+            <div id="is_organisation_reference"></div>
+
             <!-- КАРТОЧКА АДМИНИСТРАТОРА -->
             <div id="administrator_card" title="Карточка администратора">
-
             </div>
+
         </main>
+        <!-- Поддон -->
         <footer class="footer">
             <p class="footer__text">&copy Наимова Д.А., 2023</p3>
         </footer>
+
     </div>
     <script src="./js/main.min.js"></script>
 </body>

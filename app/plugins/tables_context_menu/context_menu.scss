@@ -1,0 +1,30 @@
+.context-menu {
+    display         : none;
+    position        : absolute;
+    background-color: white;
+
+    &__list {
+        border: 2px solid gray;
+    }
+
+    &__item {
+        display    : flex;
+        align-items: center;
+        margin     : 5px 0;
+        padding    : 0 5px;
+        cursor     : pointer;
+    }
+
+    &__item:hover {
+        background-color: rgb(201, 226, 247);
+    }
+
+    &__item img {
+        width       : 30px;
+        margin-right: 5px;
+    }
+}
+
+.context-menu--active {
+    display: block;
+  }

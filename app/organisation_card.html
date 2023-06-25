@@ -1,15 +1,14 @@
-<section class="background">
-    <div class="card organisation">
-        <div class="card__header">
-            <h3 class="card__header_title">
-                Организация
-            </h3>
-            <a href="#" class="card__header_closeLink">
-                <img class = "card__header_closeImg" src="images/close-window.svg" alt="close">
+<section class="modal">
+    <div class="modal__window organisation">
+        <!-- Шапка окна -->
+        <div class="modal__header">
+            <h3 class="modal__header_title">Оргаизация</h3>
+            <a class="modal__header_close" href="#">
+                <span class="modal__header_iso">&#10006;</span>
             </a>
-            
         </div>
-        <div class="card__content">
+        <!-- Содержимое окна -->
+        <div class="modal__content">
             <div class="card__content_fields">
                 <div class="organisation__fields">
                     <!-- Полное наименование-->
@@ -39,15 +38,14 @@
 
                 </div>
                 
-                <div class="finish_buttons">
-                    <input class="finish_buttons__button" type="button" value="OK">
-                    <input class="finish_buttons__button" type="button" value="Отмена">
-                </div>
+                
             </div>
-        </div>
-        <div class="card__footer">
-            Поддон
-        </div>
-    </div>
+            <!-- Кнопки ОК/Отмена -->
+            <div class="modal__finish_buttons">
+                <input class="modal__finish_button" type="button" value="OK">
+                <input class="modal__finish_button" type="button" value="Cancel">
+            </div>
+        </div> <!-- modal__content -->
+    </div> <!-- modal__window -->
     <script src="./js/main.min.js"></script>
 </section>

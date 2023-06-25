@@ -1,7 +1,14 @@
-<section class="background">
-    <div class="card administrator">
-        <div class="card__content">
-            <div class="card__content_fields">
+<section class="modal">
+    <div class="modal__window administrator">
+        <!-- Шапка окна -->
+        <div class="modal__header">
+            <h3 class="modal__header_title">Администратор</h3>
+            <a class="modal__header_close" href="#">
+                <span>&#10006;</span>
+            </a>  
+        </div>
+        <!-- Содержимое окна -->
+        <div class="modal__content">
                 <div class="administrator__fields">
                     <!-- ФИО -->
                     <label for="administrator__fio">ФИО</label>
@@ -65,12 +72,15 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> <!-- administrator_is -->
+            <!-- Кнопки ОК/Отмена -->
+            <div class="modal__finish_buttons">
+                <input class="modal__finish_button" type="button" value="OK">
+                <input class="modal__finish_button" type="button" value="Cancel">
             </div>
-        </div>
-        <div class="card__footer">
-            Поддон
-        </div>
-    </div>
+        </div> <!-- modal__content -->
+        
+        <div id="administrator__organisation_dlg"></div>
+    </div> <!-- modal__window -->
     <script src="./js/main.min.js"></script>
-</section>
+</dialog>
