@@ -21,7 +21,7 @@ function scripts(){
 }
 
 function styles(){
-    return src(['app/scss/style.scss'])
+    return src(['app/scss/style.scss'/*,'app/plugins/tables_context_menu/context_menu.scss'*/])
     .pipe(autoprefixer({overrideBrowserslist: ['last 10 version']}))
     .pipe(concat('style.min.css'))
     .pipe(scss({outputStyle: 'compressed'}))

@@ -108,12 +108,12 @@
                                     <th>Тип</th>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr class="card_is__administrators_table_row">
                                         <td>1</td>
                                         <td>Иванов Иван Иванович</td>
                                         <td>Основной</td>
                                     </tr>
-                                    <tr>
+                                    <tr class="card_is__administrators_table_row">
                                         <td>2</td>
                                         <td>Петров Петр Петрович</td>
                                         <td>Замещающий</td>
@@ -126,7 +126,7 @@
 
                     <!-- Таблица с разработчиками -->
                     <p class="reference__title">Разработчик</p>
-                    <table class="reference__table" id="card_is__developpers">
+                    <table class="reference__table" id="card_is__developpers_table">
                         <thead>
                             <tr>
                                 <th style="width: 35px;">№</th>
@@ -140,7 +140,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr class="card_is__developpers_table_row">
                                 <td>1</td>
                                 <td>ОАО Северная сбытовая компания Вологодской области</td>
                                 <td>ОАО СБК Вологда</td>
@@ -234,8 +234,8 @@
 
                 <!-- Кнопки закрытия карточки -->
                 <div class="finish_buttons">
-                    <input class="button_ok" type="button" value="OK">
-                    <input class="button_cancel" type="button" value="Cancel">
+                    <input class="finish_buttons__button" type="button" value="OK">
+                    <input class="finish_buttons__button" type="button" value="Cancel">
                 </div>
 
             </div> <!-- card -->
@@ -273,6 +273,42 @@
             <p class="footer__text">&copy Наимова Д.А., 2023</p3>
         </footer>
 
+    </div>
+
+    <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ АДМИНИСТРАТОРЫ -->
+    <div class="context-menu" id="card_is__general_admins_context">
+        <ul class="context-menu__list">
+            <li class="context-menu__item">
+                <img src="./images/pencil.png" alt=Редактировать">
+                <p>Редактировать</p>
+            </li>
+            <li class="context-menu__item">
+                <img src="./images/files.png" alt="Копировать">
+                <p>Копировать</p>
+            </li>
+            <li class="context-menu__item">
+                <img src="./images/delete.png" alt="Удалить">
+                <p>Удалить</p>
+            </li>
+        </ul>
+    </div>
+
+    <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ РАЗРАБОТЧИКИ -->
+    <div class="context-menu" id="card_is__general_developpers_context">
+        <ul class="context-menu__list">
+            <li class="context-menu__item">
+                <img src="./images/pencil.png" alt=Редактировать">
+                <p>Редактировать</p>
+            </li>
+            <li class="context-menu__item">
+                <img src="./images/files.png" alt="Копировать">
+                <p>Копировать</p>
+            </li>
+            <li class="context-menu__item">
+                <img src="./images/delete.png" alt="Удалить">
+                <p>Удалить</p>
+            </li>
+        </ul>
     </div>
     <script src="./js/main.min.js"></script>
 </body>

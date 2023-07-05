@@ -1,5 +1,6 @@
 @import 'reset';
 @import 'vars';
+@import 'fonts';
 @import 'card_is';
 @import 'reference';
 @import 'card';
@@ -14,6 +15,8 @@
     width: 100%;
     padding: 5px;
 }
+
+
 
 .wrapper{
     position: relative;
@@ -38,7 +41,7 @@
     }
     &__item{
         margin: 0 10px;
-        font-size: 22px;
+        font-size: 24px;
         color: black;
         cursor: pointer;
     }
@@ -91,11 +94,6 @@
 .main_menu__item:hover #sm_help{
     display:flex;
 }
-
-
-
-
-
 
 .user{
     display: flex;
