@@ -1,0 +1,71 @@
+<section class="modal">
+    <div class="modal__window department_ref">
+        <!-- Шапка окна -->
+        <div class="modal__header">
+            <h3 class="modal__header_title">Организации</h3>
+            <a class="modal__header_close" href="#">
+                <span>&#10006;</span>
+            </a>
+        </div>
+        <div class="modal__content">
+            <div class="reference">
+                <div class="reference__buttons">
+                    <button class="reference__button">
+                        <img src="images/add-square-svgrepo-com.svg" alt="Создать">
+                    </button>
+                    <button class="reference__button bg_blue">Выбрать запись</button>
+                    <button class="reference__button">
+                        <img src="images/edit-text.svg" alt="">
+                    </button>
+                    <button class="reference__button">
+                        <img src="images/copy-svgrepo-com.svg" alt="">
+                    </button>
+                    <button class="reference__button">
+                        <img src="images/delete-note-svgrepo-com.svg" alt="">
+                    </button>
+                    <button class="reference__button">
+                        <img src="images/excel-document-svgrepo-com.svg" alt="">
+                    </button>
+
+                </div>
+                <div class="reference__content">
+                    <table class="reference__table" id="departmentss_table">
+                        <thead>
+                            <tr>
+                                <th style="width: 35px;">№</th>
+                                <th style="width: 200px;">Наименование</th>
+                                <th>Организация</th>
+                                <th style="width: 260px;">Состояние</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Отдел защиты информации</td>
+                                <td style="text-align: left;">Бюджетное учреждение в сфере инфорационных технологий
+                                    Вологодской облапсти “Центр информационных технологий”</td>
+                                <td>Действующая</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Отдел развития</td>
+                                <td style="text-align: left;">Бюджетное учреждение в сфере инфорационных технологий
+                                    Вологодской облапсти “Центр информационных технологий”</td>
+                                <td>Действующая</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!-- Кнопки ОК/Отмена -->
+            <div class="modal__finish_buttons">
+                <input class="modal__finish_button" type="button" value="OK">
+                <input class="modal__finish_button" type="button" value="Cancel">
+            </div>
+        </div><!-- modal__content -->
+    </div> <!-- modal__window -->
+    <div id="organisation_card"></div>
+    <script src="./js/main.min.js"></script>
+</section>

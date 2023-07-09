@@ -55,7 +55,17 @@
     }
     &__remarks_table td{
         text-align: center;
-        padding: 0 5px;
+        padding: 0;
+        
+    }
+
+    &__remarks_table td input{
+        outline: 0px solid transparent;
+        border: none;
+    }
+
+    [contenteditable] {
+        outline: 0px solid transparent;
     }
 
     /* Вкладка - Контракты */
@@ -104,13 +114,12 @@
 
 /* КНОПКИ ДЕЙСТВИЯ С ЗАПИСЬЮ */
 .finish_buttons{
-    margin: 15px 0;
+    margin: 20px auto;
     display: flex;
     justify-content: center;
 }
 
 .finish_buttons__button{
-    
     width: 100px;
     height: 30px;
     margin-right: 50px;
@@ -145,6 +154,8 @@
 }
 
 /* Расположение элементов вкладки - Общая*/
+
+
 
 /* Кнопка начать аттестацию*/
 #start_certification_button{
@@ -194,6 +205,10 @@
     grid-column: 1;
     justify-self: end;
 }
+#remarkEliminated{
+    border: none;
+}
+
 #commissioningDate_title{
     grid-column: 3;
 }
@@ -206,6 +221,17 @@
 }
 #certificate_file{
     grid-column: 2/5;
+}
+
+/* Расположение элементов. Вкладка - Замечания по аттестации*/
+#remarkDate{
+    width: 100%;
+    border: none;
+}
+
+#remarkEliminated{
+    width: 100%;
+    background-color: white;
 }
 
 /* ДИАЛОГОВЫЕ ОКНА */

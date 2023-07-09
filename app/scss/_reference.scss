@@ -1,8 +1,10 @@
 /* Класс справочник*/
 .reference{
+    width: 100%;
     &__title{
         font-size: 24px;
         margin-bottom: 20px;
+        width: 100%;
     }
 
     &__buttons{
@@ -27,7 +29,7 @@
         align-items: center;
     }
     &__button img{
-        width: 30px;
+        width: 25px;
         margin-right: 5px;
     }
 

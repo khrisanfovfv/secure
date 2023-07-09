@@ -19,11 +19,7 @@ $(function () {
         }
     })
 
-    /** ================ ДИАЛОГИ ================= */
-    $('#IS_table tbody tr').on('click', function(){
-        $('#IS_table tbody tr').removeClass('bg_blue');
-        $(this).addClass('bg_blue');
-    })
+    
 
 
     $('#IS_table tr').on('click', function(e){
@@ -33,6 +29,12 @@ $(function () {
     });
 
     /** ======= Таблица Информационные системы. ======== */
+
+    /** Одинарный щелчок  */
+    $('#IS_table tbody tr').on('click', function(){
+        $('#IS_table tbody tr').removeClass('bg_blue');
+        $(this).addClass('bg_blue');
+    })
 
     /** Двойной щелчок */
     $('#IS_table tbody tr').on('dblclick', function(){
@@ -76,8 +78,8 @@ $(function () {
 
 
 
-    /** Выбор вкладок на карточке ИС */
-    $('.main_tabs__item').on('click',function(){
+    /**=========== Выбор вкладок на карточке ИС =====================*/
+    $('.card_is__tabs_item').on('click',function(){
         // Список имеющихся вкладок
         var card_tabs = ['general','remarks','contracts','archive'];
 
@@ -88,6 +90,24 @@ $(function () {
         /* Скрываем все вкладки */
         card_tabs.forEach(item => {
             $('#card_is__'+ item).addClass('hide');
+        });
+        /* Показываем выбранную */
+        tab=$(this).children().attr('href');
+        $(tab).removeClass('hide');
+    })
+
+    /**=========== Выбор вкладок на карточке Документ =====================*/
+    $('.document__tabs_item').on('click',function(){
+        // Список имеющихся вкладок
+        var card_tabs = ['general','send_list'];
+
+        // Устанавливаем класс main_tabs__highlighted у выбранной вкладки
+        $('.main_tabs__item').removeClass('main_tabs__highlighted');
+        $(this).addClass('main_tabs__highlighted');
+        
+        /* Скрываем все вкладки */
+        card_tabs.forEach(item => {
+            $('#document_card__'+ item).addClass('hide');
         });
         /* Показываем выбранную */
         tab=$(this).children().attr('href');
@@ -107,20 +127,23 @@ $(function () {
     })
 
 
+
     /** Двойной клик на строку в таблице Организации */
-    $('#card_is__developpers tbody tr').on('click', function(){
-        $('#organisation_card').load("organisation_card.html")
-        $("#organisation_card").css('z-index',++z_index);
+    $('#card_is__developpers_table tbody tr').on('dblclick', function(){
+        $('#card_is__developper_card').load("organisation_card.html")
+        $("#card_is__developper_card").css('z-index',++z_index);
     })
 
 
     /** Клик на строку в таблице Контракты */
-    $('#CONTRACT_table tbody tr').on('click', function(){
-        administratorCard_dialog.dialog("open");
+    $('#card_is_contract_table tbody tr').on('dblclick', function(){
+        $('#card_is__contract_card').load("contract_card.html");
+        $("#card_is__contract_card").css('z-index',++z_index);
     })    
 
 
     /** СПРАВОЧНИК ОРГАНИЗАЦИИ */
+
     $('#organisations_table tbody tr').on('click', function(){
         $('#organisations_table tbody tr').removeClass('bg_blue');
         $(this).addClass('bg_blue');
@@ -138,13 +161,15 @@ $(function () {
 
 
     /** Карточка Администратор. Нажатие на кнопку выбора в поле Организация */
-    $('.refRecord__button').on('click',function(){
-        reference_id = $(this).parent().attr('id');
-        if (~reference_id.indexOf("_organisation")){
+    $('#administrator__organisation').on('click',function(){
             $('#administrator__organisation_dlg').load("organisation_ref.html")
             $('#administrator__organisation_dlg').css('z-index',++z_index)
-        }
-        
+    })
+
+    /** Карточка Администратор. Нажатие на кнопку выбора в поле Подразделение*/
+    $('#administrator__department').on('click', function(){
+        $('#administrator__department_dlg').load("department_ref.html")
+        $('#administrator__department_dlg').css('z-index',++z_index)
     })
 
     /** Кнопки ОК/Cancel */
@@ -153,4 +178,7 @@ $(function () {
         card = $(this).parent().parent().parent().parent();
         card.addClass('hide');
     })
+
+
+    
 })

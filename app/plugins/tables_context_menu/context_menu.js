@@ -37,6 +37,10 @@ var Context = {
                    
         });
         $("body").on("click", function(e){
+            el = Context.clickInsideElement(e);
+            switch(el.id){
+                case 'card_is__documents_open_card': Context.document_open_card(); break;
+            }
             var button = e.which || e.button;
             if ( button === 1 ) {
                 Context.toggleMenuOff();
@@ -82,7 +86,9 @@ var Context = {
             const classNames =[
                 'is_table_row', 
                 'card_is__administrators_table_row',
-                'card_is__developpers_table_row'
+                'card_is__developpers_table_row',
+                'attacments__item',
+                'context-menu__item'
             ];
             var result = false;
             $.each(classNames,function(index, className) {
@@ -112,6 +118,8 @@ var Context = {
             case 'is_table_row' : Context.menu = $('#is_table_context');break;
             case 'card_is__administrators_table_row': Context.menu = $('#card_is__general_admins_context'); break;
             case 'card_is__developpers_table_row' : Context.menu = $('#card_is__general_developpers_context'); break;
+            case 'attacments__item' : Context.menu = $('#card_is__document_context');break;
+            /*case 'attacments' : Context.menu = $('#card_is__documents_context'); break;*/
         }
     },
 
@@ -123,6 +131,8 @@ var Context = {
             '#is_table_context',
             '#card_is__general_admins_context',
             '#card_is__general_developpers_context',
+            '#card_is__document_context',
+
         ] 
         $.each(menus,function(index,element){
             $(element).css('display','none');
@@ -190,6 +200,12 @@ var Context = {
             //menu.style.top = clickCoordsY + "px";
             Context.menu.css('top', clickCoordsY)
         }
+    },
+    /** ФУНКЦИИ ДЛЯ РАБОТЫ С ПУНКТАМИ КОНТЕКСТНОГО МЕНЮ ДОКУМЕНТА */
+    document_open_card : function(){
+        $('#card_is__document_card').load("document_card.html");
+        $("#card_is__document_card").css('z-index',++z_index);
+       
     }
 
 }

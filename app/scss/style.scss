@@ -6,6 +6,7 @@
 @import 'card';
 @import '_administrator_card';
 @import '_contract_card';
+@import '_document_card';
 @import '_organisation_card';
 @import '_organisation_ref';
 @import '../plugins/tables_context_menu/context_menu.scss';
@@ -23,6 +24,7 @@
     display: flex;
     flex-direction: column;
 }
+
 
 
 .header{
@@ -118,6 +120,7 @@
     display: flex;
     align-items: stretch;
     /*height: calc(100% - 100px);*/
+    height: 100%;
 
 }
 

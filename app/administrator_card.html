@@ -5,82 +5,115 @@
             <h3 class="modal__header_title">Администратор</h3>
             <a class="modal__header_close" href="#">
                 <span>&#10006;</span>
-            </a>  
+            </a>
         </div>
         <!-- Содержимое окна -->
         <div class="modal__content">
-                <div class="administrator__fields">
-                    <!-- ФИО -->
-                    <label for="administrator__fio">ФИО</label>
-                    <input id="administrator__fio" type="text">
-                    <!-- Оргаизация -->
-                    <label for="administrator__organisation">Оргаизация</label>
-                    <div class="card__record" id="administrator__organisation">
-                        <input type="text"  value='Бюджетное учреждение в сфере инфорационных технологий Вологодской облапсти “Центр информационных технологий”'>
-                        <div class="refRecord__button">&#183;&#183;&#183;</div>
+            <div class="administrator__frame">
+                <div class="administrator__content">
+                    <div class="administrator__fields">
+                        <!-- ФИО -->
+                        <label for="administrator__fio">ФИО</label>
+                        <input id="administrator__fio" type="text">
+                        <!-- Оргаизация -->
+                        <label for="administrator__organisation">Организация</label>
+                        <div class="card__record">
+                            <input type="text"
+                                value='Бюджетное учреждение в сфере инфорационных технологий Вологодской облапсти “Центр информационных технологий”'>
+                            <div class="refRecord__button" id="administrator__organisation">&#183;&#183;&#183;</div>
+                        </div>
+                        <!-- Отдел -->
+                        <label for="administrator__department">Отдел</label>
+                        <div class="card__record">
+                            <input type="text" value='Отдел защиты информации'></p>
+                            <div class="refRecord__button" id="administrator__department">&#183;&#183;&#183;</div>
+                        </div>
+                        <!-- Состояние -->
+                        <label id="administrator__state_label" for="administrator__state">Состояние</label>
+                        <select name="administrator__state" id="administrator__state">
+                            <option value="Active">Действующая</option>
+                            <option value="Inactive">Не действующая</option>
+                        </select>
                     </div>
-                    <!-- Отдел -->
-                    <label for="administrator__department">Отдел</label>
-                    <div class="card__record" id="administrator__department">
-                        <input type="text" value='Отдел защиты информации'></p>
-                        <div class="refRecord__button">&#183;&#183;&#183;</div>
-                    </div>
-                    <!-- Состояние -->
-                    <label id="administrator__state_label" for="administrator__state">Состояние</label>
-                    <select name="administrator__state" id="administrator__state">
-                        <option value="Active">Действующая</option>
-                        <option value="Inactive">Не действующая</option>
-                    </select>
-                </div>
 
-                <!-- Таблица с информационными системами -->
-                <div class="administrator__is">
-                    <table class="administrator__is_table">
-                        <thead>
-                            <tr>
-                                <th style="width: 35px;">№</th>
-                                <th>Информационная система</th>
-                                <th style="width: 130px;">Тип</th>
-                                <th style="width: 130px;">Дата назначения</th>
-                                <th style="width: 130px;">Дата прекращения</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <div class="refRecord">
-                                        <input type="text" class="refRecord__field" value='Автоматизированная систма электронного документооборота органов исполнительной государственной власти Вологодской области'></p>
-                                        <div class="refRecord__button">&#183;&#183;&#183;</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <select>
-                                        <option value="main">Основной</option>
-                                        <option value="substitute">Замещающий</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type="date">
-                                </td>
-                                <td>
-                                    <input type="date">
-                                </td>
+                    <div class="administrator__tables">
 
+                        <div class="administrator__is">
+                            <!-- Таблица с информационными системами -->
+                            <div class="reference">
+                                <div class="reference__buttons">
+                                    <button class="reference__button" id="IS_create">
+                                        <img src="./images/new-document.png" alt="">
+                                        <p>Создать</p>
+                                    </button>
+                                    <button class="reference__button" id="IS_edit">
+                                        <img src="./images/pencil.png" alt="">
+                                        <p>Редактировать</p>
+                                    </button>
+                                    <button class="reference__button" id="IS_copy">
+                                        <img src="./images/files.png" alt="">
+                                        <p>Копировать</p>
+                                    </button>
+                                    <button class="reference__button" id="IS_delete">
+                                        <img src="./images/delete.png" alt="Удалить">
+                                        <p>Удалить</p>
+                                    </button>
+                                    <button class="reference__button" id="IS_excel">
+                                        <img src="./images/excel.png" alt="Удалить">
+                                        <p>Эл. таб</p>
+                                    </button>
+                                </div>
+                                <table class="administrator__is_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 35px;">№</th>
+                                            <th>Информационная система</th>
+                                            <th style="width: 130px;">Тип</th>
+                                            <th style="width: 130px;">Дата назначения</th>
+                                            <th style="width: 130px;">Дата прекращения</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>
+                                                <div class="refRecord">
+                                                    <input type="text" class="refRecord__field"
+                                                        value='Автоматизированная систма электронного документооборота органов исполнительной государственной власти Вологодской области'>
+                                                    </p>
+                                                    <div class="refRecord__button">&#183;&#183;&#183;</div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <select>
+                                                    <option value="main">Основной</option>
+                                                    <option value="substitute">Замещающий</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="date">
+                                            </td>
+                                            <td>
+                                                <input type="date">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div> <!-- administrator_is -->
+                        </div> <!-- reference -->
+                    </div> <!-- administrator__tables -->
+                </div> <!-- administrator__content -->
+            </div> <!-- administrator__frame -->
 
-
-                            </tr>
-                        </tbody>
-                    </table>
-                </div> <!-- administrator_is -->
             <!-- Кнопки ОК/Отмена -->
             <div class="modal__finish_buttons">
                 <input class="modal__finish_button" type="button" value="OK">
                 <input class="modal__finish_button" type="button" value="Cancel">
             </div>
         </div> <!-- modal__content -->
-        
+
         <div id="administrator__organisation_dlg"></div>
+        <div id="administrator__department_dlg"></div>
     </div> <!-- modal__window -->
     <script src="./js/main.min.js"></script>
-</dialog>
+    </dialog>

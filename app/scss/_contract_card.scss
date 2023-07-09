@@ -1,12 +1,23 @@
 .contract{
     width: 1200px;
     height: 600px;
+    &__frame{
+        display: flex;
+    }
+    &__content{
+        flex:4;
+    }
+
     &__fields{
+        padding: 20px;
         display: grid;
         grid-template-columns: repeat(12, 1fr);
-        gap: 5px;
+        gap: 15px;
         padding: 10px;
+        width: 100%;
     }
+    
+
     #contract__number_label,
     #contract__conclusion_date_label,
     #contract__type_label,
@@ -21,10 +32,13 @@
     
     &__tables{
         display: flex;
+        width: 100%;
+        padding: 10px;
+        flex-direction: column;
     }
     &__table{
-        margin: 10px;
-        flex: 1;
+        width: 100%;
+        margin-bottom: 20px;
     }
     &__table thead{
         height: 30px;

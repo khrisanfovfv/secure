@@ -43,10 +43,10 @@
         <main class="main" id="main">
             <div class="card_is">
                 <ul class="main_tabs">
-                    <li class="main_tabs__item main_tabs__highlighted"><a href="#card_is__general">Общая</a> </li>
-                    <li class="main_tabs__item"><a href="#card_is__remarks">Замечания по аттестации</a> </li>
-                    <li class="main_tabs__item"><a href="#card_is__contracts">Контракты</a> </li>
-                    <li class="main_tabs__item"><a href="#card_is__archive">Архив</a> </li>
+                    <li class="main_tabs__item card_is__tabs_item main_tabs__highlighted"><a href="#card_is__general">Общая</a> </li>
+                    <li class="main_tabs__item card_is__tabs_item"><a href="#card_is__remarks">Замечания по аттестации</a> </li>
+                    <li class="main_tabs__item card_is__tabs_item"><a href="#card_is__contracts">Контракты</a> </li>
+                    <li class="main_tabs__item card_is__tabs_item"><a href="#card_is__archive">Архив</a> </li>
                 </ul>
                 <!-- ВКЛАДКА ОБЩАЯ -->
                 <section class="card_is__general" id="card_is__general">
@@ -101,6 +101,28 @@
                         <!-- Администраторы системы -->
                         <div class="card_is__general_admins">
                             <p class="reference__title">Администраторы системы</p>
+                            <div class="reference__buttons">
+                                <button class="reference__button" id="IS_create">
+                                    <img src="./images/new-document.png" alt="">
+                                    <p>Создать</p>
+                                </button>
+                                <button class="reference__button" id="IS_edit">
+                                    <img src="./images/pencil.png" alt="">
+                                    <p>Редактировать</p>
+                                </button>
+                                <button class="reference__button" id="IS_copy">
+                                    <img src="./images/files.png" alt="">
+                                    <p>Копировать</p>
+                                </button>
+                                <button class="reference__button" id="IS_delete">
+                                    <img src="./images/delete.png" alt="Удалить">
+                                    <p>Удалить</p>
+                                </button>
+                                <button class="reference__button" id="IS_excel">
+                                    <img src="./images/excel.png" alt="Удалить">
+                                    <p>Эл. таб</p>
+                                </button>
+                            </div>
                             <table class="reference__table" id="card_is__administrators_table">
                                 <thead>
                                     <th style="width: 35px;">№</th>
@@ -126,6 +148,28 @@
 
                     <!-- Таблица с разработчиками -->
                     <p class="reference__title">Разработчик</p>
+                    <div class="reference__buttons">
+                        <button class="reference__button" id="IS_create">
+                            <img src="./images/new-document.png" alt="">
+                            <p>Создать</p>
+                        </button>
+                        <button class="reference__button" id="IS_edit">
+                            <img src="./images/pencil.png" alt="">
+                            <p>Редактировать</p>
+                        </button>
+                        <button class="reference__button" id="IS_copy">
+                            <img src="./images/files.png" alt="">
+                            <p>Копировать</p>
+                        </button>
+                        <button class="reference__button" id="IS_delete">
+                            <img src="./images/delete.png" alt="Удалить">
+                            <p>Удалить</p>
+                        </button>
+                        <button class="reference__button" id="IS_excel">
+                            <img src="./images/excel.png" alt="Удалить">
+                            <p>Эл. таб</p>
+                        </button>
+                    </div>
                     <table class="reference__table" id="card_is__developpers_table">
                         <thead>
                             <tr>
@@ -157,7 +201,29 @@
 
                 <!-- ВКЛАДКА ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ -->
                 <section class="card_is__remarks hide" id="card_is__remarks">
-                    <table class="card__remarks_table">
+                    <div class="reference__buttons">
+                        <button class="reference__button" id="IS_create">
+                            <img src="./images/new-document.png" alt="">
+                            <p>Создать</p>
+                        </button>
+                        <button class="reference__button" id="IS_edit">
+                            <img src="./images/pencil.png" alt="">
+                            <p>Редактировать</p>
+                        </button>
+                        <button class="reference__button" id="IS_copy">
+                            <img src="./images/files.png" alt="">
+                            <p>Копировать</p>
+                        </button>
+                        <button class="reference__button" id="IS_delete">
+                            <img src="./images/delete.png" alt="Удалить">
+                            <p>Удалить</p>
+                        </button>
+                        <button class="reference__button" id="IS_excel">
+                            <img src="./images/excel.png" alt="Удалить">
+                            <p>Эл. таб</p>
+                        </button>
+                    </div>
+                    <table class="card_is__remarks_table">
                         <tr>
                             <th style="width: 35px;">№</th>
                             <th style="width: 130px;">Дата замечания</th>
@@ -172,7 +238,7 @@
                             <td contenteditable><input type="date" name="remarkDate" id="remarkDate"></td>
                             <td contenteditable>Смирнов А.В.</td>
                             <td contenteditable>Нет Антивируса</td>
-                            <td contenteditable><select name="eliminated" id="eliminated">
+                            <td><select name="remarkEliminated" id="remarkEliminated">
                                     <option value="yes">Да</option>
                                     <option value="no">Нет</option>
                                 </select></td>
@@ -186,13 +252,28 @@
                 <section class="card_is__contracts hide" id="card_is__contracts">
                     <!-- Кнопки для управления записями в таблице Контракты-->
                     <div class="reference__buttons">
-                        <input class="reference__button bg_blue" type="button" value="Создать" id="CONTRACT_create">
-                        <input class="reference__button bg_green" type="button" value="Редактировать"
-                            id="CONTRACT_edit">
-                        <input class="reference__button bg_red" type="button" value="Удалить" id="CONTRACT_delete">
-                        <input class="reference__button bg_orange" type="button" value="Эл. таб" id="CONTRACT_print">
+                        <button class="reference__button" id="IS_create">
+                            <img src="./images/new-document.png" alt="">
+                            <p>Создать</p>
+                        </button>
+                        <button class="reference__button" id="IS_edit">
+                            <img src="./images/pencil.png" alt="">
+                            <p>Редактировать</p>
+                        </button>
+                        <button class="reference__button" id="IS_copy">
+                            <img src="./images/files.png" alt="">
+                            <p>Копировать</p>
+                        </button>
+                        <button class="reference__button" id="IS_delete">
+                            <img src="./images/delete.png" alt="Удалить">
+                            <p>Удалить</p>
+                        </button>
+                        <button class="reference__button" id="IS_excel">
+                            <img src="./images/excel.png" alt="Удалить">
+                            <p>Эл. таб</p>
+                        </button>
                     </div>
-                    <table class="reference__table" ID="CONTRACT_table">
+                    <table class="reference__table" ID="card_is_contract_table">
                         <thead>
                             <tr>
                                 <th style="width:35px">№</th>
@@ -224,13 +305,60 @@
 
                 </section>
                 <!-- ВКЛАДКА АРХИВ -->
-                <section class="card__archive hide" id="card__archive">
+                <section class="card_is__archive hide" id="card_is__archive">
+                    <div class="reference__buttons">
+                        <button class="reference__button" id="IS_create">
+                            <img src="./images/new-document.png" alt="">
+                            <p>Создать</p>
+                        </button>
+                        <button class="reference__button" id="IS_edit">
+                            <img src="./images/pencil.png" alt="">
+                            <p>Редактировать</p>
+                        </button>
+                        <button class="reference__button" id="IS_copy">
+                            <img src="./images/files.png" alt="">
+                            <p>Копировать</p>
+                        </button>
+                        <button class="reference__button" id="IS_delete">
+                            <img src="./images/delete.png" alt="Удалить">
+                            <p>Удалить</p>
+                        </button>
+                        <button class="reference__button" id="IS_excel">
+                            <img src="./images/excel.png" alt="Удалить">
+                            <p>Эл. таб</p>
+                        </button>
+                    </div>
 
+                    <table class="reference__table" id="IS_table">
+                        <thead>
+                            <tr>
+                                <th style="width: 35px;">№</th>
+                                <th style="width: 200px;">Краткое наименование</th>
+                                <th>Полн. наименование</th>
+                                <th style="width: 130px;">Аттестована</th>
+                                <th style="width: 130px;">Дата посл. аттестации</th>
+                                <th style="width: 130px;">Срок след. аттестации</th>
+                                <th style="width: 130px;">Проблемы ИБ</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr class="is_table_row">
+                                <td>1</td>
+                                <td>АСЭД</td>
+                                <td style="text-align: left;">Автоматизированная система электронного документооборота
+                                органов исполнительной
+                                государственной власти области</td>
+                                <td>Нет</td>
+                                <td>01.01.2021</td>
+                                <td>01.01.2023</td>
+                                <td>Да</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </section>
 
                 <!-- Таблица с замечаниями-->
-
-
 
                 <!-- Кнопки закрытия карточки -->
                 <div class="finish_buttons">
@@ -266,6 +394,15 @@
             <!-- КАРТОЧКА АДМИНИСТРАТОРА -->
             <div id="administrator_card" title="Карточка администратора">
             </div>
+
+            <!-- КАРТОЧКА ОРГАНИЗАЦИИ-->
+            <div id="card_is__developper_card"></div>
+
+            <!-- Карточка Контракты -->
+            <div id="card_is__contract_card"></div>
+            <!-- Карточка Документа -->
+            <div id="card_is__document_card"></div>
+
 
         </main>
         <!-- Поддон -->
@@ -308,6 +445,47 @@
                 <img src="./images/delete.png" alt="Удалить">
                 <p>Удалить</p>
             </li>
+        </ul>
+    </div>
+
+    <!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ОБЛАСТИ С ДОКУМЕНТАМИ -->
+    <div class="context-menu" id="card_is__documents_context">
+        <ul class="context-menu__list">
+            <li class="context-menu__item">
+                <img src="./images/pencil.png" alt=Создать">
+                <p>Создать документ</p>
+            </li>
+        </ul>
+    </div>
+
+
+    <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ДОКУМЕНТА -->
+    <div class="context-menu" id="card_is__document_context">
+        <ul class="context-menu__list">
+            <li class="context-menu__item">
+                <img src="./images/pencil.png" alt=Редактировать">
+                <p>Редактировать</p>
+            </li>
+            <li class="context-menu__item">
+                <img src="./images/free-icon-read-4902274.png" alt="Читать">
+                <p>Читать</p>
+            </li>
+            <li class="context-menu__item" id="card_is__documents_open_card">
+                <img src="./images/book-open_115193.png" alt="Открыть карточку">
+                <p>Открыть карточку</p>
+            </li>
+            <li class="context-menu__item">
+                <img src="./images/delete.png" alt="Создать версию">
+                <p>Создать версию</p>
+            </li>
+            <li class="context-menu__item">
+                <img src="./images/delete.png" alt="Удалить">
+                <p>Удалить</p>
+            </li>
+            <li class="context-menu__item">
+                <img src="./images/delete.png" alt="История">
+                <p>История</p>
+            </li>1
         </ul>
     </div>
     <script src="./js/main.min.js"></script>

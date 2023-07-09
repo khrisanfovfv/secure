@@ -1,0 +1,36 @@
+<section class="modal">
+    <div class="modal__window organisation">
+        <!-- Шапка окна -->
+        <div class="modal__header">
+            <h3 class="modal__header_title">Отдел</h3>
+            <a class="modal__header_close" href="#">
+                <span class="modal__header_iso">&#10006;</span>
+            </a>
+        </div>
+        <!-- Содержимое окна -->
+        <div class="modal__content">
+            <div class="card__content_fields">
+                <div class="department__fields">
+                    <!-- Полное наименование-->
+                    <label id="department__name_label" for="department_organisation__name">Полное наименование</label>
+                    <textarea name="department__organisation_name" id="department__organisation_name" cols="30" rows="3">Бюджетное учреждение в сфере инфорационных технологий Вологодской облапсти “Центр информационных технологий”</textarea>
+            
+                    <label id="department__state_label" for="department__state">Состояние</label>
+                    <select name="department__state" id="organisation__state">
+                        <option value="Active">Действующая</option>
+                        <option value="Inactive">Не действующая</option>
+                    </select>
+
+                </div>
+                
+                
+            </div>
+            <!-- Кнопки ОК/Отмена -->
+            <div class="modal__finish_buttons">
+                <input class="modal__finish_button" type="button" value="OK">
+                <input class="modal__finish_button" type="button" value="Cancel">
+            </div>
+        </div> <!-- modal__content -->
+    </div> <!-- modal__window -->
+    <script src="./js/main.min.js"></script>
+</section>
