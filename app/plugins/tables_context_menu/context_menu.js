@@ -5,6 +5,10 @@ var Context = {
      * 1 - отображено
      */
     menuState: 0,
+    // Cписок всех контекстных меню приложения
+    menus: ['#card_is__general_admins_context',
+            '#card_is__general_developpers_context',
+            '#card_is__document_context'],
     contextMenuActive : 'context-menu--active',
     menu : '',
     menuPosition:[0,0],
@@ -19,6 +23,13 @@ var Context = {
     bodyPaddingTop : parseInt($("body").css('padding-top')),
     wrapperPaddingTop : parseInt($(".wrapper").css('padding-top')),
 
+    /**
+     * card_is__administrators_table_row -- #card_is__general_admins_context
+     * card_is__developpers_table_row    -- #card_is__general_developpers_context
+     * attacments                        -- #card_is__documents_context'
+         * attacments__name_item
+     */
+
 
     /**
      * Инициализация контекстного меню
@@ -29,6 +40,7 @@ var Context = {
             /*Context.hideAllMenus();*/
             if (Context.clickInsideElement(e)) { 
                 e.preventDefault();
+                Context.toggleMenuOff();
                 Context.toggleMenuOn();
                 Context.positionMenu(e);
             } else{
@@ -38,6 +50,8 @@ var Context = {
         });
         $("body").on("click", function(e){
             el = Context.clickInsideElement(e);
+            // Скрываем все контекстные меню
+            
             switch(el.id){
                 case 'card_is__documents_open_card': Context.document_open_card(); break;
             }
@@ -62,6 +76,9 @@ var Context = {
     toggleMenuOn() {
         if ( Context.menuState !== 1 ) {
             Context.menuState = 1;
+            // Context.menus.forEach(element => {
+            //     $(element).css('display','none');
+            // });
             Context.menu.css('display','block');
             //Context.menu.addClass(contextMenuActive);   
         }
@@ -73,7 +90,9 @@ var Context = {
     toggleMenuOff() {
         if ( Context.menuState !== 0 ) {
             Context.menuState = 0;
-            Context.menu.css('display','none');
+            Context.menus.forEach(element => {
+                $(element).css('display','none');
+            });
         }
     },
     /**

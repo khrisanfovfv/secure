@@ -12,10 +12,13 @@
 
 <body>
     <div class="wrapper">
+        <!-- Шапка сайта -->
         <header class="header">
+            <!-- Логотип -->
             <div class="logo">
                 <img src="images/logo.png" alt="Логотип" class="logo__img">
             </div>
+            <!-- Меню сайта -->
             <div class="main_menu">
                 <ul class="main_menu__list">
                     <li class="main_menu__item">Отчеты</li>
@@ -29,19 +32,24 @@
                                         href="sm_references_administrators">Администраторы</a></li>
                                 <li class="submenu__item"><a class="submenu__link"
                                         href="sm_referrenses_organisations">Организации</a></li>
+                                <li class="submenu__item"><a class="submenu__link"
+                                            href="sm_referrenses_departments">Отделы</a></li>        
                             </ul>
                         </div>
                     </li>
                     <li class="main_menu__item">Помощь</li>
                 </ul>
             </div>
+            <!-- Пользователь -->
             <div class="user">
                 <img class="user__img" src="images/user.png" alt="Пользователь">
                 <p class="user__text">Иванова И.И.</p>
             </div>
         </header>
+        <!-- СОДЕРЖИМОЕ САЙТА -->
         <main class="main" id="main">
             <div class="card_is">
+                <!-- Группа вкладок -->
                 <ul class="main_tabs">
                     <li class="main_tabs__item card_is__tabs_item main_tabs__highlighted"><a href="#card_is__general">Общая</a> </li>
                     <li class="main_tabs__item card_is__tabs_item"><a href="#card_is__remarks">Замечания по аттестации</a> </li>
@@ -91,11 +99,6 @@
                             <label for="commissioningDate" id="commissioningDate_title">Дата ввода в
                                 эксплуатацию</label>
                             <input type="date" id="commissioningDate" name="commissioningDate" size="40"><br>
-
-                            <!-- Аттестат соответствия-->
-                            <label for="certificate_file" id="certificate_file_title">Аттестат соответствия</label>
-                            <input type="file" id="certificate_file" name="certificate_file" accept="application/pdf">
-
                         </div>
 
                         <!-- Администраторы системы -->
@@ -390,6 +393,9 @@
 
             <!-- Справочник оганизации -->
             <div id="is_organisation_reference"></div>
+
+            <!-- Справочник отделы-->
+            <div id="is_department_ref"></div>
 
             <!-- КАРТОЧКА АДМИНИСТРАТОРА -->
             <div id="administrator_card" title="Карточка администратора">

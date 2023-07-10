@@ -16,6 +16,10 @@ $(function () {
                 $('#is_organisation_reference').load('organisation_ref.html');
                 $('#is_organisation_reference').css('z-index',++z_index);
             }; break
+            case 'sm_referrenses_departments' : {
+                $('#is_department_ref').load('organisation_ref.html');
+                $('#is_department_ref').css('z-index',++z_index);
+            }; break
         }
     })
 
@@ -144,6 +148,7 @@ $(function () {
 
     /** СПРАВОЧНИК ОРГАНИЗАЦИИ */
 
+
     $('#organisations_table tbody tr').on('click', function(){
         $('#organisations_table tbody tr').removeClass('bg_blue');
         $(this).addClass('bg_blue');
@@ -157,6 +162,20 @@ $(function () {
         // Получаем саму карточку
         card=$(this).parent().parent().parent();
         card.addClass('hide');
+    })
+
+    /** СПРАВОЧНИК ОТДЕЛЫ */
+    /** Одиночный клик на таблицу Отделы */
+    $('#department_ref_table tbody tr').on('click', function(){
+        $('#department_ref_table tbody tr').removeClass('bg_blue');
+        $(this).addClass('bg_blue');
+    })
+
+    /** Двойной клик на таблицу Отделы */
+    $('#department_ref_table tbody tr').on('dblclick',function(){
+        alert('Работает!')
+        $('#department_ref__department_card').load("department_card.html");
+        $("#department_ref__department_card").css('z-index',++z_index); 
     })
 
 
