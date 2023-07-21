@@ -166,11 +166,18 @@ $(function () {
         $('#is_card__dialog_content').load(host+'inc/organisation/organisation_card.html')
     })
 
+    /** Одиночный клик на таблицу Контракты */
+    $('#is_card__contracts_table tbody tr').on('click', function(){
+        $('#is_card__contracts_table tbody tr').removeClass('bg_blue');
+        $(this).addClass('bg_blue');
+    })
 
     /** Клик на строку в таблице Контракты */
-    $('#is_card_contract_table tbody tr').on('dblclick', function(){
-        $('#is_card__contract_card').load("contract_card.html");
-        $("#is_card__contract_card").css('z-index',++z_index);
+    $('#is_card__contracts_table tbody tr').on('dblclick', function(){
+        $('#is_card__dialog').css('display','flex');
+        $('#is_card__dialog').css('z-index', ++z_index);
+        $('#is_card__dialog_window').css('width','1200px');
+        $('#is_card__dialog_content').load(host+'inc/contract/contract_card.html')
     })    
 
 

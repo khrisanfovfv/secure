@@ -4,14 +4,15 @@
 @import 'is_card';
 @import 'reference';
 @import 'card';
-@import '_contract_card';
-@import '_document_card';
+/*@import '_contract_card';
+/*@import '_document_card';*/
 @import 'dialog.scss';
 @import '../plugins/tables_context_menu/context_menu.scss';
 @import '../inc/document_kind/document_kind.scss';
 @import '../inc/administrator/administrator.scss';
 @import '../inc/organisation/organisation.scss';
 @import '../inc/department/department.scss';
+@import '../inc/contract/contract.scss';
 
  html, body, .wrapper{
     height: 100%;

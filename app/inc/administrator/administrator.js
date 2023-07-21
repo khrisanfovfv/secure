@@ -20,7 +20,7 @@ $('#administrator_card__organisation_btn').on('click', function(){
     $('#administrator_card__dialog_content').load(host+'inc/reference_tables/organisation.html');
 });
 
-/** Кнока вызова справочника отдел */
+/** Кнока вызова справочника отделы */
 $('#administrator_card__department_btn').on('click', function(){
     $('#administrator_card__dialog').css('display', 'flex')
     $('#administrator_card__dialog').css('z-index',++z_index);

@@ -1,39 +1,57 @@
-<section class="modal">
-    <div class="modal__window document_kind">
-        <!-- Шапка окна -->
-        <div class="modal__header">
-            <h3 class="modal__header_title">Вид документа</h3>
-            <a class="modal__header_close" href="#">
-                <span>&#10006;</span>
-            </a>
+<div class="contract_card__frame">
+    <div class="contract_card__content">
+        <div class="contract_card__fields">
+            <!-- Номер контракта-->
+            <label for="contract_card__number">Номер контракта</label>
+            <input type="text" name="contract_card__number" id="contract_card__number">
+            <!-- Дата заключения контракта -->
+            <label for="contract_card__conclusion_date" id="contract_card__conclusion_date_title">Дата заключения</label>
+            <input type="date" name="contract_card__conclusion_date" id="contract_card__conclusion_date">
+            <!-- Информационная система -->
+            <label for="contract_card__is">Информационная система</label>
+            <div class="card__record">
+                <input type="text" id="contract_card__is" name="contract_card__is"
+                    value='Автоматизированная система электронного документооборота органов исполнительной государственной власти облапсти'>
+                <div class="card_record__button" id="contract_card__is_btn">&#183;&#183;&#183;</div>
+            </div>
+            <!-- Предмет контракта -->
+            <label for="contract_card__subject">Предмет контракта</label>
+            <textarea name="contract_card__subject" id="contract_card__subject" cols="30" rows="3"></textarea>
+            <!-- Тип контракта -->
+            <label for="contract_card__type">Тип контракта</label>
+            <select name="contract_card__type" id="contract_card__type">
+                <option value="support">Сопровождение</option>
+                <option value="development">Развитие</option>
+            </select>
+            <!--Ссылка на сайт закупок-->
+            <label for="contract_card__purchase_site">Ссылка на сайт закупок</label>
+            <input type="text" name="contract_card__purchase_site" id="contract_card__purchase_site">
+
         </div>
-        <div class="modal__content">
-            <div class="document_kind__frame">
-                <div class="document_kind__content">
-                    <div class="document_kind__fields">
-                        <!-- Номер контракта-->
-                        <label for="document_kind__name">Наименование</label>
-                        <input type="text" name="document_kind__name" id="document_kind__name">
-                        <!-- Тип состояние -->
-                        <label for="document_kind__state">Состояние</label>
-                        <select name="contract__type" id="contract__type">
-                            <option value="active">Действующая</option>
-                            <option value="inactive">Не действующая</option>
-                        </select>
-                    </div>
 
-                    
-                    <div class="finish_buttons">
-                        <input class="finish_buttons__button" id="document_kind__OK" type="button" value="OK">
-                        <input class="finish_buttons__button" id="document_kind__Cancel" type="button" value="Отмена">
-                    </div>
-                </div> <!-- /contract__content -->
-                <!-- Область документов -->
-                
-            </div> <!-- /contract__frame -->
-        </div> <!-- /modal__content -->
+
+
+    </div> <!-- /contract__content -->
+    <!-- Область документов -->
+    <!-- ПАНЕЛЬ ДОКУМЕНТЫ -->
+    <div class="attacments">
+        <p class="attacments__title">Документы</p>
+        <ul class="attacments__list">
+            <li class="attacments__item">
+                <a class="attacments__link" href="">
+                    <img class="attacments__ico" src="./images/pdf.svg" alt="">
+                    <p class="attacments__name_item">Аттестат соответствия</p>
+                </a>
+            </li>
+            <li class="attacments__item">
+                <a class="attacments__link" href="">
+                    <img class="attacments__ico" src="./images/ms-word.svg" alt="">
+                    <p class="attacments__name_item">Технический паспорт</p>
+                </a>
+            </li>
+        </ul>
     </div>
-
-    <!-- -->
-    <script src="../../js/main.min.js"></script>
+</div> <!-- /contract__frame -->
+<!-- -->
+<script src="../../js/main.min.js"></script>
 </section>
