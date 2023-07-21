@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ИС Безопасность</title>
     <link rel="stylesheet" href="css/style.min.css">
-    <link rel="stylesheet" href="plugins/jquery-ui-1.13.2/jquery-ui.min.css">
 </head>
 
 <body>
@@ -29,11 +28,19 @@
                         <div class="submenu" id="sm_references">
                             <ul class="submenu__list">
                                 <li class="submenu__item"><a class="submenu__link"
-                                        href="sm_references_administrators">Администраторы</a></li>
+                                    href="is_ref__menu_administrators">Администраторы</a>
+                                </li>
                                 <li class="submenu__item"><a class="submenu__link"
-                                        href="sm_referrenses_organisations">Организации</a></li>
+                                    href="is_ref__menu_organisations">Организации</a>
+                                </li>
                                 <li class="submenu__item"><a class="submenu__link"
-                                            href="sm_referrenses_departments">Отделы</a></li>        
+                                    href="is_ref__menu_departments">Отделы</a>
+                                </li>
+                                <li class="submenu__item"><a class="submenu__link"
+                                    href="is_ref__menu_document_kind">Виды документов</a></li>
+                                <li class="submenu__item"><a class="submenu__link"
+                                    href="is_ref__menu_contract">Контракты</a>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -48,97 +55,99 @@
         </header>
         <!-- СОДЕРЖИМОЕ САЙТА -->
         <main class="main" id="main">
-            <div class="card_is">
+            <div class="is_card">
                 <!-- Группа вкладок -->
                 <ul class="main_tabs">
-                    <li class="main_tabs__item card_is__tabs_item main_tabs__highlighted"><a href="#card_is__general">Общая</a> </li>
-                    <li class="main_tabs__item card_is__tabs_item"><a href="#card_is__remarks">Замечания по аттестации</a> </li>
-                    <li class="main_tabs__item card_is__tabs_item"><a href="#card_is__contracts">Контракты</a> </li>
-                    <li class="main_tabs__item card_is__tabs_item"><a href="#card_is__archive">Архив</a> </li>
+                    <li class="main_tabs__item is_card__tabs_item main_tabs__highlighted"><a
+                            href="#is_card__general">Общая</a> </li>
+                    <li class="main_tabs__item is_card__tabs_item"><a href="#is_card__remarks">Замечания по
+                            аттестации</a> </li>
+                    <li class="main_tabs__item is_card__tabs_item"><a href="#is_card__contracts">Контракты</a> </li>
+                    <li class="main_tabs__item is_card__tabs_item"><a href="#is_card__archive">Архив</a> </li>
                 </ul>
                 <!-- ВКЛАДКА ОБЩАЯ -->
-                <section class="card_is__general" id="card_is__general">
+                <section class="is_card__general" id="is_card__general">
                     <!-- Объединяет поля карточки и Таблицу с администраторами-->
-                    <div class="card_is__general_top">
+                    <div class="is_card__general_top">
                         <!-- Поля карточки-->
-                        <div class="card_is__general_fields">
+                        <div class="is_card__general_fields">
                             <!-- Кнопка начать аттестацию -->
                             <input id="start_certification_button" type="button" value="Начать аттестацию">
                             <!-- Полное наименование -->
-                            <label for="fullName" id="fullName_title">Полное наименование</label>
-                            <textarea id="fullName" name="fullName" size="80" rows="3"
+                            <label for="is_card__fullName" id="is_card__fullName_title">Полное наименование</label>
+                            <textarea id="is_card__fullName" name="is_card__fullName" size="80" rows="3"
                                 cols="33">Автоматизированная система электронного документооборота органов исполнительной государственной власти Вологодской области</textarea>
                             <!-- Краткое наименование -->
-                            <label for="briefName" id="briefName_title">Краткое наименование</label>
-                            <input type="text" id="briefName" name="briefName" value="АСЭД" size="40">
+                            <label for="is_card__briefName" id="is_card__briefName_title">Краткое наименование</label>
+                            <input type="text" id="is_card__briefName" name="is_card__briefName" value="АСЭД" size="40">
                             <!-- Масштаб ИС-->
-                            <label for="is_scope" id="is_scope_title">Масштаб ИС</label>
-                            <select id="is_scope" name="is_scope">
+                            <label for="is_card__scope" id="is_card__is_scope_title">Масштаб ИС</label>
+                            <select id="is_card__scope" name="is_card__scope">
                                 <option value="single">Одиночная</option>
                                 <option value="group">Групповая</option>
                                 <option value="corporate">Корпоративная</option>
                             </select>
                             <!-- Уровень значимости информации -->
-                            <Label for="value_level" id="value_level_title">Уровень значимости информации</Label>
-                            <select id="value_level" name="value_level">
+                            <Label for="is_card__value_level" id="is_card__value_level_title">Уровень значимости информации</Label>
+                            <select id="is_card__value_level" name="is_card__value_level">
                                 <option value="k1">К1</option>
                                 <option value="k2">К2</option>
                                 <option value="k3">К3</option>
                                 <option value="k4">К4</option>
                             </select>
                             <!-- Аттестована -->
-                            <input type="checkbox" id="certified" name="certified" size="40">
-                            <label for="certified" id="certified_title" class="label_checkbox">Аттестована</label>
+                            <input type="checkbox" id="is_card__certified" name="is_card__certified" size="40">
+                            <label for="is_card__certified" id="is_card__certified_title" class="label_checkbox">Аттестована</label>
                             <!-- Дата аттестации -->
-                            <label for="certifyDate" id="certifyDate_title">Дата аттестации</label>
-                            <input type="date" id="certifyDate" name="certifyDate" size="40">
+                            <label for="is_card__certifyDate" id="is_card__certifyDate_title">Дата аттестации</label>
+                            <input type="date" id="is_card__certifyDate" name="is_card__certifyDate" size="40">
                             <!-- Наличие замечаний-->
-                            <input type="checkbox" id="has_remark" name="has_remark" size="40">
-                            <label for="has_remark" class="label_checkbox">Есть замечания</label>
+                            <input type="checkbox" id="is_card__has_remark" name="is_card__has_remark" size="40">
+                            <label for="has_remark" id="is_card__has_remark_title">Есть замечания</label>
                             <!-- Дата ввода в эксплуатацию -->
-                            <label for="commissioningDate" id="commissioningDate_title">Дата ввода в
+                            <label for="is_card__commissioningDate" id="is_card__commissioningDate_title">Дата ввода в
                                 эксплуатацию</label>
-                            <input type="date" id="commissioningDate" name="commissioningDate" size="40"><br>
+                            <input type="date" id="is_card__commissioningDate" name="is_card__commissioningDate" size="40"><br>
                         </div>
 
                         <!-- Администраторы системы -->
-                        <div class="card_is__general_admins">
+                        <div class="is_card__general_admins">
                             <p class="reference__title">Администраторы системы</p>
                             <div class="reference__buttons">
-                                <button class="reference__button" id="IS_create">
+                                <button class="reference__button" id="is_card__administrator_create">
                                     <img src="./images/new-document.png" alt="">
                                     <p>Создать</p>
                                 </button>
-                                <button class="reference__button" id="IS_edit">
+                                <button class="reference__button" id="is_card__administrator_edit">
                                     <img src="./images/pencil.png" alt="">
                                     <p>Редактировать</p>
                                 </button>
-                                <button class="reference__button" id="IS_copy">
+                                <button class="reference__button" id="is_card__administrator_copy">
                                     <img src="./images/files.png" alt="">
                                     <p>Копировать</p>
                                 </button>
-                                <button class="reference__button" id="IS_delete">
+                                <button class="reference__button" id="is_card__administrator_delete">
                                     <img src="./images/delete.png" alt="Удалить">
                                     <p>Удалить</p>
                                 </button>
-                                <button class="reference__button" id="IS_excel">
+                                <button class="reference__button" id="is_card__administrator_excel">
                                     <img src="./images/excel.png" alt="Удалить">
                                     <p>Эл. таб</p>
                                 </button>
                             </div>
-                            <table class="reference__table" id="card_is__administrators_table">
+                            <table class="reference__table" id="is_card__administrators_table">
                                 <thead>
                                     <th style="width: 35px;">№</th>
                                     <th>ФИО</th>
                                     <th>Тип</th>
                                 </thead>
                                 <tbody>
-                                    <tr class="card_is__administrators_table_row">
+                                    <tr class="is_card__administrators_table_row">
                                         <td>1</td>
                                         <td>Иванов Иван Иванович</td>
                                         <td>Основной</td>
                                     </tr>
-                                    <tr class="card_is__administrators_table_row">
+                                    <tr class="is_card__administrators_table_row">
                                         <td>2</td>
                                         <td>Петров Петр Петрович</td>
                                         <td>Замещающий</td>
@@ -152,28 +161,28 @@
                     <!-- Таблица с разработчиками -->
                     <p class="reference__title">Разработчик</p>
                     <div class="reference__buttons">
-                        <button class="reference__button" id="IS_create">
+                        <button class="reference__button" id="is_card__developper_create">
                             <img src="./images/new-document.png" alt="">
                             <p>Создать</p>
                         </button>
-                        <button class="reference__button" id="IS_edit">
+                        <button class="reference__button" id="is_card__developper_edit">
                             <img src="./images/pencil.png" alt="">
                             <p>Редактировать</p>
                         </button>
-                        <button class="reference__button" id="IS_copy">
+                        <button class="reference__button" id="is_card__developper_copy">
                             <img src="./images/files.png" alt="">
                             <p>Копировать</p>
                         </button>
-                        <button class="reference__button" id="IS_delete">
+                        <button class="reference__button" id="is_card__developper_delete">
                             <img src="./images/delete.png" alt="Удалить">
                             <p>Удалить</p>
                         </button>
-                        <button class="reference__button" id="IS_excel">
+                        <button class="reference__button" id="is_card__developper_excel">
                             <img src="./images/excel.png" alt="Удалить">
                             <p>Эл. таб</p>
                         </button>
                     </div>
-                    <table class="reference__table" id="card_is__developpers_table">
+                    <table class="reference__table" id="is_card__developpers_table">
                         <thead>
                             <tr>
                                 <th style="width: 35px;">№</th>
@@ -187,7 +196,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="card_is__developpers_table_row">
+                            <tr class="is_card__developpers_table_row">
                                 <td>1</td>
                                 <td>ОАО Северная сбытовая компания Вологодской области</td>
                                 <td>ОАО СБК Вологда</td>
@@ -203,30 +212,30 @@
                 </section>
 
                 <!-- ВКЛАДКА ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ -->
-                <section class="card_is__remarks hide" id="card_is__remarks">
+                <section class="is_card__remarks hide" id="is_card__remarks">
                     <div class="reference__buttons">
-                        <button class="reference__button" id="IS_create">
+                        <button class="reference__button" id="is_card__remarks_create">
                             <img src="./images/new-document.png" alt="">
                             <p>Создать</p>
                         </button>
-                        <button class="reference__button" id="IS_edit">
+                        <button class="reference__button" id="is_card__remarks_edit">
                             <img src="./images/pencil.png" alt="">
                             <p>Редактировать</p>
                         </button>
-                        <button class="reference__button" id="IS_copy">
+                        <button class="reference__button" id="is_card__remarks_copy">
                             <img src="./images/files.png" alt="">
                             <p>Копировать</p>
                         </button>
-                        <button class="reference__button" id="IS_delete">
+                        <button class="reference__button" id="is_card__remarks_delete">
                             <img src="./images/delete.png" alt="Удалить">
                             <p>Удалить</p>
                         </button>
-                        <button class="reference__button" id="IS_excel">
+                        <button class="reference__button" id="is_card__remarks_excel">
                             <img src="./images/excel.png" alt="Удалить">
                             <p>Эл. таб</p>
                         </button>
                     </div>
-                    <table class="card_is__remarks_table">
+                    <table class="is_card__remarks_table">
                         <tr>
                             <th style="width: 35px;">№</th>
                             <th style="width: 130px;">Дата замечания</th>
@@ -238,45 +247,45 @@
                         </tr>
                         <tr>
                             <td contenteditable>1</td>
-                            <td contenteditable><input type="date" name="remarkDate" id="remarkDate"></td>
+                            <td contenteditable><input type="date"></td>
                             <td contenteditable>Смирнов А.В.</td>
                             <td contenteditable>Нет Антивируса</td>
-                            <td><select name="remarkEliminated" id="remarkEliminated">
+                            <td><select>
                                     <option value="yes">Да</option>
                                     <option value="no">Нет</option>
                                 </select></td>
-                            <td contenteditable><input type="date" name="eliminationDate" id="eliminationDate"></td>
+                            <td contenteditable><input type="date"></td>
                             <td contenteditable>Петров А.Г.</td>
                         </tr>
                     </table>
                 </section>
 
                 <!-- ВКЛАДКА КОНТРАКТЫ -->
-                <section class="card_is__contracts hide" id="card_is__contracts">
+                <section class="is_card__contracts hide" id="is_card__contracts">
                     <!-- Кнопки для управления записями в таблице Контракты-->
                     <div class="reference__buttons">
-                        <button class="reference__button" id="IS_create">
+                        <button class="reference__button" id="is_card__contracts_create">
                             <img src="./images/new-document.png" alt="">
                             <p>Создать</p>
                         </button>
-                        <button class="reference__button" id="IS_edit">
+                        <button class="reference__button" id="is_card__contracts_edit">
                             <img src="./images/pencil.png" alt="">
                             <p>Редактировать</p>
                         </button>
-                        <button class="reference__button" id="IS_copy">
+                        <button class="reference__button" id="is_card__contracts_copy">
                             <img src="./images/files.png" alt="">
                             <p>Копировать</p>
                         </button>
-                        <button class="reference__button" id="IS_delete">
+                        <button class="reference__button" id="is_card__contracts_delete">
                             <img src="./images/delete.png" alt="Удалить">
                             <p>Удалить</p>
                         </button>
-                        <button class="reference__button" id="IS_excel">
+                        <button class="reference__button" id="is_card__contracts_excel">
                             <img src="./images/excel.png" alt="Удалить">
                             <p>Эл. таб</p>
                         </button>
                     </div>
-                    <table class="reference__table" ID="card_is_contract_table">
+                    <table class="reference__table" ID="is_card__contract_table">
                         <thead>
                             <tr>
                                 <th style="width:35px">№</th>
@@ -308,31 +317,31 @@
 
                 </section>
                 <!-- ВКЛАДКА АРХИВ -->
-                <section class="card_is__archive hide" id="card_is__archive">
+                <section class="is_card__archive hide" id="is_card__archive">
                     <div class="reference__buttons">
-                        <button class="reference__button" id="IS_create">
+                        <button class="reference__button" id="is_card__archive_create">
                             <img src="./images/new-document.png" alt="">
                             <p>Создать</p>
                         </button>
-                        <button class="reference__button" id="IS_edit">
+                        <button class="reference__button" id="is_card__archive_edit">
                             <img src="./images/pencil.png" alt="">
                             <p>Редактировать</p>
                         </button>
-                        <button class="reference__button" id="IS_copy">
+                        <button class="reference__button" id="is_card__archive_copy">
                             <img src="./images/files.png" alt="">
                             <p>Копировать</p>
                         </button>
-                        <button class="reference__button" id="IS_delete">
+                        <button class="reference__button" id="is_card__archive_delete">
                             <img src="./images/delete.png" alt="Удалить">
                             <p>Удалить</p>
                         </button>
-                        <button class="reference__button" id="IS_excel">
+                        <button class="reference__button" id="is_card__archive_excel">
                             <img src="./images/excel.png" alt="Удалить">
                             <p>Эл. таб</p>
                         </button>
                     </div>
 
-                    <table class="reference__table" id="IS_table">
+                    <table class="reference__table" id="is_card__archive_IS_table">
                         <thead>
                             <tr>
                                 <th style="width: 35px;">№</th>
@@ -350,8 +359,8 @@
                                 <td>1</td>
                                 <td>АСЭД</td>
                                 <td style="text-align: left;">Автоматизированная система электронного документооборота
-                                органов исполнительной
-                                государственной власти области</td>
+                                    органов исполнительной
+                                    государственной власти области</td>
                                 <td>Нет</td>
                                 <td>01.01.2021</td>
                                 <td>01.01.2023</td>
@@ -392,22 +401,24 @@
 
 
             <!-- Справочник оганизации -->
-            <div id="is_organisation_reference"></div>
+            <!-- <div id="is_organisation_reference"></div> -->
 
             <!-- Справочник отделы-->
-            <div id="is_department_ref"></div>
+            <!-- <div id="is_department_ref"></div> -->
 
             <!-- КАРТОЧКА АДМИНИСТРАТОРА -->
-            <div id="administrator_card" title="Карточка администратора">
-            </div>
+            <!-- <div id="administrator_card" title="Карточка администратора">
+            </div> -->
 
             <!-- КАРТОЧКА ОРГАНИЗАЦИИ-->
-            <div id="card_is__developper_card"></div>
+            <!-- <div id="card_is__developper_card"></div> -->
 
             <!-- Карточка Контракты -->
-            <div id="card_is__contract_card"></div>
+            <!-- <div id="card_is__contract_card"></div> -->
             <!-- Карточка Документа -->
-            <div id="card_is__document_card"></div>
+            <!-- <div id="card_is__document_card"></div> -->
+
+
 
 
         </main>
@@ -419,7 +430,7 @@
     </div>
 
     <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ АДМИНИСТРАТОРЫ -->
-    <div class="context-menu" id="card_is__general_admins_context">
+    <div class="context-menu" id="is_card__general_admins_context">
         <ul class="context-menu__list">
             <li class="context-menu__item">
                 <img src="./images/pencil.png" alt=Редактировать">
@@ -437,7 +448,7 @@
     </div>
 
     <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ РАЗРАБОТЧИКИ -->
-    <div class="context-menu" id="card_is__general_developpers_context">
+    <div class="context-menu" id="is_card__general_developpers_context">
         <ul class="context-menu__list">
             <li class="context-menu__item">
                 <img src="./images/pencil.png" alt=Редактировать">
@@ -455,7 +466,7 @@
     </div>
 
     <!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ОБЛАСТИ С ДОКУМЕНТАМИ -->
-    <div class="context-menu" id="card_is__documents_context">
+    <div class="context-menu" id="is_card__documents_context">
         <ul class="context-menu__list">
             <li class="context-menu__item">
                 <img src="./images/pencil.png" alt=Создать">
@@ -466,7 +477,7 @@
 
 
     <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ДОКУМЕНТА -->
-    <div class="context-menu" id="card_is__document_context">
+    <div class="context-menu" id="is_card__document_context">
         <ul class="context-menu__list">
             <li class="context-menu__item">
                 <img src="./images/pencil.png" alt=Редактировать">
@@ -476,7 +487,7 @@
                 <img src="./images/free-icon-read-4902274.png" alt="Читать">
                 <p>Читать</p>
             </li>
-            <li class="context-menu__item" id="card_is__documents_open_card">
+            <li class="context-menu__item" id="is_card__documents_open_card">
                 <img src="./images/book-open_115193.png" alt="Открыть карточку">
                 <p>Открыть карточку</p>
             </li>
@@ -493,6 +504,24 @@
                 <p>История</p>
             </li>1
         </ul>
+    </div>
+
+    <!-- Диалоговое окно справочника-->
+    <div class="appdialog" id="is_card__dialog">
+        <div class="appdialog__window" id="is_card__dialog_window">
+            <div class="appdialog__header">
+                <h3 class="appdialog__header_title">Карточка</h3>
+                <a class="appdialog__header_close" href="#">
+                    <span>&#10006;</span> </a>
+            </div>
+            <div class="appdialog__content">
+                <div id="is_card__dialog_content"></div>
+                <div class="appdialog__finish_buttons">
+                    <button class="appdialog__finish_button">OK</button>
+                    <button class="appdialog__finish_button">Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="./js/main.min.js"></script>
 </body>

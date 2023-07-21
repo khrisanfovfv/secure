@@ -1,0 +1,39 @@
+<section class="modal">
+    <div class="modal__window document_kind">
+        <!-- Шапка окна -->
+        <div class="modal__header">
+            <h3 class="modal__header_title">Вид документа</h3>
+            <a class="modal__header_close" href="#">
+                <span>&#10006;</span>
+            </a>
+        </div>
+        <div class="modal__content">
+            <div class="document_kind__frame">
+                <div class="document_kind__content">
+                    <div class="document_kind__fields">
+                        <!-- Номер контракта-->
+                        <label for="document_kind__name">Наименование</label>
+                        <input type="text" name="document_kind__name" id="document_kind__name">
+                        <!-- Тип состояние -->
+                        <label for="document_kind__state">Состояние</label>
+                        <select name="contract__type" id="contract__type">
+                            <option value="active">Действующая</option>
+                            <option value="inactive">Не действующая</option>
+                        </select>
+                    </div>
+
+                    
+                    <div class="finish_buttons">
+                        <input class="finish_buttons__button" id="document_kind__OK" type="button" value="OK">
+                        <input class="finish_buttons__button" id="document_kind__Cancel" type="button" value="Отмена">
+                    </div>
+                </div> <!-- /contract__content -->
+                <!-- Область документов -->
+                
+            </div> <!-- /contract__frame -->
+        </div> <!-- /modal__content -->
+    </div>
+
+    <!-- -->
+    <script src="../../js/main.min.js"></script>
+</section>

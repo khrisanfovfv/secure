@@ -65,6 +65,22 @@
     }
 }
 
+.ref_record{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    &__button{
+        border: thin dotted #888;
+    }
+}
+
+.ref_record input{
+    border: none;
+    width: 100%;
+}
+
+
 
 .bg_blue{
     background-color: rgb(31, 132, 248);

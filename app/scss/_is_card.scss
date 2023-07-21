@@ -1,5 +1,5 @@
 /* Карточка документа */
-.card_is{   
+.is_card{   
     margin: 0 auto;
     position: relative;
     flex: 5;
@@ -14,29 +14,42 @@
         padding: 5px;
     }
     &__general_top{
-
         display: flex;
     }
+
 
     &__general_admins{
         margin-left: 20px;
         margin-right: 15px;
         width: 100%;
+        flex: 1;
     }
     /* Основные поля общей вкладки */
     &__general_fields{
+        flex: 1;
         display: grid;
         font-size: 16px;
-        grid-template-columns: 200px 200px 200px 150px;
+        grid-template-columns: repeat(24,1fr);
         gap: 10px;
         align-items: center;
         padding: 5px;
         margin-top: -1px;
         background-color: $main_tabs_hilighted_tabs
     }
+    &__general_fields label{
+        grid-column: 1;
+    }
 
+    &__general_fields textarea,
+    &__general_fields input{
+        grid-column: 2/25;
+        outline: none;
+    }
+
+    &__general_fields input[type=checkbox]{
+        grid-column: 2;
+    }
     
-
     /* Вкладка - Замечания по аттестации */
     &__remarks{
         margin-top: -1px;
@@ -161,107 +174,80 @@
 /* Кнопка начать аттестацию*/
 #start_certification_button{
     font-size: 16px;
-    grid-column: 4;
-}
-#fullName_title{
-    grid-column: 1;
-}
-#fullName{
-    grid-column: 2/5;
-}
-#briefName_title{
-    grid-column: 1;
-}
-#briefName{
-    grid-column: 2/5;
-}
-#is_scope_title{
-    grid-column: 1;
-}
-#is_scope{
-    justify-self: start;
-}
-#value_level_title{
-    grid-column: 3;
-}
-#value_level{
-    grid-column: 4;
-    justify-self: right;
-}
-#certified{
-    grid-column: 1;
+    grid-column: 20/25;
+    width: 200px;
     justify-self: end;
-}
-#certified_title{
-    grid-column: 2;
-}
-#certifyDate_title{
-    grid-column: 3
-}
-#certifyDate{
-    grid-column: 4;
-    justify-self: right;
-}
-#has_remark{
-    grid-column: 1;
-    justify-self: end;
-}
-#remarkEliminated{
-    border: none;
 }
 
-#commissioningDate_title{
-    grid-column: 3;
+#is_card__scope{
+    grid-column: 2/9;
 }
-#commissioningDate{
-    grid-column: 4;
-    justify-self: right;
+
+#is_card__value_level_title{
+    grid-column: 10/22;
 }
-#certificate_file_title{
-    grid-column: 1;
+
+#is_card__value_level{
+    grid-column: 22/25;
+    justify-self: end;
 }
-#certificate_file{
-    grid-column: 2/5;
+
+#is_card__certified_title,
+#is_card__has_remark_title{
+    grid-column: 3/10;
 }
+
+#is_card__certifyDate_title,
+#is_card__commissioningDate_title{
+    grid-column: 10/18;
+}
+
+#is_card__certifyDate,
+#is_card__commissioningDate{
+    grid-column: 19/25;
+}
+
 
 /* Расположение элементов. Вкладка - Замечания по аттестации*/
-#remarkDate{
+#is_card__remarkDate{
     width: 100%;
     border: none;
 }
 
-#remarkEliminated{
+#is_card__remarkEliminated{
     width: 100%;
     background-color: white;
 }
 
-/* ДИАЛОГОВЫЕ ОКНА */
-.dialog{
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 500px;
-    background-color: white;
-    border: 2px solid rgb(194, 194, 212);
-    border-radius: 10px;
-    &__header{
-        display: flex;
-        justify-content: right;
-    }
-    &__text{
-        display: block;
-        text-align: center;
-        font-size: 20px;
-        margin-bottom: 20px;
-    }
-    &__buttons{
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-    }
-    &__button{
-        width: 100px;
-        height: 30px;
-        margin: 0 10px;
-    }
-}
+// /* ДИАЛОГОВЫЕ ОКНА */
+// .dialog{
+//     position: absolute;
+//     left: 50%;
+//     top: 50%;
+//     width: 500px;
+//     background-color: white;
+//     border: 2px solid rgb(194, 194, 212);
+//     border-radius: 10px;
+//     &__header{
+//         display: flex;
+//         justify-content: right;
+//     }
+//     &__text{
+//         display: block;
+//         text-align: center;
+//         font-size: 20px;
+//         margin-bottom: 20px;
+//     }
+//     &__buttons{
+//         display: flex;
+//         justify-content: center;
+//         margin-bottom: 20px;
+//     }
+//     &__button{
+//         width: 100px;
+//         height: 30px;
+//         margin: 0 10px;
+//     }
+// }
+
+

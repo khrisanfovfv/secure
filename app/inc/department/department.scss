@@ -1,0 +1,43 @@
+#department_ref__dialog_window{
+    width: 800px;
+    height: 220px;
+}
+
+
+.department_card{
+    &__content{
+        padding: 10px;
+    }
+    &__fields{
+        display: grid;
+        grid-template-columns: repeat(24, 1fr);
+        gap: 15px;
+    }
+    &__fields label{
+        grid-column: 1;
+    }
+    &__fields .card__record{
+        grid-column: 3/25;
+    }
+
+    &__fields .card__record input{
+        width: 100%;
+    }
+
+    &__fields input{
+        grid-column: 3/25;
+        outline: none;
+    }
+    &__fields select{
+        background-color: white;
+        border: thin solid gray;
+    }
+
+    &__fields #department_card__state{
+        grid-column: 3/12;
+    }
+
+
+}
+
+

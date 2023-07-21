@@ -62,6 +62,23 @@
 .card__record{
     width: 100%;
     display: flex;
+    padding: 0;
+    border: thin solid #888;
+}
+
+.card__record input{
+    border: none;
+    width: 100%;
+}
+
+
+.card_record__button{
+    border: thin dotted #888;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 23px;
+    cursor: pointer;
 }
 
 

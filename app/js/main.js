@@ -1,25 +1,50 @@
+z_index=1;
+host='http://localhost:3000/'
+
 $(function () {
     /** Инициализация контекстного меню */
-    var context = Object.create(Context);
-    context.init();
+    /*var context = Object.create(Context);
+    context.init();*/
 
 
     // Уровень текущего открытого окна
-    var z_index=1;
+    //var 
 
     /** ================ МЕНЮ =================== */
     $('.submenu__item').on('click', function(e){
         e.preventDefault();
         href = $(this).children().attr('href');
         switch (href){
-            case 'sm_referrenses_organisations': {
-                $('#is_organisation_reference').load('organisation_ref.html');
-                $('#is_organisation_reference').css('z-index',++z_index);
+            case 'is_ref__menu_administrators': {
+                $("<a>").prop({
+                    target: "_blank",
+                    href: host + "inc/administrator/administrator_ref.html"
+                })[0].click();
+            }
+            case 'is_ref__menu_organisations': {
+                $("<a>").prop({
+                    target: "_blank",
+                    href:host + "inc/organisation/organisation_ref.html"
+                })[0].click();
             }; break
-            case 'sm_referrenses_departments' : {
-                $('#is_department_ref').load('organisation_ref.html');
-                $('#is_department_ref').css('z-index',++z_index);
+            case 'is_ref__menu_departments' : {
+                $("<a>").prop({
+                    target: "_blank",
+                    href:host + "inc/department/department_ref.html"
+                })[0].click();
             }; break
+            case 'is_ref__menu_document_kind':{
+                $("<a>").prop({
+                    target: "_blank",
+                    href:host + "inc/document_kind/document_kind_ref.html"
+                })[0].click();
+            }
+            case 'is_ref__menu_contract':{
+                $("<a>").prop({
+                    target: "_blank",
+                    href:host + "inc/contract/contract_ref.html"
+                })[0].click();
+            }
         }
     })
 
@@ -83,7 +108,7 @@ $(function () {
 
 
     /**=========== Выбор вкладок на карточке ИС =====================*/
-    $('.card_is__tabs_item').on('click',function(){
+    $('.is_card__tabs_item').on('click',function(){
         // Список имеющихся вкладок
         var card_tabs = ['general','remarks','contracts','archive'];
 
@@ -93,7 +118,7 @@ $(function () {
         
         /* Скрываем все вкладки */
         card_tabs.forEach(item => {
-            $('#card_is__'+ item).addClass('hide');
+            $('#is_card__'+ item).addClass('hide');
         });
         /* Показываем выбранную */
         tab=$(this).children().attr('href');
@@ -119,30 +144,33 @@ $(function () {
     })
 
     /** Одиночный клик на таблицу Администраторы ИС */
-    $('#card_is__administrators_table tbody tr').on('click', function(){
-        $('#card_is__administrators_table tbody tr').removeClass('bg_blue');
+    $('#is_card__administrators_table tbody tr').on('click', function(){
+        $('#is_card__administrators_table tbody tr').removeClass('bg_blue');
         $(this).addClass('bg_blue');
     });
 
     /** Двойной клик на таблицу Администраторы ИС */
-    $('#card_is__administrators_table tbody tr').on('dblclick', function(){
-        $('#administrator_card').load("administrator_card.html");
-        $("#administrator_card").css('z-index',++z_index);      
+    $('#is_card__administrators_table tbody tr').on('dblclick', function(){
+        $('#is_card__dialog').css('display','flex');
+        $('#is_card__dialog').css('z-index', ++z_index);
+        $('#is_card__dialog_content').load(host+'inc/administrator/administrator_card.html')      
     })
 
 
 
     /** Двойной клик на строку в таблице Организации */
-    $('#card_is__developpers_table tbody tr').on('dblclick', function(){
-        $('#card_is__developper_card').load("organisation_card.html")
-        $("#card_is__developper_card").css('z-index',++z_index);
+    $('#is_card__developpers_table tbody tr').on('dblclick', function(){
+        $('#is_card__dialog').css('display','flex');
+        $('#is_card__dialog').css('z-index', ++z_index);
+        $('#is_card__dialog_window').css('width','800px');
+        $('#is_card__dialog_content').load(host+'inc/organisation/organisation_card.html')
     })
 
 
     /** Клик на строку в таблице Контракты */
-    $('#card_is_contract_table tbody tr').on('dblclick', function(){
-        $('#card_is__contract_card').load("contract_card.html");
-        $("#card_is__contract_card").css('z-index',++z_index);
+    $('#is_card_contract_table tbody tr').on('dblclick', function(){
+        $('#is_card__contract_card').load("contract_card.html");
+        $("#is_card__contract_card").css('z-index',++z_index);
     })    
 
 
@@ -165,18 +193,18 @@ $(function () {
     })
 
     /** СПРАВОЧНИК ОТДЕЛЫ */
-    /** Одиночный клик на таблицу Отделы */
-    $('#department_ref_table tbody tr').on('click', function(){
-        $('#department_ref_table tbody tr').removeClass('bg_blue');
-        $(this).addClass('bg_blue');
-    })
+    // /** Одиночный клик на таблицу Отделы */
+    // $('#department_ref_table tbody tr').on('click', function(){
+    //     $('#department_ref_table tbody tr').removeClass('bg_blue');
+    //     $(this).addClass('bg_blue');
+    // })
 
-    /** Двойной клик на таблицу Отделы */
-    $('#department_ref_table tbody tr').on('dblclick',function(){
-        alert('Работает!')
-        $('#department_ref__department_card').load("department_card.html");
-        $("#department_ref__department_card").css('z-index',++z_index); 
-    })
+    // /** Двойной клик на таблицу Отделы */
+    // $('#department_ref_table tbody tr').on('dblclick',function(){
+    //     alert('Работает!')
+    //     $('#department_ref__department_card').load("department_card.html");
+    //     $("#department_ref__department_card").css('z-index',++z_index); 
+    // })
 
 
     /** Карточка Администратор. Нажатие на кнопку выбора в поле Организация */
@@ -192,12 +220,28 @@ $(function () {
     })
 
     /** Кнопки ОК/Cancel */
-    $('.modal__finish_button').on('click', function(){
+    /*$('.modal__finish_button').on('click', function(){
         z_index--;
         card = $(this).parent().parent().parent().parent();
         card.addClass('hide');
+    })*/
+
+    /** ================== APPDIALOG ================== */
+    /** finish_button */
+
+    /** Кнопка закрыть */
+    $('.appdialog__header_close').on('click', function(){
+        var dlg_window = $(this).parent().parent().parent();
+        dlg_window.css('display','none');
+        //z_index--;
     })
-
-
     
+
+    $('.appdialog__finish_button').on('click', function(){
+        var dlg_window = $(this).parent().parent().parent().parent();
+        dlg_window.css('display','none');
+        //z_index--;
+    })
+    
+
 })

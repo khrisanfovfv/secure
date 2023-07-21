@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Безопасность</title>
+    <link rel="stylesheet" href="../../css/style.min.css">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Шапка сайта -->
+        <header class="header">
+            <div class="logo">
+                <img src="../../images/logo.png" alt="Логотип" class="logo__img">
+            </div>
+            <!-- Основное меню -->
+            <div class="main_menu">
+                <ul class="main_menu__list">
+                    <li class="main_menu__item">Отчеты</li>
+                    <li class="main_menu__item">Настройки</li>
+                    <li class="main_menu__item">
+                        <p>Справочники</p>
+                        <!-- Подменю Справочники-->
+                        <div class="submenu" id="sm_references">
+                            <ul class="submenu__list">
+                                <li class="submenu__item"><a class="submenu__link"
+                                    href="sm_references_administrators">Администраторы</a></li>
+                                <li class="submenu__item"><a class="submenu__link"
+                                    href="sm_referrenses_organisations">Организации</a></li>
+                                <li class="submenu__item"><a class="submenu__link"
+                                    href="sm_referrenses_departments">Отделы</a></li>
+                                <li class="submenu__item"><a class="submenu__link"
+                                    href="sm_referrenses_document_kind">Виды документов</a></li> 
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="main_menu__item">
+                        <p>Помощь</p>
+                        <!-- Подменю Справочники-->
+                        <div class="submenu" id="sm_help">
+                            <ul class="submenu__list">
+                                <li class="submenu__item"><a class="submenu__link"
+                                        href="sm_references_help">Справка</a></li>
+                                <li class="submenu__item"><a class="submenu__link"
+                                        href="sm_referrenses_about">О программе</a></li>
+                            </ul>
+                        </div>    
+                    </li>
+                </ul>
+            </div>
+            <!-- Пользователь -->
+            <div class="user">
+                <img class="user__img" src="../../images/user.png" alt="Пользователь">
+                <p class="user__text">Иванова И.И.</p>
+            </div>
+        </header>
+        <main class="main">
+            <div class="content">
+                <div class="reference">
+                    <p class="reference__title">Справочник Виды документов</p>
+                    <div class="reference__buttons">
+                        <button class="reference__button" id="doc_kind_create">
+                            <img src="../../images/new-document.png" alt="">
+                            <p>Создать</p>
+                        </button>
+                        <button class="reference__button" id="doc_kind_edit">
+                            <img src="../../images/pencil.png" alt="">
+                            <p>Редактировать</p>
+                        </button>
+                        <button class="reference__button" id="doc_kind_copy">
+                            <img src="../../images/files.png" alt="">
+                            <p>Копировать</p>
+                        </button>
+                        <button class="reference__button" id="doc_kind_delete">
+                            <img src="../../images/delete.png" alt="Удалить">
+                            <p>Удалить</p>
+                        </button>
+                        <button class="reference__button" id="doc_kind_excel">
+                            <img src="../../images/excel.png" alt="Exel">
+                            <p>Эл. таб</p>
+                        </button>
+                    </div>
+                    <table class="reference__table" id="doc_kind_table">
+                        <thead>
+                            <tr>
+                                <th style="width: 35px;">№</th>
+                                <th>Вид документа</th>
+                                <th style="width: 200px;">Состояние</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>технический паспорт ИС</td>
+                                <td>Действующая</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>акт классификации ИС</td>
+                                <td>Действующая</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>акт категорирования ИС</td>
+                                <td>Не действующая</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Карточка вида документа-->
+    <div id="document_kind_card"></div>
+
+    <script src="../../js/main.min.js"></script>
+</body>
+</html>
