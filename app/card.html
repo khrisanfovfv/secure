@@ -20,32 +20,37 @@
             <!-- Меню сайта -->
             <div class="main_menu">
                 <ul class="main_menu__list">
-                    <li class="main_menu__item">Отчеты</li>
-                    <li class="main_menu__item">Настройки</li>
-                    <li class="main_menu__item">
-                        <p>Справочники</p>
-                        <!-- Подменю Справочники-->
-                        <div class="submenu" id="sm_references">
-                            <ul class="submenu__list">
-                                <li class="submenu__item"><a class="submenu__link"
-                                    href="is_ref__menu_administrators">Администраторы</a>
-                                </li>
-                                <li class="submenu__item"><a class="submenu__link"
-                                    href="is_ref__menu_organisations">Организации</a>
-                                </li>
-                                <li class="submenu__item"><a class="submenu__link"
-                                    href="is_ref__menu_departments">Отделы</a>
-                                </li>
-                                <li class="submenu__item"><a class="submenu__link"
-                                    href="is_ref__menu_document_kind">Виды документов</a></li>
-                                <li class="submenu__item"><a class="submenu__link"
-                                    href="is_ref__menu_contract">Контракты</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="main_menu__item">Помощь</li>
+                    <li class="main_menu__item" id="main_menu__reports">Отчеты</li>
+                    <li class="main_menu__item" id="main_menu__settings">Настройки</li>
+                    <li class="main_menu__item" id="main_menu__references">Справочники</li>
+                    <li class="main_menu__item" id="main_menu__help">Помощь</li>
                 </ul>
+                <!-- Подменю Справочники -->
+                <div class="submenu" id="sm_references">
+                    <ul class="submenu__list">
+                        <li class="submenu__item"><a class="submenu__link"
+                                href="is_ref__menu_administrators">Администраторы</a></li>
+                        <li class="submenu__item"><a class="submenu__link"
+                                href="is_ref__menu_organisations">Организации</a></li>
+                        <li class="submenu__item"><a class="submenu__link" href="is_ref__menu_departments">Отделы</a>
+                        </li>
+                        <li class="submenu__item"><a class="submenu__link" href="is_ref__menu_document_kind">Виды
+                                документов</a></li>
+                        <li class="submenu__item"><a class="submenu__link" href="is_ref__menu_contract">Контракты</a>
+                        </li>
+                        <li class="submenu__item"><a class="submenu__link" href="is_ref__menu_employeers">Сотрудники</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Подменю Помощ -->
+                <div class="submenu" id="sm_help">
+                    <ul class="submenu__list">
+                        <li class="submenu__item"><a class="submenu__link"
+                                href="is_ref__menu_administrators">Справка</a></li>
+                        <li class="submenu__item"><a class="submenu__link"
+                                href="is_ref__menu_organisations">О программе</a></li>
+                    </ul>
+                </div>
             </div>
             <!-- Пользователь -->
             <div class="user">
@@ -65,6 +70,7 @@
                     <li class="main_tabs__item is_card__tabs_item"><a href="#is_card__contracts">Контракты</a> </li>
                     <li class="main_tabs__item is_card__tabs_item"><a href="#is_card__archive">Архив</a> </li>
                 </ul>
+                
                 <!-- ВКЛАДКА ОБЩАЯ -->
                 <section class="is_card__general" id="is_card__general">
                     <!-- Объединяет поля карточки и Таблицу с администраторами-->
@@ -88,7 +94,8 @@
                                 <option value="corporate">Корпоративная</option>
                             </select>
                             <!-- Уровень значимости информации -->
-                            <Label for="is_card__value_level" id="is_card__value_level_title">Уровень значимости информации</Label>
+                            <Label for="is_card__value_level" id="is_card__value_level_title">Уровень значимости
+                                информации</Label>
                             <select id="is_card__value_level" name="is_card__value_level">
                                 <option value="k1">К1</option>
                                 <option value="k2">К2</option>
@@ -97,7 +104,8 @@
                             </select>
                             <!-- Аттестована -->
                             <input type="checkbox" id="is_card__certified" name="is_card__certified" size="40">
-                            <label for="is_card__certified" id="is_card__certified_title" class="label_checkbox">Аттестована</label>
+                            <label for="is_card__certified" id="is_card__certified_title"
+                                class="label_checkbox">Аттестована</label>
                             <!-- Дата аттестации -->
                             <label for="is_card__certifyDate" id="is_card__certifyDate_title">Дата аттестации</label>
                             <input type="date" id="is_card__certifyDate" name="is_card__certifyDate" size="40">
@@ -107,7 +115,8 @@
                             <!-- Дата ввода в эксплуатацию -->
                             <label for="is_card__commissioningDate" id="is_card__commissioningDate_title">Дата ввода в
                                 эксплуатацию</label>
-                            <input type="date" id="is_card__commissioningDate" name="is_card__commissioningDate" size="40"><br>
+                            <input type="date" id="is_card__commissioningDate" name="is_card__commissioningDate"
+                                size="40"><br>
                         </div>
 
                         <!-- АДМИНИСТРАТОРЫ СИСТЕМЫ -->
@@ -398,35 +407,11 @@
                     </li>
                 </ul>
             </div>
-
-
-            <!-- Справочник оганизации -->
-            <!-- <div id="is_organisation_reference"></div> -->
-
-            <!-- Справочник отделы-->
-            <!-- <div id="is_department_ref"></div> -->
-
-            <!-- КАРТОЧКА АДМИНИСТРАТОРА -->
-            <!-- <div id="administrator_card" title="Карточка администратора">
-            </div> -->
-
-            <!-- КАРТОЧКА ОРГАНИЗАЦИИ-->
-            <!-- <div id="card_is__developper_card"></div> -->
-
-            <!-- Карточка Контракты -->
-            <!-- <div id="card_is__contract_card"></div> -->
-            <!-- Карточка Документа -->
-            <!-- <div id="card_is__document_card"></div> -->
-
-
-
-
         </main>
         <!-- Поддон -->
         <footer class="footer">
             <p class="footer__text">&copy Наимова Д.А., 2023</p3>
         </footer>
-
     </div>
 
     <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ АДМИНИСТРАТОРЫ -->

@@ -2,6 +2,8 @@
 .is_card{   
     margin: 0 auto;
     position: relative;
+    display: flex;
+    flex-direction: column;
     flex: 5;
     align-items: stretch;
     margin-right: 10px;
@@ -103,6 +105,8 @@
 
     /* Вкладка - Архив */
     &__archive{
+        display: flex;
+        flex-direction: column;
         margin-top: -1px;
         border: thin solid black;
         padding: 5px;
@@ -110,14 +114,6 @@
 
 }
 
-
-// .organisations{
-//     width: 1200px;
-//     height: 800px;
-//     &__fields{
-//         padding: 20px;
-//     }
-// }
 
 /*Поле с выбором из справочника*/
 .refRecord{
@@ -167,6 +163,7 @@
         border-left: thin solid black;
         border-right: thin solid black;
         border-bottom: thin solid black;
+        z-index: 2;
     }
 
     &__item a{
@@ -231,35 +228,5 @@
     background-color: white;
 }
 
-// /* ДИАЛОГОВЫЕ ОКНА */
-// .dialog{
-//     position: absolute;
-//     left: 50%;
-//     top: 50%;
-//     width: 500px;
-//     background-color: white;
-//     border: 2px solid rgb(194, 194, 212);
-//     border-radius: 10px;
-//     &__header{
-//         display: flex;
-//         justify-content: right;
-//     }
-//     &__text{
-//         display: block;
-//         text-align: center;
-//         font-size: 20px;
-//         margin-bottom: 20px;
-//     }
-//     &__buttons{
-//         display: flex;
-//         justify-content: center;
-//         margin-bottom: 20px;
-//     }
-//     &__button{
-//         width: 100px;
-//         height: 30px;
-//         margin: 0 10px;
-//     }
-// }
 
 

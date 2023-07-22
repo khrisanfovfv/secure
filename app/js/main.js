@@ -1,16 +1,32 @@
+/** Инициализация */
 z_index=1;
 host='http://localhost:3000/'
 
 $(function () {
     /** Инициализация контекстного меню */
-    /*var context = Object.create(Context);
-    context.init();*/
+    var context = Object.create(Context);
+    context.init();
 
 
     // Уровень текущего открытого окна
     //var 
 
     /** ================ МЕНЮ =================== */
+
+    /** Нажатие кнопки Справочники */
+    $('#main_menu__references').on('click', function(){
+        $('#sm_references').css('display','flex');
+    })
+
+    /** Нажатие кнопки Помощь */
+    $('#main_menu__help').on('click', function(){
+        $('#sm_help').css('display','flex');
+    })
+
+
+
+
+
     $('.submenu__item').on('click', function(e){
         e.preventDefault();
         href = $(this).children().attr('href');
@@ -43,6 +59,12 @@ $(function () {
                 $("<a>").prop({
                     target: "_blank",
                     href:host + "inc/contract/contract_ref.html"
+                })[0].click();
+            }
+            case 'is_ref__menu_employeers':{
+                $("<a>").prop({
+                    target: "_blank",
+                    href:host + "inc/employeer/employeer_ref.html"
                 })[0].click();
             }
         }
@@ -114,7 +136,10 @@ $(function () {
 
         // Устанавливаем класс main_tabs__highlighted у выбранной вкладки
         $('.main_tabs__item').removeClass('main_tabs__highlighted');
+        $('.main_tabs__item').css('z-index',1);
         $(this).addClass('main_tabs__highlighted');
+        $(this).css('z-index',2);
+
         
         /* Скрываем все вкладки */
         card_tabs.forEach(item => {

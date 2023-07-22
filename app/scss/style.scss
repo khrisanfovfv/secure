@@ -13,7 +13,7 @@
 @import '../inc/organisation/organisation.scss';
 @import '../inc/department/department.scss';
 @import '../inc/contract/contract.scss';
-
+@import '../inc/employeer/employeer.scss';
  html, body, .wrapper{
     height: 100%;
     width: 100%;
@@ -69,11 +69,11 @@
 
 
 .submenu{
-    position: absolute;  
+    position: absolute;   
     border: 2px solid gray;
     background-color: white;
     /*box-shadow: #888;*/
-    z-index: 2;
+    z-index: 3;
 
     &__item{
         margin: 5px 0;
@@ -93,18 +93,14 @@
 
 #sm_references{
     display: none;
+    left: 255px;
+    top: 25px;
 }
 
 #sm_help{
     display: none;
-}
-
-.main_menu__item:hover #sm_references{
-    display:flex;
-}
-
-.main_menu__item:hover #sm_help{
-    display:flex;
+    left: 430px;
+    top: 25px;
 }
 
 .user{
@@ -139,8 +135,6 @@
 
 .footer{
     display: flex;
-    position: absolute;
-    bottom: 0;
     width: 100%;
     height: 50px;
     align-items: center;

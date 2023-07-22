@@ -1,62 +1,3 @@
-/* Окружение модального окна */
-// .modal{
-//     display: flex;
-//     position: fixed;
-//     z-index: 1;
-//     left: 0;
-//     top: 0;
-//     overflow: auto;
-//     background-color: rgb(0,0,0); /* Fallback color */
-//     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-//     width: 100%;
-//     height: 100%;
-//     /* Модальное окно */
-//     &__window {
-//         position: relative;
-//         background-color: #fefefe;
-//         margin: auto;
-//         padding: 0;
-//         border: 1px solid #888;
-//         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-//     }
-//     /* Шапка модального окна */
-//     &__header{
-//         display: flex;
-//         width: 100%;
-//         justify-content: space-between;
-//         padding: 0 5px;
-//         background: linear-gradient(90deg, rgba(12,166,240,1) 0%, rgba(0,212,255,1) 50%);
-//     }
-//     /* Заголовок модального окна */
-//     &__header_title{
-//         color: white;
-//         font-size: 24px;
-//     }
-//     /* Кнопка Закрыть в шапке модального окна*/
-//     &__header_close{
-//         color: black;
-//         font-size: 24px;
-//     }
-//     &__content{
-//         width: 100%;
-//         height: 100%;
-//         display: flex;
-//         flex-direction: column;
-//         background-color: #fefefe;
-//     }
-
-//     &__finish_buttons{
-//         display: flex;
-//         width: 250px;
-//         margin: auto auto 40px;
-//         justify-content: space-between;
-//     }
-//     &__finish_button{
-//         font-size: 18px;
-//         width: 100px;
-//     }
-    
-// }
 
 /* Поле с выбором из справочника на карточке*/
 .card__record{
@@ -85,7 +26,7 @@
 /* Группа документы*/
 .attacments{
     flex: 1;
-    align-items: stretch;
+    /*align-items: stretch;*/
     border: thin solid black;
     &__title{
         font-weight: bold;

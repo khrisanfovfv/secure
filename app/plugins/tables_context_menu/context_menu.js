@@ -6,9 +6,10 @@ var Context = {
      */
     menuState: 0,
     // Cписок всех контекстных меню приложения
-    menus: ['#card_is__general_admins_context',
-            '#card_is__general_developpers_context',
-            '#card_is__document_context'],
+    menus: ['#is_card__general_admins_context',
+            '#is_card__general_developpers_context',
+            '#is_card__document_context',
+            ],
     contextMenuActive : 'context-menu--active',
     menu : '',
     menuPosition:[0,0],
@@ -24,9 +25,9 @@ var Context = {
     wrapperPaddingTop : parseInt($(".wrapper").css('padding-top')),
 
     /**
-     * card_is__administrators_table_row -- #card_is__general_admins_context
-     * card_is__developpers_table_row    -- #card_is__general_developpers_context
-     * attacments                        -- #card_is__documents_context'
+     * is_card__administrators_table_row -- #is_card__general_admins_context
+     * is_card__developpers_table_row    -- #is_card__general_developpers_context
+     * attacments                        -- #is_card__documents_context'
          * attacments__name_item
      */
 
@@ -53,7 +54,7 @@ var Context = {
             // Скрываем все контекстные меню
             
             switch(el.id){
-                case 'card_is__documents_open_card': Context.document_open_card(); break;
+                case 'is_card__documents_open_card': Context.document_open_card(); break;
             }
             var button = e.which || e.button;
             if ( button === 1 ) {
@@ -104,8 +105,8 @@ var Context = {
             var src_el = e.srcElement || e.target;
             const classNames =[
                 'is_table_row', 
-                'card_is__administrators_table_row',
-                'card_is__developpers_table_row',
+                'is_card__administrators_table_row',
+                'is_card__developpers_table_row',
                 'attacments__item',
                 'context-menu__item'
             ];
@@ -135,10 +136,10 @@ var Context = {
     selectContext(className){
         switch (className){
             case 'is_table_row' : Context.menu = $('#is_table_context');break;
-            case 'card_is__administrators_table_row': Context.menu = $('#card_is__general_admins_context'); break;
-            case 'card_is__developpers_table_row' : Context.menu = $('#card_is__general_developpers_context'); break;
-            case 'attacments__item' : Context.menu = $('#card_is__document_context');break;
-            /*case 'attacments' : Context.menu = $('#card_is__documents_context'); break;*/
+            case 'is_card__administrators_table_row': Context.menu = $('#is_card__general_admins_context'); break;
+            case 'is_card__developpers_table_row' : Context.menu = $('#is_card__general_developpers_context'); break;
+            case 'attacments__item' : Context.menu = $('#is_card__document_context');break;
+            /*case 'attacments' : Context.menu = $('#is_card__documents_context'); break;*/
         }
     },
 
@@ -148,9 +149,9 @@ var Context = {
     hideAllMenus(){
         const menus = [
             '#is_table_context',
-            '#card_is__general_admins_context',
-            '#card_is__general_developpers_context',
-            '#card_is__document_context',
+            '#is_card__general_admins_context',
+            '#is_card__general_developpers_context',
+            '#is_card__document_context',
 
         ] 
         $.each(menus,function(index,element){
@@ -222,8 +223,8 @@ var Context = {
     },
     /** ФУНКЦИИ ДЛЯ РАБОТЫ С ПУНКТАМИ КОНТЕКСТНОГО МЕНЮ ДОКУМЕНТА */
     document_open_card : function(){
-        $('#card_is__document_card').load("document_card.html");
-        $("#card_is__document_card").css('z-index',++z_index);
+        $('#is_card__document_card').load("document_card.html");
+        $("#is_card__document_card").css('z-index',++z_index);
        
     }
 
