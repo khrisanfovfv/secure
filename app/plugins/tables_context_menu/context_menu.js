@@ -9,7 +9,8 @@ var Context = {
     menus: ['#is_card__general_admins_context',
             '#is_card__general_developpers_context',
             '#is_card__document_context',
-            ],
+            '#sm_references',
+            '#sm_help'],
     contextMenuActive : 'context-menu--active',
     menu : '',
     menuPosition:[0,0],
@@ -24,13 +25,6 @@ var Context = {
     bodyPaddingTop : parseInt($("body").css('padding-top')),
     wrapperPaddingTop : parseInt($(".wrapper").css('padding-top')),
 
-    /**
-     * is_card__administrators_table_row -- #is_card__general_admins_context
-     * is_card__developpers_table_row    -- #is_card__general_developpers_context
-     * attacments                        -- #is_card__documents_context'
-         * attacments__name_item
-     */
-
 
     /**
      * Инициализация контекстного меню
@@ -38,7 +32,6 @@ var Context = {
     init(){     
         /*=========== Привязка событий =============*/      
         $("body").on("contextmenu", function(e) {
-            /*Context.hideAllMenus();*/
             if (Context.clickInsideElement(e)) { 
                 e.preventDefault();
                 Context.toggleMenuOff();
@@ -49,17 +42,22 @@ var Context = {
             }
                    
         });
+        /** Нажатие левой кнопки мыши */
         $("body").on("click", function(e){
             el = Context.clickInsideElement(e);
             // Скрываем все контекстные меню
-            
             switch(el.id){
                 case 'is_card__documents_open_card': Context.document_open_card(); break;
+                case 'main_menu__references': Context.show_references_menu();break;
+                case 'main_menu__help' : Context.show_help_menu(); break;
+                default:{
+                    var button = e.which || e.button;
+                    if ( button === 1 ) {
+                        Context.toggleMenuOff();
+                    }
+                }
             }
-            var button = e.which || e.button;
-            if ( button === 1 ) {
-                Context.toggleMenuOff();
-            }
+            
         });
         $("body").on("keyup", function(e){
             if ( e.key === 'Escape' ) {
@@ -77,11 +75,7 @@ var Context = {
     toggleMenuOn() {
         if ( Context.menuState !== 1 ) {
             Context.menuState = 1;
-            // Context.menus.forEach(element => {
-            //     $(element).css('display','none');
-            // });
-            Context.menu.css('display','block');
-            //Context.menu.addClass(contextMenuActive);   
+            Context.menu.css('display','block'); 
         }
     },
 
@@ -108,7 +102,8 @@ var Context = {
                 'is_card__administrators_table_row',
                 'is_card__developpers_table_row',
                 'attacments__item',
-                'context-menu__item'
+                'context-menu__item',
+                'main_menu__item'
             ];
             var result = false;
             $.each(classNames,function(index, className) {
@@ -146,18 +141,19 @@ var Context = {
     /**
      * Скрыть все меню
      */
-    hideAllMenus(){
-        const menus = [
-            '#is_table_context',
-            '#is_card__general_admins_context',
-            '#is_card__general_developpers_context',
-            '#is_card__document_context',
+    // hideAllMenus(){
+    //     const menus = [
+    //         '#is_table_context',
+    //         '#is_card__general_admins_context',
+    //         '#is_card__general_developpers_context',
+    //         '#is_card__document_context',
+    //         '#sm_references'
 
-        ] 
-        $.each(menus,function(index,element){
-            $(element).css('display','none');
-        })
-    },
+    //     ] 
+    //     $.each(menus,function(index,element){
+    //         $(element).css('display','none');
+    //     })
+    // },
 
     /**
      * Получить координаты курсора
@@ -223,9 +219,26 @@ var Context = {
     },
     /** ФУНКЦИИ ДЛЯ РАБОТЫ С ПУНКТАМИ КОНТЕКСТНОГО МЕНЮ ДОКУМЕНТА */
     document_open_card : function(){
-        $('#is_card__document_card').load("document_card.html");
-        $("#is_card__document_card").css('z-index',++z_index);
+        Context.toggleMenuOff();
+        Context.menuState = 1;
+        $("#is_card__dialog").css('display', 'flex');
+        $("#is_card__dialog").css('z-index',++z_index);
+        $('#is_card__dialog_content').load(host + "inc/document/document_card.html");
        
+    },
+
+    /** Отображает меню Справочники */
+    show_references_menu: function() {
+        Context.toggleMenuOff();
+        Context.menuState = 1;
+        $('#sm_references').css('display', 'flex');
+    },
+
+    /** Отображает меню Помощь */
+    show_help_menu : function() {
+        Context.toggleMenuOff();
+        Context.menuState = 1;
+        $('#sm_help').css('display', 'flex');
     }
 
 }
