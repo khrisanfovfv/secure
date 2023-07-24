@@ -30,7 +30,7 @@ function styles(){
 }
 
 function watching(){
-    watch('app/scss/*.scss', styles)
+    watch(['app/scss/*.scss','app/plugins/**/*.scss'], styles)
     watch(['app/plugins/tables_context_menu/context_menu.js','app/js/main.js'], scripts)
     watch(['app/**/*.html']).on('change', browserSync.reload)
 }

@@ -25,6 +25,14 @@ var Context = {
             }
                    
         });
+
+        $("body").on('click', function(e){
+            Context.toggleMenuOff();
+            /*var button =  e.button;
+            if ( button === 1 ) {
+                Context.toggleMenuOff();
+            }*/
+        });
     }, 
 
     /**
@@ -121,5 +129,7 @@ var Context = {
         Context.menu.css('left',Context.menuPositionX);
         Context.menu.css('top',Context.menuPositionY);
     }
+
+
 
 }
