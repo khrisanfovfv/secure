@@ -1,0 +1,55 @@
+
+#contract_ref__dialog_window{
+    width: 800px;
+    height: 600px;
+}
+
+
+.contract_card{
+    width: 800px;
+    height: 900px;
+    &__frame{
+        display: flex;
+    }
+    &__content{
+        padding: 20px;
+        flex: 3;
+    }
+    &__fields{
+        display: grid;
+        grid-template-columns: repeat(24, 1fr);
+        gap: 15px;
+    }
+    &__fields label{
+        grid-column: 1/7;
+    }
+    &__fields input{
+        grid-column: 7/25;
+        outline: none;
+    }
+    &__fields textarea,
+    &__fields .card__record{
+        grid-column: 7/25;
+    }
+    &__fields select{
+        grid-column: 7/14;
+        background-color: white;
+        border: thin solid gray;
+    }
+}
+
+#contract_card__number{
+    grid-column: 7/14;
+}
+
+#contract_card__conclusion_date_title{
+    grid-column: 15/19;
+}
+
+#contract_card__conclusion_date{
+    grid-column: 19/25;
+}
+
+
+
+

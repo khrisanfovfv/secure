@@ -1,0 +1,26 @@
+.document_kind{
+    width: 800px;
+    height: 180px;
+    &__content{
+        padding: 20px;
+    }
+    &__fields{
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 15px;
+    }
+    &__fields label{
+        grid-column: 1;
+    }
+    &__fields input{
+        grid-column: 2/13;
+        outline: none;
+    }
+    &__fields select{
+        grid-column: 2/5;
+        background-color: white;
+        border: thin solid gray;
+    }
+}
+
+

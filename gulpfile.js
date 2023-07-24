@@ -10,8 +10,14 @@ function scripts(){
     return src([
         /*'node_modules/jquery/dist/jquery.js',*/
         'app/plugins/jquery-ui-1.13.2/external/jquery/jquery.js',
-        'app/plugins/jquery-ui-1.13.2/jquery-ui.js',
+        /*'app/plugins/jquery-ui-1.13.2/jquery-ui.js',*/
         'app/plugins/tables_context_menu/context_menu.js',
+        'app/inc/document_kind/document_kind.js',
+        'app/inc/administrator/administrator.js',
+        'app/inc/organisation/organisation.js',
+        'app/inc/department/department.js',
+        'app/inc/contract/contract.js',
+        'app/inc/employeer/employeer.js',
         'app/js/main.js'
     ])
     .pipe(concat('main.min.js'))
@@ -30,8 +36,15 @@ function styles(){
 }
 
 function watching(){
+<<<<<<< HEAD
     watch(['app/scss/*.scss','app/plugins/**/*.scss'], styles)
     watch(['app/plugins/tables_context_menu/context_menu.js','app/js/main.js'], scripts)
+=======
+    watch(['app/scss/*.scss',
+           'app/inc/**/*.scss'], styles)
+    watch(['app/plugins/tables_context_menu/context_menu.js',
+           'app/js/main.js','app/inc/**/*.js'], scripts)
+>>>>>>> 1094bbb4815030341ede74a7ba63478a559a153c
     watch(['app/**/*.html']).on('change', browserSync.reload)
 }
 

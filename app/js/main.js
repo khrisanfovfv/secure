@@ -1,122 +1,63 @@
+/** Инициализация */
+z_index=1;
+host='http://localhost:3000/'
+
 $(function () {
-
-
-
-
-///////////////////////////////////////
-///////////////////////////////////////
-//
-// C O R E F U N C T I O N S
-//
-///////////////////////////////////////
-///////////////////////////////////////
-
-/**
-* Variables.
-*/
-
-var state_context = false 
-var taskItemClassName = 'is_table_row';
-var menuState = 0;
-
-    /**
-    * Инициализирует код приложения
-    */
-    function init() {
-        contextListener();
-        clickListener();
-        keyupListener();
-    }
-
-    /**
-        * Слушает события contextmenu.
-    */
-    function contextListener() {
-        // Инициализируем объект контекстного меню плагин tables_context
-        var context = Object.create(Context);
-        context.init();
-    }
-
-    /**
-        * Слушает событие click.
-    */
-    function clickListener() {
-        $("body").on("click", function(e){
-            e.preventDefault();
-            toggleMenuOff();
-        })
-    }
-
-    /**
-        * Слушает событие keyup.
-    */
-    function keyupListener() {
-
-    }
-
-    function toggleMenuOn(e) {
-        if ( menuState !== 1 ) {
-            menuState = 1;
-            //menu.classList.add(activeClassName);
-            $('#is_table_context').css('left', e.pageX);
-            $('#is_table_context').css('top', e.pageY)
-            $('#is_table_context').css('display', 'block');
-        }
-    }
-
-    function toggleMenuOff() {
-        if ( menuState !== 0 ) {
-            menuState = 0;
-            //menu.classList.add(activeClassName);
-            $('#is_table_context').css('display', 'none');
-        }
-    }
-
-
+    /** Инициализация контекстного меню */
+    var context = Object.create(Context);
+    context.init();
 
 
     // Уровень текущего открытого окна
-    var z_index=1;
+    //var 
 
-    /** МЕНЮ */
+    /** ================ МЕНЮ =================== */
+
     $('.submenu__item').on('click', function(e){
         e.preventDefault();
         href = $(this).children().attr('href');
         switch (href){
-            case 'sm_referrenses_organisations': {
-                $('#is_organisation_reference').load('organisation_ref.html');
-                $('#is_organisation_reference').css('z-index',++z_index);
+            case 'is_ref__menu_administrators': {
+                $("<a>").prop({
+                    target: "_blank",
+                    href: host + "inc/administrator/administrator_ref.html"
+                })[0].click();
+            }
+            case 'is_ref__menu_organisations': {
+                $("<a>").prop({
+                    target: "_blank",
+                    href:host + "inc/organisation/organisation_ref.html"
+                })[0].click();
             }; break
+            case 'is_ref__menu_departments' : {
+                $("<a>").prop({
+                    target: "_blank",
+                    href:host + "inc/department/department_ref.html"
+                })[0].click();
+            }; break
+            case 'is_ref__menu_document_kind':{
+                $("<a>").prop({
+                    target: "_blank",
+                    href:host + "inc/document_kind/document_kind_ref.html"
+                })[0].click();
+            }
+            case 'is_ref__menu_contract':{
+                $("<a>").prop({
+                    target: "_blank",
+                    href:host + "inc/contract/contract_ref.html"
+                })[0].click();
+            }
+            case 'is_ref__menu_employeers':{
+                $("<a>").prop({
+                    target: "_blank",
+                    href:host + "inc/employeer/employeer_ref.html"
+                })[0].click();
+            }
         }
     })
 
-    /** ДИАЛОГИ */
-    $('#IS_table tr').on('click', function(){
-        $('#IS_table tr').removeClass('bg_blue');
-        $(this).addClass('bg_blue');
-    })
-
-    /** Состояние контекстного меню
-     * false - не отображено
-     * true - отображено
-     */
-    
     
 
-    // $('#IS_table tr').on('contextmenu', function(e){
-    //     if ( clickInsideElement( e, taskItemClassName ) ) {
-    //         e.preventDefault();
-    //         toggleMenuOn();
-    //         }
-    // })
-
-
-
-
-    
-
-    
-    
 
     $('#IS_table tr').on('click', function(e){
         if (e.button == 1){
@@ -124,24 +65,81 @@ var menuState = 0;
         }
     });
 
+    /** ======= Таблица Информационные системы. ======== */
 
+    /** Одинарный щелчок  */
+    $('#IS_table tbody tr').on('click', function(){
+        $('#IS_table tbody tr').removeClass('bg_blue');
+        $(this).addClass('bg_blue');
+    })
 
-
-
-
-
-    /** Таблица Информационные системы. Двойной щелчок */
-    $('#IS_table tr').slice(1).on('dblclick', function(){
+    /** Двойной щелчок */
+    $('#IS_table tbody tr').on('dblclick', function(){
         $("<a>").prop({
             target: "_blank",
             href: "card.html"
         })[0].click();
     })
 
-    /** Выбор вкладок на карточке ИС */
-    $('.main_tabs__item').on('click',function(){
+    /** Кнопка Создать */
+    $('#IS_create').on('click', function(){
+        $("<a>").prop({
+            target: "_blank",
+            href: "card.html"
+        })[0].click();
+    })
+
+    /** Кнопка Редактировать */
+    $('#IS_edit').on('click', function(){
+        $('#IS_table tbody tr').each(function(index,element){
+            if ($(this).hasClass('bg_blue')){
+                $("<a>").prop({
+                    target: "_blank",
+                    href: "card.html"
+                })[0].click();
+            }
+        })
+    })
+
+    /** Кнопка копировать */
+    $('#IS_copy').on('click', function(){
+        $('#IS_table tbody tr').each(function(index,element){
+            if ($(this).hasClass('bg_blue')){
+                $("<a>").prop({
+                    target: "_blank",
+                    href: "card.html"
+                })[0].click();
+            }
+        })
+    })
+
+
+
+    /**=========== Выбор вкладок на карточке ИС =====================*/
+    $('.is_card__tabs_item').on('click',function(){
         // Список имеющихся вкладок
         var card_tabs = ['general','remarks','contracts','archive'];
+
+        // Устанавливаем класс main_tabs__highlighted у выбранной вкладки
+        $('.main_tabs__item').removeClass('main_tabs__highlighted');
+        $('.main_tabs__item').css('z-index',1);
+        $(this).addClass('main_tabs__highlighted');
+        $(this).css('z-index',2);
+
+        
+        /* Скрываем все вкладки */
+        card_tabs.forEach(item => {
+            $('#is_card__'+ item).addClass('hide');
+        });
+        /* Показываем выбранную */
+        tab=$(this).children().attr('href');
+        $(tab).removeClass('hide');
+    })
+
+    /**=========== Выбор вкладок на карточке Документ =====================*/
+    $('.document__tabs_item').on('click',function(){
+        // Список имеющихся вкладок
+        var card_tabs = ['general','send_list'];
 
         // Устанавливаем класс main_tabs__highlighted у выбранной вкладки
         $('.main_tabs__item').removeClass('main_tabs__highlighted');
@@ -149,33 +147,54 @@ var menuState = 0;
         
         /* Скрываем все вкладки */
         card_tabs.forEach(item => {
-            $('#card_is__'+ item).addClass('hide');
+            $('#document_card__'+ item).addClass('hide');
         });
         /* Показываем выбранную */
         tab=$(this).children().attr('href');
         $(tab).removeClass('hide');
     })
 
-    /** Клик на таблицу Администраторы ИС */
-    $('#card_is__administrators tbody tr').on('click', function(){
-        $('#administrator_card').load("administrator_card.html");
-        $("#administrator_card").css('z-index',++z_index);      
+    /** Одиночный клик на таблицу Администраторы ИС */
+    $('#is_card__administrators_table tbody tr').on('click', function(){
+        $('#is_card__administrators_table tbody tr').removeClass('bg_blue');
+        $(this).addClass('bg_blue');
+    });
+
+    /** Двойной клик на таблицу Администраторы ИС */
+    $('#is_card__administrators_table tbody tr').on('dblclick', function(){
+        $('#is_card__dialog').css('display','flex');
+        $('#is_card__dialog').css('z-index', ++z_index);
+        $('#is_card__dialog_content').load(host+'inc/administrator/administrator_card.html')      
     })
 
-    /** Клик на строку в таблице Организации */
-    $('#card_is__developpers tbody tr').on('click', function(){
-        $('#organisation_card').load("organisation_card.html")
-        $("#organisation_card").css('z-index',++z_index);
+
+
+    /** Двойной клик на строку в таблице Организации */
+    $('#is_card__developpers_table tbody tr').on('dblclick', function(){
+        $('#is_card__dialog').css('display','flex');
+        $('#is_card__dialog').css('z-index', ++z_index);
+        $('#is_card__dialog_window').css('width','800px');
+        $('#is_card__dialog_content').load(host+'inc/organisation/organisation_card.html')
     })
 
+    /** Одиночный клик на таблицу Контракты */
+    $('#is_card__contracts_table tbody tr').on('click', function(){
+        $('#is_card__contracts_table tbody tr').removeClass('bg_blue');
+        $(this).addClass('bg_blue');
+    })
 
     /** Клик на строку в таблице Контракты */
-    $('#CONTRACT_table tbody tr').on('click', function(){
-        administratorCard_dialog.dialog("open");
+    $('#is_card__contracts_table tbody tr').on('dblclick', function(){
+        $('#is_card__dialog').css('display','flex');
+        $('#is_card__dialog').css('z-index', ++z_index);
+        $('#is_card__dialog_window').css('width','1200px');
+        $('#is_card__dialog_content').load(host+'inc/contract/contract_card.html')
     })    
 
 
     /** СПРАВОЧНИК ОРГАНИЗАЦИИ */
+
+
     $('#organisations_table tbody tr').on('click', function(){
         $('#organisations_table tbody tr').removeClass('bg_blue');
         $(this).addClass('bg_blue');
@@ -191,30 +210,56 @@ var menuState = 0;
         card.addClass('hide');
     })
 
-    // $('.button_cancel').on('click', function(){
-    //     $('.dialog').removeClass('hide');
+    /** СПРАВОЧНИК ОТДЕЛЫ */
+    // /** Одиночный клик на таблицу Отделы */
+    // $('#department_ref_table tbody tr').on('click', function(){
+    //     $('#department_ref_table tbody tr').removeClass('bg_blue');
+    //     $(this).addClass('bg_blue');
     // })
 
+    // /** Двойной клик на таблицу Отделы */
+    // $('#department_ref_table tbody tr').on('dblclick',function(){
+    //     alert('Работает!')
+    //     $('#department_ref__department_card').load("department_card.html");
+    //     $("#department_ref__department_card").css('z-index',++z_index); 
+    // })
+
+
     /** Карточка Администратор. Нажатие на кнопку выбора в поле Организация */
-    $('.refRecord__button').on('click',function(){
-        reference_id = $(this).parent().attr('id');
-        if (~reference_id.indexOf("_organisation")){
+    $('#administrator__organisation').on('click',function(){
             $('#administrator__organisation_dlg').load("organisation_ref.html")
             $('#administrator__organisation_dlg').css('z-index',++z_index)
-        }
-        
+    })
+
+    /** Карточка Администратор. Нажатие на кнопку выбора в поле Подразделение*/
+    $('#administrator__department').on('click', function(){
+        $('#administrator__department_dlg').load("department_ref.html")
+        $('#administrator__department_dlg').css('z-index',++z_index)
     })
 
     /** Кнопки ОК/Cancel */
-    $('.modal__finish_button').on('click', function(){
+    /*$('.modal__finish_button').on('click', function(){
         z_index--;
         card = $(this).parent().parent().parent().parent();
         card.addClass('hide');
-    })
+    })*/
 
-    /**
-        * Запуск приложения.
-    */
-init();
+    /** ================== APPDIALOG ================== */
+    /** finish_button */
+
+    /** Кнопка закрыть */
+    $('.appdialog__header_close').on('click', function(){
+        var dlg_window = $(this).parent().parent().parent();
+        dlg_window.css('display','none');
+        //z_index--;
+    })
+    
+
+    $('.appdialog__finish_button').on('click', function(){
+        var dlg_window = $(this).parent().parent().parent().parent();
+        dlg_window.css('display','none');
+        //z_index--;
+    })
+    
 
 })

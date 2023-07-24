@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Безопасность</title>
+    <link rel="stylesheet" href="../../css/style.min.css">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Шапка сайта -->
+        <header class="header">
+            <div class="logo">
+                <img src="../../images/logo.png" alt="Логотип" class="logo__img">
+            </div>
+            <!-- Основное меню -->
+            <div class="main_menu">
+                <ul class="main_menu__list">
+                    <li class="main_menu__item">Отчеты</li>
+                    <li class="main_menu__item">Настройки</li>
+                    <li class="main_menu__item">
+                        <p>Справочники</p>
+                        <!-- Подменю Справочники-->
+                        <div class="submenu" id="sm_references">
+                            <ul class="submenu__list">
+                                <li class="submenu__item"><a class="submenu__link"
+                                    href="is_ref__menu_administrators">Администраторы</a></li>
+                                <li class="submenu__item"><a class="submenu__link"
+                                    href="is_ref__menu_organisations">Организации</a></li>
+                                <li class="submenu__item"><a class="submenu__link"
+                                    href="sm_referrenses_departments">Отделы</a></li>
+                                <li class="submenu__item"><a class="submenu__link"
+                                    href="sm_referrenses_document_kind">Виды документов</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="main_menu__item">
+                        <p>Помощь</p>
+                        <!-- Подменю Справочники-->
+                        <div class="submenu" id="sm_help">
+                            <ul class="submenu__list">
+                                <li class="submenu__item"><a class="submenu__link"
+                                        href="sm_references_help">Справка</a></li>
+                                <li class="submenu__item"><a class="submenu__link"
+                                        href="sm_referrenses_about">О программе</a></li>
+                            </ul>
+                        </div>    
+                    </li>
+                </ul>
+            </div>
+            <!-- Пользователь -->
+            <div class="user">
+                <img class="user__img" src="../../images/user.png" alt="Пользователь">
+                <p class="user__text">Иванова И.И.</p>
+            </div>
+        </header>
+        <main class="main">
+            <div class="content">
+                <div class="reference">
+                    <p class="reference__title">Администраторы</p>
+                    <div class="reference__buttons">
+                        <button class="reference__button" id="administrator_ref__create">
+                            <img src="../../images/new-document.png" alt="">
+                            <p>Создать</p>
+                        </button>
+                        <button class="reference__button" id="administrator_ref__edit">
+                            <img src="../../images/pencil.png" alt="">
+                            <p>Редактировать</p>
+                        </button>
+                        <button class="reference__button" id="administrator_ref__copy">
+                            <img src="../../images/files.png" alt="">
+                            <p>Копировать</p>
+                        </button>
+                        <button class="reference__button" id="administrator_ref__delete">
+                            <img src="../../images/delete.png" alt="Удалить">
+                            <p>Удалить</p>
+                        </button>
+                        <button class="reference__button" id="administrator_ref__excel">
+                            <img src="../../images/excel.png" alt="Exel">
+                            <p>Эл. таб</p>
+                        </button>
+                    </div>
+                    <table class="reference__table" id="administrator_ref__table">
+                        <thead>
+                            <tr>
+                                <th style="width: 35px;">№</th>
+                                <th>ФИО администратора</th>
+                                <th style="width: 150px;">Состояние</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Иванов Иван Иванович</td>
+                                <td>Действующая</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Карточка администратора -->
+    <div class="appdialog" id="administrator_ref__dialog">
+        <div class="appdialog__window" id="administrator_ref__dialog_window">
+            <div class="appdialog__header">
+                <h3 class="appdialog__header_title">Карточка</h3>
+                <a class="appdialog__header_close" href="#">
+                <span>&#10006;</span> </a>
+            </div>
+            <div class="appdialog__content">
+                <div id="administrator_ref__dialog_content">
+                    
+                </div>
+                    <div class="appdialog__finish_buttons">
+                        <button class="appdialog__finish_button">OK</button>
+                        <button class="appdialog__finish_button">Cancel</button>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/main.min.js"></script>
+</body>
+</html>

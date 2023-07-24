@@ -1,0 +1,66 @@
+#administrator_ref__dialog_window{
+    width: 800px;
+    height: 600px;
+}
+
+.administrator_card{
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+
+    &__content{
+        padding: 10px;
+    }
+
+    &__fields{
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 15px;
+    }
+    &__fields label{
+        grid-column: 1;
+    }
+    &__fields input{
+        grid-column: 2/13;
+        outline: none;
+    }
+    &__fields select{
+        grid-column: 2/5;
+        background-color: white;
+        border: thin solid gray;
+    }
+    &__fields .card__record{
+        grid-column: 2/13;
+    }
+    &__table_name{
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 500;
+    }
+    &__table{
+        margin-top: 20px;
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    &__table thead th, &__table tbody td{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    &__table input{
+        outline: none;
+        border: none;
+        width: 100%;
+    }
+
+    &__table select{
+        background-color: white;
+        width: 100%;
+        border: none;
+    }
+
+}
+
+
+

@@ -1,25 +1,35 @@
 @import 'reset';
 @import 'vars';
-@import 'card_is';
+@import 'fonts';
+@import 'is_card';
 @import 'reference';
-@import 'card';
-@import '_administrator_card';
-@import '_contract_card';
-@import '_organisation_card';
-@import '_organisation_ref';
+@import 'dialog.scss';
 @import '../plugins/tables_context_menu/context_menu.scss';
-
+@import '../inc/document_kind/document_kind.scss';
+@import '../inc/administrator/administrator.scss';
+@import '../inc/organisation/organisation.scss';
+@import '../inc/department/department.scss';
+@import '../inc/contract/contract.scss';
+@import '../inc/employeer/employeer.scss';
+@import '../inc/document/document.scss';
  html, body, .wrapper{
     height: 100%;
     width: 100%;
     padding: 5px;
 }
 
+
+
 .wrapper{
     position: relative;
     display: flex;
     flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: black;
 }
+
 
 
 .header{
@@ -31,6 +41,9 @@
     width: 320px;
 }
 .main_menu{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    color: gray;
     position: relative;
     margin-left: 100px;
     &__list{
@@ -38,7 +51,7 @@
     }
     &__item{
         margin: 0 10px;
-        font-size: 22px;
+        font-size: 24px;
         color: black;
         cursor: pointer;
     }
@@ -54,11 +67,11 @@
 
 
 .submenu{
-    position: absolute;  
+    position: absolute;   
     border: 2px solid gray;
     background-color: white;
     /*box-shadow: #888;*/
-    z-index: 2;
+    z-index: 3;
 
     &__item{
         margin: 5px 0;
@@ -78,24 +91,15 @@
 
 #sm_references{
     display: none;
+    left: 255px;
+    top: 25px;
 }
 
 #sm_help{
     display: none;
+    left: 430px;
+    top: 25px;
 }
-
-.main_menu__item:hover #sm_references{
-    display:flex;
-}
-
-.main_menu__item:hover #sm_help{
-    display:flex;
-}
-
-
-
-
-
 
 .user{
     display: flex;
@@ -119,7 +123,7 @@
 .main{
     display: flex;
     align-items: stretch;
-    /*height: calc(100% - 100px);*/
+    height: 100%;
 
 }
 
@@ -129,10 +133,69 @@
 
 .footer{
     display: flex;
-    position: absolute;
-    bottom: 0;
     width: 100%;
     height: 50px;
     align-items: center;
     justify-content: center;
+}
+
+/* Поле с выбором из справочника на карточке*/
+.card__record{
+    width: 100%;
+    display: flex;
+    padding: 0;
+    border: thin solid #888;
+}
+
+.card__record input{
+    border: none;
+    width: 100%;
+}
+
+
+.card_record__button{
+    border: thin dotted #888;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 23px;
+    cursor: pointer;
+}
+
+
+/* Группа документы*/
+.attacments{
+    flex: 1;
+    /*align-items: stretch;*/
+    border: thin solid black;
+    &__title{
+        font-weight: bold;
+        padding: 5px;
+        font-size: 18px;
+    }
+    &__list{
+        margin: 5px;
+    }
+    &__item{
+        margin: 5px 0;
+    }
+    &__item:hover{
+        background-color: lightblue;
+    }
+    &__link{
+        display: flex;
+        align-items: center;
+    }
+    &__ico{
+        width: 32px;
+        margin-right: 10px;
+    }
+    &__name_item{
+        color: black;
+        font-size: 18px;
+    }
+}
+
+.hide{
+    display: none;
 }

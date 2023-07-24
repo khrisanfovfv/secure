@@ -1,8 +1,12 @@
 /* Класс справочник*/
 .reference{
+    width: 100%;
     &__title{
-        font-size: 24px;
+        font-size: 20px;
+        font-weight: 400;
+        color: rgb(49, 49, 49);
         margin-bottom: 20px;
+        width: 100%;
     }
 
     &__buttons{
@@ -20,14 +24,14 @@
         padding: 5px;
         border: none;
         cursor: pointer;
-        font-size: 18px;
+        font-size: 16px;
         background-color:  $reference_action_button_background;
         color: black;
         display: flex;
         align-items: center;
     }
     &__button img{
-        width: 30px;
+        width: 25px;
         margin-right: 5px;
     }
 
@@ -37,8 +41,14 @@
     
 
     &__table{
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
         font-size: $is_table_font-size;
         width: 100%;
+    }
+    &__table th{
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
     }
     &__table, th,td{
         border: 1px solid black;
@@ -54,6 +64,26 @@
         border: 2px solid gray;
     }
 }
+
+.ref_record{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    &__button{
+        border: thin dotted #888;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 23px;
+        cursor: pointer;
+    }
+}
+
+.ref_record input{
+    border: none;
+    width: 100%;
+}
+
 
 
 .bg_blue{
