@@ -16,37 +16,37 @@
             <!-- Основное меню -->
             <div class="main_menu">
                 <ul class="main_menu__list">
-                    <li class="main_menu__item">Отчеты</li>
-                    <li class="main_menu__item">Настройки</li>
-                    <li class="main_menu__item">
-                        <p>Справочники</p>
-                        <!-- Подменю Справочники-->
-                        <div class="submenu" id="sm_references">
-                            <ul class="submenu__list">
-                                <li class="submenu__item"><a class="submenu__link"
-                                    href="is_ref__menu_administrators">Администраторы</a></li>
-                                <li class="submenu__item"><a class="submenu__link"
-                                    href="is_ref__menu_organisations">Организации</a></li>
-                                <li class="submenu__item"><a class="submenu__link"
-                                    href="sm_referrenses_departments">Отделы</a></li>
-                                <li class="submenu__item"><a class="submenu__link"
-                                    href="sm_referrenses_document_kind">Виды документов</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="main_menu__item">
-                        <p>Помощь</p>
-                        <!-- Подменю Справочники-->
-                        <div class="submenu" id="sm_help">
-                            <ul class="submenu__list">
-                                <li class="submenu__item"><a class="submenu__link"
-                                        href="sm_references_help">Справка</a></li>
-                                <li class="submenu__item"><a class="submenu__link"
-                                        href="sm_referrenses_about">О программе</a></li>
-                            </ul>
-                        </div>    
-                    </li>
+                    <li class="main_menu__item" id="main_menu__reports">Отчеты</li>
+                    <li class="main_menu__item" id="main_menu__settings">Настройки</li>
+                    <li class="main_menu__item" id="main_menu__references">Справочники</li>
+                    <li class="main_menu__item" id="main_menu__help">Помощь</li>
                 </ul>
+                <!-- Подменю Справочники -->
+                <div class="submenu" id="sm_references">
+                    <ul class="submenu__list">
+                        <li class="submenu__item"><a class="submenu__link"
+                                href="is_ref__menu_administrators">Администраторы</a></li>
+                        <li class="submenu__item"><a class="submenu__link"
+                                href="is_ref__menu_organisations">Организации</a></li>
+                        <li class="submenu__item"><a class="submenu__link" href="is_ref__menu_departments">Отделы</a>
+                        </li>
+                        <li class="submenu__item"><a class="submenu__link" href="is_ref__menu_document_kind">Виды
+                                документов</a></li>
+                        <li class="submenu__item"><a class="submenu__link" href="is_ref__menu_contract">Контракты</a>
+                        </li>
+                        <li class="submenu__item"><a class="submenu__link" href="is_ref__menu_employeers">Сотрудники</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Подменю Помощ -->
+                <div class="submenu" id="sm_help">
+                    <ul class="submenu__list">
+                        <li class="submenu__item"><a class="submenu__link"
+                                href="is_ref__menu_administrators">Справка</a></li>
+                        <li class="submenu__item"><a class="submenu__link"
+                                href="is_ref__menu_organisations">О программе</a></li>
+                    </ul>
+                </div>
             </div>
             <!-- Пользователь -->
             <div class="user">

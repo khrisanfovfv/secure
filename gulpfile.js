@@ -36,15 +36,12 @@ function styles(){
 }
 
 function watching(){
-<<<<<<< HEAD
     watch(['app/scss/*.scss','app/plugins/**/*.scss'], styles)
     watch(['app/plugins/tables_context_menu/context_menu.js','app/js/main.js'], scripts)
-=======
     watch(['app/scss/*.scss',
            'app/inc/**/*.scss'], styles)
     watch(['app/plugins/tables_context_menu/context_menu.js',
            'app/js/main.js','app/inc/**/*.js'], scripts)
->>>>>>> 1094bbb4815030341ede74a7ba63478a559a153c
     watch(['app/**/*.html']).on('change', browserSync.reload)
 }
 

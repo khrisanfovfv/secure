@@ -49,8 +49,6 @@ var Context = {
             }
                    
         });
-<<<<<<< HEAD
-=======
         $("body").on("click", function(e){
             el = Context.clickInsideElement(e);
             // Скрываем все контекстные меню
@@ -71,7 +69,6 @@ var Context = {
         $(window).on("resize",function(){
             Context.toggleMenuOff();
         })
->>>>>>> parent of 1094bbb (22.07.2023 Контрольная точка)
     }, 
 
     /**
