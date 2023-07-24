@@ -1,0 +1,65 @@
+
+/* Поле с выбором из справочника на карточке*/
+.card__record{
+    width: 100%;
+    display: flex;
+    padding: 0;
+    border: thin solid #888;
+}
+
+.card__record input{
+    border: none;
+    width: 100%;
+}
+
+
+.card_record__button{
+    border: thin dotted #888;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 23px;
+    cursor: pointer;
+}
+
+
+/* Группа документы*/
+.attacments{
+    flex: 1;
+    /*align-items: stretch;*/
+    border: thin solid black;
+    &__title{
+        font-weight: bold;
+        padding: 5px;
+        font-size: 18px;
+    }
+    &__list{
+        margin: 5px;
+    }
+    &__item{
+        margin: 5px 0;
+    }
+    &__item:hover{
+        background-color: lightblue;
+    }
+    &__link{
+        display: flex;
+        align-items: center;
+    }
+    &__ico{
+        width: 32px;
+        margin-right: 10px;
+    }
+    &__name_item{
+        color: black;
+        font-size: 18px;
+    }
+}
+
+.hide{
+    display: none;
+}
+
+
+
+

@@ -4,7 +4,7 @@
     &__title{
         font-size: 20px;
         font-weight: 400;
-        color: rgb(49, 49, 49);
+        color: rgba(64, 145, 221, 0.959);
         margin-bottom: 20px;
         width: 100%;
     }
@@ -67,15 +67,11 @@
 
 .ref_record{
     display: flex;
+    justify-content: center;
     align-items: center;
     width: 100%;
     &__button{
         border: thin dotted #888;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 23px;
-        cursor: pointer;
     }
 }
 
