@@ -13,15 +13,15 @@ $(function () {
 
     /** ================ МЕНЮ =================== */
 
-    /** Нажатие кнопки Справочники */
-    $('#main_menu__references').on('click', function(){
-        $('#sm_references').css('display','flex');
-    })
+    // /** Нажатие кнопки Справочники */
+    // $('#main_menu__references').on('click', function(){
+    //     $('#sm_references').css('display','flex');
+    // })
 
-    /** Нажатие кнопки Помощь */
-    $('#main_menu__help').on('click', function(){
-        $('#sm_help').css('display','flex');
-    })
+    // /** Нажатие кнопки Помощь */
+    // $('#main_menu__help').on('click', function(){
+    //     $('#sm_help').css('display','flex');
+    // })
 
 
 

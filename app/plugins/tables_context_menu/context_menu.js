@@ -9,6 +9,7 @@ var Context = {
     menus: ['#is_card__general_admins_context',
             '#is_card__general_developpers_context',
             '#is_card__document_context',
+            '#sm_references'
             ],
     contextMenuActive : 'context-menu--active',
     menu : '',
@@ -25,20 +26,11 @@ var Context = {
     wrapperPaddingTop : parseInt($(".wrapper").css('padding-top')),
 
     /**
-     * is_card__administrators_table_row -- #is_card__general_admins_context
-     * is_card__developpers_table_row    -- #is_card__general_developpers_context
-     * attacments                        -- #is_card__documents_context'
-         * attacments__name_item
-     */
-
-
-    /**
      * Инициализация контекстного меню
      */
     init(){     
         /*=========== Привязка событий =============*/      
         $("body").on("contextmenu", function(e) {
-            /*Context.hideAllMenus();*/
             if (Context.clickInsideElement(e)) { 
                 e.preventDefault();
                 Context.toggleMenuOff();
@@ -51,15 +43,18 @@ var Context = {
         });
         $("body").on("click", function(e){
             el = Context.clickInsideElement(e);
-            // Скрываем все контекстные меню
-            
+            // Скрываем все контекстные меню   
             switch(el.id){
                 case 'is_card__documents_open_card': Context.document_open_card(); break;
+                case 'main_menu__references' : Context.show_menu_references();break;
+                default :{
+                    var button = e.which || e.button;
+                    if ( button === 1 ) {
+                        Context.toggleMenuOff();
+                    }
+                }
             }
-            var button = e.which || e.button;
-            if ( button === 1 ) {
-                Context.toggleMenuOff();
-            }
+            
         });
         $("body").on("keyup", function(e){
             if ( e.key === 'Escape' ) {
@@ -77,11 +72,7 @@ var Context = {
     toggleMenuOn() {
         if ( Context.menuState !== 1 ) {
             Context.menuState = 1;
-            // Context.menus.forEach(element => {
-            //     $(element).css('display','none');
-            // });
-            Context.menu.css('display','block');
-            //Context.menu.addClass(contextMenuActive);   
+            Context.menu.css('display','block'); 
         }
     },
 
@@ -107,6 +98,7 @@ var Context = {
                 'is_table_row', 
                 'is_card__administrators_table_row',
                 'is_card__developpers_table_row',
+                'main_menu__item',
                 'attacments__item',
                 'context-menu__item'
             ];
@@ -139,27 +131,12 @@ var Context = {
             case 'is_card__administrators_table_row': Context.menu = $('#is_card__general_admins_context'); break;
             case 'is_card__developpers_table_row' : Context.menu = $('#is_card__general_developpers_context'); break;
             case 'attacments__item' : Context.menu = $('#is_card__document_context');break;
+            case 'main_menu__item' : Context.menu = $('#sm_references'); break;
             /*case 'attacments' : Context.menu = $('#is_card__documents_context'); break;*/
-        }
+        }    
     },
 
-    /**
-     * Скрыть все меню
-     */
-    hideAllMenus(){
-        const menus = [
-            '#is_table_context',
-            '#is_card__general_admins_context',
-            '#is_card__general_developpers_context',
-            '#is_card__document_context',
-
-        ] 
-        $.each(menus,function(index,element){
-            $(element).css('display','none');
-        })
-    },
-
-    /**
+     /**
      * Получить координаты курсора
      * @param {Событие} e 
      * @returns {Координаты курсора (x,y)}
@@ -221,13 +198,15 @@ var Context = {
             Context.menu.css('top', clickCoordsY)
         }
     },
+    /** ФУНКЦИИ ДЛЯ РАБОТЫ С ПУНКТАМИ ГЛАВНОГО МЕНЮ */
+    /** Показать меню справочники */
+    show_menu_references : function(){
+        Context.menuState = 1;
+        $('#sm_references').css('display', 'flex');
+    },
     /** ФУНКЦИИ ДЛЯ РАБОТЫ С ПУНКТАМИ КОНТЕКСТНОГО МЕНЮ ДОКУМЕНТА */
     document_open_card : function(){
         $('#is_card__document_card').load("document_card.html");
         $("#is_card__document_card").css('z-index',++z_index);
-       
     }
-
-
-
 }
