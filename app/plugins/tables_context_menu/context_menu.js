@@ -9,7 +9,8 @@ var Context = {
     menus: ['#is_card__general_admins_context',
             '#is_card__general_developpers_context',
             '#is_card__document_context',
-            '#sm_references'
+            '#sm_references',
+            '#sm_help'
             ],
     contextMenuActive : 'context-menu--active',
     menu : '',
@@ -43,10 +44,14 @@ var Context = {
         });
         $("body").on("click", function(e){
             el = Context.clickInsideElement(e);
-            // Скрываем все контекстные меню   
+            // Скрываем предыдущее контекстные меню
+            Context.toggleMenuOff();
+            // Открываем контекстное меню соответствующего элемента
             switch(el.id){
                 case 'is_card__documents_open_card': Context.document_open_card(); break;
-                case 'main_menu__references' : Context.show_menu_references();break;
+                case 'main_menu__references' : Context.show_menu_references();
+                break;
+                case 'main_menu__help' : Context.show_menu_help(); break;
                 default :{
                     var button = e.which || e.button;
                     if ( button === 1 ) {
@@ -87,6 +92,7 @@ var Context = {
             });
         }
     },
+
     /**
      * Определить элемент для которого вызвано контекстное меню 
      * @param {Событие} e 
@@ -94,6 +100,7 @@ var Context = {
      */
     clickInsideElement(e) {
             var src_el = e.srcElement || e.target;
+
             const classNames =[
                 'is_table_row', 
                 'is_card__administrators_table_row',
@@ -102,7 +109,9 @@ var Context = {
                 'attacments__item',
                 'context-menu__item'
             ];
+            
             var result = false;
+
             $.each(classNames,function(index, className) {
                 el = src_el;
                 if ( el.classList.contains(className) ) {
@@ -130,9 +139,9 @@ var Context = {
             case 'is_table_row' : Context.menu = $('#is_table_context');break;
             case 'is_card__administrators_table_row': Context.menu = $('#is_card__general_admins_context'); break;
             case 'is_card__developpers_table_row' : Context.menu = $('#is_card__general_developpers_context'); break;
-            case 'attacments__item' : Context.menu = $('#is_card__document_context');break;
-            case 'main_menu__item' : Context.menu = $('#sm_references'); break;
+            // case 'attacments__item' : Context.menu = $
             /*case 'attacments' : Context.menu = $('#is_card__documents_context'); break;*/
+            default : Context.menu = '';
         }    
     },
 
@@ -203,6 +212,10 @@ var Context = {
     show_menu_references : function(){
         Context.menuState = 1;
         $('#sm_references').css('display', 'flex');
+    },
+    show_menu_help(){
+        Context.menuState = 1;
+        $('#sm_help').css('display', 'flex');
     },
     /** ФУНКЦИИ ДЛЯ РАБОТЫ С ПУНКТАМИ КОНТЕКСТНОГО МЕНЮ ДОКУМЕНТА */
     document_open_card : function(){
