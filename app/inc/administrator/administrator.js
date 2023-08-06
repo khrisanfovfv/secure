@@ -17,6 +17,7 @@ $('#administrator_card__organisation_btn').on('click', function(){
     $('#administrator_card__dialog').css('z-index',++z_index);
     $('#administrator_card__dialog_window').css('width','1400px');
     $('#administrator_card__dialog_window').css('height','800px');
+    $('#administrator_card__dialog_title').text('Справочник организации');
     $('#administrator_card__dialog_content').load(host+'inc/reference_tables/organisation.html');
 });
 
@@ -26,6 +27,7 @@ $('#administrator_card__department_btn').on('click', function(){
     $('#administrator_card__dialog').css('z-index',++z_index);
     $('#administrator_card__dialog_window').css('width','1400px');
     $('#administrator_card__dialog_window').css('height','800px');
+    $('#administrator_card__dialog_title').text('Справочник отделы');
     $('#administrator_card__dialog_content').load(host+'inc/reference_tables/department.html');
 });
 

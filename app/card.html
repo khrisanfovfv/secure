@@ -29,16 +29,16 @@
                 <div class="submenu" id="sm_references">
                     <ul class="submenu__list">
                         <li class="submenu__item"><a class="submenu__link"
-                                href="is_ref__menu_administrators">Администраторы</a></li>
+                                href="sm_references__administrators">Администраторы</a></li>
                         <li class="submenu__item"><a class="submenu__link"
-                                href="is_ref__menu_organisations">Организации</a></li>
-                        <li class="submenu__item"><a class="submenu__link" href="is_ref__menu_departments">Отделы</a>
+                                href="sm_references__organisations">Организации</a></li>
+                        <li class="submenu__item"><a class="submenu__link" href="sm_references__departments">Отделы</a>
                         </li>
-                        <li class="submenu__item"><a class="submenu__link" href="is_ref__menu_document_kind">Виды
+                        <li class="submenu__item"><a class="submenu__link" href="sm_references__document_kind">Виды
                                 документов</a></li>
-                        <li class="submenu__item"><a class="submenu__link" href="is_ref__menu_contract">Контракты</a>
+                        <li class="submenu__item"><a class="submenu__link" href="sm_references__contract">Контракты</a>
                         </li>
-                        <li class="submenu__item"><a class="submenu__link" href="is_ref__menu_employeers">Сотрудники</a>
+                        <li class="submenu__item"><a class="submenu__link" href="sm_references__employeers">Сотрудники</a>
                         </li>
                     </ul>
                 </div>
@@ -46,12 +46,12 @@
                 <div class="submenu" id="sm_help">
                     <ul class="submenu__list">
                         <li class="submenu__item"><a class="submenu__link"
-                                href="is_ref__menu_administrators">Справка</a></li>
+                                href="sm_help__help">Справка</a></li>
                         <li class="submenu__item"><a class="submenu__link"
-                                href="is_ref__menu_organisations">О программе</a></li>
+                                href="sm_help__about">О программе</a></li>
                     </ul>
                 </div>
-            </div>
+            </div> <!-- Main menu -->
             <!-- Пользователь -->
             <div class="user">
                 <img class="user__img" src="images/user.png" alt="Пользователь">
@@ -124,19 +124,19 @@
                             <p class="reference__title">Администраторы системы</p>
                             <div class="reference__buttons">
                                 <button class="reference__button" id="is_card__administrator_create">
-                                    <img src="./images/new-document.png" alt="">
+                                    <img src="./images/create-record.svg" alt="">
                                     <p>Создать</p>
                                 </button>
                                 <button class="reference__button" id="is_card__administrator_edit">
-                                    <img src="./images/pencil.png" alt="">
+                                    <img src="./images/edit.svg" alt="">
                                     <p>Редактировать</p>
                                 </button>
                                 <button class="reference__button" id="is_card__administrator_copy">
-                                    <img src="./images/files.png" alt="">
+                                    <img src="./images/copy.svg" alt="">
                                     <p>Копировать</p>
                                 </button>
                                 <button class="reference__button" id="is_card__administrator_delete">
-                                    <img src="./images/delete.png" alt="Удалить">
+                                    <img src="./images/delete.svg" alt="Удалить">
                                     <p>Удалить</p>
                                 </button>
                                 <button class="reference__button" id="is_card__administrator_excel">
@@ -171,23 +171,23 @@
                     <p class="reference__title">Разработчик</p>
                     <div class="reference__buttons">
                         <button class="reference__button" id="is_card__developper_create">
-                            <img src="./images/new-document.png" alt="">
+                            <img src="./images/create-record.svg" alt="">
                             <p>Создать</p>
                         </button>
                         <button class="reference__button" id="is_card__developper_edit">
-                            <img src="./images/pencil.png" alt="">
+                            <img src="./images/edit.svg" alt="">
                             <p>Редактировать</p>
                         </button>
                         <button class="reference__button" id="is_card__developper_copy">
-                            <img src="./images/files.png" alt="">
+                            <img src="./images/copy.svg" alt="">
                             <p>Копировать</p>
                         </button>
                         <button class="reference__button" id="is_card__developper_delete">
-                            <img src="./images/delete.png" alt="Удалить">
+                            <img src="./images/delete.svg" alt="Удалить">
                             <p>Удалить</p>
                         </button>
                         <button class="reference__button" id="is_card__developper_excel">
-                            <img src="./images/excel.png" alt="Удалить">
+                            <img src="./images/excel.png" alt="Эл. таб.">
                             <p>Эл. таб</p>
                         </button>
                     </div>
@@ -414,6 +414,14 @@
         </footer>
     </div>
 
+    <!-- Контекстное меню пользователя -->
+    <div class="user__context" id="user__context">
+        <ul class="user__context_list">
+            <li class="user__context_item">Сменить пароль</li>
+            <li class="user__context_item">Выход</li>
+        </ul>
+    </div>
+
     <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ АДМИНИСТРАТОРЫ -->
     <div class="context-menu" id="is_card__general_admins_context">
         <ul class="context-menu__list">
@@ -465,27 +473,27 @@
     <div class="context-menu" id="is_card__document_context">
         <ul class="context-menu__list">
             <li class="context-menu__item">
-                <img src="./images/pencil.png" alt=Редактировать">
+                <img src="./images/edit.svg" alt=Редактировать">
                 <p>Редактировать</p>
             </li>
             <li class="context-menu__item">
-                <img src="./images/free-icon-read-4902274.png" alt="Читать">
+                <img src="./images/read.svg" alt="Читать">
                 <p>Читать</p>
             </li>
             <li class="context-menu__item" id="is_card__documents_open_card">
-                <img src="./images/book-open_115193.png" alt="Открыть карточку">
+                <img src="./images/OpenCard.svg" alt="Открыть карточку">
                 <p>Открыть карточку</p>
             </li>
-            <li class="context-menu__item">
-                <img src="./images/delete.png" alt="Создать версию">
+            <li class="context-menu__item" id="is_card__documents_create_version">
+                <img src="./images/create-plus.svg" alt="Создать версию">
                 <p>Создать версию</p>
             </li>
             <li class="context-menu__item">
-                <img src="./images/delete.png" alt="Удалить">
+                <img src="./images/delete.svg" alt="Удалить">
                 <p>Удалить</p>
             </li>
             <li class="context-menu__item">
-                <img src="./images/delete.png" alt="История">
+                <img src="./images/history.svg" alt="История">
                 <p>История</p>
             </li>
         </ul>
@@ -495,7 +503,7 @@
     <div class="appdialog" id="is_card__dialog">
         <div class="appdialog__window" id="is_card__dialog_window">
             <div class="appdialog__header">
-                <h3 class="appdialog__header_title">Карточка</h3>
+                <h3 class="appdialog__header_title" id="is_card__dialog_title">Карточка</h3>
                 <a class="appdialog__header_close" href="#">
                     <span>&#10006;</span> </a>
             </div>
@@ -504,6 +512,23 @@
                 <div class="appdialog__finish_buttons">
                     <button class="appdialog__finish_button">OK</button>
                     <button class="appdialog__finish_button">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Окно уведомления -->
+    <div class="appdialog" id="is_card__notif">
+        <div class="appdialog__window" id="is_card__notif_window">
+            <div class="appdialog__header">
+                <h3 class="appdialog__header_title" id="is_card__notif__header_title">Уведомление</h3>
+                <a class="appdialog__header_close" href="#">
+                    <span>&#10006;</span> </a>
+            </div>
+            <div class="appdialog__content">
+                <div id="is_card__notif_content"></div>
+                <div class="appdialog__finish_buttons">
+                    <button class="appdialog__finish_button">OK</button>
                 </div>
             </div>
         </div>

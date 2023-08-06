@@ -10,7 +10,8 @@ var Context = {
             '#is_card__general_developpers_context',
             '#is_card__document_context',
             '#sm_references',
-            '#sm_help'
+            '#sm_help',
+            '#user__context'
             ],
     contextMenuActive : 'context-menu--active',
     menu : '',
@@ -49,6 +50,7 @@ var Context = {
             // Открываем контекстное меню соответствующего элемента
             switch(el.id){
                 case 'is_card__documents_open_card': Context.document_open_card(); break;
+                case 'is_card__documents_create_version' : Context.document_open_version_card(); break; 
                 case 'main_menu__references' : Context.show_menu_references();
                 break;
                 case 'main_menu__help' : Context.show_menu_help(); break;
@@ -107,7 +109,8 @@ var Context = {
                 'is_card__developpers_table_row',
                 'main_menu__item',
                 'attacments__item',
-                'context-menu__item'
+                'context-menu__item',
+                'user'
             ];
             
             var result = false;
@@ -139,9 +142,10 @@ var Context = {
             case 'is_table_row' : Context.menu = $('#is_table_context');break;
             case 'is_card__administrators_table_row': Context.menu = $('#is_card__general_admins_context'); break;
             case 'is_card__developpers_table_row' : Context.menu = $('#is_card__general_developpers_context'); break;
-            // case 'attacments__item' : Context.menu = $
-            /*case 'attacments' : Context.menu = $('#is_card__documents_context'); break;*/
-            default : Context.menu = '';
+            case 'user' : Context.menu = $('#user__context'); break;
+            case 'attacments__item' : Context.menu = $
+            ('#is_card__document_context'); break;
+            default : Context.menu = ''
         }    
     },
 
@@ -221,5 +225,12 @@ var Context = {
     document_open_card : function(){
         $('#is_card__document_card').load("document_card.html");
         $("#is_card__document_card").css('z-index',++z_index);
+    },
+
+    document_open_version_card : function(){
+        $('#is_card__dialog').css('display', 'flex');
+        $('#is_card__dialog').css('z-index', z_index);
+        $('#is_card__dialog_content').load(host + 'inc/version/version_card.html');
+
     }
 }
