@@ -94,7 +94,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr class="organisation_ref_table_row">
                                 <td>1</td>
                                 <td>БУ ВО "ЦИТ"</td>
                                 <td style="text-align: left;">Бюджетное учреждение в сфере инфорационных технологий
@@ -102,14 +102,13 @@
                                 <td>3525249297</td>
                                 <td>160000, Вологодская Область, г. Вологда, ул. Герцена, д.27</td>
                             </tr>
-                            <tr>
+                            <tr class="organisation_ref_table_row">
                                 <td>2</td>
                                 <td>ООО "Старков Групп"</td>
                                 <td style="text-align: left;">Общество с ограниченной ответственостью "Старков Групп"
                                 </td>
                                 <td>6686117949</td>
                                 <td> 620075, Свердловская Область , г. Екатеринбург, ул. Шарташская, д. 8</td>
-                
                             </tr>
                         </tbody>
                     </table>
@@ -134,6 +133,24 @@
                 </div> 
             </div>
         </div>
+    </div>
+
+    <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ ОРГАНИЗАЦИИ -->
+    <div class="context-menu" id="organisation_ref__context">
+        <ul class="context-menu__list">
+            <li class="context-menu__item" id="organisation_ref__context_edit">
+                <img src="../../images/edit.svg" alt=Редактировать">
+                <p>Редактировать</p>
+            </li>
+            <li class="context-menu__item" id="organisation_ref__context_copy">
+                <img src="../../images/copy.svg" alt="Копировать">
+                <p>Копировать</p>
+            </li>
+            <li class="context-menu__item" id="organisation_ref__context_delete">
+                <img src="../../images/delete.svg" alt="Удалить">
+                <p>Удалить</p>
+            </li>
+        </ul>
     </div>
 
     <script src="../../js/main.min.js"></script>

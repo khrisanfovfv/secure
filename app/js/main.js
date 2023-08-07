@@ -280,4 +280,37 @@ $(function () {
             $(this).parent().css('top', dialogMove.Y + 'px');
         }
     })
+
+    /** Кнопка Начать аттестацию */
+    $('#start_certification_button').on('click', function(){
+        $('#is_card__dialog').css('display','flex');
+        $('#is_card__dialog').css('z-index', ++z_index);
+       // $('#is_card__dialog_window').css('width','1200px');
+        $('#is_card__dialog_title').text('Начать аттестацию')
+        $('#is_card__dialog_content p').text('Вы действительно хотите начать новую аттестацию?')
+        //newItem.text('')
+    })
+
+    /** Таблица Администраторы. Кнопка Создать */
+    $('#is_card__administrator_create').on('click', function(){
+        $('#is_card__dialog').css('display','flex');
+        $('#is_card__dialog').css('z-index', ++z_index);
+        $('#is_card__dialog_title').text('Карточка администратора')
+        $('#is_card__dialog_content').load(host+'inc/administrator/administrator_card.html')
+    })
+
+    /** Таблица Администраторы. Кнопка Редактировать */
+    $('#is_card__administrator_edit').on('click', function(){
+        var adminisrator_list = $('.is_card__administrators_table_row').hasClass('bg_blue');
+        if (adminisrator_list.count > 0) {
+            $('#is_card__dialog').css('display','flex');
+            $('#is_card__dialog').css('z-index', ++z_index);
+            $('#is_card__dialog_title').text('Карточка администратора')
+            $('#is_card__dialog_content').load(host+'inc/administrator/administrator_card.html')
+        } else{
+            alert('У вас не выделена запись для редактирования!')
+        }
+        
+    })
+
 })

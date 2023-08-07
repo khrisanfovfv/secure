@@ -39,12 +39,15 @@
         font-size: 24px;
     }
     &__content{
-        /*width: 100%;
-        /height: 100%;
-        /*display: flex;*/
         padding: 0 5px;
-        /*flex-direction: column;*/
         background-color: #fefefe;
+    }
+
+    &__content_text{
+        margin: 20px 0;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+        font-size: 22px;
     }
 
     &__finish_buttons{

@@ -309,7 +309,7 @@
 
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr class="is_card__contracts_table_row">
                                 <td>1</td>
                                 <td>25-36/99-22</td>
                                 <td>25.03.2022</td>
@@ -393,13 +393,13 @@
             <div class="attacments">
                 <p class="attacments__title">Документы</p>
                 <ul class="attacments__list">
-                    <li class="attacments__item">
+                    <li class="attacments__item document__item">
                         <a class="attacments__link" href="">
                             <img class="attacments__ico" src="./images/pdf.svg" alt="">
                             <p class="attacments__name_item">Аттестат соответствия</p>
                         </a>
                     </li>
-                    <li class="attacments__item">
+                    <li class="attacments__item document__item">
                         <a class="attacments__link" href="">
                             <img class="attacments__ico" src="./images/ms-word.svg" alt="">
                             <p class="attacments__name_item">Технический паспорт</p>
@@ -426,7 +426,7 @@
     <div class="context-menu" id="is_card__general_admins_context">
         <ul class="context-menu__list">
             <li class="context-menu__item">
-                <img src="./images/pencil.png" alt=Редактировать">
+                <img src="./images/edit.svg" alt=Редактировать">
                 <p>Редактировать</p>
             </li>
             <li class="context-menu__item">
@@ -442,6 +442,24 @@
 
     <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ РАЗРАБОТЧИКИ -->
     <div class="context-menu" id="is_card__general_developpers_context">
+        <ul class="context-menu__list">
+            <li class="context-menu__item">
+                <img src="./images/pencil.png" alt=Редактировать">
+                <p>Редактировать</p>
+            </li>
+            <li class="context-menu__item">
+                <img src="./images/files.png" alt="Копировать">
+                <p>Копировать</p>
+            </li>
+            <li class="context-menu__item">
+                <img src="./images/delete.png" alt="Удалить">
+                <p>Удалить</p>
+            </li>
+        </ul>
+    </div>
+
+    <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ КОНТРАКТЫ -->
+    <div class="context-menu" id="is_card__contracts_context">
         <ul class="context-menu__list">
             <li class="context-menu__item">
                 <img src="./images/pencil.png" alt=Редактировать">
@@ -499,7 +517,7 @@
         </ul>
     </div>
 
-    <!-- Диалоговое окно справочника-->
+    <!-- Диалоговое окно -->
     <div class="appdialog" id="is_card__dialog">
         <div class="appdialog__window" id="is_card__dialog_window">
             <div class="appdialog__header">
@@ -508,7 +526,10 @@
                     <span>&#10006;</span> </a>
             </div>
             <div class="appdialog__content">
-                <div id="is_card__dialog_content"></div>
+                <div id="is_card__dialog_content">
+                    <!-- P - Для диалогоых окон -->
+                    <p class="appdialog__content_text"></p> 
+                </div>
                 <div class="appdialog__finish_buttons">
                     <button class="appdialog__finish_button">OK</button>
                     <button class="appdialog__finish_button">Cancel</button>

@@ -94,14 +94,14 @@
                         </thead>
 
                         <tbody>
-                            <tr>
+                            <tr class="department_ref_table_row">
                                 <td>1</td>
                                 <td>Отдел защиты информации</td>
                                 <td style="text-align: left;">Бюджетное учреждение в сфере инфорационных технологий
                                     Вологодской облапсти “Центр информационных технологий”</td>
                                 <td>Действующая</td>
                             </tr>
-                            <tr>
+                            <tr class="department_ref_table_row">
                                 <td>2</td>
                                 <td>Отдел развития</td>
                                 <td style="text-align: left;">Бюджетное учреждение в сфере инфорационных технологий
@@ -130,6 +130,24 @@
                 </div> 
             </div>
         </div>
+    </div>
+
+    <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ ОТДЕЛЫ -->
+    <div class="context-menu" id="department_ref__context">
+        <ul class="context-menu__list">
+            <li class="context-menu__item" id="department_ref__context_edit">
+                <img src="../../images/edit.svg" alt=Редактировать">
+                <p>Редактировать</p>
+            </li>
+            <li class="context-menu__item" id="department_ref__context_copy">
+                <img src="../../images/copy.svg" alt="Копировать">
+                <p>Копировать</p>
+            </li>
+            <li class="context-menu__item" id="department_ref__context_delete">
+                <img src="../../images/delete.svg" alt="Удалить">
+                <p>Удалить</p>
+            </li>
+        </ul>
     </div>
 
     <script src="../../js/main.min.js"></script>
