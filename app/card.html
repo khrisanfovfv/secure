@@ -38,17 +38,18 @@
                                 документов</a></li>
                         <li class="submenu__item"><a class="submenu__link" href="sm_references__contract">Контракты</a>
                         </li>
-                        <li class="submenu__item"><a class="submenu__link" href="sm_references__employeers">Сотрудники</a>
+                        <li class="submenu__item"><a class="submenu__link"
+                                href="sm_references__employeers">Сотрудники</a>
+                        </li>
+                        <li class="submenu__item"><a class="submenu__link" href="sm_references__documents">Документы</a>
                         </li>
                     </ul>
                 </div>
                 <!-- Подменю Помощ -->
                 <div class="submenu" id="sm_help">
                     <ul class="submenu__list">
-                        <li class="submenu__item"><a class="submenu__link"
-                                href="sm_help__help">Справка</a></li>
-                        <li class="submenu__item"><a class="submenu__link"
-                                href="sm_help__about">О программе</a></li>
+                        <li class="submenu__item"><a class="submenu__link" href="sm_help__help">Справка</a></li>
+                        <li class="submenu__item"><a class="submenu__link" href="sm_help__about">О программе</a></li>
                     </ul>
                 </div>
             </div> <!-- Main menu -->
@@ -70,7 +71,7 @@
                     <li class="main_tabs__item is_card__tabs_item"><a href="#is_card__contracts">Контракты</a> </li>
                     <li class="main_tabs__item is_card__tabs_item"><a href="#is_card__archive">Архив</a> </li>
                 </ul>
-                
+
                 <!-- ВКЛАДКА ОБЩАЯ -->
                 <section class="is_card__general" id="is_card__general">
                     <!-- Объединяет поля карточки и Таблицу с администраторами-->
@@ -146,17 +147,20 @@
                             </div>
                             <table class="reference__table" id="is_card__administrators_table">
                                 <thead>
+                                    <th class="hide">Ид</th>
                                     <th style="width: 35px;">№</th>
                                     <th>ФИО</th>
                                     <th>Тип</th>
                                 </thead>
                                 <tbody>
                                     <tr class="is_card__administrators_table_row">
+                                        <td class="id hide">1</td>
                                         <td>1</td>
                                         <td>Иванов Иван Иванович</td>
                                         <td>Основной</td>
                                     </tr>
                                     <tr class="is_card__administrators_table_row">
+                                        <td class="id hide">2</td>
                                         <td>2</td>
                                         <td>Петров Петр Петрович</td>
                                         <td>Замещающий</td>
@@ -194,6 +198,7 @@
                     <table class="reference__table" id="is_card__developpers_table">
                         <thead>
                             <tr>
+                                <th class="hide">Ид</th>
                                 <th style="width: 35px;">№</th>
                                 <th>Полное наименование</th>
                                 <th style="width: 130px;">Краткое наименование</th>
@@ -206,6 +211,7 @@
                         </thead>
                         <tbody>
                             <tr class="is_card__developpers_table_row">
+                                <td class="id hide">1</td>
                                 <td>1</td>
                                 <td>ОАО Северная сбытовая компания Вологодской области</td>
                                 <td>ОАО СБК Вологда</td>
@@ -245,27 +251,31 @@
                         </button>
                     </div>
                     <table class="is_card__remarks_table">
-                        <tr>
-                            <th style="width: 35px;">№</th>
-                            <th style="width: 130px;">Дата замечания</th>
-                            <th style="width: 130px;">Автор замечания</th>
-                            <th>Содержание амечания</th>
-                            <th style="width: 130px;">Устранено</th>
-                            <th style="width: 130px;">Дата устранения</th>
-                            <th style="width: 130px;">Кем устранено</th>
-                        </tr>
-                        <tr>
-                            <td contenteditable>1</td>
-                            <td contenteditable><input type="date"></td>
-                            <td contenteditable>Смирнов А.В.</td>
-                            <td contenteditable>Нет Антивируса</td>
-                            <td><select>
-                                    <option value="yes">Да</option>
-                                    <option value="no">Нет</option>
-                                </select></td>
-                            <td contenteditable><input type="date"></td>
-                            <td contenteditable>Петров А.Г.</td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th class="hide">Ид</th>
+                                <th style="width: 35px;">№</th>
+                                <th style="width: 130px;">Дата замечания</th>
+                                <th style="width: 130px;">Автор замечания</th>
+                                <th>Содержание амечания</th>
+                                <th style="width: 130px;">Устранено</th>
+                                <th style="width: 130px;">Дата устранения</th>
+                                <th style="width: 130px;">Кем устранено</th>
+                            </tr>
+                            <tr>
+                                <td class="id hide">1</td>
+                                <td contenteditable>1</td>
+                                <td contenteditable><input type="date"></td>
+                                <td contenteditable>Смирнов А.В.</td>
+                                <td contenteditable>Нет Антивируса</td>
+                                <td><select>
+                                        <option value="yes">Да</option>
+                                        <option value="no">Нет</option>
+                                    </select></td>
+                                <td contenteditable><input type="date"></td>
+                                <td contenteditable>Петров А.Г.</td>
+                            </tr>
+                        </thead>
                     </table>
                 </section>
 
@@ -297,6 +307,7 @@
                     <table class="reference__table" ID="is_card__contracts_table">
                         <thead>
                             <tr>
+                                <th class="hide">Ид</th>
                                 <th style="width:35px">№</th>
                                 <th style="width:130px">Номер</th>
                                 <th style="width:80px">Дата заключения</th>
@@ -310,6 +321,7 @@
                         </thead>
                         <tbody>
                             <tr class="is_card__contracts_table_row">
+                                <td class="id hide"></td>
                                 <td>1</td>
                                 <td>25-36/99-22</td>
                                 <td>25.03.2022</td>
@@ -353,6 +365,7 @@
                     <table class="reference__table" id="is_card__archive_IS_table">
                         <thead>
                             <tr>
+                                <th class="hide">Ид</th>
                                 <th style="width: 35px;">№</th>
                                 <th style="width: 200px;">Краткое наименование</th>
                                 <th>Полн. наименование</th>
@@ -365,6 +378,7 @@
 
                         <tbody>
                             <tr class="is_table_row">
+                                <td class="id hide">1</td>
                                 <td>1</td>
                                 <td>АСЭД</td>
                                 <td style="text-align: left;">Автоматизированная система электронного документооборота
@@ -528,7 +542,7 @@
             <div class="appdialog__content">
                 <div id="is_card__dialog_content">
                     <!-- P - Для диалогоых окон -->
-                    <p class="appdialog__content_text"></p> 
+                    <p class="appdialog__content_text"></p>
                 </div>
                 <div class="appdialog__finish_buttons">
                     <button class="appdialog__finish_button">OK</button>

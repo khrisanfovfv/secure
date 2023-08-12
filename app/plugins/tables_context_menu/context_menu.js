@@ -16,6 +16,7 @@ var Context = {
             '#document_kind_ref__context',
             '#contract_ref__context',
             '#employeer_ref__context',
+            '#document_ref__context',
             '#sm_references',
             '#sm_help',
             '#user__context'
@@ -121,6 +122,7 @@ var Context = {
                 'doc_kind_table_row',
                 'contract_ref_table_row',
                 'employeer_ref_table_row',
+                'document_ref__table_row',
                 'main_menu__item',
                 'document__item',
                 'context-menu__item',
@@ -162,11 +164,12 @@ var Context = {
             case 'department_ref_table_row' : Context.menu = $('#department_ref__context'); break;
             case 'doc_kind_table_row' : Context.menu = $('#document_kind_ref__context'); break;
             case 'contract_ref_table_row' : Context.menu = $ ('#contract_ref__context'); break;
-            case 'employeer_ref_table_row' : Context.menu = $('#employeer_ref__context'); break
+            case 'employeer_ref_table_row' : Context.menu = $('#employeer_ref__context'); break;
+            case 'document_ref__table_row' : Context.menu = $('#document_ref__context'); break;
             case 'user' : Context.menu = $('#user__context'); break;
             case 'document__item' : Context.menu = $
             ('#is_card__document_context'); break;
-            default : Context.menu = ''
+            default : Context.menu = '';
         }    
     },
 

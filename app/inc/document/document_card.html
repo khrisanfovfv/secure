@@ -60,21 +60,41 @@
             <section class="document_card__send_list hide" id="document_card__send_list">
                 <table class="document_card__send_table">
                     <thead>
-                        <th>№</th>
-                        <th>Корреспондент</th>
-                        <th>Дата направления</th>
+                        <tr>
+                            <th style="display: none;">Ид</th>
+                            <th>№</th>
+                            <th>Корреспондент</th>
+                            <th>Дата направления</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        <td style="width: 35px;">1</td>
-                        <td>
-                            <div class="card__record">
-                                <input type="text" value='Федеральная служба по техническому и экспортному контролю'>
-                                <div class="refRecord__button" id="document_card__send_list_correspondent">
-                                    &#183;&#183;&#183;</div>
-                            </div>
-                        </td>
-                        <td style="width: 150px;"><input type="date" name="document_card__send_list_send_date"
-                                id="document_card__send_list_send_date"></td>
+                        <tr>
+                            <td class="id" style="display: none;">1</td>
+                            <td style="width: 35px;">1</td>
+                            <td>
+                                <div class="card__record">
+                                    <input type="text"
+                                        value='Федеральная служба по техническому и экспортному контролю'>
+                                    <div class="refRecord__button document_card__send_list_correspondent">
+                                        &#183;&#183;&#183;</div>
+                                </div>
+                            </td>
+                            <td style="width: 150px;"><input type="date" class="document_card__send_list_send_date"></td>
+                        </tr>
+                        <tr>
+                            <td class="id" style="display: none;">2</td>
+                            <td style="width: 35px;">1</td>
+                            <td>
+                                <div class="card__record">
+                                    <input type="text"
+                                        value='Федеральная служба безопасности по Вологодской области'>
+                                    <div class="refRecord__button document_card__send_list_correspondent">
+                                        &#183;&#183;&#183;</div>
+                                </div>
+                            </td>
+                            <td style="width: 150px;"><input type="date" class="document_card__send_list_send_date"></td>
+                        </tr>
+
                     </tbody>
                 </table>
             </section>
@@ -82,24 +102,24 @@
 
     </div>
 
-    <!-- ДОКУМЕНТЫ -->
+    <!-- Версии документов -->
     <div class="attacments">
         <p class="attacments__title">Версии</p>
         <ul class="attacments__list">
             <li class="attacments__item version_item">
                 <a class="attacments__link" href="">
-                    <img class="attacments__ico" src="./images/pdf.svg" alt="">
+                    <img class="attacments__ico" src="../../images/pdf.svg" alt="">
                     <p class="attacments__name_item">Версия 2</p>
                 </a>
             </li>
             <li class="attacments__item version_item">
                 <a class="attacments__link" href="">
-                    <img class="attacments__ico" src="./images/ms-word.svg" alt="">
+                    <img class="attacments__ico" src="../../images/ms-word.svg" alt="">
                     <p class="attacments__name_item">Версия 1</p>
                 </a>
             </li>
         </ul>
     </div>
 
-    <script src="./js/main.min.js"></script>
+    <script src="../../js/main.min.js"></script>
 </div>

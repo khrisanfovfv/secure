@@ -36,6 +36,8 @@
                         </li>
                         <li class="submenu__item"><a class="submenu__link" href="sm_references__employeers">Сотрудники</a>
                         </li>
+                        <li class="submenu__item"><a class="submenu__link" href="sm_references__documents">Документы</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- Подменю Помощ -->
@@ -83,6 +85,7 @@
                     <table class="reference__table" id="doc_kind_table">
                         <thead>
                             <tr>
+                                <th class="hide"></th>Ид</th>
                                 <th style="width: 35px;">№</th>
                                 <th>Вид документа</th>
                                 <th style="width: 200px;">Состояние</th>
@@ -90,16 +93,19 @@
                         </thead>
                         <tbody>
                             <tr class="doc_kind_table_row">
+                                <td class="id hide">1</td>
                                 <td>1</td>
                                 <td>технический паспорт ИС</td>
                                 <td>Действующая</td>
                             </tr>
                             <tr class="doc_kind_table_row">
+                                <td class="id hide">2</td>
                                 <td>2</td>
                                 <td>акт классификации ИС</td>
                                 <td>Действующая</td>
                             </tr>
                             <tr class="doc_kind_table_row">
+                                <td class="id hide">3</td>
                                 <td>3</td>
                                 <td>акт категорирования ИС</td>
                                 <td>Не действующая</td>
@@ -110,7 +116,25 @@
             </div>
         </main>
     </div>
-   
+    
+    <!-- Карточка Вид документа -->
+    <div class="appdialog" id="doc_kind_ref__dialog">
+        <div class="appdialog__window" id="doc_kind_ref__dialog_window">
+            <div class="appdialog__header">
+                <h3 class="appdialog__header_title">Карточка Вид документа</h3>
+                <a class="appdialog__header_close" href="#">
+                <span>&#10006;</span> </a>
+            </div>
+            <div class="appdialog__content">
+                <div id="doc_kind_ref__dialog_content"></div>
+                    <div class="appdialog__finish_buttons">
+                        <button class="appdialog__finish_button">OK</button>
+                        <button class="appdialog__finish_button">Cancel</button>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
 
     <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ ВИДЫ ДОКУМЕНТОВ -->
     <div class="context-menu" id="document_kind_ref__context">

@@ -72,11 +72,14 @@
         margin-top: 20px;
         width: 100%;
         font-size: $is_table_font-size;
+        overflow: auto;
+        border-collapse: collapse;
     }
 
-    &__send_table, th,td{
+    &__send_table th,
+    &__send_table td{
         border: thin solid black;
-        border-collapse: collapse;
+        
     }
     &__send_table td{
         text-align: center;

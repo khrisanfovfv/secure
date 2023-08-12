@@ -6,8 +6,9 @@ $('#doc_kind_table tbody tr').on('click', function(){
 
 /** Двойной клик на строку таблицы */
 $('#doc_kind_table tbody tr').on('dblclick', function(){
-    $('#document_kind_card').load("document_kind_card.html");
-    $("#document_kind_card").css('z-index',++z_index);
+    $('#doc_kind_ref__dialog').css('display','flex')
+    $("#doc_kind_ref__dialog").css('z-index',++z_index);
+    $('#doc_kind_ref__dialog_content').load(host+"inc/document_kind/document_kind_card.html");
 })
 
 $('#document_kind__OK').on('click', function(){

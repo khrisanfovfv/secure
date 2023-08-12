@@ -23,31 +23,35 @@
         <p class="administrator_card__table_name">Информационные системы</p>
         <table class="administrator_card__table">
             <thead>
-                <th style="width: 35px;">№</th>
-                <th>Наименование</th>
-                <th style="width: 150px;">Тип</th>
-                <th style="width: 150px;">Дата назначения</th>
-                <th style="width: 150px;">Дата прекращения</th>
+                <tr>
+                    <th style="display: none;">Ид</th>
+                    <th style="width: 35px;">№</th>
+                    <th>Наименование</th>
+                    <th style="width: 150px;">Тип</th>
+                    <th style="width: 150px;">Дата назначения</th>
+                    <th style="width: 150px;">Дата прекращения</th>
+                </tr>
             </thead>
             <tbody>
-                <td>1</td>
-                <td>
-                    <div class="ref_record">
-                        <input type="text"
+                <tr>
+                    <td style="display: none;">1</td>
+                    <td>1</td>
+                    <td>
+                        <div class="ref_record">
+                            <input type="text"
                             value="Автоматизированная система электронного документооборота органов исполнительной государственной власти Вологодской области">
-                        <div class="ref_record__button">&#183;&#183;&#183;</div>
-                    </div>
-                </td>
-                <td>
-                    <select>
-                        <option value="active">Основной</option>
-                        <option value="active">Замещающий</option>
-                    </select>
-                </td>
-                <td><input type="date"></td>
-                <td><input type="date"></td>
-
-
+                            <div class="ref_record__button">&#183;&#183;&#183;</div>
+                        </div>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="active">Основной</option>
+                            <option value="active">Замещающий</option>
+                        </select>
+                    </td>
+                    <td><input type="date"></td>
+                    <td><input type="date"></td>
+                </tr>
             </tbody>
         </table>
 

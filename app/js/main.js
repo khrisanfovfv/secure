@@ -48,6 +48,12 @@ $(function () {
                     href:host + "inc/employeer/employeer_ref.html"
                 })[0].click();
             }; break;
+            case 'sm_references__documents' :{
+                $("<a>").prop({
+                    target: "_blank",
+                    href:host + "inc/document/document_ref.html"
+                })[0].click();
+            }; break;
             case 'sm_help__about' : {
                 $('#is_card__notif').css('display','flex');
                 $('#is_card__notif').css('z-index', ++z_index);

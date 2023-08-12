@@ -18,6 +18,7 @@ function scripts(){
         'app/inc/department/department.js',
         'app/inc/contract/contract.js',
         'app/inc/employeer/employeer.js',
+        'app/inc/document/documents.js',
         'app/js/main.js'
     ])
     .pipe(concat('main.min.js'))
