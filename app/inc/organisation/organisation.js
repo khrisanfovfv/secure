@@ -1,8 +1,9 @@
 
 /** Одиночный клик на строку таблицы */
 $('#organisation_ref_table tbody tr').on('click', function(){
-    $('#organisation_ref_table tbody tr').removeClass('bg_blue');
-    $(this).addClass('bg_blue');
+    reference.highlight($(this))
+    // $('#organisation_ref_table tbody tr').removeClass('bg_blue');
+    // $(this).addClass('bg_blue');
 })
 
 /** Двойной клик на строку таблицы */

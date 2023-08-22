@@ -12,6 +12,7 @@ function scripts(){
         'app/plugins/jquery-ui-1.13.2/external/jquery/jquery.js',
         /*'app/plugins/jquery-ui-1.13.2/jquery-ui.js',*/
         'app/plugins/tables_context_menu/context_menu.js',
+        'app/js/reference.js',
         'app/inc/document_kind/document_kind.js',
         'app/inc/administrator/administrator.js',
         'app/inc/organisation/organisation.js',
@@ -42,7 +43,7 @@ function watching(){
     watch(['app/scss/*.scss',
            'app/inc/**/*.scss'], styles)
     watch(['app/plugins/tables_context_menu/context_menu.js',
-           'app/js/main.js','app/inc/**/*.js'], scripts)
+           'app/js/main.js','app/js/reference.js','app/inc/**/*.js'], scripts)
     watch(['app/**/*.html']).on('change', browserSync.reload)
 }
 
