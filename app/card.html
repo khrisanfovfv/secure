@@ -120,11 +120,6 @@
                                 эксплуатацию</label>
                             <input type="date" id="is_card__commissioningDate" name="is_card__commissioningDate"
                                 size="40"><br>
-                            <label for="is_card__developper">Разработчик</label>
-                            <div class="card__record" id="is_card__developper" name="is_card__developper"> 
-                                <input type="text" value='ООО  “Директум”'>
-                                <div class="card_record__button" id="is_card__organisation_btn">&#183;&#183;&#183;</div>
-                            </div>
                         </div>
 
 
@@ -132,7 +127,7 @@
 
 
                     <!-- ТАБЛИЦА С РАЗРАБОТЧИКАМИ -->
-                    <!--p class="reference__title">Разработчик</p>
+                    <p class="reference__title">Разработчик</p>
                     <div class="reference__buttons">
                         <button class="reference__button" id="is_card__developper_create">
                             <img src="./images/create-record.svg" alt="">
@@ -161,29 +156,24 @@
                                 <th class="hide">Ид</th>
                                 <th style="width: 35px;">№</th>
                                 <th>Полное наименование</th>
-                                <th style="width: 130px;">Краткое наименование</th>
-                                <th style="width: 130px;">ИНН</th>
-                                <th style="width: 260px;">Юридический адрес</th>
-                                <th style="width: 130px;">Адрес эл. почты</th>
-                                <th style="width: 130px;">Руководитель</th>
-                                <th style="width: 130px;">Должность руководителя</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="is_card__developpers_table_row">
                                 <td class="id hide">1</td>
                                 <td>1</td>
-                                <td>ОАО Северная сбытовая компания Вологодской области</td>
-                                <td>ОАО СБК Вологда</td>
-                                <td>7736317095</td>
-                                <td>160000, Вологодская Область , г. Вологда, ул. Зосимовская, д. 49</td>
-                                <td>info@sevesk.ru</td>
-                                <td>Луцкович Виктор Евгеньевич</td>
-                                <td>Генеральный директор</td>
+                                <td>
+                                    <div class="ref_record">
+                                        <input type="text"
+                                        value="Общество с ограниченной ответственноостью &laquo;Директум&raquo;">
+                                        <div class="ref_record__button">&#183;&#183;&#183;</div>
+                                    </div>
+                                </td>
+                                
                             </tr>
 
                         </tbody>
-                    </table-->
+                    </table>
                 </section>
 
                 <!-- ВКЛАДКА АДМИНИСТРАТОРЫ -->

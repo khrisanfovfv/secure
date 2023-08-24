@@ -59,6 +59,10 @@
     &__general_fields input[type=checkbox]{
         grid-column: 2;
     }
+
+    &__developpers_table_row{
+        cursor: pointer;
+    }
     
     /* Вкладка - Замечания по аттестации */
     &__remarks{
@@ -230,6 +234,8 @@
     width: 100%;
     background-color: white;
 }
+
+
 
 #is_card__developper{
     grid-column: 2/25;

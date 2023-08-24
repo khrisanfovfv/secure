@@ -172,6 +172,15 @@ $(function () {
         $(tab).removeClass('hide');
     })
 
+    $('.is_card__developpers_table_row').on('dblclick', function(){
+        $('#is_card__dialog').css('display','flex');
+        $('#is_card__dialog').css('z-index', ++z_index);
+        $('#is_card__dialog_window').css('width','800px');
+        $('#is_card__dialog_title').text('Карточка организации')
+        $('#is_card__dialog_content').load(host+'inc/organisation/organisation_card.html');
+    })
+
+
     /** Одиночный клик на таблицу Администраторы ИС */
     $('#is_card__administrators_table tbody tr').on('click', function(){
         reference.highlight($(this));
