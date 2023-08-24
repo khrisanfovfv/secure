@@ -3,11 +3,16 @@ var informationSystem = {
     cardPath : 'inc/administrator/administrator_card.html'
 }
 
+
+
 /** Инициализация */
 z_index=3;
-host='http://192.168.1.13:3000/'
+host='http://192.168.1.13:3000/';
+
 
 $(function () {
+
+    //alert(host)
     /** Инициализация контекстного меню */
     var context = Object.create(Context);
     context.init();
@@ -131,7 +136,7 @@ $(function () {
     /**=========== Выбор вкладок на карточке ИС =====================*/
     $('.is_card__tabs_item').on('click',function(){
         // Список имеющихся вкладок
-        var card_tabs = ['general','remarks','contracts','archive'];
+        var card_tabs = ['general','remarks','administrators','contracts','archive'];
 
         // Устанавливаем класс main_tabs__highlighted у выбранной вкладки
         $('.main_tabs__item').removeClass('main_tabs__highlighted');
@@ -176,31 +181,38 @@ $(function () {
     $('#is_card__administrators_table tbody tr').on('dblclick', function(){
         var rows = '#is_card__administrators_table tbody tr';
         var title = 'Карточка администратора';
-        var size ={ width : 800, height : 600 }
-        
+        var size ={ width : 800, height : 600 }  
         reference.editRecord(informationSystem.prefix, rows, title, informationSystem.cardPath, size);  
     })
 
-    /** Одиночный клик на таблицу разработчики */
-    $('#is_card__developpers_table tbody tr').on('click', function(){
-        reference.highlight($(this));
-    });
-
-
-    /** Двойной клик на строку в таблице Организации */
-    $('#is_card__developpers_table tbody tr').on('dblclick', function(){
-        var rows = '#is_card__developpers_table tbody tr';
-        var title = 'Карточка организации';
-        var cardPath = 'inc/organisation/organisation_card.html';
-        var size ={ width : 800, height : 600 }
-
-        reference.editRecord(informationSystem.prefix, rows, title, cardPath, size);
-        /*$('#is_card__dialog').css('display','flex');
+    $('#is_card__organisation_btn').on('click', function(){
+        $('#is_card__dialog').css('display','flex');
         $('#is_card__dialog').css('z-index', ++z_index);
         $('#is_card__dialog_window').css('width','800px');
         $('#is_card__dialog_title').text('Карточка организации')
-        $('#is_card__dialog_content').load(host+'inc/organisation/organisation_card.html')*/
+        $('#is_card__dialog_content').load(host+'inc/organisation/organisation_card.html')
     })
+
+    // /** Одиночный клик на таблицу разработчики */
+    // $('#is_card__developpers_table tbody tr').on('click', function(){
+    //     reference.highlight($(this));
+    // });
+
+
+    // /** Двойной клик на строку в таблице Организации */
+    // $('#is_card__developpers_table tbody tr').on('dblclick', function(){
+    //     var rows = '#is_card__developpers_table tbody tr';
+    //     var title = 'Карточка организации';
+    //     var cardPath = 'inc/organisation/organisation_card.html';
+    //     var size ={ width : 800, height : 600 }
+
+    //     reference.editRecord(informationSystem.prefix, rows, title, cardPath, size);
+    //     /*$('#is_card__dialog').css('display','flex');
+    //     $('#is_card__dialog').css('z-index', ++z_index);
+    //     $('#is_card__dialog_window').css('width','800px');
+    //     $('#is_card__dialog_title').text('Карточка организации')
+    //     $('#is_card__dialog_content').load(host+'inc/organisation/organisation_card.html')*/
+    // })
 
     /** Одиночный клик на таблицу Контракты */
     $('#is_card__contracts_table tbody tr').on('click', function(){

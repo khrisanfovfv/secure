@@ -31,7 +31,7 @@ var reference = {
      * @param {string} title 
      * @param {string} cardPath 
      */
-    editRecord(prefix, rows, title, cardPath){
+    editRecord(prefix, rows, title, cardPath, size){
         var id = 0;
         var hasElement = false;
         $(rows).each(function(index, element){
@@ -45,7 +45,8 @@ var reference = {
         if (hasElement) {
             $(prefix + '__dialog').css('display','flex');
             $(prefix + '__dialog').css('z-index', ++z_index);
-            $(prefix + '__notif_window').css('width', '500px');
+            $(prefix + '__dialog_window').css('width',size.width +'px');
+            $(prefix + '__dialog_window').css('height',size.height +'px');
             $(prefix + '__dialog_title').text(title + ' ' + id)
             $(prefix + '__dialog_content').load(host + cardPath)
         } else{

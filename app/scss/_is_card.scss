@@ -7,6 +7,9 @@
     flex: 5;
     align-items: stretch;
     margin-right: 10px;
+    &__content{
+        width: 800px;
+    }
     /* Вкладка - Общая */
     &__general{
         margin-top: -1px;
@@ -227,6 +230,18 @@
     width: 100%;
     background-color: white;
 }
+
+#is_card__developper{
+    grid-column: 2/25;
+}
+
+#is_card__developper input{
+    width: 100%;
+    border: none;
+    outline: none;
+
+}
+
 
 
 
