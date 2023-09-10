@@ -6,6 +6,7 @@
         <!-- Организация -->
         <label for="administrator_card__organisation">Организация</label>
         <div class="card__record">
+            <p class="id hide">1</p>
             <input type="text" id="administrator_card__organisation" name="administrator_card__organisation"
                 value='Бюджетное учреждение в сфере инфорационных технологий Вологодской облапсти “Центр информационных технологий”'>
             <div class="card_record__button" id="administrator_card__organisation_btn">&#183;&#183;&#183;</div>
@@ -13,6 +14,7 @@
         <!-- Отдел -->
         <label for="administrator_card__department">Отдел</label>
         <div class="card__record">
+            <p class="id hide">1</p>
             <input type="text" id="administrator_card__department" name="administrator_card__department"
                 value='Отдел защиты информации'>
             <div class="card_record__button" id="administrator_card__department_btn">&#183;&#183;&#183;</div>
@@ -22,9 +24,9 @@
     <div class="administrator_card__tables">
         <p class="administrator_card__table_name">Информационные системы</p>
         <table class="administrator_card__table">
-            <thead>
+            <thead> 
                 <tr>
-                    <th style="display: none;">Ид</th>
+                    <th class="hide">Ид</th>
                     <th style="width: 35px;">№</th>
                     <th>Наименование</th>
                     <th style="width: 150px;">Тип</th>
@@ -33,8 +35,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td style="display: none;">1</td>
+                <tr class="administrator_card__table_row">
+                    <td class="id hide">1</td>
                     <td>1</td>
                     <td>
                         <div class="ref_record">

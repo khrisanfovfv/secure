@@ -6,6 +6,23 @@ const browserSync = require('browser-sync').create();
 const autoprefixer = require('gulp-autoprefixer');
 const clean = require('gulp-clean');
 
+const destFolder = 'C:/OpenServer/domains/secure/wp-content/themes/cit_secure/';
+
+function php(){
+    return src([
+       'app/*.php' 
+    ])
+    .pipe(dest(destFolder))
+}
+
+function reference(){
+    return src([
+        'app/reference/*.php' 
+     ])
+     .pipe(dest(destFolder + '/reference'))
+}
+
+
 function scripts(){
     return src([
         /*'node_modules/jquery/dist/jquery.js',*/
@@ -24,7 +41,7 @@ function scripts(){
     ])
     .pipe(concat('main.min.js'))
     .pipe(uglify())
-    .pipe(dest('app/js/'))
+    .pipe(dest(destFolder + 'js/'))
     .pipe(browserSync.stream())
 }
 
@@ -33,26 +50,29 @@ function styles(){
     .pipe(autoprefixer({overrideBrowserslist: ['last 10 version']}))
     .pipe(concat('style.min.css'))
     .pipe(scss({outputStyle: 'compressed'}))
-    .pipe(dest('app/css'))
+    .pipe(dest(destFolder + '/css'))
     .pipe(browserSync.stream()) 
 }
 
 function watching(){
     watch(['app/scss/*.scss','app/plugins/**/*.scss'], styles)
     watch(['app/plugins/tables_context_menu/context_menu.js','app/js/main.js'], scripts)
-    watch(['app/scss/*.scss',
-           'app/inc/**/*.scss'], styles)
+    watch(['app/scss/*.scss', 'app/inc/**/*.scss'], styles)
     watch(['app/plugins/tables_context_menu/context_menu.js',
-           'app/js/main.js','app/js/reference.js','app/inc/**/*.js'], scripts)
-    watch(['app/**/*.html']).on('change', browserSync.reload)
+        'app/js/main.js','app/js/reference.js','app/inc/**/*.js'], scripts)
+    //watch(['app/**/*.html', 'app/**/*.php']).on('change', browserSync.reload)
+    watch(['app/**/*.php'], php).on('change', browserSync.reload)
 }
 
 function browsersync(){
     browserSync.init({
-        server: {
-            baseDir: "app/"
-        }
+        proxy: {
+            target: 'http://secure',
+            ws: true
+          },
+          reloadDelay: 2000
     });
+
 }
 
 function cleanDist(){
@@ -71,9 +91,12 @@ function building(){
 
 exports.styles = styles;
 exports.scripts = scripts;
+exports.php = php;
+exports.reference = reference;
 
 exports.watching = watching;
 exports.browsersync = browsersync;
 exports.build = series(cleanDist, building);
 
-exports.default = parallel(styles, scripts, browsersync, watching);
+//exports.default = parallel(styles, scripts, browsersync, watching);
+exports.default = parallel(php, reference, styles, scripts, browsersync, watching)

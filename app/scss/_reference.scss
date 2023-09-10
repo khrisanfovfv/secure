@@ -35,7 +35,11 @@
         margin-right: 5px;
     }
 
-    &__button:hover{
+    &__button:disabled{
+        color: #888;
+    }
+
+    &__button:not([disabled]):hover{
         background-color: rgb(201, 226, 247);
     }
     
@@ -77,6 +81,7 @@
 
 .ref_record__button{
     width: 23px;
+    cursor: pointer;
 }
 
 .ref_record input{

@@ -7,7 +7,17 @@ var informationSystem = {
 
 /** Инициализация */
 z_index=3;
-host='http://192.168.1.13:3000/';
+
+//Получаем URL сайта
+var data = {
+    action: 'get_site_url',
+};
+
+
+jQuery.post( MainData.ajaxurl, data, function( response ){
+    host = response + '/';
+} );
+
 
 
 $(function () {
@@ -43,7 +53,8 @@ $(function () {
             case 'sm_references__document_kind':{
                 $("<a>").prop({
                     target: "_blank",
-                    href:host + "inc/document_kind/document_kind_ref.html"
+                    //href:host + "inc/document_kind/document_kind_ref.html"
+                    href: host + 'document_kind'
                 })[0].click();
             }; break;
             case 'sm_references__contract':{
@@ -256,12 +267,16 @@ $(function () {
         //z_index--;
     })
     
-    /** Кнопки ОК, Отмена */
-    $('.appdialog__finish_button').on('click', function(){
-        var dlg_window = $(this).parent().parent().parent().parent();
-        dlg_window.css('display','none');
-        //z_index--;
-    })
+    // /** Кнопки ОК, Отмена */
+    // $('.appdialog__finish_button').on('click', function(){
+    //     var dlg_window = $(this).parent().parent().parent().parent();
+    //     dlg_window.css('display','none');
+    //     //z_index--;
+    // })
+
+    
+
+    
 
     /** Перемещение APPDIALOG */
     var dialogMove = {
@@ -337,4 +352,12 @@ $(function () {
         reference.editRecord(informationSystem.prefix, rows, title, informationSystem.cardPath, size);
     })
 
+    $('.appdialog__notify_button').on('click', function(){
+        $(this).parents('.appdialog').css('display', 'none');
+    });
+
+   
+
+
+    
 })

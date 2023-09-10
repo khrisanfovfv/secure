@@ -1,11 +1,10 @@
+
 @import 'reset';
 @import 'vars';
 @import 'fonts';
 @import 'is_card';
 @import 'reference';
 @import 'card';
-/*@import '_contract_card';
-/*@import '_document_card';*/
 @import 'dialog.scss';
 @import '../plugins/tables_context_menu/context_menu.scss';
 @import '../inc/document_kind/document_kind.scss';
@@ -167,5 +166,13 @@
     height: 50px;
     align-items: center;
     justify-content: center;
+}
+
+.gray_border{
+    border: thin, solid,#888;
+}
+
+.red_border{
+    border: thin solid red;
 }
 
