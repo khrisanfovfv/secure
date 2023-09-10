@@ -7,7 +7,9 @@
      * */
 
     
-
+    /**
+     * ПРИВЯЗЫВАЕТ ФАЙЛЫ СКРИПТОВ И СТИЛЕЙ К WORPRESS
+     */
     add_action( 'wp_enqueue_scripts', 'add_theme_scripts' );
 
     function add_theme_scripts() {
@@ -17,11 +19,13 @@
         wp_enqueue_script('main_script');
         wp_enqueue_style('main_style');   
 
+        // Передаем переменную ajaxurl в main.js
         wp_localize_script('main_script','MainData', array(
             'ajaxurl' => admin_url('admin-ajax.php')
         ));
     }
 
+    // Добавляем действия для ajax-запросов 
     add_action('wp_ajax_get_site_url', 'get_url_site');
     add_action('wp_ajax_nopriv_get_site_url', 'get_url_site');
     add_action('wp_ajax_load_card', 'secure_load_card');
@@ -38,15 +42,17 @@
     add_action('wp_ajax_nopriv_delete_document_kind', 'secure_delete_document_kind');
 
 
-
-    //add_action( 'admin_print_scripts', 'my_action_javascript' ); // такое подключение будет работать не всегда
-    //add_action( 'admin_print_footer_scripts', 'my_action_javascript', 99 );
-
+    /**
+     * ======================== ПОЛУЧЕНИЕ URL САЙТА =============================
+     */
     function get_url_site(){
         echo home_url();
         wp_die();
     }
 
+    /**
+     * =========================== ЗАГРУЗКА КАРТОЧКИ ============================
+     */
     function secure_load_card(){
         switch($_POST['card']){
             case 'document_kind_card' : get_template_part('reference/document_kind_card');break;
@@ -54,6 +60,9 @@
         wp_die();
     }
 
+    /**
+     * ========================= ЗАГРУЗКА ДАННЫХ КАРТОЧКИ =======================
+     */
     function secure_load_card_data(){
         global $wpdb;
         $prefix = $wpdb->prefix;
@@ -68,6 +77,9 @@
         wp_die();
     }
 
+    /**
+     * ================ ПОЛУЧЕНИЕ ЗАПИСИ ТАБЛИЦЫ ВИДЫ ДОКУМЕНТОВ =================
+     */
     function secure_load_document_kind(){
         global $wpdb;
         $prefix = $wpdb->prefix;
@@ -78,6 +90,9 @@
 
 
     //$args = array( 'supports' => array( 'page-attributes') );
+    /**
+     * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ВИД ДОКУМЕНТА ======================
+     */
     function secure_add_document_kind(){
         global $wpdb;
         $prefix = $wpdb->prefix;
@@ -95,6 +110,9 @@
         wp_die();
     }
 
+    /**
+     * ======================= УДАЛЕНИЕ ЗАПИСИ ВИД ДОКУМЕНТА =======================
+     */
     function secure_delete_document_kind(){
         global $wpdb;
         $prefix = $wpdb->prefix;
@@ -103,6 +121,9 @@
         wp_die();
     }
 
+    /** 
+     * ====================== ОБНОВЛЕНИЕ ЗАПИСИ ВИД ДОКУМЕНТА ==========================
+     */
     function secure_update_document_kind(){
         global $wpdb;
         $prefix = $wpdb->prefix;
@@ -125,6 +146,9 @@
         wp_die();
     }
 
+    /** 
+     * ==================== ПОЛУЧЕНИЕ СОСТОЯНИЯ ЗАПИСИ ==================
+     * */
     function secure_get_state($state){
         switch ($state){
             case 'Active' : return 'Действующая'; break;

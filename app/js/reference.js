@@ -67,7 +67,7 @@ var reference = {
         jQuery.post( MainData.ajaxurl, data, function(textStatus){
             $(prefix + '__dialog_content').html(textStatus);    
         } ).fail(function(){
-            alert('Во время загрузки карточки ' + card + ' произощла ошибка');
+            alert('Во время загрузки карточки ' + data.card + ' произощла ошибка');
         })
 
         
@@ -83,7 +83,7 @@ var reference = {
             }  
         }).fail(function( jqXHR, textStatus, errorThrown){
             var size = {width : 500, height :200};
-            message = 'Во время загрузки карточки ' + card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+            message = 'Во время загрузки карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
             reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
         });
     },
