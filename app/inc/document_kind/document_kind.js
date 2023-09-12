@@ -60,7 +60,6 @@ $('#document_kind__dialog_OK').on('click', function () {
 
             jQuery.post(MainData.ajaxurl, data, function (textStatus) {
                 document_kind_load_records();
-                alert(textStatus);
             }).fail(function () {
                 var size = { width: 500, height: 200 };
                 var message = 'Во время обновления записи произощла ошибка';
@@ -97,34 +96,6 @@ $('#document_kind_ref__context_edit').on('click', function () {
     }
 })
 
-/**
- * ========================= НАЖАТИЕ КНОПКИ УДАЛИТЬ ЗАПИСЬ ==========================
- */
-$('#document_kind_delete').on('click', function () {
-    rows = $('.doc_kind_table_row.highlight');
-    if (rows.length > 0) {
-        var id = rows[0].children.item(0).textContent;
-        //Загружаем карточку
-        var data = {
-            action: 'delete_document_kind',
-            value: id
-        };
-
-        jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-            var size = { width: 500, height: 200 };
-            document_kind_load_records();
-            reference.show_notification('#doc_kind_ref', 'Уведомление', size, textStatus)
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            var size = { width: 500, height: 200 };
-            message = 'Во время удаления записи произощла ошибка ' + textStatus + ' ' + errorThrown;
-            reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
-        })
-    } else {
-        var size = { width: 400, height: 200 };
-        message = 'Вы не выбрали запись';
-        reference.show_notification('#doc_kind_ref', 'Предупреждение', size, message);
-    }
-});
 
 /**
  * =========================== ЗАГРУЗКА ЗАПИСЕЙ СПРАВОЧНИКА ===========================
@@ -167,24 +138,7 @@ function document_kind_load_records() {
  * */
 $('#document_kind_create').on('click', function () {
     var size = { width: 600, height: 250 };
-    $('#doc_kind_ref__dialog').css('display', 'flex');
-    $('#doc_kind_ref__dialog_window').css('width', size.width + 'px');
-    $('#doc_kind_ref__dialog_window').css('height', size.height + 'px');
-
-    //Загружаем карточку
-    var data = {
-        action: 'load_card',
-        card: 'document_kind_card'
-    };
-
-    jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-        $('#doc_kind_ref__dialog_content').html(textStatus);
-    }).fail(function () {
-        alert('Во время выполнения запроса произощла ошибка');
-
-    })
-
-    //reference.createRecord('##doc_kind_ref__dialog', 'Карточка Вид документа', cardPath, size);
+    reference.open_card('#doc_kind_ref', 'Карточка Вид документа', size, 0);
 });
 
 /**
@@ -192,10 +146,19 @@ $('#document_kind_create').on('click', function () {
  */
 $('#document_kind_edit').on('click', function () {
     rows = $('.doc_kind_table_row.highlight')
+    var id = rows[0].children.item(0).textContent;
     var size = { width: 600, height: 200 };
-
-    reference.editRecord('#doc_kind_ref', rows, 'Карточка Вид документа', size);
+    reference.open_card('#doc_kind_ref', 'Карточка Вид документа', size, id);
 })
+
+/**
+ * ========================= НАЖАТИЕ КНОПКИ УДАЛИТЬ ЗАПИСЬ ==========================
+ */
+$('#document_kind_delete').on('click', function () {
+    rows = $('.doc_kind_table_row.highlight');
+    reference.delete_record('#document_kind',rows);
+});
+
 
 /**
  * ======================== ЗАГРУЗКА ДАННЫХ В КАРТОЧКУ =======================

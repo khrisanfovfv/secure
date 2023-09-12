@@ -6,7 +6,7 @@ const browserSync = require('browser-sync').create();
 const autoprefixer = require('gulp-autoprefixer');
 const clean = require('gulp-clean');
 
-const destFolder = 'C:/OpenServer/domains/secure/wp-content/themes/cit_secure/';
+const destFolder = 'C:/OSPanel/domains/secure/wp-content/themes/cit_secure/';
 
 function php(){
     return src([
@@ -19,7 +19,7 @@ function reference(){
     return src([
         'app/reference/*.php' 
      ])
-     .pipe(dest(destFolder + '/reference'))
+     .pipe(dest(destFolder + 'reference'))
 }
 
 

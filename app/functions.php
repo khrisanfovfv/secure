@@ -32,14 +32,18 @@
     add_action('wp_ajax_nopriv_load_card', 'secure_load_card');
     add_action('wp_ajax_load_card_data', 'secure_load_card_data');
     add_action('wp_ajax_nopriv_load_card_data', 'secure_load_card_data');
+    add_action('wp_ajax_delete_record', 'secure_delete_record');
+    add_action('wp_ajax_nopriv_delete_record', 'secure_delete_record');
+
+
+
     add_action('wp_ajax_load_document_kind', 'secure_load_document_kind');
     add_action('wp_ajax_nopriv_load_document_kind', 'secure_load_document_kind');
     add_action('wp_ajax_add_document_kind', 'secure_add_document_kind');
     add_action('wp_ajax_nopriv_add_document_kind', 'secure_add_document_kind');
     add_action('wp_ajax_update_document_kind', 'secure_update_document_kind');
     add_action('wp_ajax_nopriv_update_document_kind', 'secure_update_document_kind');
-    add_action('wp_ajax_delete_document_kind', 'secure_delete_document_kind');
-    add_action('wp_ajax_nopriv_delete_document_kind', 'secure_delete_document_kind');
+    
 
 
     /**
@@ -111,13 +115,13 @@
     }
 
     /**
-     * ======================= УДАЛЕНИЕ ЗАПИСИ ВИД ДОКУМЕНТА =======================
+     * ======================= УДАЛЕНИЕ ЗАПИСИ СПРАВОЧНИКА =======================
      */
-    function secure_delete_document_kind(){
+    function secure_delete_record(){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $wpdb->delete( $prefix . 'document_kind', array( 'ID' => $_POST['value'] ), array( '%d' ));
-        echo 'Запись ид = ' . $_POST['value'] . ' успешно удалена';
+        $wpdb->delete( $prefix . get_reference_name($_POST['card']), array( 'ID' => $_POST['id'] ), array( '%d' ));
+        echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
         wp_die();
     }
 
@@ -155,6 +159,17 @@
             case 'Inactive' : return 'Не действующая'; break;
             default : '';
         }
+    }
+
+    /**
+     * ================= ПОЛУЧЕНИЕ НАИМЕНОВАНИЯ СПРАВОЧНИКА ================ 
+     */
+    function get_reference_name($card){
+        switch ($card){
+            case 'document_kind_card' : return 'document_kind';
+            default :'';
+        }
+
     }
    
 
