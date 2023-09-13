@@ -138,7 +138,7 @@ function document_kind_load_records() {
  * */
 $('#document_kind_create').on('click', function () {
     var size = { width: 600, height: 250 };
-    reference.open_card('#doc_kind_ref', 'Карточка Вид документа', size, 0);
+    reference.open_card('#doc_kind_ref', 'Карточка Вид документа', size,OpenMode.Create, 0);
 });
 
 /**
@@ -148,8 +148,21 @@ $('#document_kind_edit').on('click', function () {
     rows = $('.doc_kind_table_row.highlight')
     var id = rows[0].children.item(0).textContent;
     var size = { width: 600, height: 200 };
-    reference.open_card('#doc_kind_ref', 'Карточка Вид документа', size, id);
+    reference.open_card('#doc_kind_ref', 'Карточка Вид документа', size,OpenMode.Edit, id);
 })
+
+
+/**
+ * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
+ */
+$('#document_kind_copy').on('click', function(){
+    rows = $('.doc_kind_table_row.highlight')
+    var id = rows[0].children.item(0).textContent;
+    var size = { width: 600, height: 200 };
+    // Открываем карточку в режиме создания новой записи
+    reference.open_card('#doc_kind_ref', 'Карточка Вид документа', size, OpenMode.Copy, id);
+})
+
 
 /**
  * ========================= НАЖАТИЕ КНОПКИ УДАЛИТЬ ЗАПИСЬ ==========================
@@ -163,18 +176,19 @@ $('#document_kind_delete').on('click', function () {
 /**
  * ======================== ЗАГРУЗКА ДАННЫХ В КАРТОЧКУ =======================
  * @param {Object} data 
+ * @param {boolean} openMode
  */
-async function card_document_kind_load_data(data){
-    var cardData = JSON.parse(data);
-    $('#document_kind_card__id').text(cardData[0].id)
+async function card_document_kind_load_data(data, openMode){
+    var cardData = JSON.parse(data); 
+    /** 
+     * Для того чтоб создалась новая карточка при редимах создания и копирования 
+     * обнуляем поле id
+     */
+    switch (openMode){
+        case OpenMode.Create: $('#document_kind_card__id').text(''); break;
+        case OpenMode.Edit : $('#document_kind_card__id').text(cardData[0].id); break;
+        case OpenMode.Copy : $('#document_kind_card__id').text(''); break;
+    }
     $('#document_kind_card__name').val(cardData[0].name);
     $('#document_kind_card__state').val(cardData[0].state);
 }
-
-
-
-
-
-
-
-

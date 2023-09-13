@@ -1,3 +1,10 @@
+// Режим редактирования карточки
+var OpenMode ={
+    Create : 0,
+    Edit : 1,
+    Copy : 2
+}
+
 var reference = {
     /**
      * Выделить строку таблицы
@@ -10,48 +17,16 @@ var reference = {
         $('.reference__button').attr('disabled', false);
     },
 
-
-    //  * ======================== СОЗДАНИЕ НОВОЙ ЗАПИСИ ===========================
-    //  * @param {string} prefix 
-    //  * @param {string} title 
-    //  * @param {string} cardPath 
-    //  * @param {Object} size
-    //  */
-    // createRecord(prefix, title, cardPath, size) {
-    //     var path = 'C:/OpenServer/domains/secure/wp-content/themes/cit_secure/';
-
-    //     $(prefix + '__dialog').css('display', 'flex');
-    //     $(prefix + '__dialog').css('z-index', ++z_index);
-    //     $(prefix + '__dialog_window').css('width', size.width + 'px');
-    //     $(prefix + '__dialog_window').css('height', size.height + 'px');
-    //     $(prefix + '__dialog_title').text(title)
-    //     $(prefix + '__dialog_content').load(path + cardPath)
-    //     alert(path + cardPath)
-    // },
-
-    // /**
-    //  * ======================= РЕДАКТИРОВАНИЕ ЗАПИСИ =========================
-    //  * @param {string} prefix
-    //  * @param {Object} rows 
-    //  * @param {string} title 
-    //  * @param {string} card 
-    //  */
-    // editRecord(prefix, rows, title, size) {
-    //     row = rows[0];
-    //     var id = row.children.item(0).textContent;
-    //     // Выполняем запрос к базе данных
-    //     reference.open_card(prefix, title, size, id);
-    // },
-
     /**
      * ========================= ОТКРЫТИЕ КАРТОЧКИ ========================= 
      * @param {string} prefix 
      * @param {string} title 
      * @param {string} cardPath 
      * @param {Object} size 
+     * @param {boolean} openMode
      * @param {number} id 
      */
-    open_card(prefix, title, size, id) {
+    open_card(prefix, title, size, openMode, id) {
         // Показываем диалоговое окно
         $(prefix + '__dialog').css('display', 'flex');
         $(prefix + '__dialog').css('z-index', ++z_index);
@@ -67,33 +42,44 @@ var reference = {
         jQuery.post(MainData.ajaxurl, data, function (textStatus) {
             $(prefix + '__dialog_content').html(textStatus);
 
-            // Если id != 0 - редактирование записи, иначе создание новой 
-            if (id != 0) {
-                // Загружаем данные для карточки
-                var data = {
-                    action: 'load_card_data',
-                    card: reference.get_card_name(prefix),
-                    id: id
-                };
-                jQuery.post(MainData.ajaxurl, data, function (result) {
-                    switch (prefix) {
-                        case '#doc_kind_ref': card_document_kind_load_data(result); break;
-                    }
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    var size = { width: 500, height: 200 };
-                    message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
-                    reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
-                });
+            // Параметры запроса
+            var data = {
+                action: 'load_card_data',
+                card: reference.get_card_name(prefix),
+                id: id
             }
-
+            switch (openMode){
+                // Режим редактирования
+                case OpenMode.Edit : {
+                    jQuery.post(MainData.ajaxurl, data, function (result) {
+                        switch (prefix) {
+                            case '#doc_kind_ref': card_document_kind_load_data(result, OpenMode.Edit); break;
+                        }
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        var size = { width: 500, height: 200 };
+                        message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+                        reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
+                    });
+                }; break
+                // Режим копирования
+                case OpenMode.Copy : {
+                    jQuery.post(MainData.ajaxurl, data, function (result) {
+                        switch (prefix) {
+                            case '#doc_kind_ref': card_document_kind_load_data(result, OpenMode.Copy); break;
+                        }
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        var size = { width: 500, height: 200 };
+                        message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+                        reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
+                    });
+                }; break
+                // При режиме создания не делаем ничего
+            }
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var size = { width: 500, height: 200 };
             message = 'Во время загрузки карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
             reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
         });
-
-
-
     },
 
     /**
