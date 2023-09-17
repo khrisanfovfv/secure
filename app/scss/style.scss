@@ -127,6 +127,16 @@
         font-size: 24px;
 
     }
+    &__finish_buttons{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+        gap: 20px;
+    }
+    &__finish_button{
+        width: 100px;
+    }
 }
 
 .user{

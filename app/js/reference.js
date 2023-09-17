@@ -78,29 +78,6 @@ var reference = {
         });
     },
 
-    /**
-     * ============================ Загружаем карточку поиска ===================================
-     * @param {string} prefix 
-     * @param {Object} size 
-     * @param {string} title 
-     */
-    open_search_card(prefix,size,title){
-        // Загружаем карточку
-        var data = {
-            action: 'load_card',
-            card: 'document_kind_search'
-        };
-        jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-            $(prefix + '__dialog_content').html(textStatus);
-            reference.show_dialog(prefix, size, title);
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            var size = { width: 500, height: 200 };
-            message = 'Во время загрузки карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
-            reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
-        });
-
-
-    },
 
     /**
      * ============================= ВОЗВРАЩАЕТ ТИП КАРТОЧКИ ==============================

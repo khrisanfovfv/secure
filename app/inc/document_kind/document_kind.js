@@ -129,8 +129,23 @@ function document_kind_common_search(value){
  * ============================ КНОПКА РАСШИРЕННЫЙ ПОИСК =============================
  */
 function document_kind_extended_search(){
-    size = {width : 500, height : 300};
-    reference.open_search_card('#doc_kind_ref_search', size, 'Расширенный поиск');
+    size = {width : 500, height : 200};
+    prefix = '#doc_kind_ref';
+    title = 'Расширенный поиск';
+    // Загружаем карточку
+    var data = {
+        action: 'load_card',
+        card: 'document_kind_search'
+    };
+    reference.show_dialog(prefix, size, title);
+    jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+        $(prefix + '__dialog_content').html(textStatus);
+            
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            var size = { width: 500, height: 200 };
+            message = 'Во время загрузки карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+            reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
+        });
 }
 
 

@@ -65,6 +65,7 @@
         switch($_POST['card']){
             case 'document_kind_card' : get_template_part('reference/document_kind_card');break;
             case 'document_kind_search' : get_template_part('inc/document_kind/document_kind_search_form');break;
+            //case 'document_kind_search' : get_template_part('reference/document_kind_search_form');break;
         }
         wp_die();
     }

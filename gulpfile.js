@@ -22,6 +22,14 @@ function reference(){
      .pipe(dest(destFolder + 'reference'))
 }
 
+function inc(){
+    return src([
+        'app/inc/document_kind/*.php' 
+     ])
+     .pipe(dest(destFolder + 'inc/document_kind'))
+}
+
+
 
 function scripts(){
     return src([
@@ -93,10 +101,11 @@ exports.styles = styles;
 exports.scripts = scripts;
 exports.php = php;
 exports.reference = reference;
+exports.inc = inc;
 
 exports.watching = watching;
 exports.browsersync = browsersync;
 exports.build = series(cleanDist, building);
 
 //exports.default = parallel(styles, scripts, browsersync, watching);
-exports.default = parallel(php, reference, styles, scripts, browsersync, watching)
+exports.default = parallel(php, inc, reference, styles, scripts, browsersync, watching)
