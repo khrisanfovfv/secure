@@ -1,3 +1,4 @@
+<?php wp_head(); ?>
 <div class="document_kind_card__content">
     <div class="document_kind_card__fields">
         <!-- ИД -->
@@ -12,4 +13,9 @@
             <option value="Inactive">Не действующая</option>
         </select>
     </div>
+    <div class="appdialog__finish_buttons">
+        <button class="appdialog__finish_button" id="document_kind__card_OK">OK</button>
+        <button class="appdialog__finish_button" id="document_kind__card_Cancel">Cancel</button>
+    </div> 
 </div> <!-- /document_kind_card__content -->
+<?php wp_footer() ?>

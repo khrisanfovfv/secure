@@ -43,6 +43,10 @@
     add_action('wp_ajax_nopriv_add_document_kind', 'secure_add_document_kind');
     add_action('wp_ajax_update_document_kind', 'secure_update_document_kind');
     add_action('wp_ajax_nopriv_update_document_kind', 'secure_update_document_kind');
+
+    add_action('wp_ajax_search_document_kind', 'secure_search_document_kind');
+    add_action('wp_ajax_nopriv_search_document_kind', 'secure_search_document_kind');
+    
     
 
 
@@ -60,6 +64,7 @@
     function secure_load_card(){
         switch($_POST['card']){
             case 'document_kind_card' : get_template_part('reference/document_kind_card');break;
+            case 'document_kind_search' : get_template_part('inc/document_kind/document_kind_search_form');break;
         }
         wp_die();
     }
@@ -147,6 +152,17 @@
             array( '%d' )
         );
         echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
+        wp_die();
+    }
+
+
+    function secure_search_document_kind(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $value = $_POST['value'];
+        $results = $wpdb->get_results( "SELECT * FROM sec_document_kind 
+            WHERE name LIKE '%$value%'", ARRAY_A );
+        echo json_encode($results);
         wp_die();
     }
 

@@ -64,6 +64,12 @@
                     </ul>
                 </div>
             </div> <!-- Main menu -->
+            <div class="search">
+                <img class="search__img" src="<?php echo get_template_directory_uri() . '/images/search.svg' ?>">
+                <input class="search__text" type="text" placeholder="Найти" id="search__text">
+                <p class="search__delimiter">|</p>
+                <button class="search__button" id="search_button">Расширенный поиск</button>
+            </div>
             <!-- Пользователь -->
             <div class="user">
                 <img class="user__img" src="<?php echo get_template_directory_uri() . '/images/user.png' ?>" alt="Пользователь">

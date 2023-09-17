@@ -8,6 +8,7 @@ var informationSystem = {
 /** Инициализация */
 z_index=3;
 
+
 //Получаем URL сайта
 var data = {
     action: 'get_site_url',
@@ -21,11 +22,12 @@ jQuery.post( MainData.ajaxurl, data, function( response ){
 
 
 $(function () {
-
-    //alert(host)
     /** Инициализация контекстного меню */
     var context = Object.create(Context);
     context.init();
+
+    // Получаем идентификатор страницы
+    var page_id = $('#page_id').text();
 
     /** ================ ВЫБОР ПУНКТА МЕНЮ =============== */
     $('.submenu__item').on('click', function(e){
@@ -50,13 +52,7 @@ $(function () {
                     href:host + "inc/department/department_ref.html"
                 })[0].click();
             }; break;
-            case 'sm_references__document_kind':{
-                $("<a>").prop({
-                    target: "_blank",
-                    //href:host + "inc/document_kind/document_kind_ref.html"
-                    href: host + 'document_kind'
-                })[0].click();
-            }; break;
+            case 'sm_references__document_kind': open_page('document_kind'); break;
             case 'sm_references__contract':{
                 $("<a>").prop({
                     target: "_blank",
@@ -82,6 +78,40 @@ $(function () {
                 $('.appdialog__header_title').text('О программе')
 
             }; break;
+        }
+    })
+
+    /**
+     * ============================ ОТКРЫВАЕТ ВКЛАДКУ СО СПРАВОЧНИКОМ ===========================
+     * @param {string} reference 
+     */
+    function open_page(reference){
+        $("<a>").prop({
+            target: "_blank",
+            href: host + reference
+        })[0].click();
+    }
+
+
+    /**
+     * ==================== НАЖАТИЕ ENTER В СТРОКЕ ПОИСКА ======================
+     */
+    $('#search__text').on('keyup', function(e){
+        if (e.key == "Enter"){
+            var value = $('#search__text').val().trim();
+            switch(page_id){
+                case 'document_kind' :  document_kind_common_search(value); break;
+            }
+            
+        }
+    })
+
+    /**
+     * ================== НАЖАТИЕ КНОПКИ РАСШИРЕННЫЙ ПОИСК ======================
+     */
+    $('#search_button').on('click', function(){
+        switch(page_id){
+            case 'document_kind' : document_kind_extended_search(); break;
         }
     })
 

@@ -17,6 +17,7 @@ var reference = {
         $('.reference__button').attr('disabled', false);
     },
 
+
     /**
      * ========================= ОТКРЫТИЕ КАРТОЧКИ ========================= 
      * @param {string} prefix 
@@ -28,12 +29,7 @@ var reference = {
      */
     open_card(prefix, title, size, openMode, id) {
         // Показываем диалоговое окно
-        $(prefix + '__dialog').css('display', 'flex');
-        $(prefix + '__dialog').css('z-index', ++z_index);
-        $(prefix + '__dialog_window').css('width', size.width + 'px');
-        $(prefix + '__dialog_window').css('height', size.height + 'px');
-        $(prefix + '__dialog_title').text(title + ' ' + id)
-
+        reference.show_dialog(prefix,size,title);
         // Загружаем карточку
         var data = {
             action: 'load_card',
@@ -83,6 +79,30 @@ var reference = {
     },
 
     /**
+     * ============================ Загружаем карточку поиска ===================================
+     * @param {string} prefix 
+     * @param {Object} size 
+     * @param {string} title 
+     */
+    open_search_card(prefix,size,title){
+        // Загружаем карточку
+        var data = {
+            action: 'load_card',
+            card: 'document_kind_search'
+        };
+        jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+            $(prefix + '__dialog_content').html(textStatus);
+            reference.show_dialog(prefix, size, title);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            var size = { width: 500, height: 200 };
+            message = 'Во время загрузки карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+            reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
+        });
+
+
+    },
+
+    /**
      * ============================= ВОЗВРАЩАЕТ ТИП КАРТОЧКИ ==============================
      * @param {string} card 
      */
@@ -93,6 +113,7 @@ var reference = {
             // Одно из двух нужно исправить
             case '#doc_kind_ref': card = 'document_kind_card'; break;
             case '#document_kind': card = 'document_kind_card'; break;
+            case '#doc_kind_ref_search' : card = 'document_kind_search'; break;
         }
         return card;
     },
@@ -158,5 +179,20 @@ var reference = {
             message = 'Вы не выбрали запись';
             reference.show_notification('#doc_kind_ref', 'Предупреждение', size, message);
         }
+    },
+
+    /**
+     * ===================== ОТОБРАЖАЕТ ДИАЛОГОВОЕ ОКНО ========================
+     * @param {string} prefix 
+     * @param {Object} size 
+     * @param {string} title 
+     */
+    show_dialog(prefix, size, title){
+        $(prefix + '__dialog_content').empty();
+        $(prefix + '__dialog').css('display', 'flex');
+        $(prefix + '__dialog').css('z-index', ++z_index);
+        $(prefix + '__dialog_window').css('width', size.width + 'px');
+        $(prefix + '__dialog_window').css('height', size.height + 'px');
+        $(prefix + '__dialog_title').text(title );
     }
 }

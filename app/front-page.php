@@ -8,6 +8,9 @@
 
     get_header();
 ?>
+        <!-- Идетификатор страницы -->
+        <p class="hide" id="page_id">is_card</p>
+        
         <main class="main">
             <div class="content">
                 <div class="reference">

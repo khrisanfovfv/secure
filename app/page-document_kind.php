@@ -10,6 +10,8 @@ $prefix = $wpdb->prefix;
 
 
 ?>
+<!-- Идетификатор страницы -->
+<p class="hide" id="page_id">document_kind</p>
 
 <main class="main">
     <div class="content">
@@ -77,12 +79,7 @@ $prefix = $wpdb->prefix;
                 <span>&#10006;</span> </a>
         </div>
         <div class="appdialog__content">
-            <div id="doc_kind_ref__dialog_content">
-            </div>
-            <div class="appdialog__finish_buttons">
-                <button class="appdialog__finish_button" id="document_kind__dialog_OK">OK</button>
-                <button class="appdialog__finish_button document_kind__dialog_Cancel" id="document_kind__dialog_Cancel">Cancel</button>
-            </div>
+            <div id="doc_kind_ref__dialog_content"></div>
         </div>
     </div>
 </div>
