@@ -148,6 +148,37 @@ function document_kind_extended_search(){
         });
 }
 
+/**
+ * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
+*/
+$('#document_kind_search__button-OK').on('click', function(){
+    var data = {
+        action: 'search_document_kind_extended',
+        name : $('#document_kind__search_name').val(),
+        state : $('#document_kind__search_state').val()
+    };
+
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var records = JSON.parse(result);
+        var ind = 1;
+        document_kind_update_card(records);
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
+    });
+
+})
+
+/**
+ * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена =============
+*/
+$('#document_kind_search__button-Cancel').on('click', function(){
+    $(this).parents('.appdialog').css('display', 'none');
+});
+
+
 
 /** КНОПКИ НА ПАНЕЛИ ДЕЙСТВИЙ */
 

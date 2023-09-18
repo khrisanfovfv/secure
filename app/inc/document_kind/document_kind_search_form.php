@@ -1,3 +1,4 @@
+<?php wp_head() ?>
 <div class="document_kind_search__content">
     <div class="document_kind_search__fields">
         <!-- Наименование -->
@@ -16,3 +17,5 @@
         <button class="search__finish_button" id="document_kind_search__button-Cancel">Отмена</button>
     </div>
 </div>
+
+<?php wp_footer() ?>

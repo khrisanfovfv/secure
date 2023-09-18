@@ -46,10 +46,10 @@
 
     add_action('wp_ajax_search_document_kind', 'secure_search_document_kind');
     add_action('wp_ajax_nopriv_search_document_kind', 'secure_search_document_kind');
+    add_action('wp_ajax_search_search_document_kind_extended', 'secure_search_document_kind_extended');
+    add_action('wp_ajax_nopriv_search_document_kind_extended', 'secure_search_document_kind_extended');
     
     
-
-
     /**
      * ======================== ПОЛУЧЕНИЕ URL САЙТА =============================
      */
@@ -156,13 +156,29 @@
         wp_die();
     }
 
-
+    /**
+     * ================ ВИДЫ ДОКУМЕНТОВ. ОБЩИЙ ПОИСК =================
+     */
     function secure_search_document_kind(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $value = $_POST['value'];
         $results = $wpdb->get_results( "SELECT * FROM sec_document_kind 
             WHERE name LIKE '%$value%'", ARRAY_A );
+        echo json_encode($results);
+        wp_die();
+    }
+
+    /**
+     * ================= ВИДЫ ДОКУМЕНТОВ. РАСШИРЕННЫЙ ПОИСК =================
+     */
+    function secure_search_document_kind_extended(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $name = $_POST['name'];
+        $state = $_POST['state'];
+        $results = $wpdb->get_results( "SELECT * FROM sec_document_kind 
+            WHERE name LIKE '%$name%' AND state='$state'", ARRAY_A );
         echo json_encode($results);
         wp_die();
     }

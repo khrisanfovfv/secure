@@ -22,7 +22,7 @@ function reference(){
      .pipe(dest(destFolder + 'reference'))
 }
 
-function inc(){
+function document_kind_php(){
     return src([
         'app/inc/document_kind/*.php' 
      ])
@@ -101,11 +101,11 @@ exports.styles = styles;
 exports.scripts = scripts;
 exports.php = php;
 exports.reference = reference;
-exports.inc = inc;
+exports.document_kind_php = document_kind_php;
 
 exports.watching = watching;
 exports.browsersync = browsersync;
 exports.build = series(cleanDist, building);
 
 //exports.default = parallel(styles, scripts, browsersync, watching);
-exports.default = parallel(php, inc, reference, styles, scripts, browsersync, watching)
+exports.default = parallel(php, document_kind_php, reference, styles, scripts, browsersync, watching)
