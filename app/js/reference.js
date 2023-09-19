@@ -30,56 +30,28 @@ var reference = {
     open_card(prefix, title, size, openMode, id) {
         // Показываем диалоговое окно
         reference.show_dialog(prefix,size,title);
-        // Загружаем карточку
+        //1.  Загружаем карточку
         var data = {
             action: 'load_card',
             card: reference.get_card_name(prefix)
         };
         jQuery.post(MainData.ajaxurl, data, function (textStatus) {
             $(prefix + '__dialog_content').html(textStatus);
-
-            // Параметры запроса
-            var data = {
-                action: 'load_card_data',
-                card: reference.get_card_name(prefix),
-                id: id
-            }
             switch (openMode){
                 // Режим редактирования
-                case OpenMode.Edit : {
-                    jQuery.post(MainData.ajaxurl, data, function (result) {
-                        switch (prefix) {
-                            case '#doc_kind_ref': card_document_kind_load_data(result, OpenMode.Edit); break;
-                        }
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
-                        var size = { width: 500, height: 200 };
-                        message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
-                        reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
-                    });
-                }; break
+                case OpenMode.Edit : reference.load_card_data(prefix,id,OpenMode.Edit); break;
                 // Режим копирования
-                case OpenMode.Copy : {
-                    jQuery.post(MainData.ajaxurl, data, function (result) {
-                        switch (prefix) {
-                            case '#doc_kind_ref': card_document_kind_load_data(result, OpenMode.Copy); break;
-                        }
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
-                        var size = { width: 500, height: 200 };
-                        message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
-                        reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
-                    });
-                }; break
+                case OpenMode.Copy : reference.load_card_data(prefix,id,OpenMode.Copy); break;
                 // При режиме создания не делаем ничего
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var size = { width: 500, height: 200 };
             message = 'Во время загрузки карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
-            reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
+            reference.show_notification(prefix, 'Ошибка', size, message);
         });
     },
 
-
-    /**
+     /**
      * ============================= ВОЗВРАЩАЕТ ТИП КАРТОЧКИ ==============================
      * @param {string} card 
      */
@@ -87,13 +59,43 @@ var reference = {
     get_card_name(prefix) {
         var card = 'Карточка не определена';
         switch (prefix) {
-            // Одно из двух нужно исправить
-            case '#doc_kind_ref': card = 'document_kind_card'; break;
-            case '#document_kind': card = 'document_kind_card'; break;
-            case '#doc_kind_ref_search' : card = 'document_kind_search'; break;
+            // КАРТОЧКИ СПРАВОЧНИКА
+            case '#document_kind_ref': card = 'document_kind_card'; break;
+
+            // КАРТОЧКИ ПОИСКА
+            case '#document_kind_ref_search' : card = 'document_kind_search'; break;
         }
         return card;
     },
+
+
+    /**
+     * ==================== ЗАГРУЗКА ДАННЫХ КАРТОЧКИ ====================
+     * @param {string} prefix 
+     * @param {number} id 
+     * @param {Object} openMode 
+     */
+    load_card_data(prefix, id, openMode){
+        var data = {
+            action: 'load_card_data',
+            card: reference.get_card_name(prefix),
+            id: id
+        }
+        
+        jQuery.post(MainData.ajaxurl, data, function (result) {
+                // Вызываем функцию для соответствующего вида справочника
+                switch (prefix) {
+                    case '#document_kind_ref': card_document_kind_load_data(result, openMode); break;
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                var size = { width: 500, height: 200 };
+                message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+                reference.show_notification(prefix, 'Ошибка', size, message);
+            });
+    },
+
+
+   
 
 
     /**
@@ -145,16 +147,15 @@ var reference = {
             jQuery.post(MainData.ajaxurl, data, function (textStatus) {
                 var size = { width: 500, height: 200 };
                 document_kind_load_records();
-                //reference.show_notification('#doc_kind_ref', 'Уведомление', size, textStatus)
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 var size = { width: 500, height: 200 };
                 message = 'Во время удаления записи произощла ошибка ' + textStatus + ' ' + errorThrown;
-                reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
+                reference.show_notification(prefix, 'Ошибка', size, message);
             })
         } else {
             var size = { width: 400, height: 200 };
             message = 'Вы не выбрали запись';
-            reference.show_notification('#doc_kind_ref', 'Предупреждение', size, message);
+            reference.show_notification(prefix, 'Предупреждение', size, message);
         }
     },
 

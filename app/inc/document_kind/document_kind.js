@@ -1,34 +1,30 @@
-
-//document_kind_load_records();
-
 /** 
  * ====================== ОДИНОЧНЫЙ КЛИК НА СТРОКУ ТАБЛИЦЫ =======================
 */
-$('#doc_kind_table tbody tr').on('click', function (e) {
+$('#document_kind_table tbody tr').on('click', function (e) {
     reference.highlight(e);
 })
 
 /** 
  * ======================== ДВОЙНОЙ КЛИК НА СТРОКУ ТАБЛИЦЫ ======================= 
 */
-$('#doc_kind_table tbody tr').on('dblclick', function () {
-    rows = $('.doc_kind_table_row.highlight')
+$('#document_kind_table tbody tr').on('dblclick', function () {
+    rows = $('.document_kind_table_row.highlight')
     var size = { width: 600, height: 200 };
-    reference.editRecord('#doc_kind_ref', rows, 'Карточка Вид документа', size);
+    reference.editRecord('#document_kind_ref', rows, 'Карточка Вид документа', size);
 })
 
 /**
  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ВИД ДОКУМЕНТА =========================
  */
 $('#document_kind__card_OK').on('click', function () {
-    alert('Отрабатывает!')
     if ($('#document_kind_card__name').val().trim() == '') {
         $('#document_kind_card__name').addClass('red_border');
 
         // Отправляем уведомление
         var size = { width: 400, height: 200 };
         var message = 'Не заполнено обязательное поле';
-        reference.show_notification('#doc_kind_ref', 'Предупреждение', size, message);
+        reference.show_notification('#document_kind_ref', 'Предупреждение', size, message);
     } else {
         $('#document_kind_card__name').removeClass('red_border');
         // Формируем запись для запроса
@@ -50,7 +46,7 @@ $('#document_kind__card_OK').on('click', function () {
             }).fail(function () {
                 var size = { width: 500, height: 200 };
                 var message = 'Во время добавления записи произощла ошибка';
-                reference.show_notification('doc_kind_ref', 'Ошибка', size, message);
+                reference.show_notification('document_kind_ref', 'Ошибка', size, message);
             })
         } else {
             // ОБНОВЛЯЕМ значение в базе данных
@@ -64,7 +60,7 @@ $('#document_kind__card_OK').on('click', function () {
             }).fail(function () {
                 var size = { width: 500, height: 200 };
                 var message = 'Во время обновления записи произощла ошибка';
-                reference.show_notification('doc_kind_ref', 'Ошибка', size, message);
+                reference.show_notification('document_kind_ref', 'Ошибка', size, message);
             })
         }
         $(this).parents('.appdialog').css('display', 'none');
@@ -92,12 +88,11 @@ function document_kind_load_records() {
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
         var records = JSON.parse(result);
-        
         document_kind_update_card(records);
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
         var message = 'Во время удаления записи произощла ошибка ' + textStatus + ' ' + errorThrown;
-        reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
+        reference.show_notification('#document_kind_ref', 'Ошибка', size, message);
     });
 
 }
@@ -121,7 +116,7 @@ function document_kind_common_search(value){
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
         message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
-        reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
+        reference.show_notification('#document_kind_ref', 'Ошибка', size, message);
     });
 }
 
@@ -130,7 +125,7 @@ function document_kind_common_search(value){
  */
 function document_kind_extended_search(){
     size = {width : 500, height : 200};
-    prefix = '#doc_kind_ref';
+    prefix = '#document_kind_ref';
     title = 'Расширенный поиск';
     // Загружаем карточку
     var data = {
@@ -144,14 +139,14 @@ function document_kind_extended_search(){
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var size = { width: 500, height: 200 };
             message = 'Во время загрузки карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
-            reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
+            reference.show_notification('#document_kind_ref', 'Ошибка', size, message);
         });
 }
 
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
 */
-$('#document_kind_search__button-OK').on('click', function(){
+$('#document_kind_search__button_OK').on('click', function(){
     var data = {
         action: 'search_document_kind_extended',
         name : $('#document_kind__search_name').val(),
@@ -166,7 +161,7 @@ $('#document_kind_search__button-OK').on('click', function(){
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
         message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
-        reference.show_notification('#doc_kind_ref', 'Ошибка', size, message);
+        reference.show_notification('#document_kind_ref', 'Ошибка', size, message);
     });
 
 })
@@ -174,7 +169,7 @@ $('#document_kind_search__button-OK').on('click', function(){
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена =============
 */
-$('#document_kind_search__button-Cancel').on('click', function(){
+$('#document_kind_search__button_Cancel').on('click', function(){
     $(this).parents('.appdialog').css('display', 'none');
 });
 
@@ -187,17 +182,17 @@ $('#document_kind_search__button-Cancel').on('click', function(){
  * */
 $('#document_kind_create').on('click', function () {
     var size = { width: 600, height: 250 };
-    reference.open_card('#doc_kind_ref', 'Карточка Вид документа', size, OpenMode.Create, 0);
+    reference.open_card('#document_kind_ref', 'Карточка Вид документа', size, OpenMode.Create, 0);
 });
 
 /**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
 $('#document_kind_edit').on('click', function () {
-    rows = $('.doc_kind_table_row.highlight')
+    rows = $('.document_kind_table_row.highlight')
     var id = rows[0].children.item(0).textContent;
     var size = { width: 600, height: 200 };
-    reference.open_card('#doc_kind_ref', 'Карточка Вид документа', size, OpenMode.Edit, id);
+    reference.open_card('#document_kind_ref', 'Карточка Вид документа', size, OpenMode.Edit, id);
 })
 
 
@@ -205,11 +200,11 @@ $('#document_kind_edit').on('click', function () {
  * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
  */
 $('#document_kind_copy').on('click', function () {
-    rows = $('.doc_kind_table_row.highlight')
+    rows = $('.document_kind_table_row.highlight')
     var id = rows[0].children.item(0).textContent;
     var size = { width: 600, height: 200 };
     // Открываем карточку в режиме создания новой записи
-    reference.open_card('#doc_kind_ref', 'Карточка Вид документа', size, OpenMode.Copy, id);
+    reference.open_card('#document_kind_ref', 'Карточка Вид документа', size, OpenMode.Copy, id);
 })
 
 
@@ -217,8 +212,8 @@ $('#document_kind_copy').on('click', function () {
  * ========================= НАЖАТИЕ КНОПКИ УДАЛИТЬ ЗАПИСЬ ==========================
  */
 $('#document_kind_delete').on('click', function () {
-    rows = $('.doc_kind_table_row.highlight');
-    reference.delete_record('#document_kind', rows);
+    rows = $('.document_kind_table_row.highlight');
+    reference.delete_record('#document_kind_ref', rows);
 });
 
 
@@ -248,11 +243,11 @@ async function card_document_kind_load_data(data, openMode) {
  */
 function document_kind_update_card(records) {
     var ind = 1;
-    $('#doc_kind_table tbody tr').remove();
+    $('#document_kind_table tbody tr').remove();
     records.forEach(record => {
 
-        var tr = $('#doc_kind_table tbody').append(
-            "<tr class='doc_kind_table_row'>" +
+        var tr = $('#document_kind_table tbody').append(
+            "<tr class='document_kind_table_row'>" +
             "<td class='id hide'>" + record["id"] + "</td>" +
             "<td>" + (ind++) + "</td>" +
             "<td>" + record["name"] + "</td>" +
@@ -268,17 +263,17 @@ function document_kind_update_card(records) {
  * ====================== КОНТЕКТНОЕ МЕНЮ - РЕДАКТИРОВАТЬ ========================= 
  * */
 $('#document_kind_ref__context_edit').on('click', function () {
-    rows = $('.doc_kind_table_row.highlight');
+    rows = $('.document_kind_table_row.highlight');
     if (rows.length > 0) {
         var id = rows[0].children.item(0).textContent;
         //Загружаем карточку
         textStatus = id;
         var size = { width: 400, height: 200 };
-        reference.show_notification('#doc_kind_ref', 'Уведомление', size, textStatus)
+        reference.show_notification('#document_kind_ref', 'Уведомление', size, textStatus)
     } else {
         var size = { width: 400, height: 200 };
         message = 'Вы не выбрали запись';
-        reference.show_notification('#doc_kind_ref', 'Предупреждение', size, message);
+        reference.show_notification('#document_kind_ref', 'Предупреждение', size, message);
     }
 })
 }

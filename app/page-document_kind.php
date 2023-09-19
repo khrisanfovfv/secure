@@ -39,7 +39,7 @@ $prefix = $wpdb->prefix;
                     <p>Эл. таб</p>
                 </button>
             </div>
-            <table class="reference__table" id="doc_kind_table">
+            <table class="reference__table" id="document_kind_table">
                 <thead>
                     <tr>
                         <th class="hide">Ид</th>
@@ -55,7 +55,7 @@ $prefix = $wpdb->prefix;
                     for ($i = 0; $i < $document_kind_count; $i++) {
                         $row = $wpdb->get_row('SELECT id,name, state FROM ' . $prefix . 'document_kind', ARRAY_A, $i);
                     ?>
-                        <tr class="doc_kind_table_row">
+                        <tr class="document_kind_table_row">
                             <td class="id hide"><?php echo $row["id"] ?></td>
                             <td><?php echo $i + 1 ?></td>
                             <td><?php echo $row["name"] ?></td>
@@ -71,29 +71,29 @@ $prefix = $wpdb->prefix;
     </div>
 </main>
 <!-- Карточка Вид документа -->
-<div class="appdialog" id="doc_kind_ref__dialog">
-    <div class="appdialog__window" id="doc_kind_ref__dialog_window">
+<div class="appdialog" id="document_kind_ref__dialog">
+    <div class="appdialog__window" id="document_kind_ref__dialog_window">
         <div class="appdialog__header">
-            <h3 class="appdialog__header_title" id="doc_kind_ref__dialog_title">Карточка Вид документа</h3>
+            <h3 class="appdialog__header_title" id="document_kind_ref__dialog_title">Карточка Вид документа</h3>
             <a class="appdialog__header_close" href="#">
                 <span>&#10006;</span> </a>
         </div>
         <div class="appdialog__content">
-            <div id="doc_kind_ref__dialog_content"></div>
+            <div id="document_kind_ref__dialog_content"></div>
         </div>
     </div>
 </div>
 
 <!-- ОКНО УВЕДОМЛЕНИЯ -->
-<div class="appdialog" id="doc_kind_ref__notif">
-        <div class="appdialog__window" id="doc_kind_ref__notif_window">
+<div class="appdialog" id="document_kind_ref__notif">
+        <div class="appdialog__window" id="document_kind_ref__notif_window">
             <div class="appdialog__header">
-                <h3 class="appdialog__header_title" id="doc_kind_ref__notif__header_title">Уведомление</h3>
+                <h3 class="appdialog__header_title" id="document_kind_ref__notif__header_title">Уведомление</h3>
                 <a class="appdialog__header_close" href="#">
                     <span>&#10006;</span> </a>
             </div>
             <div class="appdialog__content">
-                <div id="doc_kind_ref__notif_content"></div>
+                <div id="document_kind_ref__notif_content"></div>
                 <div class="appdialog__finish_buttons">
                     <button class="appdialog__notify_button">OK</button>
                 </div>

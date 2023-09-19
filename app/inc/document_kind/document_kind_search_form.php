@@ -13,8 +13,8 @@
        
     </div>
      <div class="search__finish_buttons">
-        <button class="search__finish_button" id="document_kind_search__button-OK">OK</button>
-        <button class="search__finish_button" id="document_kind_search__button-Cancel">Отмена</button>
+        <button class="search__finish_button" id="document_kind_search__button_OK">OK</button>
+        <button class="search__finish_button" id="document_kind_search__button_Cancel">Отмена</button>
     </div>
 </div>
 
