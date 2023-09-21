@@ -30,24 +30,9 @@
     add_action('wp_ajax_nopriv_get_site_url', 'get_url_site');
     add_action('wp_ajax_load_card', 'secure_load_card');
     add_action('wp_ajax_nopriv_load_card', 'secure_load_card');
-    add_action('wp_ajax_load_card_data', 'secure_load_card_data');
-    add_action('wp_ajax_nopriv_load_card_data', 'secure_load_card_data');
-    add_action('wp_ajax_delete_record', 'secure_delete_record');
-    add_action('wp_ajax_nopriv_delete_record', 'secure_delete_record');
-
-
-
-    add_action('wp_ajax_load_document_kind', 'secure_load_document_kind');
-    add_action('wp_ajax_nopriv_load_document_kind', 'secure_load_document_kind');
-    add_action('wp_ajax_add_document_kind', 'secure_add_document_kind');
-    add_action('wp_ajax_nopriv_add_document_kind', 'secure_add_document_kind');
-    add_action('wp_ajax_update_document_kind', 'secure_update_document_kind');
-    add_action('wp_ajax_nopriv_update_document_kind', 'secure_update_document_kind');
-
-    add_action('wp_ajax_search_document_kind', 'secure_search_document_kind');
-    add_action('wp_ajax_nopriv_search_document_kind', 'secure_search_document_kind');
-    add_action('wp_ajax_search_search_document_kind_extended', 'secure_search_document_kind_extended');
-    add_action('wp_ajax_nopriv_search_document_kind_extended', 'secure_search_document_kind_extended');
+    // add_action('wp_ajax_load_card_data', 'secure_load_card_data');
+    // add_action('wp_ajax_nopriv_load_card_data', 'secure_load_card_data');
+    
     
     
     /**
@@ -70,118 +55,14 @@
         wp_die();
     }
 
-    /**
-     * ========================= ЗАГРУЗКА ДАННЫХ КАРТОЧКИ =======================
-     */
-    function secure_load_card_data(){
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        $results = '';
-        $id = $_POST['id']; 
-        switch($_POST['card']){
-            case 'document_kind_card' :{    
-                $results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}document_kind WHERE id = $id", OBJECT );
-            }
-        }
-        echo json_encode($results);
-        wp_die();
-    }
+    
 
-    /**
-     * ================ ПОЛУЧЕНИЕ ЗАПИСИ ТАБЛИЦЫ ВИДЫ ДОКУМЕНТОВ =================
-     */
-    function secure_load_document_kind(){
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        $results = $wpdb->get_results( "SELECT * FROM sec_document_kind", ARRAY_A ); 
-        echo json_encode($results);
-        wp_die();
-    }
+    
 
 
     //$args = array( 'supports' => array( 'page-attributes') );
-    /**
-     * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ВИД ДОКУМЕНТА ======================
-     */
-    function secure_add_document_kind(){
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        $record = $_POST['record'];
-        $wpdb->insert(
-            'sec_document_kind',
-            array(
-                'name' => $record['name'],
-                'state' => $record['state'] 
-            ),
-            array(
-                '%s', '%s'
-            )
-        );
-        wp_die();
-    }
+    
 
-    /**
-     * ======================= УДАЛЕНИЕ ЗАПИСИ СПРАВОЧНИКА =======================
-     */
-    function secure_delete_record(){
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        $wpdb->delete( $prefix . get_reference_name($_POST['card']), array( 'ID' => $_POST['id'] ), array( '%d' ));
-        echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
-        wp_die();
-    }
-
-    /** 
-     * ====================== ОБНОВЛЕНИЕ ЗАПИСИ ВИД ДОКУМЕНТА ==========================
-     */
-    function secure_update_document_kind(){
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        $record = $_POST['record'];
-
-        $wpdb->update(
-            $prefix . 'document_kind',
-            array(
-                'name' => $record['name'],
-                'state' => $record['state']	
-            ),
-            array( 'ID' => $record['id'] ),
-            array(
-                '%s',	
-                '%s'
-            ),
-            array( '%d' )
-        );
-        echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
-        wp_die();
-    }
-
-    /**
-     * ================ ВИДЫ ДОКУМЕНТОВ. ОБЩИЙ ПОИСК =================
-     */
-    function secure_search_document_kind(){
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        $value = $_POST['value'];
-        $results = $wpdb->get_results( "SELECT * FROM sec_document_kind 
-            WHERE name LIKE '%$value%'", ARRAY_A );
-        echo json_encode($results);
-        wp_die();
-    }
-
-    /**
-     * ================= ВИДЫ ДОКУМЕНТОВ. РАСШИРЕННЫЙ ПОИСК =================
-     */
-    function secure_search_document_kind_extended(){
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        $name = $_POST['name'];
-        $state = $_POST['state'];
-        $results = $wpdb->get_results( "SELECT * FROM sec_document_kind 
-            WHERE name LIKE '%$name%' AND state='$state'", ARRAY_A );
-        echo json_encode($results);
-        wp_die();
-    }
 
     /** 
      * ==================== ПОЛУЧЕНИЕ СОСТОЯНИЯ ЗАПИСИ ==================

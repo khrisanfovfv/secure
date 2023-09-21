@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * @package Secure_database
+ */
+/*
+Plugin Name: Secure database
+Description: Рабоает с пользовательскими таблицами базы данных
+Version: 1.0.0
+Requires at least: 5.8
+Requires PHP: 5.6.20
+Author: Naimova D.A
+License: GPLv2 or later
+Text Domain: secure_database
+*/
+require_once('document_kind.php');
+
+if (!function_exists('add_action')) {
+    exit;
+}
+
+
+
+class SecDb
+{
+    protected $document_kind;
+    function __construct()
+    {
+        
+        register_activation_hook(__FILE__, array($this, 'secure_install_tables'));
+        register_activation_hook(__FILE__, array($this, 'secure_install_data_tables'));
+        add_action('init', array($this, 'secure_init_plugin'));
+        
+        //add_action( 'plugins_loaded', array($this, 'myplugin_update_db_check'));
+    }
+
+    public function secure_init_plugin(){
+        // ОБЩИЕ
+        add_action('wp_ajax_load_card_data', array($this,'secure_load_card_data'));
+        add_action('wp_ajax_nopriv_load_card_data', array($this, 'secure_load_card_data'));
+        add_action('wp_ajax_delete_record', array($this,'secure_delete_record'));
+        add_action('wp_ajax_nopriv_delete_record', array($this, 'secure_delete_record'));
+        // ВИДЫ ДОКУМЕНТОВ
+        add_action('wp_ajax_load_document_kind',array('DocumentKind','secure_load_document_kind'));
+        add_action('wp_ajax_nopriv_load_document_kind', array('DocumentKind','secure_load_document_kind'));
+        add_action('wp_ajax_add_document_kind', array('DocumentKind','secure_add_document_kind'));
+        add_action('wp_ajax_nopriv_add_document_kind', array('DocumentKind','secure_add_document_kind'));
+        add_action('wp_ajax_update_document_kind', array('DocumentKind','secure_update_document_kind'));
+        add_action('wp_ajax_nopriv_update_document_kind', array('DocumentKind','secure_update_document_kind'));
+        add_action('wp_ajax_search_document_kind', array('DocumentKind','secure_search_document_kind'));
+        add_action('wp_ajax_nopriv_search_document_kind', array('DocumentKind','secure_search_document_kind'));
+        add_action('wp_ajax_search_search_document_kind_extended', array('DocumentKind','secure_search_document_kind_extended'));
+        add_action('wp_ajax_nopriv_search_document_kind_extended', array('DocumentKind','secure_search_document_kind_extended'));
+    }
+
+    /**
+     * ======================= СОЗДАНИЕ ТАБЛИЦ ==========================
+     */
+    public function secure_install_tables(){
+        $this->document_kind = new DocumentKind();   
+    }
+
+    /**
+     * ============ ЗАПОЛНЕНИЕ ТАБЛИЦ ДАННЫМИ ПО-УМОЛЧАНИЮ ===============
+     */
+    public function secure_install_data_tables(){
+        $this->document_kind->install_data();
+    }
+
+    /**
+     * ========================= ЗАГРУЗКА ДАННЫХ КАРТОЧКИ =======================
+     */
+    function secure_load_card_data(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $results = '';
+        $id = $_POST['id']; 
+        switch($_POST['card']){
+            case 'document_kind_card' :{    
+                $results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}document_kind WHERE id = $id", OBJECT );
+            }
+        }
+        echo json_encode($results);
+        wp_die();
+    }
+
+    /**
+     * ======================= УДАЛЕНИЕ ЗАПИСИ СПРАВОЧНИКА =======================
+     */
+    function secure_delete_record(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $wpdb->delete( $prefix . get_reference_name($_POST['card']), array( 'ID' => $_POST['id'] ), array( '%d' ));
+        echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
+        wp_die();
+    }
+}
+
+
+if (class_exists('SecDb')) {
+    new SecDb();
+}

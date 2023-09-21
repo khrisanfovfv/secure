@@ -7,6 +7,7 @@ const autoprefixer = require('gulp-autoprefixer');
 const clean = require('gulp-clean');
 
 const destFolder = 'C:/OSPanel/domains/secure/wp-content/themes/cit_secure/';
+const pluginFolder = 'C:/OSPanel/domains/secure/wp-content/plugins/';
 
 function php(){
     return src([
@@ -15,18 +16,25 @@ function php(){
     .pipe(dest(destFolder))
 }
 
-function reference(){
-    return src([
-        'app/reference/*.php' 
-     ])
-     .pipe(dest(destFolder + 'reference'))
-}
+// function reference(){
+//     return src([
+//         'app/reference/*.php' 
+//      ])
+//      .pipe(dest(destFolder + 'reference'))
+// }
 
 function document_kind_php(){
     return src([
         'app/inc/document_kind/*.php' 
      ])
      .pipe(dest(destFolder + 'inc/document_kind'))
+}
+
+function secure_database(){
+    return src([
+        'app/plugins/secure_database/*.php'
+    ])
+    .pipe(dest(pluginFolder+ 'secure_database'))
 }
 
 
@@ -68,8 +76,9 @@ function watching(){
     watch(['app/scss/*.scss', 'app/inc/**/*.scss'], styles)
     watch(['app/plugins/tables_context_menu/context_menu.js',
         'app/js/main.js','app/js/reference.js','app/inc/**/*.js'], scripts)
-    //watch(['app/**/*.html', 'app/**/*.php']).on('change', browserSync.reload)
-    watch(['app/**/*.php'], php).on('change', browserSync.reload)
+    watch('app/plugins/secure_database/*.php',secure_database),
+    watch('app/inc/document_kind/*.php', document_kind_php),
+    watch(['app/**/*.php']).on('change', browserSync.reload)
 }
 
 function browsersync(){
@@ -100,12 +109,12 @@ function building(){
 exports.styles = styles;
 exports.scripts = scripts;
 exports.php = php;
-exports.reference = reference;
 exports.document_kind_php = document_kind_php;
+exports.secure_database = secure_database;
 
 exports.watching = watching;
 exports.browsersync = browsersync;
 exports.build = series(cleanDist, building);
 
 //exports.default = parallel(styles, scripts, browsersync, watching);
-exports.default = parallel(php, document_kind_php, reference, styles, scripts, browsersync, watching)
+exports.default = parallel(php, document_kind_php, secure_database, styles, scripts, browsersync, watching)
