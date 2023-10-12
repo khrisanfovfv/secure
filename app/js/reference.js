@@ -36,6 +36,7 @@ var reference = {
             card: reference.get_card_name(prefix)
         };
         jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+            $(prefix + '__dialog_content').empty();
             $(prefix + '__dialog_content').html(textStatus);
             switch (openMode){
                 // Режим редактирования
@@ -61,9 +62,11 @@ var reference = {
         switch (prefix) {
             // КАРТОЧКИ СПРАВОЧНИКА
             case '#document_kind_ref': card = 'document_kind_card'; break;
+            case '#information_system_ref': card = 'information_system_card'; break;
 
             // КАРТОЧКИ ПОИСКА
             case '#document_kind_ref_search' : card = 'document_kind_search'; break;
+            case '#information_system_ref_search' : card = 'information_system_search'; break;
         }
         return card;
     },
@@ -86,6 +89,7 @@ var reference = {
                 // Вызываем функцию для соответствующего вида справочника
                 switch (prefix) {
                     case '#document_kind_ref': card_document_kind_load_data(result, openMode); break;
+                    case '#information_system_ref': card_information_system_load_data(result, openMode); break;
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 var size = { width: 500, height: 200 };
@@ -107,6 +111,7 @@ var reference = {
      */
     show_notification(prefix, title, size, message) {
         $(prefix + '__notif').css("display", "flex");
+        $(prefix + '__notif').css('z-index', ++z_index);
         $(prefix + '__notif_window').css('width', size.width + 'px');
         $(prefix + '__notif_window').css('height', size.height + 'px');
         $(prefix + '__notif_content').empty();
@@ -123,6 +128,14 @@ var reference = {
         switch (state) {
             case 'Active': return 'Действующая'; break;
             case 'Inactive': return 'Не действующая'; break;
+            default: '';
+        }
+    },
+
+    get_boolean_value(value){
+        switch(value){
+            case true: return 'Да'; break;
+            case false: return 'Нет'; break;
             default: '';
         }
     },
@@ -146,7 +159,12 @@ var reference = {
     
             jQuery.post(MainData.ajaxurl, data, function (textStatus) {
                 var size = { width: 500, height: 200 };
-                document_kind_load_records();
+                switch(prefix){
+                    case '#document_kind_ref': document_kind_load_records(); break;
+                    case '#information_system_ref': information_system_load_records(); break;
+                }
+                
+                
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 var size = { width: 500, height: 200 };
                 message = 'Во время удаления записи произощла ошибка ' + textStatus + ' ' + errorThrown;

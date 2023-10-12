@@ -6,37 +6,11 @@
  * @package Secure 
  * */
 
-    get_header();
+    //get_header();
+    wp_redirect(get_site_url() . '/information_system');
+    exit;
 ?>
-        <!-- Идетификатор страницы -->
-        <p class="hide" id="page_id">is_card</p>
         
-        <main class="main">
-            <div class="content">
-                <div class="reference">
-                    <p class="reference__title">Справочник Информационные системы</p>
-                    <div class="reference__buttons">
-                        <button class="reference__button" id="IS_create">
-                            <img src="<?php echo get_template_directory_uri() . '/images/create-record.svg' ?>" alt="Создать">
-                            <p>Создать</p>
-                        </button>
-                        <button class="reference__button" id="IS_edit">
-                            <img src="<?php echo get_template_directory_uri() .'/images/edit.svg' ?>" alt="Редактировать">
-                            <p>Редактировать</p>
-                        </button>
-                        <button class="reference__button" id="IS_copy">
-                            <img src="<?php echo get_template_directory_uri() .'/images/copy.svg'?>" alt="Копировать">
-                            <p>Копировать</p>
-                        </button>
-                        <button class="reference__button" id="IS_delete">
-                            <img src="<?php echo get_template_directory_uri() . '/images/delete.svg' ?>" alt="Удалить">
-                            <p>Удалить</p>
-                        </button>
-                        <button class="reference__button" id="IS_excel">
-                            <img src="<?php echo get_template_directory_uri() .'/images/excel.svg'?>" alt="Excel">
-                            <p>Эл. таб</p>
-                        </button>
-                    </div>
                     <table class="reference__table" id="IS_table">
                         <thead>
                             <tr>
@@ -77,7 +51,7 @@
                 </div>
 
             </div>
-        </main>
+        </main> -->
 
 
-<?php get_footer(); ?>
+<!--?php get_footer(); ?-->

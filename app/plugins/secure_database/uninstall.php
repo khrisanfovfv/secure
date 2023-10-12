@@ -14,3 +14,6 @@ delete_option('sec_db_version');
 // drop a custom database table
 global $wpdb;
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}document_kind");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}information_system");
+
+

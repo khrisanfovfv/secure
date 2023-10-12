@@ -16,36 +16,36 @@ function php(){
     .pipe(dest(destFolder))
 }
 
-// function reference(){
-//     return src([
-//         'app/reference/*.php' 
-//      ])
-//      .pipe(dest(destFolder + 'reference'))
-// }
-
-function document_kind_php(){
-    return src([
-        'app/inc/document_kind/*.php' 
-     ])
-     .pipe(dest(destFolder + 'inc/document_kind'))
+function references_php(){
+    var references = ['document_kind', 'information_system'];
+    references.forEach(reference => {
+        return src([
+            'app/inc/'+ reference + '/*.php'
+        ])
+        .pipe(dest(destFolder + 'inc/'+ reference + '/'))
+    })
 }
 
 function secure_database(){
     return src([
         'app/plugins/secure_database/*.php'
     ])
-    .pipe(dest(pluginFolder+ 'secure_database'))
+    .pipe(dest(pluginFolder+ 'secure_database/'))
+}
+
+function json(){
+    return src(['app/resources.json'])
+    .pipe(dest(destFolder))
 }
 
 
 
 function scripts(){
     return src([
-        /*'node_modules/jquery/dist/jquery.js',*/
         'app/plugins/jquery-ui-1.13.2/external/jquery/jquery.js',
-        /*'app/plugins/jquery-ui-1.13.2/jquery-ui.js',*/
         'app/plugins/tables_context_menu/context_menu.js',
         'app/js/reference.js',
+        'app/inc/information_system/information_system.js',
         'app/inc/document_kind/document_kind.js',
         'app/inc/administrator/administrator.js',
         'app/inc/organisation/organisation.js',
@@ -77,7 +77,8 @@ function watching(){
     watch(['app/plugins/tables_context_menu/context_menu.js',
         'app/js/main.js','app/js/reference.js','app/inc/**/*.js'], scripts)
     watch('app/plugins/secure_database/*.php',secure_database),
-    watch('app/inc/document_kind/*.php', document_kind_php),
+    watch('app/inc/document_kind/*.php', references_php),
+    watch('app/inc/information_system/*.php', references_php),
     watch(['app/**/*.php']).on('change', browserSync.reload)
 }
 
@@ -109,12 +110,14 @@ function building(){
 exports.styles = styles;
 exports.scripts = scripts;
 exports.php = php;
-exports.document_kind_php = document_kind_php;
+//exports.document_kind_php = document_kind_php;
 exports.secure_database = secure_database;
+exports.references_php = references_php;
+exports.json = json;
 
 exports.watching = watching;
 exports.browsersync = browsersync;
 exports.build = series(cleanDist, building);
 
 //exports.default = parallel(styles, scripts, browsersync, watching);
-exports.default = parallel(php, document_kind_php, secure_database, styles, scripts, browsersync, watching)
+exports.default = parallel(json, php, references_php, secure_database, styles, scripts, browsersync, watching)

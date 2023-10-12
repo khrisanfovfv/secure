@@ -2,11 +2,10 @@
 @import 'reset';
 @import 'vars';
 @import 'fonts';
-@import 'is_card';
 @import 'reference';
-@import 'card';
 @import 'dialog.scss';
 @import '../plugins/tables_context_menu/context_menu.scss';
+@import '../inc/information_system/information_system.scss';
 @import '../inc/document_kind/document_kind.scss';
 @import '../inc/administrator/administrator.scss';
 @import '../inc/organisation/organisation.scss';
@@ -131,6 +130,7 @@
         width: 100%;
         display: flex;
         justify-content: center;
+        background-color: white;
         margin: 20px 0;
         gap: 20px;
     }
@@ -199,10 +199,100 @@
 }
 
 .gray_border{
-    border: thin, solid,#888;
+    border: thin solid#888;
 }
 
 .red_border{
     border: thin solid red;
+}
+
+/* Поле с выбором из справочника на карточке*/
+.card__record{
+    width: 100%;
+    display: flex;
+    padding: 0;
+    border: thin solid #888;
+}
+
+.card__record input{
+    border: none;
+    width: 100%;
+}
+
+
+.card_record__button{
+    border: thin dotted #888;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 23px;
+    cursor: pointer;
+}
+
+
+/* Группа документы*/
+.attacments{
+    flex: 1;
+    background-color: white;
+    /*align-items: stretch;*/
+    /*border: thin solid black;*/
+    &__title{
+        font-weight: bold;
+        padding: 5px;
+        font-size: 18px;
+    }
+    &__list{
+        margin: 5px;
+    }
+    &__item{
+        margin: 5px 0;
+    }
+    &__item:hover{
+        background-color: lightblue;
+    }
+    &__link{
+        display: flex;
+        align-items: center;
+    }
+    &__ico{
+        width: 32px;
+        margin-right: 10px;
+    }
+    &__name_item{
+        color: black;
+        font-size: 18px;
+    }
+}
+
+.hide{
+    display: none;
+}
+
+input{
+    //margin: 5px 0;
+    border: none;
+    border-bottom: 1px solid gray;
+    outline: none;
+    grid-column: 5/24;
+}
+
+input:focus{
+    border-bottom: 2px solid #13406d;
+}
+
+textarea:focus{
+    border: 2px solid rgb(175, 171, 171);
+}
+
+select{
+    //margin: 5px 0;
+    border: none;
+    border-bottom: 1px solid gray;
+    outline: none;
+    //grid-column: 5/24;
+}
+
+select:focus{
+    border-bottom: 2px solid #13406d;
 }
 

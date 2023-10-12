@@ -6,10 +6,10 @@ var Context = {
      */
     menuState: 0,
     // Cписок всех контекстных меню приложения
-    menus: ['#is_card__general_admins_context',
-            '#is_card__general_developpers_context',
-            '#is_card__contracts_context',
-            '#is_card__document_context',
+    menus: ['#information_system_card__general_admins_context',
+            '#information_system_card__general_developpers_context',
+            '#information_system_card__contracts_context',
+            '#information_system_card__document_context',
             '#administrator_ref__context',
             '#organisation_ref__context',
             '#department_ref__context',
@@ -36,7 +36,7 @@ var Context = {
     wrapperPaddingTop : parseInt($(".wrapper").css('padding-top')),
 
     /**
-     * Инициализация контекстного меню
+     * ИНИЦИАЛИЗАЦИЯ КОНТЕКСТНОГО МЕНЮ
      */
     init(){     
         /*=========== Привязка событий =============*/      
@@ -57,8 +57,8 @@ var Context = {
             Context.toggleMenuOff();
             // Открываем контекстное меню соответствующего элемента
             switch(el.id){
-                case 'is_card__documents_open_card': Context.document_open_card(); break;
-                case 'is_card__documents_create_version' : Context.document_open_version_card(); break; 
+                case 'information_system_card__documents_open_card': Context.document_open_card(); break;
+                case 'information_system_card__documents_create_version' : Context.document_open_version_card(); break; 
                 case 'main_menu__references' : Context.show_menu_references();
                 break;
                 case 'main_menu__help' : Context.show_menu_help(); break;
@@ -112,14 +112,14 @@ var Context = {
             var src_el = e.srcElement || e.target;
 
             const classNames =[
-                'is_table_row', 
-                'is_card__administrators_table_row',
-                'is_card__developpers_table_row',
-                'is_card__contracts_table_row',
+                'information_system_table_row', 
+                'information_system_card__administrators_table_row',
+                'information_system_card__developpers_table_row',
+                'information_system_card__contracts_table_row',
                 'administrator_ref__table_row',
                 'organisation_ref_table_row',
                 'department_ref_table_row',
-                'doc_kind_table_row',
+                'document_kind_table_row',
                 'contract_ref_table_row',
                 'employeer_ref_table_row',
                 'document_ref__table_row',
@@ -155,14 +155,14 @@ var Context = {
      */
     selectContext(className){
         switch (className){
-            case 'is_table_row' : Context.menu = $('#is_table_context');break;
-            case 'is_card__administrators_table_row': Context.menu = $('#is_card__general_admins_context'); break;
-            case 'is_card__developpers_table_row' : Context.menu = $('#is_card__general_developpers_context'); break;
-            case 'is_card__contracts_table_row' : Context.menu = $('#is_card__contracts_context'); break;
+            case 'information_system_table_row' : Context.menu = $('#information_system_ref__context');break;
+            case 'information_system_card__administrators_table_row': Context.menu = $('#information_system_card__general_admins_context'); break;
+            case 'information_system_card__developpers_table_row' : Context.menu = $('#information_system_card__general_developpers_context'); break;
+            case 'information_system_card__contracts_table_row' : Context.menu = $('#information_system_card__contracts_context'); break;
             case 'administrator_ref__table_row' : Context.menu = $('#administrator_ref__context'); break;
             case 'organisation_ref_table_row' : Context.menu = $('#organisation_ref__context'); break;
             case 'department_ref_table_row' : Context.menu = $('#department_ref__context'); break;
-            case 'doc_kind_table_row' : Context.menu = $('#document_kind_ref__context'); break;
+            case 'document_kind_table_row' : Context.menu = $('#document_kind_ref__context'); break;
             case 'contract_ref_table_row' : Context.menu = $ ('#contract_ref__context'); break;
             case 'employeer_ref_table_row' : Context.menu = $('#employeer_ref__context'); break;
             case 'document_ref__table_row' : Context.menu = $('#document_ref__context'); break;
@@ -247,15 +247,15 @@ var Context = {
     },
     /** ФУНКЦИИ ДЛЯ РАБОТЫ С ПУНКТАМИ КОНТЕКСТНОГО МЕНЮ ДОКУМЕНТА */
     document_open_card : function(){
-        $('#is_card__dialog').css('display', 'flex');
-        $('#is_card__dialog').css('z-index', z_index);
-        $('#is_card__dialog_content').load(host + 'inc/document/document_card.html');
+        $('#information_system_card__dialog').css('display', 'flex');
+        $('#information_system_card__dialog').css('z-index', z_index);
+        //$('#information_system_card__dialog_content').load(host + 'inc/document/document_card.html');
     },
 
     document_open_version_card : function(){
-        $('#is_card__dialog').css('display', 'flex');
-        $('#is_card__dialog').css('z-index', z_index);
-        $('#is_card__dialog_content').load(host + 'inc/version/version_card.html');
+        $('#information_system_card__dialog').css('display', 'flex');
+        $('#information_system_card__dialog').css('z-index', z_index);
+        //$('#information_system_card__dialog_content').load(host + 'inc/version/version_card.html');
 
     }
 }

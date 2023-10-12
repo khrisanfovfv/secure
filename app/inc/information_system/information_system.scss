@@ -1,28 +1,35 @@
 /* Карточка документа */
-.is_card{   
-    margin: 0 auto;
-    position: relative;
+.information_system_card{   
     display: flex;
     flex-direction: column;
-    flex: 5;
     align-items: stretch;
-    margin-right: 10px;
-    &__content{
-        width: 800px;
+    /*margin-right: 10px;*/
+    background-color: rgb(235, 235, 235);
+    height: 100%;
+    &__frame{
+        display: flex;
+        flex-direction: row;
+        height: 100%;
     }
+    &__content{
+        background-color: white;
+        align-items: stretch;
+        height: 100%;
+        margin-right: 5px;
+        flex: 5;
+    }
+    
     /* Вкладка - Общая */
     &__general{
         margin-top: -1px;
         display: flex;
         flex-direction: column;
-        border: thin solid black;
+        /*border: thin solid black;*/
         padding: 5px;
     }
     &__general_top{
         display: flex;
     }
-
-
     &__general_admins{
         margin-left: 20px;
         margin-right: 15px;
@@ -53,7 +60,7 @@
 
     &__general_fields select{
         background-color: white;
-        border: thin solid gray;
+        /*border: thin solid gray;*/
     }
 
     &__general_fields input[type=checkbox]{
@@ -68,7 +75,7 @@
     &__remarks{
         margin-top: -1px;
         display: grid;
-        border: thin solid black;
+        /*border: thin solid black;*/
         padding: 5px;
     }
     /* Таблица вкладки - Замечания по аттестации */
@@ -106,7 +113,7 @@
     /* Вкладка - Контракты */
     &__contracts{
         margin-top: -1px;
-        border: thin solid black;
+        /*border: thin solid black;*/
         padding: 5px;
     }
 
@@ -115,7 +122,7 @@
         display: flex;
         flex-direction: column;
         margin-top: -1px;
-        border: thin solid black;
+        /*border: thin solid black;*/
         padding: 5px;
     }
 
@@ -146,6 +153,7 @@
     margin: 20px auto;
     display: flex;
     justify-content: center;
+    background-color: white;
 }
 
 .finish_buttons__button{
@@ -162,25 +170,45 @@
     display: flex;
     /* Отдельная вкладка*/
     &__item{
-        margin: 0px;
+        margin-bottom: 5px;
         padding: 10px 20px;
         cursor: pointer;
-        background-color:  rgb(236, 236, 236);
-        border-top: thin solid black;
+        //background-color:  rgb(236, 236, 236);
+        /*border-top: thin solid black;
         border-left: thin solid black;
         border-right: thin solid black;
-        border-bottom: thin solid black;
+        border-bottom: thin solid black;*/
         z-index: 2;
     }
 
     &__item a{
         color: black;
     }
+
+    &__item::after{
+        content: '';
+        border-bottom: 2px solid #13406d;
+    }
     /* Класс для обозначения выделенной вкладки*/
     &__highlighted{
         border-bottom: thin solid white;
         background-color: $main_tabs_hilighted_tabs;
+        position: relative;
     }
+
+    &__highlighted::after{
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 40px;
+        border-bottom:2px solid  #13406d;
+        width: 100%;
+    }
+
+}
+
+#information_system_ref__dialog_content{
+    height: 100%;
 }
 
 /* Расположение элементов вкладки - Общая*/
@@ -195,53 +223,53 @@
     justify-self: end;
 }
 
-#is_card__scope{
+#information_system_card__scope{
     grid-column: 2/9;
 }
 
-#is_card__value_level_title{
+#information_system_card__significance_level_title{
     grid-column: 10/22;
 }
 
-#is_card__value_level{
+#information_system_card__significance_level{
     grid-column: 22/25;
     justify-self: end;
 }
 
-#is_card__certified_title,
-#is_card__has_remark_title{
+#information_system_card__certified_title,
+#information_system_card__has_remark_title{
     grid-column: 3/10;
 }
 
-#is_card__certifyDate_title,
-#is_card__commissioningDate_title{
+#information_system_card__certifyDate_title,
+#information_system_card__commissioningDate_title{
     grid-column: 10/18;
 }
 
-#is_card__certifyDate,
-#is_card__commissioningDate{
+#information_system_card__certifyDate,
+#information_system_card__commissioningDate{
     grid-column: 19/25;
 }
 
 
 /* Расположение элементов. Вкладка - Замечания по аттестации*/
-#is_card__remarkDate{
+#information_system_card__remarkDate{
     width: 100%;
     border: none;
 }
 
-#is_card__remarkEliminated{
+#information_system_card__remarkEliminated{
     width: 100%;
     background-color: white;
 }
 
 
 
-#is_card__developper{
+#information_system_card__developper{
     grid-column: 2/25;
 }
 
-#is_card__developper input{
+#information_system_card__developper input{
     width: 100%;
     border: none;
     outline: none;

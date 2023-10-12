@@ -7,6 +7,7 @@
      * */
 
     
+    
     /**
      * ПРИВЯЗЫВАЕТ ФАЙЛЫ СКРИПТОВ И СТИЛЕЙ К WORPRESS
      */
@@ -48,7 +49,9 @@
      */
     function secure_load_card(){
         switch($_POST['card']){
-            case 'document_kind_card' : get_template_part('reference/document_kind_card');break;
+            case 'document_kind_card' : get_template_part('inc/document_kind/document_kind_card');break;
+            case 'information_system_card' : get_template_part('inc/information_system/information_system_card');break;
+            
             case 'document_kind_search' : get_template_part('inc/document_kind/document_kind_search_form');break;
             //case 'document_kind_search' : get_template_part('reference/document_kind_search_form');break;
         }
@@ -76,11 +79,21 @@
     }
 
     /**
+     * Возвращает да/нет вместо true/false
+     * @param {boolean} $value
+     */
+    function get_boolean_value($value){
+        if (1) {return 'Да';}
+        else {return 'Нет';}
+    }
+
+    /**
      * ================= ПОЛУЧЕНИЕ НАИМЕНОВАНИЯ СПРАВОЧНИКА ================ 
      */
     function get_reference_name($card){
         switch ($card){
-            case 'document_kind_card' : return 'document_kind';
+            case 'document_kind_card' : return 'document_kind'; break;
+            case 'information_system_card' : return 'information_system'; break;
             default :'';
         }
 

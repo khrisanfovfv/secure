@@ -70,7 +70,7 @@ $prefix = $wpdb->prefix;
         </div>
     </div>
 </main>
-<!-- Карточка Вид документа -->
+<!-- ДИАЛОГОВОЕ ОКНО -->
 <div class="appdialog" id="document_kind_ref__dialog">
     <div class="appdialog__window" id="document_kind_ref__dialog_window">
         <div class="appdialog__header">

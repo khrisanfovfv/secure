@@ -14,16 +14,16 @@ License: GPLv2 or later
 Text Domain: secure_database
 */
 require_once('document_kind.php');
+require_once('information_system.php');
 
 if (!function_exists('add_action')) {
     exit;
 }
 
-
-
 class SecDb
 {
     protected $document_kind;
+    protected $information_system;
     function __construct()
     {
         
@@ -51,13 +51,19 @@ class SecDb
         add_action('wp_ajax_nopriv_search_document_kind', array('DocumentKind','secure_search_document_kind'));
         add_action('wp_ajax_search_search_document_kind_extended', array('DocumentKind','secure_search_document_kind_extended'));
         add_action('wp_ajax_nopriv_search_document_kind_extended', array('DocumentKind','secure_search_document_kind_extended'));
+
+        add_action('wp_ajax_add_information_system', array('InformationSystem', 'secure_add_information_system'));
+        add_action('wp_ajax_nopriv_add_information_system', array('InformationSystem', 'secure_add_information_system'));
+        add_action('wp_ajax_load_information_system', array('InformationSystem', 'secure_load_information_system'));
+        add_action('wp_ajax_load_information_system', array('InformationSystem', 'secure_load_information_system'));
     }
 
     /**
      * ======================= СОЗДАНИЕ ТАБЛИЦ ==========================
      */
     public function secure_install_tables(){
-        $this->document_kind = new DocumentKind();   
+        $this->document_kind = new DocumentKind();
+        $this->information_system = new InformationSystem();    
     }
 
     /**
@@ -65,6 +71,7 @@ class SecDb
      */
     public function secure_install_data_tables(){
         $this->document_kind->install_data();
+        $this->information_system->install_data();
     }
 
     /**
@@ -78,7 +85,11 @@ class SecDb
         switch($_POST['card']){
             case 'document_kind_card' :{    
                 $results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}document_kind WHERE id = $id", OBJECT );
-            }
+            };break;
+            case 'information_system_card':{
+                $results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}information_system WHERE id = $id", OBJECT );
+            }; break;
+
         }
         echo json_encode($results);
         wp_die();

@@ -1,0 +1,321 @@
+/**
+ * =================== ВЫБОР ВКЛАДОК НА КАРТОЧКЕ ИС =====================
+ * */
+$('.information_system_card__tabs_item').on('click',function(){
+    // Список имеющихся вкладок
+    var card_tabs = ['general','remarks','administrators','contracts','archive'];
+
+    // Устанавливаем класс main_tabs__highlighted у выбранной вкладки
+    $('.main_tabs__item').removeClass('main_tabs__highlighted');
+    $('.main_tabs__item').css('z-index',1);
+    $(this).addClass('main_tabs__highlighted');
+    $(this).css('z-index',2);
+
+    
+    /* Скрываем все вкладки */
+    card_tabs.forEach(item => {
+        $('#information_system_card__'+ item).addClass('hide');
+    });
+    /* Показываем выбранную */
+    tab=$(this).children().attr('href');
+    $(tab).removeClass('hide');
+})
+
+/** 
+ * ====================== ОДИНОЧНЫЙ КЛИК НА СТРОКУ ТАБЛИЦЫ =======================
+*/
+$('#information_system_table tbody tr').on('click', function (e) {
+    reference.highlight(e);
+})
+
+/** 
+ * ======================== ДВОЙНОЙ КЛИК НА СТРОКУ ТАБЛИЦЫ ======================= 
+*/
+$('#information_system_table tbody tr').on('dblclick', function () {
+    rows = $('.information_system_table_row.highlight')
+    var size = { width: 600, height: 200 };
+    reference.editRecord('#information_system_ref', rows, 'Карточка Информационной системы', size);
+})
+
+/**
+ * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ИНФОРМАЦИОНОЙ СИСТЕМЫ =========================
+ */
+$('#information_system_card__OK').on('click', function () {
+    if ($('#information_system_card__fullName').val().trim() == '') {
+        $('#information_system_card__fullName').addClass('red_border');
+
+        // Отправляем уведомление
+        var size = { width: 400, height: 200 };
+        var message = 'Не заполнено обязательное поле';
+        reference.show_notification('#information_system_ref', 'Предупреждение', size, message);
+    } else {
+        $('#information_system_card__name').removeClass('red_border');
+        // Формируем запись для запроса
+        record = {
+            id: $('#information_system_card__id').text(),
+            fullname: $('#information_system_card__fullName').val(),
+            briefname: $('#information_system_card__briefName').val(),
+            significancelevel: $('#information_system_card__significance_level').val(),
+            scope: $('#information_system_card__scope').val(),
+            certified: $('#information_system_card__certified').is(':checked'),
+            certifydate: $('#information_system_card__certifyDate').val(),
+            hasremark: $('#information_system_card__has_remark').is(':checked'),
+            commissioningdate: $('#information_system_card__commissioningDate').val(),
+            state: $('#information_system_card__state').val()
+        }
+        if ($('#information_system_card__id').text() == '') {
+            // ДОБАВЛЯЕМ значение в базу
+            var data = {
+                action: 'add_information_system',
+                record: record
+            };
+            jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+                information_system_load_records();
+            }).fail(function () {
+                var size = { width: 500, height: 200 };
+                var message = 'Во время добавления записи произощла ошибка';
+                reference.show_notification('information_system_ref', 'Ошибка', size, message);
+            })
+        } else {
+            // ОБНОВЛЯЕМ значение в базе данных
+            var data = {
+                action: 'update_information_system',
+                record: record
+            };
+
+            jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+                information_system_load_records();
+            }).fail(function () {
+                var size = { width: 500, height: 200 };
+                var message = 'Во время обновления записи произощла ошибка';
+                reference.show_notification('information_system_ref', 'Ошибка', size, message);
+            })
+        }
+        $(this).parents('.appdialog').css('display', 'none');
+    }
+
+});
+
+/**
+ * ==================== НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ИНФОРМАЦИОНОЙ СИСТЕМЫ ======================
+ */
+$('#information_system_card__Cancel').on('click', function () {
+    $(this).parents('.appdialog').css('display', 'none');
+});
+
+
+
+
+/**
+ * =========================== ЗАГРУЗКА ЗАПИСЕЙ СПРАВОЧНИКА ===========================
+ */
+function information_system_load_records() {
+    var data = {
+        action: 'load_information_system',
+    };
+
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var records = JSON.parse(result);
+        information_system_update_card(records);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        var message = 'Во время обновления списказаписей произощла ошибка ' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#information_system_ref', 'Ошибка', size, message);
+    });
+
+}
+
+/**
+ *  ================================== ОБЩИЙ ПОИСК =======================================
+ * @param {string} value 
+ */
+function information_system_common_search(value){
+    // Делаем ajax - запрос
+    var data = {
+        action: 'search_information_system',
+        value: value
+    };
+
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var records = JSON.parse(result);
+        var ind = 1;
+        information_system_update_card(records);
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#information_system_ref', 'Ошибка', size, message);
+    });
+}
+
+/**
+ * ============================ КНОПКА РАСШИРЕННЫЙ ПОИСК =============================
+ */
+function information_system_extended_search(){
+    size = {width : 500, height : 200};
+    prefix = '#information_system_ref';
+    title = 'Расширенный поиск';
+    // Загружаем карточку
+    var data = {
+        action: 'load_card',
+        card: 'information_system_search'
+    };
+    reference.show_dialog(prefix, size, title);
+    jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+        $(prefix + '__dialog_content').html(textStatus);
+            
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            var size = { width: 500, height: 200 };
+            message = 'Во время загрузки карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+            reference.show_notification('#information_system_ref', 'Ошибка', size, message);
+        });
+}
+
+/**
+ * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
+*/
+$('#information_system_search__button_OK').on('click', function(){
+    var data = {
+        action: 'search_information_system_extended',
+        name : $('#information_system__search_name').val(),
+        state : $('#information_system__search_state').val()
+    };
+
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var records = JSON.parse(result);
+        var ind = 1;
+        information_system_update_card(records);
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#information_system_ref', 'Ошибка', size, message);
+    });
+
+})
+
+/**
+ * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена =============
+*/
+$('#information_system_search__button_Cancel').on('click', function(){
+    $(this).parents('.appdialog').css('display', 'none');
+});
+
+
+
+/** КНОПКИ НА ПАНЕЛИ ДЕЙСТВИЙ */
+
+/** 
+ * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
+ * */
+$('#information_system_create').on('click', function () {
+    var size = { width: 1400, height: 800 };
+    reference.open_card('#information_system_ref', 'Карточка Информационной системы', size, OpenMode.Create, 0);
+});
+
+/**
+ * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
+ */
+$('#information_system_edit').on('click', function () {
+    rows = $('.information_system_table_row.highlight')
+    var id = rows[0].children.item(0).textContent;
+    var size = { width: 1400, height: 800 };
+    reference.open_card('#information_system_ref', 'Карточка Информационной системы', size, OpenMode.Edit, id);
+})
+
+
+/**
+ * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
+ */
+$('#information_system_copy').on('click', function () {
+    rows = $('.information_system_table_row.highlight')
+    var id = rows[0].children.item(0).textContent;
+    var size = { width: 1400, height: 800 };
+    // Открываем карточку в режиме создания новой записи
+    reference.open_card('#information_system_ref', 'Карточка Информационной системы', size, OpenMode.Copy, id);
+})
+
+
+/**
+ * ========================= НАЖАТИЕ КНОПКИ УДАЛИТЬ ЗАПИСЬ ==========================
+ */
+$('#information_system_delete').on('click', function () {
+    rows = $('.information_system_table_row.highlight');
+    reference.delete_record('#information_system_ref', rows);
+});
+
+
+/**
+ * ======================== ЗАГРУЗКА ДАННЫХ В КАРТОЧКУ =======================
+ * @param {Object} data 
+ * @param {boolean} openMode
+ */
+async function card_information_system_load_data(data, openMode) {
+    var cardData = JSON.parse(data);
+    /** 
+     * Для того чтоб создалась новая карточка при редимах создания и копирования 
+     * обнуляем поле id
+     */
+    switch (openMode) {
+        case OpenMode.Create: $('#information_system_card__id').text(''); break;
+        case OpenMode.Edit: $('#information_system_card__id').text(cardData[0].id); break;
+        case OpenMode.Copy: $('#information_system_card__id').text(''); break;
+    }
+    $('#information_system_card__fullName').val(cardData[0].fullname);
+    $('#information_system_card__briefName').val(cardData[0].briefname);
+    $('#information_system_card__significance_level').val(cardData[0].significancelevel);
+    $('#information_system_card__scope').val(cardData[0].scope);
+    $('#information_system_card__certified').val(cardData[0].certified);
+    $('#information_system_card__certifyDate').val(cardData[0].certifydate);
+    $('#information_system_card__has_remark').val(cardData[0].hasremark);
+    $('#information_system_card__commissioningDate').val(cardData[0].commissioningdate);
+    $('#information_system_card__state').val(cardData[0].state);
+}
+
+/**
+ *  ========================= ОБНОВЛЕНИЕ ПОЛЕЙ КАРТОЧКИ ===========================
+ * @param {Object} records 
+ */
+function information_system_update_card(records) {
+    var ind = 1;
+    $('#information_system_table tbody tr').remove();
+    records.forEach(record => {
+
+        var tr = $('#information_system_table tbody').append(
+            "<tr class='information_system_table_row'>" +
+                "<td class='id hide'>" + record["id"] + "</td>" +
+                "<td>" + (ind++) + "</td>" +
+                "<td>" + record["briefname"] + "</td>" +
+                "<td>" + record["fullname"] + "</td>" + 
+                "<td>" + reference.get_boolean_value(record["certified"]) + "</td>" +
+                "<td>" + record["certifydate"] + "</td>" +
+                "<td>" + record["commissioningdate"] + "</td>" +
+                "<td>" + reference.get_boolean_value(record["hasremark"]) + "</td>" +
+                /*"<td>" + reference.get_state(record["state"]) + "</td>" +*/
+            "</tr>");
+        tr.on('click', function (e) {
+            reference.highlight(e);
+        })
+    });
+
+
+
+
+    /** 
+ * ====================== КОНТЕКТНОЕ МЕНЮ - РЕДАКТИРОВАТЬ ========================= 
+ * */
+$('#information_system_ref__context_edit').on('click', function () {
+    rows = $('.information_system_table_row.highlight');
+    if (rows.length > 0) {
+        var id = rows[0].children.item(0).textContent;
+        //Загружаем карточку
+        textStatus = id;
+        var size = { width: 400, height: 200 };
+        reference.show_notification('#information_system_ref', 'Уведомление', size, textStatus)
+    } else {
+        var size = { width: 400, height: 200 };
+        message = 'Вы не выбрали запись';
+        reference.show_notification('#information_system_ref', 'Предупреждение', size, message);
+    }
+})
+}

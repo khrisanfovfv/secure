@@ -1,7 +1,7 @@
-var informationSystem = {
-    prefix : '#is_card',
-    cardPath : 'inc/administrator/administrator_card.html'
-}
+// var informationSystem = {
+//     prefix : '#is_card',
+//     cardPath : 'inc/administrator/administrator_card.html'
+// }
 
 
 
@@ -34,12 +34,7 @@ $(function () {
         e.preventDefault();
         href = $(this).children().attr('href');
         switch (href){
-            case 'sm_references__administrators': {
-                $("<a>").prop({
-                    target: "_blank",
-                    href: host + "inc/administrator/administrator_ref.html"
-                })[0].click();
-            }; break;
+            case 'sm_references__administrators': open_page('information_system'); break;
             case 'sm_references__organisations': {
                 $("<a>").prop({
                     target: "_blank",
@@ -174,26 +169,7 @@ $(function () {
 
 
 
-    /**=========== Выбор вкладок на карточке ИС =====================*/
-    $('.is_card__tabs_item').on('click',function(){
-        // Список имеющихся вкладок
-        var card_tabs = ['general','remarks','administrators','contracts','archive'];
-
-        // Устанавливаем класс main_tabs__highlighted у выбранной вкладки
-        $('.main_tabs__item').removeClass('main_tabs__highlighted');
-        $('.main_tabs__item').css('z-index',1);
-        $(this).addClass('main_tabs__highlighted');
-        $(this).css('z-index',2);
-
-        
-        /* Скрываем все вкладки */
-        card_tabs.forEach(item => {
-            $('#is_card__'+ item).addClass('hide');
-        });
-        /* Показываем выбранную */
-        tab=$(this).children().attr('href');
-        $(tab).removeClass('hide');
-    })
+    
 
     /**=========== Выбор вкладок на карточке Документ =====================*/
     $('.document__tabs_item').on('click',function(){
