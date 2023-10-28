@@ -5,9 +5,19 @@ const uglify = require('gulp-uglify-es').default;
 const browserSync = require('browser-sync').create();
 const autoprefixer = require('gulp-autoprefixer');
 const clean = require('gulp-clean');
+const imagemin = require('gulp-imagemin');
 
 const destFolder = 'C:/OSPanel/domains/secure/wp-content/themes/cit_secure/';
 const pluginFolder = 'C:/OSPanel/domains/secure/wp-content/plugins/';
+
+function images(){
+    return src(['app/images/src/*.*', '!app/images/src/*.svg'])
+    .pipe(src('app/images/src/*.*'))
+    .pipe(imagemin())
+    .pipe(dest(destFolder +'images/'))
+
+
+}
 
 function php(){
     return src([
@@ -109,8 +119,8 @@ function building(){
 
 exports.styles = styles;
 exports.scripts = scripts;
+exports.images = images;
 exports.php = php;
-//exports.document_kind_php = document_kind_php;
 exports.secure_database = secure_database;
 exports.references_php = references_php;
 exports.json = json;
@@ -120,4 +130,4 @@ exports.browsersync = browsersync;
 exports.build = series(cleanDist, building);
 
 //exports.default = parallel(styles, scripts, browsersync, watching);
-exports.default = parallel(json, php, references_php, secure_database, styles, scripts, browsersync, watching)
+exports.default = parallel(json, images, php, references_php, secure_database, styles, scripts, browsersync, watching)

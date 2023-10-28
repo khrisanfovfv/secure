@@ -1,3 +1,10 @@
+/* Справочник */
+.information_system{
+    &__reference_container{
+        height: 100%;
+    }
+}
+
 /* Карточка документа */
 .information_system_card{   
     display: flex;

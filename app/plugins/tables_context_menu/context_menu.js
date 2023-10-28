@@ -10,6 +10,8 @@ var Context = {
             '#information_system_card__general_developpers_context',
             '#information_system_card__contracts_context',
             '#information_system_card__document_context',
+            '#information_system_ref__context',
+            '#information_system_ref__out_context',
             '#administrator_ref__context',
             '#organisation_ref__context',
             '#department_ref__context',
@@ -57,10 +59,14 @@ var Context = {
             Context.toggleMenuOff();
             // Открываем контекстное меню соответствующего элемента
             switch(el.id){
+                case 'information_system_ref__out_context_create': information_system_create_record(); break;
+                case 'information_system_ref__context_edit' : information_system_edit_record(); break;
+                case 'information_system_ref__context_copy' : information_system_copy_record(); break;
+                case 'information_system_ref__context_delete' : information_system_delete_record(); break;
+                case 'information_system_ref__out_context_update' : information_system_load_records(); break;
                 case 'information_system_card__documents_open_card': Context.document_open_card(); break;
                 case 'information_system_card__documents_create_version' : Context.document_open_version_card(); break; 
-                case 'main_menu__references' : Context.show_menu_references();
-                break;
+                case 'main_menu__references' : Context.show_menu_references();break;
                 case 'main_menu__help' : Context.show_menu_help(); break;
                 default :{
                     var button = e.which || e.button;
@@ -141,10 +147,18 @@ var Context = {
                         if ( el.classList && el.classList.contains(className) ) {                 
                             Context.selectContext(className)
                             result =  el;
-                        }
+                        } 
                     }
                 }
             });
+            // Если найденный элемент - строка таблицы выделяем ее
+            if (result.nodeName === 'TR'){
+                reference.highlight(e);
+            }
+            // Проверяем щелкнули ли м в пустом месте табицы
+            if (!result){
+                result = Context.createContext(src_el);
+            }
             return result;
         },
     
@@ -236,6 +250,7 @@ var Context = {
         }
     },
     /** ФУНКЦИИ ДЛЯ РАБОТЫ С ПУНКТАМИ ГЛАВНОГО МЕНЮ */
+
     /** Показать меню справочники */
     show_menu_references : function(){
         Context.menuState = 1;
@@ -257,5 +272,13 @@ var Context = {
         $('#information_system_card__dialog').css('z-index', z_index);
         //$('#information_system_card__dialog_content').load(host + 'inc/version/version_card.html');
 
+    },
+
+    createContext : function(src_el){
+        switch(src_el.className){
+            case 'information_system__reference_container' : Context.menu = $('#information_system_ref__out_context'); break;
+            default : return false;
+        }
+        return src_el;
     }
 }

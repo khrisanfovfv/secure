@@ -32,9 +32,7 @@ $('#information_system_table tbody tr').on('click', function (e) {
  * ======================== ДВОЙНОЙ КЛИК НА СТРОКУ ТАБЛИЦЫ ======================= 
 */
 $('#information_system_table tbody tr').on('dblclick', function () {
-    rows = $('.information_system_table_row.highlight')
-    var size = { width: 600, height: 200 };
-    reference.editRecord('#information_system_ref', rows, 'Карточка Информационной системы', size);
+    information_system_edit_record();
 })
 
 /**
@@ -219,18 +217,14 @@ $('#information_system_search__button_Cancel').on('click', function(){
  * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
  * */
 $('#information_system_create').on('click', function () {
-    var size = { width: 1400, height: 800 };
-    reference.open_card('#information_system_ref', 'Карточка Информационной системы', size, OpenMode.Create, 0);
+    information_system_create_record()
 });
 
 /**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
 $('#information_system_edit').on('click', function () {
-    rows = $('.information_system_table_row.highlight')
-    var id = rows[0].children.item(0).textContent;
-    var size = { width: 1400, height: 800 };
-    reference.open_card('#information_system_ref', 'Карточка Информационной системы', size, OpenMode.Edit, id);
+    information_system_edit_record();
 })
 
 
@@ -238,11 +232,7 @@ $('#information_system_edit').on('click', function () {
  * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
  */
 $('#information_system_copy').on('click', function () {
-    rows = $('.information_system_table_row.highlight')
-    var id = rows[0].children.item(0).textContent;
-    var size = { width: 1400, height: 800 };
-    // Открываем карточку в режиме создания новой записи
-    reference.open_card('#information_system_ref', 'Карточка Информационной системы', size, OpenMode.Copy, id);
+    information_system_copy_record();
 })
 
 
@@ -250,9 +240,14 @@ $('#information_system_copy').on('click', function () {
  * ========================= НАЖАТИЕ КНОПКИ УДАЛИТЬ ЗАПИСЬ ==========================
  */
 $('#information_system_delete').on('click', function () {
-    rows = $('.information_system_table_row.highlight');
-    reference.delete_record('#information_system_ref', rows);
+    information_system_delete_record();
 });
+/**
+ * ============================= НАЖАТИЕ КНОПКИ ОБНОВИТЬ =============================
+ */
+$('#information_system_update').on('click', function(){
+    information_system_load_records();
+})
 
 
 /**
@@ -260,7 +255,7 @@ $('#information_system_delete').on('click', function () {
  * @param {Object} data 
  * @param {boolean} openMode
  */
-async function card_information_system_load_data(data, openMode) {
+function card_information_system_load_data(data, openMode) {
     var cardData = JSON.parse(data);
     /** 
      * Для того чтоб создалась новая карточка при редимах создания и копирования 
@@ -305,27 +300,48 @@ function information_system_update_reference(records) {
         tr.on('click', function (e) {
             reference.highlight(e);
         })
+        tr.on('dblclick', function(){
+            information_system_edit_record();
+        })
     });
+}
 
+/**================================================================================= 
+* ==================================== ДЕЙСТВИЯ ==================================== 
+* ==================================================================================*/
 
+function information_system_create_record(){
+    var size = { width: 1400, height: 800 };
+    reference.open_card('#information_system_ref', 'Карточка Информационной системы', size, OpenMode.Create, 0);
+}
 
-
-    /** 
- * ====================== КОНТЕКТНОЕ МЕНЮ - РЕДАКТИРОВАТЬ ========================= 
- * */
-$('#information_system_ref__context_edit').on('click', function () {
-    rows = $('.information_system_table_row.highlight');
-    if (rows.length > 0) {
+function information_system_edit_record(){
+    rows = $('.information_system_table_row.highlight')
+    if (rows.length > 0){
         var id = rows[0].children.item(0).textContent;
-        //Загружаем карточку
-        textStatus = id;
-        var size = { width: 400, height: 200 };
-        reference.show_notification('#information_system_ref', 'Уведомление', size, textStatus)
-    } else {
-        var size = { width: 400, height: 200 };
-        message = 'Вы не выбрали запись';
-        reference.show_notification('#information_system_ref', 'Предупреждение', size, message);
+        var size = { width: 1400, height: 800 };
+        reference.open_card('#information_system_ref', 'Карточка Информационной системы', size, OpenMode.Edit, id);
     }
-})
+    $('#information_system_ref__context').css('display', 'none');
 
 }
+
+function information_system_copy_record(){
+    rows = $('.information_system_table_row.highlight')
+    if (rows.length > 0){
+        var id = rows[0].children.item(0).textContent;
+        var size = { width: 1400, height: 800 };
+        // Открываем карточку в режиме копирования записи
+        reference.open_card('#information_system_ref', 'Карточка Информационной системы', size, OpenMode.Copy, id);
+    } 
+    $('#information_system_ref__context').css('display', 'none');
+}
+
+function information_system_delete_record(){
+    rows = $('.information_system_table_row.highlight');
+    if (rows.length > 0){
+        reference.delete_record('#information_system_ref', rows);
+    }
+    $('#information_system_ref__context').css('display', 'none');
+}    
+    
