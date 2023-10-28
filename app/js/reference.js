@@ -120,7 +120,7 @@ var reference = {
     },
 
     /**
-    * Получить состояние поля
+    * =========================== ПОЛУЧИТЬ СОСТОЯНИЕ ПОЛЯ ==============================
     * @param {string} state 
     * @returns Состояние поля
     */
@@ -132,11 +132,29 @@ var reference = {
         }
     },
 
+    /**
+     * ============================ ЗАМЕНА 1/0 НА Да/Нет ================================
+     * @param {number} value 
+     * @returns Да/Нет
+     */
     get_boolean_value(value){
         switch(value){
-            case true: return 'Да'; break;
-            case false: return 'Нет'; break;
+            case '1': return 'Да'; break;
+            case '0': return 'Нет'; break;
             default: '';
+        }
+    },
+
+    /**
+     * ====================== ЗАМЕНА НУЛЕВОЙ ДАТЫ НА ПУСТОЕ ЗНАЧЕНИЕ
+     * @param {string} value 
+     * @returns значение даты
+     */
+    get_date_value(value){
+        if (value === '0000-00-00'){
+            return '';
+        } else{
+            return value;
         }
     },
 
@@ -190,5 +208,18 @@ var reference = {
         $(prefix + '__dialog_window').css('width', size.width + 'px');
         $(prefix + '__dialog_window').css('height', size.height + 'px');
         $(prefix + '__dialog_title').text(title );
+    },
+
+    /**
+     * ========================= СКРЫВАЕТ ДИАЛОГОВОЕ ОКНО ========================
+     * @param {event} e 
+     */
+    hide_dialog(e){
+        el = e.target
+        while ( el = el.parentNode ) {
+            if ( el.classList && el.classList.contains('appdialog') ) {                
+                el.style.display = 'none';
+            }
+        }
     }
 }

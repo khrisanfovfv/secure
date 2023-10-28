@@ -24,6 +24,8 @@ $document_icons = $resources->get_document_icons();
                 <div class="information_system_card__general_top">
                     <!-- ПОЛЯ КАРТОЧКИ-->
                     <div class="information_system_card__general_fields">
+                        <!-- ИД -->
+                        <p class="hide" id="information_system_card__id"></p>
                         <!-- Кнопка начать аттестацию -->
                         <button id="start_certification_button">Начать аттестацию</button>
                         <!-- Полное наименование -->
@@ -61,6 +63,12 @@ $document_icons = $resources->get_document_icons();
                         <label for="information_system_card__commissioningDate" id="information_system_card__commissioningDate_title">Дата ввода в
                             эксплуатацию</label>
                         <input type="date" id="information_system_card__commissioningDate" name="information_system_card__commissioningDate" size="40"><br>
+                        <!-- Состояние -->
+                        <label id="information_system_card__state_title" for="information_system_card__state">Состояние</label>
+                        <select id="information_system_card__state">
+                            <option value="Active">Действующая</option>
+                            <option value="Inactive">Не действующая</option>
+                        </select>
                     </div>
 
 

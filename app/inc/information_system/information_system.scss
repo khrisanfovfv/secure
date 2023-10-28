@@ -173,11 +173,6 @@
         margin-bottom: 5px;
         padding: 10px 20px;
         cursor: pointer;
-        //background-color:  rgb(236, 236, 236);
-        /*border-top: thin solid black;
-        border-left: thin solid black;
-        border-right: thin solid black;
-        border-bottom: thin solid black;*/
         z-index: 2;
     }
 
@@ -242,12 +237,14 @@
 }
 
 #information_system_card__certifyDate_title,
-#information_system_card__commissioningDate_title{
+#information_system_card__commissioningDate_title,
+#information_system_card__state_title{
     grid-column: 10/18;
 }
 
 #information_system_card__certifyDate,
-#information_system_card__commissioningDate{
+#information_system_card__commissioningDate,
+#information_system_card__state{
     grid-column: 19/25;
 }
 
@@ -275,6 +272,65 @@
     outline: none;
 
 }
+
+.information_system_search{
+    &__content{
+        padding:20px 10px 10px 10px;
+        font-size: 18px;
+        display: flex;
+        flex-direction: column;
+    }
+    &__fields{
+        display: grid;
+        grid-template-columns: repeat(24,1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    &__fields label{
+        grid-column: 1/9;
+        font-weight: bold;
+    }
+
+    &__fields input{
+        grid-column: 10/24;
+    }
+
+    
+
+
+    &__fields select{
+        grid-column: 10/15;
+        background-color: white;
+    }
+}
+
+#information_system_search__significance_level,
+#information_system_search__certified,
+#information_system_search__has_remark{
+    grid-column: 10/12;
+}
+
+#information_system_search__certifyDateFromLabel,
+#information_system_search__commissioningDateFromLabel{
+    grid-column: 10;
+}
+
+#information_system_search__certifyDateFrom,
+#information_system_search__commissioningDateFrom{
+    grid-column: 11/16;
+}
+
+#information_system_search__certifyDateToLabel,
+#information_system_search__commissioningDateToLabel{
+    grid-column: 17;
+}
+
+#information_system_search__certifyDateTo,
+#information_system_search__commissioningDateTo{
+    grid-column: 18/24;
+}
+
 
 
 

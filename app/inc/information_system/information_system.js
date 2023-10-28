@@ -55,21 +55,22 @@ $('#information_system_card__OK').on('click', function () {
             id: $('#information_system_card__id').text(),
             fullname: $('#information_system_card__fullName').val(),
             briefname: $('#information_system_card__briefName').val(),
-            significancelevel: $('#information_system_card__significance_level').val(),
+            significancelevel: $('#information_system_card__significance_level').val() ,
             scope: $('#information_system_card__scope').val(),
-            certified: $('#information_system_card__certified').is(':checked'),
+            certified: ($('#information_system_card__certified').is(':checked')) ? 1 : 0,
             certifydate: $('#information_system_card__certifyDate').val(),
-            hasremark: $('#information_system_card__has_remark').is(':checked'),
+            hasremark: $('#information_system_card__has_remark').is(':checked') ? 1 : 0,
             commissioningdate: $('#information_system_card__commissioningDate').val(),
             state: $('#information_system_card__state').val()
         }
         if ($('#information_system_card__id').text() == '') {
-            // ДОБАВЛЯЕМ значение в базу
+            // ДОБАВЛЯЕМ значение в базу+
             var data = {
                 action: 'add_information_system',
                 record: record
             };
             jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+                alert(textStatus);
                 information_system_load_records();
             }).fail(function () {
                 var size = { width: 500, height: 200 };
@@ -116,10 +117,10 @@ function information_system_load_records() {
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
         var records = JSON.parse(result);
-        information_system_update_card(records);
+        information_system_update_reference(records);
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
-        var message = 'Во время обновления списказаписей произощла ошибка ' + textStatus + ' ' + errorThrown;
+        var message = 'Во время обновления списка записей произощла ошибка ' + textStatus + ' ' + errorThrown;
         reference.show_notification('#information_system_ref', 'Ошибка', size, message);
     });
 
@@ -138,8 +139,8 @@ function information_system_common_search(value){
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
         var records = JSON.parse(result);
-        var ind = 1;
-        information_system_update_card(records);
+        console.log(records);
+        information_system_update_reference(records);
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
@@ -152,7 +153,7 @@ function information_system_common_search(value){
  * ============================ КНОПКА РАСШИРЕННЫЙ ПОИСК =============================
  */
 function information_system_extended_search(){
-    size = {width : 500, height : 200};
+    size = {width : 900, height : 450};
     prefix = '#information_system_ref';
     title = 'Расширенный поиск';
     // Загружаем карточку
@@ -174,17 +175,26 @@ function information_system_extended_search(){
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
 */
-$('#information_system_search__button_OK').on('click', function(){
+$('#information_system_search__button_OK').on('click', function(e){
     var data = {
         action: 'search_information_system_extended',
-        name : $('#information_system__search_name').val(),
+        fullname : $('#information_system_search__fullName').val(),
+        briefname: $('#information_system_search__briefName').val(),
+        scope: $('#information_system_search__scope').val(),
+        significancelevel: $('#information_system_search__significance_level').val(),
+        certified: $('#information_system_search__certified').val(),
+        certifydatefrom: $('#information_system_search__certifyDateFrom').val(),
+        certifydateto: $('#information_system_search__certifyDateTo').val(),
+        commissioningdatefrom: $('#information_system_search__commissioningDateFrom').val(),
+        commissioningdateto: $('#information_system_search__commissioningDateTo').val(),
+        hasremark: $('#information_system_search__has_remark').val(),
         state : $('#information_system__search_state').val()
     };
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
         var records = JSON.parse(result);
-        var ind = 1;
-        information_system_update_card(records);
+        information_system_update_reference(records);
+        reference.hide_dialog(e);
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
@@ -265,31 +275,30 @@ async function card_information_system_load_data(data, openMode) {
     $('#information_system_card__briefName').val(cardData[0].briefname);
     $('#information_system_card__significance_level').val(cardData[0].significancelevel);
     $('#information_system_card__scope').val(cardData[0].scope);
-    $('#information_system_card__certified').val(cardData[0].certified);
+    $('#information_system_card__certified').prop('checked',cardData[0].certified);
     $('#information_system_card__certifyDate').val(cardData[0].certifydate);
-    $('#information_system_card__has_remark').val(cardData[0].hasremark);
+    $('#information_system_card__has_remark').prop('checked',cardData[0].hasremark);
     $('#information_system_card__commissioningDate').val(cardData[0].commissioningdate);
     $('#information_system_card__state').val(cardData[0].state);
 }
 
 /**
- *  ========================= ОБНОВЛЕНИЕ ПОЛЕЙ КАРТОЧКИ ===========================
+ *  ========================= ОБНОВЛЕНИЕ СПРАВОЧНИКА ИНФОРМАЦИОННЫЕ СИСТЕМЫ ===========================
  * @param {Object} records 
  */
-function information_system_update_card(records) {
+function information_system_update_reference(records) {
     var ind = 1;
     $('#information_system_table tbody tr').remove();
     records.forEach(record => {
-
         var tr = $('#information_system_table tbody').append(
             "<tr class='information_system_table_row'>" +
                 "<td class='id hide'>" + record["id"] + "</td>" +
                 "<td>" + (ind++) + "</td>" +
                 "<td>" + record["briefname"] + "</td>" +
-                "<td>" + record["fullname"] + "</td>" + 
+                "<td style='text-align: left'>" + record["fullname"] + "</td>" + 
                 "<td>" + reference.get_boolean_value(record["certified"]) + "</td>" +
-                "<td>" + record["certifydate"] + "</td>" +
-                "<td>" + record["commissioningdate"] + "</td>" +
+                "<td>" + reference.get_date_value(record["certifydate"]) + "</td>" +
+                "<td>" + reference.get_date_value(record["commissioningdate"]) + "</td>" +
                 "<td>" + reference.get_boolean_value(record["hasremark"]) + "</td>" +
                 /*"<td>" + reference.get_state(record["state"]) + "</td>" +*/
             "</tr>");
@@ -318,4 +327,5 @@ $('#information_system_ref__context_edit').on('click', function () {
         reference.show_notification('#information_system_ref', 'Предупреждение', size, message);
     }
 })
+
 }

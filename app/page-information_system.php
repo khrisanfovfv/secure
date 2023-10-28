@@ -50,34 +50,34 @@ $prefix = $wpdb->prefix;
                         <th style="width: 200px;">Краткое наименование</th>
                         <th>Полн. наименование</th>
                         <th style="width: 130px;">Аттестована</th>
-                        <th style="width: 130px;">Дата посл. аттестации</th>
-                        <th style="width: 130px;">Срок след. аттестации</th>
+                        <th style="width: 130px;">Дата аттестации</th>
+                        <th style="width: 130px;">Дата ввода в эксплуатацию</th>
                         <th style="width: 130px;">Проблемы ИБ</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Выводим строки таблицы -->
                     <?php
-                    $information_system_count = $wpdb->get_var("SELECT COUNT(*) FROM $prefix" . "information_system");
-                    for ($i = 0; $i < $information_system_count; $i++) {
-                        $row = $wpdb->get_row('SELECT * FROM ' . $prefix . 
-                                              'information_system', ARRAY_A, $i);
+                        $rows = $wpdb->get_results(
+                           $wpdb->prepare("SELECT * FROM {$prefix}information_system"), ARRAY_A);        
+                        for($i=0; $i< count($rows); $i++){
+                            $row = $rows[$i];
                     ?>
-                        <tr class="information_system_table_row">
-                            <td class="id hide"><?php echo $row["id"] ?></td>
-                            <td><?php echo $i + 1 ?></td>
-                            <td><?php echo $row["briefname"] ?></td>
-                            <td style="text-align: left;"><?php echo $row["fullname"] ?></td>
-                            <td><?php echo get_boolean_value($row["certified"]) ?></td>
-                            <td><?php echo $row["certifydate"] ?></td>
-                            <td><?php echo $row["commissioningdate"] ?></td>
-                            <td><?php echo get_boolean_value($row["hasremark"]) ?></td>
-                            <!--td><!?php echo secure_get_state($row["state"]) ?></td-->
-                        </tr>
+                            <tr class="information_system_table_row">
+                                <td class="id hide"><?php echo $row["id"] ?></td>
+                                <td><?php echo $i + 1 ?></td>
+                                <td><?php echo $row["briefname"] ?></td>
+                                <td style="text-align: left;"><?php echo $row["fullname"] ?></td>
+                                <td><?php echo get_boolean_value($row["certified"]) ?></td>
+                                <td><?php echo get_data_value($row["certifydate"]) ?></td>
+                                <td><?php echo get_data_value($row["commissioningdate"]) ?></td>
+                                <td><?php echo get_boolean_value($row["hasremark"]) ?></td>
+                                <!--td><!?php echo secure_get_state($row["state"]) ?></td-->
+                            </tr>
 
-                        <?php
-                    }
-                        ?>
+                    <?php
+                        }
+                    ?>
                 </tbody>
             </table>
         </div>

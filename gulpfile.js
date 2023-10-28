@@ -79,7 +79,7 @@ function watching(){
     watch('app/plugins/secure_database/*.php',secure_database),
     watch('app/inc/document_kind/*.php', references_php),
     watch('app/inc/information_system/*.php', references_php),
-    watch(['app/**/*.php']).on('change', browserSync.reload)
+    watch(['app/**/*.php'], php).on('change', browserSync.reload)
 }
 
 function browsersync(){

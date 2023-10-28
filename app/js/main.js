@@ -34,7 +34,7 @@ $(function () {
         e.preventDefault();
         href = $(this).children().attr('href');
         switch (href){
-            case 'sm_references__administrators': open_page('information_system'); break;
+            case 'sm_references__information_system': open_page('information_system'); break;
             case 'sm_references__organisations': {
                 $("<a>").prop({
                     target: "_blank",
@@ -96,6 +96,7 @@ $(function () {
             var value = $('#search__text').val().trim();
             switch(page_id){
                 case 'document_kind' :  document_kind_common_search(value); break;
+                case 'information_system' : information_system_common_search(value); break;
             }
             
         }
@@ -107,6 +108,7 @@ $(function () {
     $('#search_button').on('click', function(){
         switch(page_id){
             case 'document_kind' : document_kind_extended_search(); break;
+            case 'information_system' : information_system_extended_search();break;
         }
     })
 

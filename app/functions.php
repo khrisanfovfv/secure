@@ -53,7 +53,7 @@
             case 'information_system_card' : get_template_part('inc/information_system/information_system_card');break;
             
             case 'document_kind_search' : get_template_part('inc/document_kind/document_kind_search_form');break;
-            //case 'document_kind_search' : get_template_part('reference/document_kind_search_form');break;
+            case 'information_system_search' : get_template_part('inc/information_system/information_system_search_form');break;
         }
         wp_die();
     }
@@ -68,7 +68,7 @@
 
 
     /** 
-     * ==================== ПОЛУЧЕНИЕ СОСТОЯНИЯ ЗАПИСИ ==================
+     * ==================== ПОЛУЧЕНИЕ СОСТОЯНИЯ ЗАПИСИ ===================
      * */
     function secure_get_state($state){
         switch ($state){
@@ -79,13 +79,28 @@
     }
 
     /**
-     * Возвращает да/нет вместо true/false
+     * ================= ВОЗВРАЩАЕТ ДА/НЕТ ВМЕСТО TRUE/FALSE ==============
      * @param {boolean} $value
      */
     function get_boolean_value($value){
-        if (1) {return 'Да';}
-        else {return 'Нет';}
+        switch ($value){
+            case 1: echo 'Да'; break;
+            case 0: echo 'Нет'; break;
+            default: echo '';break;
+        }
     }
+
+    /**
+     * ========== ВОЗВРАЩАЕТ ПУСТУЮ СТРОКУ ЕСЛИ ДАТА НЕ ОПРЕДЕЛЕНА =========
+     * @param {string} $value
+     */
+    function get_data_value($value){
+        if ($value ==='0000-00-00'){
+            echo '';
+        } else echo $value;
+    }
+
+
 
     /**
      * ================= ПОЛУЧЕНИЕ НАИМЕНОВАНИЯ СПРАВОЧНИКА ================ 

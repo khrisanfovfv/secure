@@ -52,10 +52,19 @@ class SecDb
         add_action('wp_ajax_search_search_document_kind_extended', array('DocumentKind','secure_search_document_kind_extended'));
         add_action('wp_ajax_nopriv_search_document_kind_extended', array('DocumentKind','secure_search_document_kind_extended'));
 
+        add_action('wp_ajax_load_information_system', array('InformationSystem', 'secure_load_information_system'));
+        add_action('wp_ajax_nopriv_load_information_system', array('InformationSystem', 'secure_load_information_system'));
         add_action('wp_ajax_add_information_system', array('InformationSystem', 'secure_add_information_system'));
         add_action('wp_ajax_nopriv_add_information_system', array('InformationSystem', 'secure_add_information_system'));
-        add_action('wp_ajax_load_information_system', array('InformationSystem', 'secure_load_information_system'));
-        add_action('wp_ajax_load_information_system', array('InformationSystem', 'secure_load_information_system'));
+        add_action('wp_ajax_update_information_system', array('InformationSystem','secure_update_information_system'));
+        add_action('wp_ajax_nopriv_update_information_system', array('InformationSystem','secure_update_information_system'));
+        add_action('wp_ajax_search_information_system', array('InformationSystem','secure_search_information_system'));
+        add_action('wp_ajax_nopriv_search_information_system', array('InformationSystem','secure_search_information_system'));
+        add_action('wp_ajax_search_information_system_extended', array('InformationSystem','secure_search_information_system_extended'));
+        add_action('wp_ajax_nopriv_search_information_system_extended', array('InformationSystem','secure_search_information_system_extended'));
+        
+        
+
     }
 
     /**
@@ -78,20 +87,25 @@ class SecDb
      * ========================= ЗАГРУЗКА ДАННЫХ КАРТОЧКИ =======================
      */
     function secure_load_card_data(){
-        global $wpdb;
-        $prefix = $wpdb->prefix;
         $results = '';
         $id = $_POST['id']; 
         switch($_POST['card']){
-            case 'document_kind_card' :{    
-                $results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}document_kind WHERE id = $id", OBJECT );
-            };break;
-            case 'information_system_card':{
-                $results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}information_system WHERE id = $id", OBJECT );
-            }; break;
-
+            case 'document_kind_card' :{ $results = $this->secure_select_data_card('document_kind', $id);};break;
+            case 'information_system_card':{ $results = $this->secure_select_data_card('information_system',$id);}; break;
         }
         echo json_encode($results);
+        wp_die();
+    }
+
+    /**
+     * ЗАГРУЗКА ДАННЫХ КАРТОЧКИ. ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ
+     */
+    protected function secure_select_data_card($table_name, $id){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}{$table_name} WHERE id = $id"), OBJECT );
+        return $results;
         wp_die();
     }
 
@@ -105,6 +119,8 @@ class SecDb
         echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
         wp_die();
     }
+
+
 }
 
 
