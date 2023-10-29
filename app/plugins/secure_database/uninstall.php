@@ -15,5 +15,8 @@ delete_option('sec_db_version');
 global $wpdb;
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}document_kind");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}information_system");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}remarks");
+
+
 
 

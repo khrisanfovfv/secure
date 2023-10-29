@@ -275,6 +275,27 @@ function card_information_system_load_data(data, openMode) {
     $('#information_system_card__has_remark').prop('checked',cardData[0].hasremark);
     $('#information_system_card__commissioningDate').val(cardData[0].commissioningdate);
     $('#information_system_card__state').val(cardData[0].state);
+    
+    // Заполняем таблицу Замечания по аттестации
+    remarks = cardData['remarks'];
+    var ind = 1;
+    remarks.forEach( remark =>{
+        var tr = $('#information_system_card__remarks_table tbody').append(
+            "<tr>"+ 
+                "<td class='id hide'>"+ remark['id']+ "</td>" +
+                "<td>"+ (ind++) + "</td>" +
+                "<td contenteditable><input type='date' value=" + remark['remarkdate'] +"></td>" +
+                "<td contenteditable>" + remark['author'] + "</td>" +
+                "<td contenteditable>" + remark['content'] + "</td>" +
+                "<td><select value=" + reference.get_boolean_value(remark['eliminated'])+ ">" +
+                    "<option value='yes'>Да</option>" +
+                    "<option value='no'>Нет</option>" +
+                "</select></td>" + 
+                "<td contenteditable><input type='date' value=" + remark['eliminatedate'] + "></td>" +
+                "<td contenteditable>" + remark['performer'] + "</td>" +
+            "</tr>"
+        );
+    });
 }
 
 /**

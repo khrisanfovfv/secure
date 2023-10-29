@@ -202,7 +202,7 @@ $document_icons = $resources->get_document_icons();
                         <p>Эл. таб</p>
                     </button>
                 </div>
-                <table class="information_system_card__remarks_table">
+                <table class="information_system_card__remarks_table" id="information_system_card__remarks_table">
                     <thead>
                         <tr>
                             <th class="hide">Ид</th>
@@ -214,20 +214,9 @@ $document_icons = $resources->get_document_icons();
                             <th style="width: 130px;">Дата устранения</th>
                             <th style="width: 130px;">Кем устранено</th>
                         </tr>
-                        <tr>
-                            <td class="id hide">1</td>
-                            <td contenteditable>1</td>
-                            <td contenteditable><input type="date"></td>
-                            <td contenteditable>Смирнов А.В.</td>
-                            <td contenteditable>Нет Антивируса</td>
-                            <td><select>
-                                    <option value="yes">Да</option>
-                                    <option value="no">Нет</option>
-                                </select></td>
-                            <td contenteditable><input type="date"></td>
-                            <td contenteditable>Петров А.Г.</td>
-                        </tr>
                     </thead>
+                    <tbody>
+                    </tbody>  
                 </table>
             </section>
 

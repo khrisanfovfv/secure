@@ -1,22 +1,23 @@
 <?php 
 
 class InformationSystem{
+    protected $table_name;
     public function __construct() {
-        $this->table_install();
+        $this->table_name = 'information_system';
     }
 
     /**
-     * ========= СОЗДАНИЕ ТАБЛИЦЫ ИНФОРМАЦИОННЫЕ СИСТЕМЫ ========
+     * ========= СОЗДАНИЕ ТАБЛИЦЫ ИНФОРМАЦИОННЫЕ СИСТЕМЫ И ЗАМЕЧАНИЯ ПО АТТЕСТАЦИ ========
      */
-    protected function table_install()
+    public function table_install()
     {
         global $wpdb;
         global $sec_db_version;
         $table_name = $wpdb->prefix . 'information_system';
         $charset_collate = $wpdb->get_charset_collate();
 
-
-        $sql = "CREATE TABLE $table_name (
+        // Запрос на создание таблицы информационные системы
+        $information_system_sql = "CREATE TABLE $table_name (
             id mediumint(9) NOT NULL AUTO_INCREMENT,
             fullname text NOT NULL,
             briefname tinytext,
@@ -30,8 +31,25 @@ class InformationSystem{
             PRIMARY KEY  (id)
         ) $charset_collate;";
 
+        $table_name = $wpdb->prefix . 'remarks';
+
+        // Запрос на создание таблицы Замечания по аттестации
+        $remarks_sql = "CREATE TABLE $table_name (
+            id mediumint(9) NOT NULL AUTO_INCREMENT,
+            information_system_id mediumint(9) NOT NULL,
+            remarkdate date NULL,
+            author text NOT NULL,
+            content text NOT NULL,
+            eliminated boolean,
+            eliminatedate date NULL,
+            performer text,
+            PRIMARY KEY  (id),
+            FOREIGN KEY (information_system_id) REFERENCES {$wpdb->prefix}information_system(id)
+        ) $charset_collate;";
+
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($sql);
+        dbDelta($information_system_sql);
+        dbDelta($remarks_sql);
         add_option('sec_db_version', $sec_db_version);
     }
 
@@ -58,6 +76,42 @@ class InformationSystem{
                 'commissioningdate' => '2023-02-03',
                 'hasremark' => true,
                 'state' => 'Active',
+            ),
+            array(
+                '%s', // fullname
+                '%s', // briefname
+                '%d', // certified
+                '%s', // certifydate
+                '%s', // scope
+                '%s', // significancelevel
+                '%s', // commissioningdate
+                '%d', // hasremark
+                '%s'  // state
+            )
+
+        );
+
+        // Заполняем данными таблицу Замечания по аттестации
+        $table_name = $wpdb->prefix . 'remarks';
+        $wpdb->insert(
+            $table_name,
+            array(
+                'information_system_id' => 1,
+                'remarkdate' =>'2022-01-01',
+                'author' => 'Смирнов А.В.',
+                'content' => 'Нет антивируса',
+                'eliminated' => false,
+                'eliminatedate' => NULL,
+                'performer' => 'Петров А.Г.'
+            ),
+            array(
+                '%d', // information_system_id
+                '%s', // remarkdate
+                '%s', // author
+                '%s', // content
+                '%d', // eliminated
+                '%s', // eliminatedate
+                '%s' // performer
             )
         );
     }
@@ -74,6 +128,22 @@ class InformationSystem{
         echo json_encode($results);
         wp_die();
     }
+
+    /**
+     * ============================ ЗАГРУЗКА ДАННЫХ КАРТОЧКИ ===============================
+     */
+
+     public function secure_load_card_data($id){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM sec_information_system WHERE id = $id"), OBJECT );
+        $remarks = $wpdb->get_results(
+            $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE information_system_id = $id"), OBJECT);
+            $results = (object) array_merge( (array)$results, array( 'remarks' => $remarks ));
+        return $results;
+        wp_die();
+     }
 
     /**
      * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ======================
@@ -255,4 +325,3 @@ class InformationSystem{
     }
 
 }
-?>

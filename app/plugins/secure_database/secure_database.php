@@ -30,6 +30,7 @@ class SecDb
         register_activation_hook(__FILE__, array($this, 'secure_install_tables'));
         register_activation_hook(__FILE__, array($this, 'secure_install_data_tables'));
         add_action('init', array($this, 'secure_init_plugin'));
+        $this->information_system = new InformationSystem();
         
         //add_action( 'plugins_loaded', array($this, 'myplugin_update_db_check'));
     }
@@ -63,8 +64,6 @@ class SecDb
         add_action('wp_ajax_search_information_system_extended', array('InformationSystem','secure_search_information_system_extended'));
         add_action('wp_ajax_nopriv_search_information_system_extended', array('InformationSystem','secure_search_information_system_extended'));
         
-        
-
     }
 
     /**
@@ -72,7 +71,7 @@ class SecDb
      */
     public function secure_install_tables(){
         $this->document_kind = new DocumentKind();
-        $this->information_system = new InformationSystem();    
+        $this->information_system->table_install();   
     }
 
     /**
@@ -91,7 +90,7 @@ class SecDb
         $id = $_POST['id']; 
         switch($_POST['card']){
             case 'document_kind_card' :{ $results = $this->secure_select_data_card('document_kind', $id);};break;
-            case 'information_system_card':{ $results = $this->secure_select_data_card('information_system',$id);}; break;
+            case 'information_system_card':{ $results = $this->information_system->secure_load_card_data($id);}; break;
         }
         echo json_encode($results);
         wp_die();
@@ -119,8 +118,6 @@ class SecDb
         echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
         wp_die();
     }
-
-
 }
 
 
