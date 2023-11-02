@@ -39,15 +39,7 @@ $('#information_system_table tbody tr').on('dblclick', function () {
  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ИНФОРМАЦИОНОЙ СИСТЕМЫ =========================
  */
 $('#information_system_card__OK').on('click', function () {
-    if ($('#information_system_card__fullName').val().trim() == '') {
-        $('#information_system_card__fullName').addClass('red_border');
-
-        // Отправляем уведомление
-        var size = { width: 400, height: 200 };
-        var message = 'Не заполнено обязательное поле';
-        reference.show_notification('#information_system_ref', 'Предупреждение', size, message);
-    } else {
-        $('#information_system_card__name').removeClass('red_border');
+    if (information_system_card__check_fields()){
         // Формируем запись для запроса
         record = {
             id: $('#information_system_card__id').text(),
@@ -95,6 +87,64 @@ $('#information_system_card__OK').on('click', function () {
 
 });
 
+/**
+ * ===================== ПРОВЕРЯЕМ ЗАПОЛНЕННОСТЬ ОБЯЗАТЕЛЬНЫХ ПОЛЕЙ КАРТОЧКИ =======================
+ */
+function information_system_card__check_fields(){
+    var message = '';
+    // Карточка Информационные системы. Поле Полное наименование
+    if ($('#information_system_card__fullName').val().trim() == ''){
+        message += 'Не заполнено поле Полное наименование\n';
+        $('#information_system_card__fullName').addClass('red_border');
+    }
+
+    // Таблица замечания по аттестации
+    var rows = $('#information_system_card__remarks_table tbody tr');
+    var has_empty = false;
+    rows.each(function(i,row){
+        // Поле Дата замечания
+        if($(row.cells[2]).children().val().trim() ==''){
+            $(row.cells[2]).addClass('red_border');
+            has_empty = true
+        } else {
+            $(row.cells[2]).removeClass('red_border');
+        }
+
+        // Поле Автор замечания
+        if ($(row.cells[3]).text().trim() ==''){
+            $(row.cells[3]).addClass('red_border');
+            has_empty = true
+        } else {
+            $(row.cells[3]).removeClass('red_border');
+        }
+
+        // Поле Содержание замечания
+        if ($(row.cells[4]).text().trim() ==''){
+            $(row.cells[4]).addClass('red_border');
+            has_empty = true
+        } else {
+            $(row.cells[4]).removeClass('red_border');
+        }
+    })
+
+    if (has_empty == true){
+        message += 'Таблица Замечания по аттестации имеет незаполненные обязательные поля';
+    }
+
+
+    if (message == ''){
+        return true;
+    } else{
+        // Отправляем уведомление
+        var size = { width: 400, height: 200 };
+        reference.show_notification('#information_system_ref', 'Предупреждение', size, message);
+        return false;
+    }
+    
+
+}
+
+               
 /**
  * ==================== НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ИНФОРМАЦИОНОЙ СИСТЕМЫ ======================
  */
@@ -279,6 +329,7 @@ function card_information_system_load_data(data, openMode) {
     // Заполняем таблицу Замечания по аттестации
     remarks = cardData['remarks'];
     var ind = 1;
+    $('#information_system_card__remarks_table tbody tr').remove();
     remarks.forEach( remark =>{
         var tr = $('#information_system_card__remarks_table tbody').append(
             "<tr>"+ 
@@ -297,6 +348,8 @@ function card_information_system_load_data(data, openMode) {
         );
     });
 }
+
+
 
 /**
  *  ========================= ОБНОВЛЕНИЕ СПРАВОЧНИКА ИНФОРМАЦИОННЫЕ СИСТЕМЫ ===========================
@@ -326,6 +379,28 @@ function information_system_update_reference(records) {
         })
     });
 }
+
+/** 
+ * ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ КНОПКА СОЗДАТЬ ====================
+ */
+$('#information_system_card__remarks_create').on('click', function(){
+    var ind = $('#information_system_card__remarks_table tbody tr').length +1;
+    $('#information_system_card__remarks_table tbody').append(
+        "<tr>"+ 
+            "<td class='id hide'></td>" +
+            "<td>"+ ind + "</td>" +
+            "<td contenteditable><input type='date'></td>" +
+            "<td contenteditable></td>" +
+            "<td contenteditable></td>" +
+            "<td><select>" +
+                "<option value='yes'>Да</option>" +
+                "<option value='no'>Нет</option>" +
+            "</select></td>" + 
+            "<td contenteditable><input type='date' ></td>" +
+            "<td contenteditable></td>" +
+        "</tr>"
+    );
+})
 
 /**================================================================================= 
 * ==================================== ДЕЙСТВИЯ ==================================== 
@@ -364,5 +439,8 @@ function information_system_delete_record(){
         reference.delete_record('#information_system_ref', rows);
     }
     $('#information_system_ref__context').css('display', 'none');
-}    
+}  
+
+
+
     

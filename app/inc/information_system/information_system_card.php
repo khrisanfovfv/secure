@@ -29,7 +29,7 @@ $document_icons = $resources->get_document_icons();
                         <!-- Кнопка начать аттестацию -->
                         <button id="start_certification_button">Начать аттестацию</button>
                         <!-- Полное наименование -->
-                        <label for="information_system_card__fullName" id="information_system_card__fullName_title">Полное наименование</label>
+                        <label for="information_system_card__fullName" id="information_system_card__fullName_title">Полное наименование<span class="required">*</span></label>
                         <textarea id="information_system_card__fullName" name="information_system_card__fullName" size="80" rows="3" cols="33"></textarea>
                         <!-- Краткое наименование -->
                         <label for="information_system_card__briefName" id="information_system_card__briefName_title">Краткое наименование</label>
@@ -202,22 +202,25 @@ $document_icons = $resources->get_document_icons();
                         <p>Эл. таб</p>
                     </button>
                 </div>
-                <table class="information_system_card__remarks_table" id="information_system_card__remarks_table">
-                    <thead>
-                        <tr>
-                            <th class="hide">Ид</th>
-                            <th style="width: 35px;">№</th>
-                            <th style="width: 130px;">Дата замечания</th>
-                            <th style="width: 130px;">Автор замечания</th>
-                            <th>Содержание амечания</th>
-                            <th style="width: 130px;">Устранено</th>
-                            <th style="width: 130px;">Дата устранения</th>
-                            <th style="width: 130px;">Кем устранено</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>  
-                </table>
+                <div class="information_system_card__remarks_container">
+                    <table class="information_system_card__remarks_table" id="information_system_card__remarks_table">
+                        <thead>
+                            <tr>
+                                <th class="hide">Ид</th>
+                                <th class="information_system_card__remarks_table_num" style="width: 35px;">№</th>
+                                <th style="width: 130px;">Дата замечания</th>
+                                <th style="width: 130px;">Автор замечания</th>
+                                <th>Содержание амечания</th>
+                                <th style="width: 130px;">Устранено</th>
+                                <th style="width: 130px;">Дата устранения</th>
+                                <th style="width: 130px;">Кем устранено</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
             </section>
 
             <!-- ВКЛАДКА КОНТРАКТЫ -->

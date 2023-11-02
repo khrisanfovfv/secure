@@ -205,7 +205,7 @@
 }
 
 .red_border{
-    border: thin solid red;
+    border: 2px solid red !important;
 }
 
 /* Поле с выбором из справочника на карточке*/
@@ -296,5 +296,9 @@ select{
 
 select:focus{
     border-bottom: 2px solid #13406d;
+}
+
+.required{
+    color: red;
 }
 

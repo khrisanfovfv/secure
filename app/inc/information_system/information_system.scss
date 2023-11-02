@@ -20,6 +20,8 @@
     }
     &__content{
         background-color: white;
+        display: flex;
+        flex-direction: column;
         align-items: stretch;
         height: 100%;
         margin-right: 5px;
@@ -80,12 +82,18 @@
     
     /* Вкладка - Замечания по аттестации */
     &__remarks{
+        height: 100%;
         margin-top: -1px;
-        display: grid;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
         /*border: thin solid black;*/
-        padding: 5px;
+        padding: 0 5px;
     }
     /* Таблица вкладки - Замечания по аттестации */
+    &__remarks_container{
+        height: 100%;
+    }
     &__remarks_table{
         margin-top: 20px;
         width: 100%;
@@ -98,7 +106,6 @@
     &__remarks_table td{
         text-align: center;
         padding: 0;
-        
     }
 
     &__remarks_table td input{
