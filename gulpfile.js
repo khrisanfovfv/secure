@@ -27,7 +27,7 @@ function php(){
 }
 
 function references_php(){
-    var references = ['document_kind', 'information_system'];
+    var references = ['document_kind','administrator', 'information_system'];
     references.forEach(reference => {
         return src([
             'app/inc/'+ reference + '/*.php'

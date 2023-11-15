@@ -1,56 +1,51 @@
 <?php 
 
-class InformationSystem{
+class Administrator{
     protected $table_name;
     public function __construct() {
-        $this->table_name = 'information_system';
+        $this->table_name = 'administrator';
     }
 
     /**
-     * ========= СОЗДАНИЕ ТАБЛИЦЫ ИНФОРМАЦИОННЫЕ СИСТЕМЫ И ЗАМЕЧАНИЯ ПО АТТЕСТАЦИ ========
+     * ========= СОЗДАНИЕ ТАБЛИЦЫ АДМИНИСТРАТОРЫ И ТАЛИЦЫ ДЛЯ СВЯЗИ С ТАБЛИЦЕЙ ИНФОРМАЦИОННЫЕ СИСТЕМЫ ========
      */
     public function table_install()
     {
         global $wpdb;
         global $sec_db_version;
-        $table_name = $wpdb->prefix . 'information_system';
         $charset_collate = $wpdb->get_charset_collate();
+        $table_name = $wpdb->prefix . 'administrator';
 
-        // Запрос на создание таблицы информационные системы
-        $information_system_sql = "CREATE TABLE $table_name (
+        // Запрос на создание таблицы Администраторы
+        $administrator_sql = "CREATE TABLE $table_name (
             id mediumint(9) NOT NULL AUTO_INCREMENT,
             fullname text NOT NULL,
-            briefname tinytext,
-            certified boolean,
-            certifydate date NULL,
-            scope varchar(13),
-            significancelevel varchar(2),
-            commissioningdate date NULL,
-            hasremark boolean,
+            organisation mediumint(9),
+            department mediumint(9),
             state varchar(14) DEFAULT 'Active' NOT NULL,
             PRIMARY KEY  (id)
         ) $charset_collate;";
 
-        $table_name = $wpdb->prefix . 'remarks';
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta($administrator_sql);
+        //add_option('sec_db_version', $sec_db_version);
 
-        // Запрос на создание таблицы Замечания по аттестации
-        $remarks_sql = "CREATE TABLE $table_name (
+        //Запрос на создание таблицы для связи с таблицей "Информационные системы"
+        $table_name = $wpdb->prefix . 'information_system_administrator';
+        $information_system_administrator_sql = "CREATE TABLE $table_name (
             id mediumint(9) NOT NULL AUTO_INCREMENT,
             information_system_id mediumint(9) NOT NULL,
-            remarkdate date NULL,
-            author text NOT NULL,
-            content text NOT NULL,
-            eliminated boolean,
-            eliminatedate date NULL,
-            performer text,
-            PRIMARY KEY  (id),
-            FOREIGN KEY (information_system_id) REFERENCES {$wpdb->prefix}information_system(id)
+            administrator_id mediumint(9) NOT NULL,
+            appointdate date NULL,
+            terminatedate date NULL,
+            type varchar(14),
+            FOREIGN KEY (information_system_id) REFERENCES {$wpdb->prefix}information_system(id),
+            FOREIGN KEY (administrator_id) REFERENCES {$wpdb->prefix}administrator(id),
+            PRIMARY KEY  (id)
         ) $charset_collate;";
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($information_system_sql);
-        dbDelta($remarks_sql);
-        add_option('sec_db_version', $sec_db_version);
+        dbDelta($information_system_administrator_sql);
     }
 
     /**
@@ -63,68 +58,34 @@ class InformationSystem{
         global $wpdb;
 
 
-        $table_name = $wpdb->prefix . 'information_system';
+        $table_name = $wpdb->prefix . 'administrator';
         $wpdb->insert(
             $table_name,
             array(
-                'fullname' => 'Автоматизированная система электронного документооборота органов исполнительной государственной власти',
-                'briefname' => 'АСЭД ОИГВО',
-                'certified' => true,
-                'certifydate' => '2022-01-02',
-                'scope' => 'corporate',
-                'significancelevel' => 'k1',
-                'commissioningdate' => '2023-02-03',
-                'hasremark' => true,
+                'fullname' => 'Васильев Игорь Петрович',
+                'organisation' => 1,
+                'department' => 1,
                 'state' => 'Active',
             ),
             array(
                 '%s', // fullname
-                '%s', // briefname
-                '%d', // certified
-                '%s', // certifydate
-                '%s', // scope
-                '%s', // significancelevel
-                '%s', // commissioningdate
-                '%d', // hasremark
+                '%d', // organisation
+                '%d', // department
                 '%s'  // state
             )
 
-        );
-
-        // Заполняем данными таблицу Замечания по аттестации
-        $table_name = $wpdb->prefix . 'remarks';
-        $wpdb->insert(
-            $table_name,
-            array(
-                'information_system_id' => 1,
-                'remarkdate' =>'2022-01-01',
-                'author' => 'Смирнов А.В.',
-                'content' => 'Нет антивируса',
-                'eliminated' => 0,
-                'eliminatedate' => NULL,
-                'performer' => 'Петров А.Г.'
-            ),
-            array(
-                '%d', // information_system_id
-                '%s', // remarkdate
-                '%s', // author
-                '%s', // content
-                '%d', // eliminated
-                '%s', // eliminatedate
-                '%s' // performer
-            )
         );
     }
 
 
     /**
-     * ================ ПОЛУЧЕНИЕ ЗАПИСИ ТАБЛИЦЫ ИНФОРМАЦИОННЫЕ СИСТЕМЫ =================
+     * ================ ПОЛУЧЕНИЕ ЗАПИСИ ТАБЛИЦЫ АДМИНИСТРАТОРЫ =================
      */
-    public function secure_load_information_system(){
+    public function secure_load_administrator(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM sec_information_system"), ARRAY_A );
+            $wpdb->prepare("SELECT * FROM  {$prefix}administrator"), ARRAY_A );
         echo json_encode($results);
         wp_die();
     }
@@ -137,9 +98,9 @@ class InformationSystem{
         global $wpdb;
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM sec_information_system WHERE id = $id"), OBJECT );
+            $wpdb->prepare("SELECT * FROM sec_administrator WHERE id = $id"), OBJECT );
         $remarks = $wpdb->get_results(
-            $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE information_system_id = $id"), OBJECT);
+            $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE administrator_id = $id"), OBJECT);
             $results = (object) array_merge( (array)$results, array( 'remarks' => $remarks ));
         return $results;
         wp_die();
@@ -148,14 +109,14 @@ class InformationSystem{
     /**
      * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ======================
      */
-    function secure_add_information_system(){
+    function secure_add_administrator(){
 
         global $wpdb;
         $prefix = $wpdb->prefix;
         $record = $_POST['record'];
         
         $wpdb->insert(
-            $prefix.'information_system',
+            $prefix.'administrator',
             array(
                 'fullname' => $record['fullname'],
                 'briefname' => $record['briefname'],
@@ -189,13 +150,13 @@ class InformationSystem{
     /** 
      * ====================== ОБНОВЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ==========================
      */
-    function secure_update_information_system(){
+    function secure_update_administrator(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $record = $_POST['record'];
 
         $wpdb->update(
-            $prefix.'information_system',
+            $prefix.'administrator',
             array(
                 'fullname' => $record['fullname'],
                 'briefname' => $record['briefname'],
@@ -221,104 +182,21 @@ class InformationSystem{
             ),
             array( '%d' )
         );
-        // Обновляем записи в детальном разделе Замечания по аттестации
-        // Убираем символы экранирования '/'
-        $remarks_json = stripcslashes($record['remarks']);
-        $remarks = json_decode($remarks_json);
-        foreach ($remarks as $remark){
-            if ($remark->id ==''){
-                InformationSystem::secure_create_remark($record['id'], $remark);
-            }elseif ($remark->is_deleted ==='1'){
-                InformationSystem::secure_delete_remark($remark);
-            } else {
-                InformationSystem::secure_update_remark($remark);
-            }
-        }
-        
-        echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
+
+        $remarks = json_decode($record['remarks']);
+        echo 'Запись ид = ' . $record['id'] . ' успешно обновлена'. $remarks[0]['content'];
         wp_die();
     }
-
-    /**
-     * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. СОЗДАНИЕ ЗАПИСИ ==============
-     */
-    protected function secure_create_remark($information_system_id, $remark){
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'remarks';
-        $wpdb->insert(
-            $table_name,
-            array(
-                'information_system_id' => $information_system_id,
-                'remarkdate' =>$remark->remarkdate,
-                'author' => $remark->author,
-                'content' => $remark->content,
-                'eliminated' => $remark->eliminated,
-                'eliminatedate' => $remark->eliminatedate,
-                'performer' => $remark->performer
-            ),
-            array(
-                '%d', // information_system_id
-                '%s', // remarkdate
-                '%s', // author
-                '%s', // content
-                '%d', // eliminated
-                '%s', // eliminatedate
-                '%s' // performer
-            )
-        );
-    }
-
-    /**
-     * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. РЕДАКТИРОВАНИЕ ЗАПИСИ ==============
-     */
-    protected function secure_update_remark($remark){
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        print_r($remark->eliminated);
-        $wpdb->update(
-            $prefix.'remarks',
-            array(
-                'remarkdate' =>$remark->remarkdate,
-                'author' => $remark->author,
-                'content' => $remark->content,
-                'eliminated' => $remark->eliminated,
-                'eliminatedate' => $remark->eliminatedate,
-                'performer' => $remark->performer
-            ),
-            array( 'ID' => $remark->id ),
-            array(
-                '%s', // remarkdate
-                '%s', // author
-                '%s', // content
-                '%d', // eliminated
-                '%s', // eliminatedate
-                '%s' // performer
-            ),
-            array( '%d' )
-        );
-
-    }
-    /**
-     * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. УДАЛЕНИЕ ЗАПИСИ ==============
-     */
-    protected function secure_delete_remark($remark){
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        $wpdb->delete( $prefix . 'remarks', array( 'ID' => $remark->id ), array( '%d' ));
-        echo 'Запись ид = ' . $remark->id . ' успешно удалена';
-        wp_die();
-    }
-
 
     /**
      * ================ ИНФОРМАЦИОННЫЕ СИСТЕМЫ. ОБЩИЙ ПОИСК =================
      */
-    function secure_search_information_system(){
+    function secure_search_administrator(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $value = $_POST['value'];
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}information_system 
+            $wpdb->prepare("SELECT * FROM {$prefix}administrator 
             WHERE fullname LIKE '%$value%'
             OR briefname LIKE '%$value%'
             OR certifydate LIKE '%$value%'
@@ -331,7 +209,7 @@ class InformationSystem{
     /**
      * ================= ИНФОРМАЦИОННЫЕ СИСТЕМЫ. РАСШИРЕННЫЙ ПОИСК =================
      */
-    function secure_search_information_system_extended(){
+    function secure_search_administrator_extended(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $fullname = $_POST['fullname'];
@@ -396,7 +274,7 @@ class InformationSystem{
 
 
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}information_system 
+            $wpdb->prepare("SELECT * FROM {$prefix}administrator 
             WHERE fullname LIKE '%$fullname%'
             AND briefname LIKE '%$briefname%'" . $scope_query .
             $significancelevel_query .

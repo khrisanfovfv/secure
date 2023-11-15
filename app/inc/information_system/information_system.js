@@ -41,6 +41,25 @@ $('#information_system_table tbody tr').on('dblclick', function () {
 $('#information_system_card__OK').on('click', function () {
     if (information_system_card__check_fields()){
         // Формируем запись для запроса
+        // Вкладка Замечания по аттестации
+        var rows = $('#information_system_card__remarks_table tbody tr');
+        
+        // Создаем двумерный массив
+        var remark = {}
+        var remarks = []
+        rows.each(function(ind, row){
+            remark.id = $(row.cells[0]).text();
+            remark.remarkdate = $(row.cells[2]).children().val();
+            remark.author = $(row.cells[3]).text();
+            remark.content = $(row.cells[4]).text();
+            remark.eliminated = $(row.cells[5]).children().val();
+            remark.eliminatedate = $(row.cells[6]).children().val();
+            remark.performer = $(row.cells[7]).text();
+            remark.is_deleted = $(row.cells[8]).text();
+            // Копируем обьект в массив
+            remarks[ind] = JSON.parse(JSON.stringify(remark));
+            console.log(remarks[ind])
+        })
         record = {
             id: $('#information_system_card__id').text(),
             fullname: $('#information_system_card__fullName').val(),
@@ -51,7 +70,8 @@ $('#information_system_card__OK').on('click', function () {
             certifydate: $('#information_system_card__certifyDate').val(),
             hasremark: $('#information_system_card__has_remark').is(':checked') ? 1 : 0,
             commissioningdate: $('#information_system_card__commissioningDate').val(),
-            state: $('#information_system_card__state').val()
+            state: $('#information_system_card__state').val(),
+            remarks : JSON.stringify(remarks)
         }
         if ($('#information_system_card__id').text() == '') {
             // ДОБАВЛЯЕМ значение в базу+
@@ -225,6 +245,7 @@ function information_system_extended_search(){
 */
 $('#information_system_search__button_OK').on('click', function(e){
     var data = {
+        // Поля карточки
         action: 'search_information_system_extended',
         fullname : $('#information_system_search__fullName').val(),
         briefname: $('#information_system_search__briefName').val(),
@@ -237,6 +258,7 @@ $('#information_system_search__button_OK').on('click', function(e){
         commissioningdateto: $('#information_system_search__commissioningDateTo').val(),
         hasremark: $('#information_system_search__has_remark').val(),
         state : $('#information_system__search_state').val()
+
     };
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
@@ -331,22 +353,30 @@ function card_information_system_load_data(data, openMode) {
     var ind = 1;
     $('#information_system_card__remarks_table tbody tr').remove();
     remarks.forEach( remark =>{
+        // Вспомогательный массив для отображения колонки 'Устранено' 
+        var eliminated = new Array('','');
+        eliminated[remark['eliminated']] = 'selected';
         var tr = $('#information_system_card__remarks_table tbody').append(
             "<tr>"+ 
                 "<td class='id hide'>"+ remark['id']+ "</td>" +
-                "<td>"+ (ind++) + "</td>" +
+                "<td class='information_system_card__remarks_table_num'>"+ (ind++) + "</td>" +
                 "<td contenteditable><input type='date' value=" + remark['remarkdate'] +"></td>" +
                 "<td contenteditable>" + remark['author'] + "</td>" +
                 "<td contenteditable>" + remark['content'] + "</td>" +
-                "<td><select value=" + reference.get_boolean_value(remark['eliminated'])+ ">" +
-                    "<option value='yes'>Да</option>" +
-                    "<option value='no'>Нет</option>" +
+                "<td><select>" +
+                    "<option value='1'" + eliminated[1] + ">Да</option>" +
+                    "<option value='0'" + eliminated[0] + ">Нет</option>" +
                 "</select></td>" + 
                 "<td contenteditable><input type='date' value=" + remark['eliminatedate'] + "></td>" +
                 "<td contenteditable>" + remark['performer'] + "</td>" +
+                "<td class='is_deleted hide'>0</td>" +
             "</tr>"
-        );
+        ); 
     });
+    // Привязываем событи выделения строки к столюбцу №
+    $('.information_system_card__remarks_table_num').on('click', function(e){
+        reference.highlight(e)
+    })
 }
 
 
@@ -388,18 +418,27 @@ $('#information_system_card__remarks_create').on('click', function(){
     $('#information_system_card__remarks_table tbody').append(
         "<tr>"+ 
             "<td class='id hide'></td>" +
-            "<td>"+ ind + "</td>" +
+            "<td class='information_system_card__remarks_table_num'>"+ ind + "</td>" +
             "<td contenteditable><input type='date'></td>" +
             "<td contenteditable></td>" +
             "<td contenteditable></td>" +
             "<td><select>" +
-                "<option value='yes'>Да</option>" +
-                "<option value='no'>Нет</option>" +
+                "<option value='1'>Да</option>" +
+                "<option value='0'>Нет</option>" +
             "</select></td>" + 
             "<td contenteditable><input type='date' ></td>" +
             "<td contenteditable></td>" +
+            "<td class='is_deleted hide'>0</td>" +
         "</tr>"
     );
+})
+
+$('.information_system_card__remarks_table_num').on('click', function(e){
+    alert('Ура!');
+})
+
+$('#information_system_card__remarks_delete').on('click', function(){
+    information_system_remark_delete_record();
 })
 
 /**================================================================================= 
@@ -440,6 +479,18 @@ function information_system_delete_record(){
     }
     $('#information_system_ref__context').css('display', 'none');
 }  
+
+/**
+ * ========================= ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. УДАЛИТЬ ===========================
+ */
+function information_system_remark_delete_record(){
+    var rows = $('#information_system_card__remarks_table>tbody>tr.highlight')
+    if (rows.length > 0){
+        var id = rows[0].children.item(0).textContent;
+        rows[0].children.item(8).textContent = 1;
+        rows[0].classList.add('hide');
+    }
+}
 
 
 

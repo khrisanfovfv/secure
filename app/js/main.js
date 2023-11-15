@@ -34,7 +34,9 @@ $(function () {
         e.preventDefault();
         href = $(this).children().attr('href');
         switch (href){
+
             case 'sm_references__information_system': open_page('information_system'); break;
+            case 'sm_references__administrators': open_page('administrator'); break;
             case 'sm_references__organisations': {
                 $("<a>").prop({
                     target: "_blank",

@@ -51,9 +51,11 @@
         switch($_POST['card']){
             case 'document_kind_card' : get_template_part('inc/document_kind/document_kind_card');break;
             case 'information_system_card' : get_template_part('inc/information_system/information_system_card');break;
+            case 'administrator_card' : get_template_part('inc/administrator/administrator_card'); break;
             
             case 'document_kind_search' : get_template_part('inc/document_kind/document_kind_search_form');break;
             case 'information_system_search' : get_template_part('inc/information_system/information_system_search_form');break;
+            case 'administrator_search' : get_template_part('inc/administrator/administrator_search_form');break;
         }
         wp_die();
     }

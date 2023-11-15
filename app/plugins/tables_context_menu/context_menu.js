@@ -13,6 +13,7 @@ var Context = {
             '#information_system_ref__context',
             '#information_system_ref__out_context',
             '#administrator_ref__context',
+            '#administrator_ref__out_context',
             '#organisation_ref__context',
             '#department_ref__context',
             '#document_kind_ref__context',
@@ -277,6 +278,7 @@ var Context = {
     createContext : function(src_el){
         switch(src_el.className){
             case 'information_system__reference_container' : Context.menu = $('#information_system_ref__out_context'); break;
+            case 'administrator_ref__container' : Context.menu = $('#administrator_ref__out_context'); break;
             default : return false;
         }
         return src_el;

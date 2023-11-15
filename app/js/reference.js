@@ -32,9 +32,9 @@ var reference = {
         reference.show_dialog(prefix,size,title);
         //1.  Загружаем карточку
         var data = {
-            action: 'load_card',
-            card: reference.get_card_name(prefix)
-        };
+                action: 'load_card',
+                card: reference.get_card_name(prefix)
+            };
         jQuery.post(MainData.ajaxurl, data, function (textStatus) {
             $(prefix + '__dialog_content').empty();
             $(prefix + '__dialog_content').html(textStatus);
@@ -63,10 +63,12 @@ var reference = {
             // КАРТОЧКИ СПРАВОЧНИКА
             case '#document_kind_ref': card = 'document_kind_card'; break;
             case '#information_system_ref': card = 'information_system_card'; break;
+            case '#administrator_ref' : card = 'administrator_card'; break;
 
             // КАРТОЧКИ ПОИСКА
             case '#document_kind_ref_search' : card = 'document_kind_search'; break;
             case '#information_system_ref_search' : card = 'information_system_search'; break;
+            case 'adminitrator_ref_search' : card = 'administrator_search'; break;
         }
         return card;
     },

@@ -207,7 +207,7 @@ $document_icons = $resources->get_document_icons();
                         <thead>
                             <tr>
                                 <th class="hide">Ид</th>
-                                <th class="information_system_card__remarks_table_num" style="width: 35px;">№</th>
+                                <th style="width: 35px;">№</th>
                                 <th style="width: 130px;">Дата замечания</th>
                                 <th style="width: 130px;">Автор замечания</th>
                                 <th>Содержание амечания</th>
