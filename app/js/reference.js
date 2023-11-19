@@ -47,7 +47,7 @@ var reference = {
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var size = { width: 500, height: 200 };
-            message = 'Во время загрузки карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+            message = 'Во время загрузки карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
             reference.show_notification(prefix, 'Ошибка', size, message);
         });
     },
@@ -95,7 +95,7 @@ var reference = {
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 var size = { width: 500, height: 200 };
-                message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+                message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
                 reference.show_notification(prefix, 'Ошибка', size, message);
             });
     },
@@ -187,7 +187,7 @@ var reference = {
                 
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 var size = { width: 500, height: 200 };
-                message = 'Во время удаления записи произощла ошибка ' + textStatus + ' ' + errorThrown;
+                message = 'Во время удаления записи произошла ошибка ' + textStatus + ' ' + errorThrown;
                 reference.show_notification(prefix, 'Ошибка', size, message);
             })
         } else {

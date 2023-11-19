@@ -32,6 +32,7 @@ class SecDb
         register_activation_hook(__FILE__, array($this, 'secure_install_tables'));
         register_activation_hook(__FILE__, array($this, 'secure_install_data_tables'));
         add_action('init', array($this, 'secure_init_plugin'));
+        $this->document_kind = new DocumentKind();
         $this->information_system = new InformationSystem();
         $this->administrator = new Administrator();
         
@@ -77,6 +78,10 @@ class SecDb
         add_action('wp_ajax_nopriv_search_information_system', array('InformationSystem','secure_search_information_system'));
         add_action('wp_ajax_search_information_system_extended', array('InformationSystem','secure_search_information_system_extended'));
         add_action('wp_ajax_nopriv_search_information_system_extended', array('InformationSystem','secure_search_information_system_extended'));
+
+        // ДЕТАЛЬНЫЕ РАЗДЕЛЫ
+        add_action('wp_ajax_load_information_system_remarks', array('InformationSystem', 'secure_load_information_system_remarks'));
+        add_action('wp_ajax_nopriv_load_information_system_remarks', array('InformationSystem', 'secure_load_information_system_remarks'));
         
     }
 
@@ -84,7 +89,7 @@ class SecDb
      * ======================= СОЗДАНИЕ ТАБЛИЦ ==========================
      */
     public function secure_install_tables(){
-        $this->document_kind = new DocumentKind();
+        $this->document_kind->table_install();
         $this->information_system->table_install();
         $this->administrator->table_install();   
     }
@@ -105,7 +110,7 @@ class SecDb
         $results = '';
         $id = $_POST['id']; 
         switch($_POST['card']){
-            case 'document_kind_card' :{ $results = $this->secure_select_data_card('document_kind', $id);};break;
+            case 'document_kind_card' :{ $results = $this->document_kind->secure_load_card_data($id);};break;
             case 'information_system_card':{ $results = $this->information_system->secure_load_card_data($id);}; break;
             case 'administrator_card' : { $results = $this->administrator->secure_load_card_data($id);}; break;
         }
@@ -116,14 +121,14 @@ class SecDb
     /**
      * ЗАГРУЗКА ДАННЫХ КАРТОЧКИ. ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ
      */
-    protected function secure_select_data_card($table_name, $id){
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}{$table_name} WHERE id = $id"), OBJECT );
-        return $results;
-        wp_die();
-    }
+    // protected function secure_select_data_card($table_name, $id){
+    //     global $wpdb;
+    //     $prefix = $wpdb->prefix;
+    //     $results = $wpdb->get_results( 
+    //         $wpdb->prepare("SELECT * FROM {$prefix}{$table_name} WHERE id = $id"), OBJECT );
+    //     return $results;
+    //     wp_die();
+    // }
 
     /**
      * ======================= УДАЛЕНИЕ ЗАПИСИ СПРАВОЧНИКА =======================

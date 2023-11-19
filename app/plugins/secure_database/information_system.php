@@ -309,6 +309,19 @@ class InformationSystem{
         wp_die();
     }
 
+    /**
+     * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. ЗАГРУЗКА ЗАПИСЕЙ ==============
+     */
+    public function secure_load_information_system_remarks(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $information_system_id = $_POST['information_system_id'];
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE information_system_id = $information_system_id"), ARRAY_A );
+        echo json_encode($results);
+        wp_die();
+    }
+
 
     /**
      * ================ ИНФОРМАЦИОННЫЕ СИСТЕМЫ. ОБЩИЙ ПОИСК =================

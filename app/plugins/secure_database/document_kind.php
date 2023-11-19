@@ -1,14 +1,15 @@
 <?php 
 
 class DocumentKind{
+    protected $table_name;
     public function __construct() {
-        $this->table_install();
+        $this->table_name = 'document_kind';
     }
 
     /**
      * ========= СОЗДАНИЕ ТАБЛИЦЫ ВИДЫ ДОКУМЕНТОВ ========
      */
-    protected function table_install()
+    public function table_install()
     {
         global $wpdb;
         global $sec_db_version;
@@ -68,15 +69,41 @@ class DocumentKind{
 
 
     /**
-     * ================ ПОЛУЧЕНИЕ ЗАПИСИ ТАБЛИЦЫ ВИДЫ ДОКУМЕНТОВ =================
+     * ================ ПОЛУЧЕНИЕ ЗАПИСЕЙ ТАБЛИЦЫ ВИДЫ ДОКУМЕНТОВ =================
      */
     public function secure_load_document_kind(){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $results = $wpdb->get_results( "SELECT * FROM sec_document_kind", ARRAY_A ); 
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}document_kind", ARRAY_A )); 
         echo json_encode($results);
         wp_die();
     }
+
+    /**
+     * ============================ ЗАГРУЗКА ДАННЫХ КАРТОЧКИ ===============================
+     */
+     public function secure_load_card_data($id){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}document_kind WHERE id = $id"), OBJECT );
+        return $results;
+        wp_die();
+     }
+
+     /**
+     * ЗАГРУЗКА ДАННЫХ КАРТОЧКИ. ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ
+     */
+    protected function secure_select_data_card($table_name, $id){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}{$table_name} WHERE id = $id"), OBJECT );
+        return $results;
+        wp_die();
+    }
+
 
     /**
      * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ВИД ДОКУМЕНТА ======================
@@ -130,8 +157,9 @@ class DocumentKind{
         global $wpdb;
         $prefix = $wpdb->prefix;
         $value = $_POST['value'];
-        $results = $wpdb->get_results( "SELECT * FROM sec_document_kind 
-            WHERE name LIKE '%$value%'", ARRAY_A );
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM sec_document_kind 
+            WHERE name LIKE '%$value%'", ARRAY_A ));
         echo json_encode($results);
         wp_die();
     }
@@ -144,8 +172,10 @@ class DocumentKind{
         $prefix = $wpdb->prefix;
         $name = $_POST['name'];
         $state = $_POST['state'];
-        $results = $wpdb->get_results( "SELECT * FROM sec_document_kind 
-            WHERE name LIKE '%$name%' AND state='$state'", ARRAY_A );
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}document_kind 
+            WHERE name LIKE '%$name%' AND state='$state'", ARRAY_A )
+            );
         echo json_encode($results);
         wp_die();
     }

@@ -185,13 +185,13 @@ $document_icons = $resources->get_document_icons();
                         <img src="<?php echo $button_icons->create ?>" alt="Создать">
                         <p>Создать</p>
                     </button>
-                    <button class="reference__button" id="information_system_card__remarks_edit">
-                        <img src="<?php echo $button_icons->edit ?>" alt="Редактировать">
-                        <p>Редактировать</p>
-                    </button>
                     <button class="reference__button" id="information_system_card__remarks_copy">
                         <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
                         <p>Копировать</p>
+                    </button>
+                    <button class="reference__button" id="information_system_card__remarks_update">
+                        <img src="<?php echo $button_icons->update ?>" alt="Обновить">
+                        <p>Обновить</p>
                     </button>
                     <button class="reference__button" id="information_system_card__remarks_delete">
                         <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
@@ -413,6 +413,34 @@ $document_icons = $resources->get_document_icons();
             <p>Удалить</p>
         </li>
     </ul>
+</div>
+
+<!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ -->
+<div class="context-menu" id="information_system_card__remarks_context">
+    <ul class="context-menu__list">
+        <li class="context-menu__item" id="information_system_card__remarks_context_copy">
+            <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
+            <p>Копировать</p>
+        </li>
+        <li class="context-menu__item" id="information_system_card__remarks_context_delete">
+            <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
+            <p>Удалить</p>
+        </li>
+    </ul>
+</div>
+
+<!-- КОНТЕКСТНОЕ МЕНЮ ЭЛЕМЕНТА information_system_card__remarks_container -->
+<div class="context-menu" id="information_system_card_remarks__out_context">
+<ul class="context-menu__list">
+    <li class="context-menu__item" id="information_system_card_remarks__out_context_create">
+        <img src="<?php echo $button_icons->create ?>">
+        <p>Создать</p>
+    </li>
+    <li class="context-menu__item" id="information_system_card_remarks__out_context_update">
+        <img src="<?php echo $button_icons->update ?>">
+        <p>Обновить</p>
+    </li>
+</ul>    
 </div>
 
 <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ КОНТРАКТЫ -->

@@ -411,35 +411,50 @@ function information_system_update_reference(records) {
 }
 
 /** 
- * ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ КНОПКА СОЗДАТЬ ====================
+ * ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА СОЗДАТЬ ====================
  */
 $('#information_system_card__remarks_create').on('click', function(){
-    var ind = $('#information_system_card__remarks_table tbody tr').length +1;
-    $('#information_system_card__remarks_table tbody').append(
-        "<tr>"+ 
-            "<td class='id hide'></td>" +
-            "<td class='information_system_card__remarks_table_num'>"+ ind + "</td>" +
-            "<td contenteditable><input type='date'></td>" +
-            "<td contenteditable></td>" +
-            "<td contenteditable></td>" +
-            "<td><select>" +
-                "<option value='1'>Да</option>" +
-                "<option value='0'>Нет</option>" +
-            "</select></td>" + 
-            "<td contenteditable><input type='date' ></td>" +
-            "<td contenteditable></td>" +
-            "<td class='is_deleted hide'>0</td>" +
-        "</tr>"
-    );
+    information_system_remark_create_record()
 })
 
-$('.information_system_card__remarks_table_num').on('click', function(e){
-    alert('Ура!');
+/** 
+ * ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА КОПИРОВАТЬ ====================
+ */
+$('#information_system_card__remarks_copy').on('click', function(){
+    information_system_remark_copy_record();
 })
 
+/** 
+ * ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА ОБНОВИТЬ ====================
+ */
+$('#information_system_card__remarks_update').on('click', function(){
+    information_system_remark_update_records();
+})
+
+/** 
+ * ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА УДАЛИТЬ =======================
+ */
 $('#information_system_card__remarks_delete').on('click', function(){
     information_system_remark_delete_record();
 })
+
+
+/**
+ * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КОНТЕКСТНОЕ МЕНЮ. КОПИРОВАТЬ ===============
+ */
+$('#information_system_card__remarks_context_copy').on('click', function(){
+    information_system_remark_copy_record();
+})
+
+
+/**
+ * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КОНТЕКСТНОЕ МЕНЮ. УДАЛИТЬ ===============
+ */
+$('#information_system_card__remarks_context_delete').on('click', function(){
+    information_system_remark_delete_record();
+})
+
+
 
 /**================================================================================= 
 * ==================================== ДЕЙСТВИЯ ==================================== 
@@ -479,6 +494,118 @@ function information_system_delete_record(){
     }
     $('#information_system_ref__context').css('display', 'none');
 }  
+
+/**
+ * ========================= ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. СОЗДАТЬ ==========================
+ */
+function information_system_remark_create_record(){
+    var ind = $('#information_system_card__remarks_table tbody tr').length +1;
+    $('#information_system_card__remarks_table tbody').append(
+        "<tr>"+ 
+            "<td class='id hide'></td>" +
+            "<td class='information_system_card__remarks_table_num'>"+ ind + "</td>" +
+            "<td contenteditable><input type='date'></td>" +
+            "<td contenteditable></td>" +
+            "<td contenteditable></td>" +
+            "<td><select>" +
+                "<option value='1'>Да</option>" +
+                "<option value='0'>Нет</option>" +
+            "</select></td>" + 
+            "<td contenteditable><input type='date' ></td>" +
+            "<td contenteditable></td>" +
+            "<td class='is_deleted hide'>0</td>" +
+        "</tr>"
+    );
+    // Привязываем событи выделения строки к столюбцу №
+    $('.information_system_card__remarks_table_num').on('click', function(e){
+        reference.highlight(e)
+    })
+}
+
+/**
+ * ========================= ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КОПИРОВАТЬ ===========================
+ */
+function information_system_remark_copy_record(){
+    var rows = $('#information_system_card__remarks_table>tbody>tr.highlight')
+    if (rows.length > 0){
+        var row = rows[0];
+        // Вспомогательный массив для отображения колонки 'Устранено' 
+        var eliminated = new Array('','');
+        eliminated[$(row.cells[5]).children().val()] = 'selected';
+
+        var ind = $('#information_system_card__remarks_table tbody tr').length +1;
+        $('#information_system_card__remarks_table tbody').append(
+            "<tr>"+ 
+                "<td class='id hide'></td>" +
+                "<td class='information_system_card__remarks_table_num'>"+ (ind++) + "</td>" +
+                "<td contenteditable><input type='date' value=" + $(row.cells[2]).children().val() +"></td>" +
+                "<td contenteditable>" + $(row.cells[3]).text() + "</td>" +
+                "<td contenteditable>" + $(row.cells[4]).text() + "</td>" +
+                "<td><select>" +
+                    "<option value='1'" + eliminated[1] + ">Да</option>" +
+                    "<option value='0'" + eliminated[0] + ">Нет</option>" +
+                "</select></td>" + 
+                "<td contenteditable><input type='date' value=" + $(row.cells[6]).children().val() + "></td>" +
+                "<td contenteditable>" + $(row.cells[7]).text() + "</td>" +
+                "<td class='is_deleted hide'>0</td>" +
+            "</tr>"
+        );
+        
+        // Привязываем событи выделения строки к столюбцу №
+        $('.information_system_card__remarks_table_num').on('click', function(e){
+            reference.highlight(e)
+        })
+    }
+}
+
+/**
+ * ========================= ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. ОБНОВИТЬ ===========================
+ */
+function information_system_remark_update_records(){
+    var information_system_id = $('#information_system_card__id').text();
+    // Загружаем детальный раздел Замечания по аттестации
+    var data = {
+        action: 'load_information_system_remarks',
+        information_system_id: information_system_id
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var rows = JSON.parse(result);
+        $('#information_system_card__remarks_table tbody tr').remove();
+        var ind =1;
+        
+        rows.forEach( remark =>{
+            // Вспомогательный массив для отображения колонки 'Устранено' 
+            var eliminated = new Array('','');
+            eliminated[remark['eliminated']] = 'selected';
+            var tr = $('#information_system_card__remarks_table tbody').append(
+                "<tr>"+ 
+                    "<td class='id hide'>"+ remark['id']+ "</td>" +
+                    "<td class='information_system_card__remarks_table_num'>"+ (ind++) + "</td>" +
+                    "<td contenteditable><input type='date' value=" + remark['remarkdate'] +"></td>" +
+                    "<td contenteditable>" + remark['author'] + "</td>" +
+                    "<td contenteditable>" + remark['content'] + "</td>" +
+                    "<td><select>" +
+                        "<option value='1'" + eliminated[1] + ">Да</option>" +
+                        "<option value='0'" + eliminated[0] + ">Нет</option>" +
+                    "</select></td>" + 
+                    "<td contenteditable><input type='date' value=" + remark['eliminatedate'] + "></td>" +
+                    "<td contenteditable>" + remark['performer'] + "</td>" +
+                    "<td class='is_deleted hide'>0</td>" +
+                "</tr>"
+            ); 
+        });
+        // Привязываем событи выделения строки к столюбцу №
+        $('.information_system_card__remarks_table_num').on('click', function(e){
+            reference.highlight(e)
+        })
+            
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            var size = { width: 500, height: 200 };
+            message = 'Во время загрузки детального раздела Замечания по аттестации произощла ошибка' + textStatus + ' ' + errorThrown;
+            reference.show_notification('#information_system_ref', 'Ошибка', size, message);
+        });
+}
+
 
 /**
  * ========================= ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. УДАЛИТЬ ===========================

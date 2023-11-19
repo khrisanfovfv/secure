@@ -58,7 +58,7 @@ $prefix = $wpdb->prefix;
                         <tr class="document_kind_table_row">
                             <td class="id hide"><?php echo $row["id"] ?></td>
                             <td><?php echo $i + 1 ?></td>
-                            <td><?php echo $row["name"] ?></td>
+                            <td><?php echo esc_html($row["name"]) ?></td>
                             <td><?php echo secure_get_state($row["state"]) ?></td>
                         </tr>
 

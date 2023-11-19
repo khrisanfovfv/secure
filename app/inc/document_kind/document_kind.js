@@ -45,7 +45,7 @@ $('#document_kind__card_OK').on('click', function () {
                 document_kind_load_records();
             }).fail(function () {
                 var size = { width: 500, height: 200 };
-                var message = 'Во время добавления записи произощла ошибка';
+                var message = 'Во время добавления записи произошла ошибка';
                 reference.show_notification('document_kind_ref', 'Ошибка', size, message);
             })
         } else {
@@ -59,7 +59,7 @@ $('#document_kind__card_OK').on('click', function () {
                 document_kind_load_records();
             }).fail(function () {
                 var size = { width: 500, height: 200 };
-                var message = 'Во время обновления записи произощла ошибка';
+                var message = 'Во время обновления записи произошла ошибка';
                 reference.show_notification('document_kind_ref', 'Ошибка', size, message);
             })
         }
@@ -88,10 +88,10 @@ function document_kind_load_records() {
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
         var records = JSON.parse(result);
-        document_kind_update_card(records);
+        document_kind_update_reference(records);
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
-        var message = 'Во время удаления записи произощла ошибка ' + textStatus + ' ' + errorThrown;
+        var message = 'Во время удаления записи произошла ошибка ' + textStatus + ' ' + errorThrown;
         reference.show_notification('#document_kind_ref', 'Ошибка', size, message);
     });
 
@@ -115,7 +115,7 @@ function document_kind_common_search(value){
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
-        message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+        message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
         reference.show_notification('#document_kind_ref', 'Ошибка', size, message);
     });
 }
@@ -138,7 +138,7 @@ function document_kind_extended_search(){
             
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var size = { width: 500, height: 200 };
-            message = 'Во время загрузки карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+            message = 'Во время загрузки карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
             reference.show_notification('#document_kind_ref', 'Ошибка', size, message);
         });
 }
@@ -156,11 +156,11 @@ $('#document_kind_search__button_OK').on('click', function(){
     jQuery.post(MainData.ajaxurl, data, function (result) {
         var records = JSON.parse(result);
         var ind = 1;
-        document_kind_update_card(records);
+        document_kind_update_reference(records);
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
-        message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+        message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
         reference.show_notification('#document_kind_ref', 'Ошибка', size, message);
     });
 
@@ -241,7 +241,7 @@ async function card_document_kind_load_data(data, openMode) {
  *  ========================= ОБНОВЛЕНИЕ ПОЛЕЙ КАРТОЧКИ ===========================
  * @param {Object} records 
  */
-function document_kind_update_card(records) {
+function document_kind_update_reference(records) {
     var ind = 1;
     $('#document_kind_table tbody tr').remove();
     records.forEach(record => {
