@@ -16,6 +16,7 @@ var Context = {
         '#information_system_ref__out_context',
         '#administrator_ref__context',
         '#administrator_ref__out_context',
+        '#administrator_card__remarks_context',
         '#organisation_ref__context',
         '#department_ref__context',
         '#document_kind_ref__context',
@@ -128,6 +129,7 @@ var Context = {
             'information_system_card__contracts_table_row',
             'information_system_card__remarks_table_num',
             'administrator_ref__table_row',
+            'administrator_card__information_systems_table_num',
             'organisation_ref_table_row',
             'department_ref_table_row',
             'document_kind_table_row',
@@ -159,8 +161,9 @@ var Context = {
         // Если найденный элемент - строка таблицы выделяем ее
         if (result.nodeName != null) {
             if ((result.nodeName === 'TR') ||
-                (result.classList.contains('information_system_card__remarks_table_num'))) {
-                reference.highlight(e);
+                (result.classList.contains('information_system_card__remarks_table_num'))||
+                (result.classList.contains('administrator_card__information_systems_table_num'))) {
+                    reference.highlight(e);
             }
         }
 
@@ -184,6 +187,7 @@ var Context = {
             case 'information_system_card__contracts_table_row': Context.menu = $('#information_system_card__contracts_context'); break;
             case 'information_system_card__remarks_table_num': Context.menu = $('#information_system_card__remarks_context'); break;
             case 'administrator_ref__table_row': Context.menu = $('#administrator_ref__context'); break;
+            case 'administrator_card__information_systems_table_num' : Context.menu = $('#administrator_card__remarks_context'); break;
             case 'organisation_ref_table_row': Context.menu = $('#organisation_ref__context'); break;
             case 'department_ref_table_row': Context.menu = $('#department_ref__context'); break;
             case 'document_kind_table_row': Context.menu = $('#document_kind_ref__context'); break;

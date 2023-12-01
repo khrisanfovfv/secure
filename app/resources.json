@@ -2,6 +2,7 @@
     "directory":"images",
     "button_icons":{
         "create" : "create-record.svg",
+        "select" : "select.svg",
         "edit" : "edit.svg",
         "copy" : "copy.svg",
         "delete" : "delete.svg",

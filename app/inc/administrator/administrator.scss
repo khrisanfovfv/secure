@@ -1,8 +1,21 @@
 .administrator_card{
     width: 800px;
     height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     &__content{
+        height: 100%;
         padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    &__frame{
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        height: 100%;
     }
     &__fields{
         display: grid;
@@ -16,15 +29,45 @@
     &__fields .card__record{
         grid-column: 3/25;
     }
-    &__fields > input{
+
+    &__fields input{
         grid-column: 3/25;
-        outline: none;
-    } 
+    }
+    
     &__fields select{
         grid-column: 3/10;
         background-color: white;
-        border: thin solid gray;
     }
+    &__information_systems{
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        margin-top: 20px;
+    }
+    &__information_systems_container{
+        height: 100%;
+    }
+
+}
+
+#administrator_card{
+    &__information_systems_table td{
+        background-color: inherit;
+    }
+    &__information_systems_table input{
+        border: none;
+        width: 100%;
+        background-color: inherit;
+    }
+    &__information_systems_table select{
+        border: none;
+        background-color: inherit;
+    }
+}
+
+#administrator_ref__dialog_content{
+    height: 100%;
 }
 
 .administrator_search{
@@ -36,7 +79,9 @@
         grid-template-columns: repeat(24,1fr);
     }
 
-    &__fields label{
+    
+
+    /* &__fields label{
         grid-column: 1;
     }
 
@@ -49,8 +94,8 @@
     }
     &__fields input:focus{
         border-bottom: 2px solid #13406d;
-    }
-    &__fields select{
+    } */
+    /* &__fields select{
         margin: 5px 0;
         border: none;
         border-bottom: 1px solid gray;
@@ -60,7 +105,7 @@
     }
     &__fields select:focus{
         border-bottom: 2px solid #13406d;
-    }
+    } */
 }
 
 

@@ -293,6 +293,13 @@ $('#information_system_create').on('click', function () {
 });
 
 /**
+ * =========================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ==============================
+ */
+$('#information_system_select').on('click', function(e){
+    information_system_select_record(e);
+})
+
+/**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
 $('#information_system_edit').on('click', function () {
@@ -460,11 +467,17 @@ $('#information_system_card__remarks_context_delete').on('click', function(){
 * ==================================== ДЕЙСТВИЯ ==================================== 
 * ==================================================================================*/
 
+/**
+ * ======================= ИНФОРМАЦИОННАЯ СИСТЕМА. СОЗДАТЬ =========================
+ */
 function information_system_create_record(){
     var size = { width: 1400, height: 800 };
     reference.open_card('#information_system_ref', 'Карточка Информационной системы', size, OpenMode.Create, 0);
 }
 
+/**
+ * ======================= ИНФОРМАЦИОННАЯ СИСТЕМА. РЕДАКТИРОВАТЬ =========================
+ */
 function information_system_edit_record(){
     rows = $('.information_system_table_row.highlight')
     if (rows.length > 0){
@@ -476,6 +489,27 @@ function information_system_edit_record(){
 
 }
 
+/**
+ * ======================= ИНФОРМАЦИОННАЯ СИСТЕМА. ВЫБРАТЬ =========================
+ */
+function information_system_select_record(e){
+    rows = $('.information_system_table_row.highlight');
+    if (rows.length > 0){
+        id = rows[0].children.item(0).textContent
+        fullname = rows[0].children.item(3).textContent
+        // Извлекаем элемент с помощью которого вызвали справочник из стэка
+        el = stack.pop();
+        // Присваиваем элементу значения выбранного элемента
+        el.children('.id').text(id);
+        el.children('.fullname').val(fullname);
+        // Закрываем окно выбора
+        $(e.target).parents('.appdialog:first').css('display', 'none');
+    }
+}
+
+/**
+ * ======================= ИНФОРМАЦИОННАЯ СИСТЕМА. КОПИРОВАТЬ =========================
+ */
 function information_system_copy_record(){
     rows = $('.information_system_table_row.highlight')
     if (rows.length > 0){
@@ -487,6 +521,9 @@ function information_system_copy_record(){
     $('#information_system_ref__context').css('display', 'none');
 }
 
+/**
+ * ======================= ИНФОРМАЦИОННАЯ СИСТЕМА. УДАЛИТЬ =========================
+ */
 function information_system_delete_record(){
     rows = $('.information_system_table_row.highlight');
     if (rows.length > 0){
@@ -618,6 +655,7 @@ function information_system_remark_delete_record(){
         rows[0].classList.add('hide');
     }
 }
+
 
 
 

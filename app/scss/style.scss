@@ -214,21 +214,24 @@
     display: flex;
     padding: 0;
     border-bottom: thin solid #888;
+    background-color: inherit;
 }
 
 .card__record input{
+    background-color: inherit;
     border: none;
     width: 100%;
 }
 
 
 .card_record__button{
-    border: thin dotted #888;
+    /*border: thin dotted #888;*/
     display: flex;
     justify-content: center;
     align-items: center;
     width: 23px;
     cursor: pointer;
+    background-color: inherit;
 }
 
 
@@ -301,4 +304,10 @@ select:focus{
 .required{
     color: red;
 }
+
+.truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 

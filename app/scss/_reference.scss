@@ -37,6 +37,11 @@
         display: flex;
         align-items: center;
     }
+
+    &__button_select{
+        background-color: blue !important;
+        color: white !important;
+    }
     &__button img{
         width: 25px;
         margin-right: 5px;
@@ -56,14 +61,16 @@
         font-weight: 300;
         font-size: $is_table_font-size;
         width: 100%;
+        border-collapse: collapse;
     }
     &__table th{
         font-family: 'Roboto', sans-serif;
         font-weight: 400;
     }
-    &__table, th,td{
+    &__table th,
+    &__table td{
         border: 1px solid black;
-        border-collapse: collapse;
+        
     }
     &__table td{
         text-align: center;
@@ -81,21 +88,29 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    &__input{
+        border: none;
+        outline: none;
+        width: 100%;
+    }
     &__button{
-        border: thin dotted #888;
+        padding-left: 5px;
+        width: 23px;
+        cursor: pointer;
+        /*border: thin dotted #888;*/
     }
 }
 
+/*
 .ref_record__button{
-    width: 23px;
-    cursor: pointer;
+    
 }
 
 .ref_record input{
     border: none;
     outline: none;
     width: 100%;
-}
+}*/
 
 
 
@@ -103,7 +118,7 @@
     background-color: lightblue
 }
 .bg_green{
-    background-color: green;
+    background-color: rgb(177, 247, 177);
 }
 .bg_red{
     background-color: red;

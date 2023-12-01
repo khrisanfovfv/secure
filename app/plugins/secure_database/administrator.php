@@ -49,7 +49,7 @@ class Administrator{
     }
 
     /**
-     * ===== ЗАПОЛНЕНИЕ ДАННЫМИ ТАБЛИЦЫ ИНФОРМАЦИОННЫЕ СИСТЕМЫ =====
+     * ===== ЗАПОЛНЕНИЕ ДАННЫМИ ТАБЛИЦЫ АДМИНИСТРАТОРЫ =====
      *
      * @return void
      */
@@ -75,6 +75,27 @@ class Administrator{
             )
 
         );
+
+        $table_name = $wpdb->prefix . 'information_system_administrator';
+        $wpdb->insert(
+            $table_name,
+            array(
+                'information_system_id' => 1,
+                'administrator_id' => 1,
+                'appointdate' => '2022-01-01',
+                'terminatedate' => '2023-02-04',
+                'type' => 'substitute',
+            ),
+            array(
+                '%d', // information_system_id
+                '%d', // administrator_id
+                '%s', // appointdate
+                '%s', // terminatedate
+                '%s'  // type
+            )
+
+        );
+
     }
 
 
@@ -99,9 +120,12 @@ class Administrator{
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT * FROM sec_administrator WHERE id = $id"), OBJECT );
-        $remarks = $wpdb->get_results(
-            $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE administrator_id = $id"), OBJECT);
-            $results = (object) array_merge( (array)$results, array( 'remarks' => $remarks ));
+        $information_system_administrator = $wpdb->get_results(
+            $wpdb->prepare("SELECT inf_sys_adm.id,inf_sys_adm.information_system_id, inf_sys.fullname as information_system_name , inf_sys_adm.appointdate, inf_sys_adm.terminatedate, inf_sys_adm.type 
+            FROM {$prefix}information_system_administrator inf_sys_adm 
+            JOIN {$prefix}information_system inf_sys on inf_sys_adm.information_system_id = inf_sys.id            
+            WHERE administrator_id = $id"), OBJECT);
+            $results = (object) array_merge( (array)$results, array( 'information_systems' => $information_system_administrator ));
         return $results;
         wp_die();
      }

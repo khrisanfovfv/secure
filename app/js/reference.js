@@ -5,6 +5,8 @@ var OpenMode ={
     Copy : 2
 }
 
+
+
 var reference = {
     /**
      * Выделить строку таблицы
@@ -15,6 +17,34 @@ var reference = {
         $('*').removeClass('highlight');
         js_elem.classList.add('highlight');
         $('.reference__button').attr('disabled', false);
+    },
+
+    /**
+     * ОТКРЫТИЕ СПРАВОЧНИКА
+     * @param {Event} e 
+     * @param {string} prefix
+     */
+    open_reference(e, prefix, reference_title){
+        //получаем jQuery-объект ref_record
+        el = $(e.target.parentNode);
+        var reference_name = el.children('.name_reference').text();
+        // Заносим элемент с помощью которого вызвали справочник в стэк
+        stack.push(el);
+        var size = { width: 1800, height: 800 };
+        reference.show_dialog(prefix, size, reference_title);
+
+        var data = {
+            action: 'load_reference',
+            reference: reference_name 
+        };
+    jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+        $(prefix + '__dialog_content').empty();
+        $(prefix + '__dialog_content').html(textStatus);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification(prefix, 'Ошибка', size, message);
+    });
     },
 
 
@@ -92,6 +122,7 @@ var reference = {
                 switch (prefix) {
                     case '#document_kind_ref': card_document_kind_load_data(result, openMode); break;
                     case '#information_system_ref': card_information_system_load_data(result, openMode); break;
+                    case '#administrator_ref': card_administrator_load_data(result, openMode); break;
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 var size = { width: 500, height: 200 };

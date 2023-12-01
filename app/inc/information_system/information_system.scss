@@ -99,6 +99,7 @@
         width: 100%;
         font-size: $is_table_font-size;
     }
+    /*
     &__remarks_table, th,td{
         border: thin solid black;
         border-collapse: collapse;
@@ -106,7 +107,7 @@
     &__remarks_table td{
         text-align: center;
         padding: 0;
-    }
+    }*/
 
     &__remarks_table td input{
         outline: 0px solid transparent;

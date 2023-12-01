@@ -22,7 +22,8 @@
 
         // Передаем переменную ajaxurl в main.js
         wp_localize_script('main_script','MainData', array(
-            'ajaxurl' => admin_url('admin-ajax.php')
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'stack' => array()
         ));
     }
 
@@ -31,6 +32,8 @@
     add_action('wp_ajax_nopriv_get_site_url', 'get_url_site');
     add_action('wp_ajax_load_card', 'secure_load_card');
     add_action('wp_ajax_nopriv_load_card', 'secure_load_card');
+    add_action('wp_ajax_load_reference', 'secure_load_reference');
+    add_action('wp_ajax_nopriv_load_reference', 'secure_load_reference');
     // add_action('wp_ajax_load_card_data', 'secure_load_card_data');
     // add_action('wp_ajax_nopriv_load_card_data', 'secure_load_card_data');
     
@@ -52,10 +55,22 @@
             case 'document_kind_card' : get_template_part('inc/document_kind/document_kind_card');break;
             case 'information_system_card' : get_template_part('inc/information_system/information_system_card');break;
             case 'administrator_card' : get_template_part('inc/administrator/administrator_card'); break;
+
+            case 'information_system_ref' : get_template_part('inc/information_system/information_system_ref'); break;
             
             case 'document_kind_search' : get_template_part('inc/document_kind/document_kind_search_form');break;
             case 'information_system_search' : get_template_part('inc/information_system/information_system_search_form');break;
             case 'administrator_search' : get_template_part('inc/administrator/administrator_search_form');break;
+        }
+        wp_die();
+    }
+
+    /**
+     * =========================== ЗАГРУЗКА СПРАВОЧНИКА ============================
+     */
+    function secure_load_reference(){
+        switch($_POST['reference']){
+            case 'information_system' : get_template_part('inc/information_system/information_system_ref'); break;
         }
         wp_die();
     }
