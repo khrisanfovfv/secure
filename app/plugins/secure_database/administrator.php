@@ -131,7 +131,7 @@ class Administrator{
      }
 
     /**
-     * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ======================
+     * ==================== ДОБАВЛЕНИЕ ЗАПИСИ АДМИНИСТРАТОРЫ ======================
      */
     function secure_add_administrator(){
 
@@ -143,32 +143,41 @@ class Administrator{
             $prefix.'administrator',
             array(
                 'fullname' => $record['fullname'],
-                'briefname' => $record['briefname'],
-                'significancelevel' => $record['significancelevel'],
-                'scope' => $record['scope'],
-                'certified' => $record['certified'],
-                'certifydate' => $record['certifydate'],
-                'hasremark' => $record['hasremark'],
-                'commissioningdate' => $record['commissioningdate'],
-                'state' => $record['state']
+                'organisation' => $record['organisation'],
+                'department' => $record['department'],
+                'state' => $record['state'],
             ),
             array(
                 '%s', // fullname
-                '%s', // briefname
-                '%s', // significancelevel
-                '%s', // scope
-                '%d', // certified
-                '%s', // certifydate
-                '%d', // hasremark
-                '%s', // commissioningdate
+                '%d', // organisation
+                '%d', // department
                 '%s'  // state
             )
         );
-
         $id = $wpdb->insert_id;
+
+        $information_systems = $record['information_systems'];
+        foreach ($information_systems as $information_system ){
+            $wpdb->insert($prefix.'information_system_administrator',
+                array(
+                    'information_system_id' => $information_system['information_system_id'],
+                    'administrator_id' => $id,
+                    'appointdate' => $information_system['appointdate'],
+                    'terminatedate' => $information_system['terminatedate'],
+                    'type' => $information_system['type']
+                ),
+                array(
+                    '%d', // information_system_id
+                    '%d', // administrator_id
+                    '%s', // appointdate
+                    '%s', // terminatedate
+                    '%s'  // type   
+                )
+            );
+        }
+
         echo 'Запись добавлена ИД=' . $id ; 
         wp_die();
-        ;
     }
 
     /** 

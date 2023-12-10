@@ -111,7 +111,7 @@ function document_kind_common_search(value){
     jQuery.post(MainData.ajaxurl, data, function (result) {
         var records = JSON.parse(result);
         var ind = 1;
-        document_kind_update_card(records);
+        document_kind_update_reference(records);
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
@@ -238,22 +238,20 @@ async function card_document_kind_load_data(data, openMode) {
 }
 
 /**
- *  ========================= ОБНОВЛЕНИЕ ПОЛЕЙ КАРТОЧКИ ===========================
+ *  ========================= ОБНОВЛЕНИЕ СПРАВОЧНИКА ===========================
  * @param {Object} records 
  */
 function document_kind_update_reference(records) {
     var ind = 1;
     $('#document_kind_table tbody tr').remove();
     records.forEach(record => {
-
-        var tr = $('#document_kind_table tbody').append(
-            "<tr class='document_kind_table_row'>" +
-            "<td class='id hide'>" + record["id"] + "</td>" +
-            "<td>" + (ind++) + "</td>" +
-            "<td>" + record["name"] + "</td>" +
-            "<td>" + reference.get_state(record["state"]) + "</td>" +
-            "</tr>");
-        tr.on('click', function (e) {
+        $('#document_kind_table tbody').append(
+            $("<tr class='document_kind_table_row'>")
+                .append($("<td class='id hide'>").text(record["id"]))
+                .append($("<td>").text(ind++))
+                .append($("<td>").text(record["name"]))
+                .append($("<td>").text(reference.get_state(record["state"])))
+        ).on('click', function (e) {
             reference.highlight(e);
         })
     });

@@ -87,7 +87,7 @@ class DocumentKind{
         global $wpdb;
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}document_kind WHERE id = $id"), OBJECT );
+            $wpdb->prepare("SELECT * FROM {$prefix}document_kind WHERE id = %s", $id), OBJECT );
         return $results;
         wp_die();
      }
@@ -157,9 +157,11 @@ class DocumentKind{
         global $wpdb;
         $prefix = $wpdb->prefix;
         $value = $_POST['value'];
+        $wild = '%';
+        $like = $wild . $wpdb->esc_like($value) .$wild;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM sec_document_kind 
-            WHERE name LIKE '%$value%'", ARRAY_A ));
+            $wpdb->prepare("SELECT * FROM {$prefix}document_kind 
+            WHERE name LIKE '%s'",$like), ARRAY_A);
         echo json_encode($results);
         wp_die();
     }
@@ -172,10 +174,12 @@ class DocumentKind{
         $prefix = $wpdb->prefix;
         $name = $_POST['name'];
         $state = $_POST['state'];
+        $wild = '%';
+        $like_name = $wild . $wpdb->esc_like($name);        
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT * FROM {$prefix}document_kind 
-            WHERE name LIKE '%$name%' AND state='$state'", ARRAY_A )
-            );
+            WHERE name LIKE '%s' AND state=%s",array($like_name, $state)), ARRAY_A 
+        );
         echo json_encode($results);
         wp_die();
     }

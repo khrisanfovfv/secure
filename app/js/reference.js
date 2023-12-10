@@ -213,6 +213,7 @@ var reference = {
                 switch(prefix){
                     case '#document_kind_ref': document_kind_load_records(); break;
                     case '#information_system_ref': information_system_load_records(); break;
+                    case '#administrator_ref' : administrator_load_records(); break;
                 }
                 
                 

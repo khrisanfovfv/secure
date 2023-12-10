@@ -126,6 +126,7 @@
         switch ($card){
             case 'document_kind_card' : return 'document_kind'; break;
             case 'information_system_card' : return 'information_system'; break;
+            case 'administrator_card' : return 'administrator'; break;
             default :'';
         }
 

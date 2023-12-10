@@ -48,8 +48,7 @@ $('#administrator_card__OK').on('click', function () {
         var information_systems = [];
         rows.each(function (ind, row) {
             information_system.id = $(row.cells[0]).text();
-            information_system.information_system_id = $(row.cells[2]).find('id').val();
-            information_system.information_system_name = $(row.cells[2]).find('fullname').val();
+            information_system.information_system_id = $(row.cells[2]).find('id').text();
             information_system.administrator_id = $('#administrator_card__id').text();
             information_system.appointdate = $(row.cells[3]).children().val();
             information_system.terminatedate = $(row.cells[4]).children().val();
@@ -349,14 +348,6 @@ function card_administrator_load_data(data, openMode) {
             administrator_card__draw_information_system_row(information_system)
         );
     });
-     // Привязываем событи выделения строки к столюбцу №
-    $('.information_system_card__information_systems_table_num').on('click', function (e) {
-        reference.highlight(e)
-    })
-
-    $('#administrator_card__information_systems_table .ref_record__button').on('click', function(e){
-        reference.open_reference(e, '#administrator_card','Справочник Информационные системы');
-    })
 }
 
 
@@ -367,24 +358,19 @@ function card_administrator_load_data(data, openMode) {
  */
 function administrator_update_reference(records) {
     var ind = 1;
-    $('#administrator_table tbody tr').remove();
+    $('#administrator_ref__table tbody tr').remove();
     records.forEach(record => {
-        var tr = $('#administrator_table tbody').append(
-            "<tr class='administrator_table_row'>" +
-            "<td class='id hide'>" + record["id"] + "</td>" +
-            "<td>" + (ind++) + "</td>" +
-            "<td>" + record["briefname"] + "</td>" +
-            "<td style='text-align: left'>" + record["fullname"] + "</td>" +
-            "<td>" + reference.get_boolean_value(record["certified"]) + "</td>" +
-            "<td>" + reference.get_date_value(record["certifydate"]) + "</td>" +
-            "<td>" + reference.get_date_value(record["commissioningdate"]) + "</td>" +
-            "<td>" + reference.get_boolean_value(record["hasremark"]) + "</td>" +
-            /*"<td>" + reference.get_state(record["state"]) + "</td>" +*/
-            "</tr>");
-        tr.on('click', function (e) {
+        $('#administrator_ref__table tbody').append(
+            $("<tr class='administrator_ref__table_row'>")
+                .append($("<td class='id hide'>").text(record["id"]))
+                .append($("<td>").text(ind++))
+                .append($("<td>").text(record["fullname"]))
+                .append($("<td>").text(record["organisation"]))
+                .append($("<td>").text(record["department"]))
+                .append($("<td>").text(reference.get_state(record["state"])))
+        ).on('click', function (e) {
             reference.highlight(e);
-        })
-        tr.on('dblclick', function () {
+        }).on('dblclick', function () {
             administrator_edit_record();
         })
     });
@@ -434,7 +420,7 @@ function administrator_copy_record() {
  * АДМИНИСТРАТОР. УДАЛЕНИЕ ЗАПИСИ
  */
 function administrator_delete_record() {
-    rows = $('.administrator_table_row.highlight');
+    rows = $('.administrator_ref__table_row.highlight');
     if (rows.length > 0) {
         reference.delete_record('#administrator_ref', rows);
     }
@@ -458,14 +444,7 @@ function administrator_information_systems_create() {
     $('#administrator_card__information_systems_table tbody').append(
         administrator_card__draw_information_system_row(information_system)
     );
-    // Привязываем событи выделения строки к столюбцу №
-    $('.information_system_card__information_systems_table_num').on('click', function (e) {
-        reference.highlight(e)
-    })
-
-    $('#administrator_card__information_systems_table .ref_record__button').on('click', function(e){
-        reference.open_reference(e, '#administrator_card','Справочник Информационные системы');
-    })
+    
 }
 
 
@@ -479,26 +458,50 @@ function administrator_card__draw_information_system_row(information_system) {
     type['base'] = '';
     type['substitute'] = '';
         type[information_system['type']] = 'selected';
-    var content_html = 
-    "<tr>" +
-        "<td class='id hide'>" + information_system['id'] + "</td>" +
-        "<td class='administrator_card__information_systems_table_num'>" + information_system['ind'] + "</td>" +
-        "<td>" + 
-            "<div class='ref_record'>" +
-                "<p class='hide name_reference'>information_system</p>" +
-                "<p class='id hide'>" + information_system['information_system_id'] +"</p>" +
-                "<input class='fullname' value='"+ information_system['information_system_name'] + "'>" +
-                "<div class='ref_record__button'>...</div>" +
-            "</div>" +
-        "</td>" +
-        "<td><input type=date value=" + information_system['appointdate'] +"></td>" +
-        "<td><input type=date value=" + information_system['terminatedate']+ "></td>" +
-        "<td>" +
-            "<select>" +
-                "<option value=base " + type['base'] +">Основной</option>" +
-                "<option value=substitute " + type['substitute'] + ">Замещающий</option>" +
-            "</select></td>" +
-    "</tr>"
+    var content_html =
+    $("<tr>")
+        // ИД
+        .append($("<td class='id hide'>").text(information_system['id']))
+        // №
+        .append($("<td class='administrator_card__information_systems_table_num'>").text(information_system['ind']))
+           /* .on('click', function (e) {
+                reference.highlight(e)
+            })*/
+        // Информационная система
+        .append($("<td>")
+            .append($("<div class='ref_record'>")
+                .append($("<p class='hide name_reference'>").text("information_system"))
+                .append($("<p class='id hide'>").text(information_system['information_system_id']))
+                .append($("<input class='fullname'>").val(information_system['information_system_name']))
+                .append($("<div class='ref_record__button'>").text("..."))
+                    .on('click', function(e){
+                        reference.open_reference(e, '#administrator_card','Справочник Информационные системы');
+                    })
+            )
+        )
+        // Дата назначения
+        .append($("<td>")
+            .append($("<input type=date>").val(information_system['appointdate']))
+        )
+        // Дата прекращения
+        .append($("<td>")
+            .append($("<input type=date>").val(information_system['terminatedate']))
+        )
+        // Тип
+        .append($("<td>")
+            .append($("<select>")
+                .append($('<option>',{
+                    value: "base",
+                    text: "Основной"
+                }))
+                .append($('<option>',{
+                    value: "substitute",
+                    text: "Замещающий"
+                }))
+                .val(information_system['type'])
+            )
+        )
+
     return content_html;
 }
 
