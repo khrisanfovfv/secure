@@ -1,4 +1,6 @@
-<?php wp_head();
+<?php 
+wp_head();
+
 require_once(wp_normalize_path(get_template_directory()) . '/common.php');
 $resources = new Resources();
 $button_icons = $resources->get_button_icons();
@@ -78,9 +80,9 @@ $button_icons = $resources->get_button_icons();
     </div>
 
 
-    <div class="appdialog__finish_buttons">
-        <button class="appdialog__finish_button" id="administrator_card__OK">OK</button>
-        <button class="appdialog__finish_button" id="administrator_card__Cancel">Cancel</button>
+    <div class="finish_buttons">
+        <button class="finish_button" id="administrator_card__OK">OK</button>
+        <button class="finish_button" id="administrator_card__Cancel">Cancel</button>
     </div>
 </div> <!-- /administrator_card__content -->
 

@@ -63,6 +63,7 @@ var reference = {
         //1.  Загружаем карточку
         var data = {
                 action: 'load_card',
+                cache: false,
                 card: reference.get_card_name(prefix)
             };
         jQuery.post(MainData.ajaxurl, data, function (textStatus) {

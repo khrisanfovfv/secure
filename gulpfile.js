@@ -71,6 +71,12 @@ function scripts(){
     .pipe(browserSync.stream())
 }
 
+// function scripts_administrator(){
+//     return src('app/inc/administrator/administrator.js')
+//     .pipe(dest(destFolder + 'js/'))
+//     .pipe(browserSync.stream())
+// }
+
 function styles(){
     return src(['app/scss/style.scss'])
     .pipe(autoprefixer({overrideBrowserslist: ['last 10 version']}))
@@ -79,6 +85,16 @@ function styles(){
     .pipe(dest(destFolder + '/css'))
     .pipe(browserSync.stream()) 
 }
+
+// function styles_administrator(){
+//     return src(['app/inc/administrator/administrator.scss'])
+//     .pipe(autoprefixer({overrideBrowserslist: ['last 10 version']}))
+//     .pipe(concat('administrator_style.css'))
+//     /*.pipe(scss({outputStyle: 'compressed'}))*/
+//     .pipe(dest(destFolder + '/css'))
+//     .pipe(browserSync.stream()) 
+// }
+
 
 function watching(){
     watch(['app/scss/*.scss','app/plugins/**/*.scss'], styles)
@@ -124,6 +140,8 @@ exports.php = php;
 exports.secure_database = secure_database;
 exports.references_php = references_php;
 exports.json = json;
+//exports.styles_administrator = styles_administrator;
+//exports.scripts_administrator = scripts_administrator;
 
 exports.watching = watching;
 exports.browsersync = browsersync;

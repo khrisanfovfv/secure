@@ -18,7 +18,16 @@
         wp_register_script( 'main_script', get_template_directory_uri() . '/js/main.min.js', array(), filemtime(get_template_directory() . '/js/main.min.js'), true );
         wp_register_style('main_style', get_template_directory_uri() . '/css/style.min.css', array(), filemtime(get_template_directory() . '/css/style.min.css'), 'all');
         wp_enqueue_script('main_script');
-        wp_enqueue_style('main_style');   
+        wp_enqueue_style('main_style'); 
+        
+        if (is_page('administrator') || (is_page_template('inc/administrator/administrator_card.php'))){
+            wp_register_style('administrator_style', get_template_directory_uri() . '/css/administrator_style.css', array(), filemtime(get_template_directory() . '/css/administrator_style.css'), 'all');
+            wp_register_script( 'administrator_script', get_template_directory_uri() . '/js/administrator.js', array(), filemtime(get_template_directory() . '/js/administrator.js'), true );
+            wp_enqueue_style('administrator_style');
+            wp_enqueue_script('administrator_script');
+
+
+        }
 
         // Передаем переменную ajaxurl в main.js
         wp_localize_script('main_script','MainData', array(

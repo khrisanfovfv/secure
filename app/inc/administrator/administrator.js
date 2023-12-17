@@ -48,11 +48,12 @@ $('#administrator_card__OK').on('click', function () {
         var information_systems = [];
         rows.each(function (ind, row) {
             information_system.id = $(row.cells[0]).text();
-            information_system.information_system_id = $(row.cells[2]).find('id').text();
+            information_system.information_system_id = $(row.cells[2]).find('.id').text();
             information_system.administrator_id = $('#administrator_card__id').text();
             information_system.appointdate = $(row.cells[3]).children().val();
             information_system.terminatedate = $(row.cells[4]).children().val();
             information_system.type = $(row.cells[5]).children().val();
+            information_system.is_deleted = $(row.cells[6]).text();
             // Копируем обьект в массив
             information_systems[ind] = JSON.parse(JSON.stringify(information_system));
     
@@ -307,8 +308,16 @@ $('#administrator_update').on('click', function () {
 /**
  * ТАБЛИЦА ИНФОРМАЦИОННЫЕ СИСТЕМЫ. НАЖАТИЕ КНОПКИ СОЗДАТЬ
  */
-$('#administrator_card__information_systems_create').on('click', function () {
+$('#administrator_card__information_systems_create').on('click', function (e) {
     administrator_information_systems_create();
+    console.log(dubl++)
+});
+
+/**
+ * ТАБЛИЦА ИНФОРМАЦИОННЫЕ СИСТЕМЫ. НАЖАТИЕ КНОПКИ УДАЛИТЬ
+ */
+$('#administrator_card__information_systems_delete').on('click', function () {
+    administrator_information_systems_delete();
 });
 
 
@@ -440,12 +449,24 @@ function administrator_information_systems_create() {
     information_system['appointdate'] = '';
     information_system['terminatedate'] = '';
     information_system['type'] = 'base';
-
     $('#administrator_card__information_systems_table tbody').append(
         administrator_card__draw_information_system_row(information_system)
-    );
-    
+    );   
+    // Удаляем переменную чтобы избежать дублей строк
+    information_system = undefined;
 }
+
+/**
+ * ==================== ИНФОРМАЦИОННЫЕ СИСТЕМЫ. УДАЛЕНИЕ ЗАПИСИ =====================
+ */
+function administrator_information_systems_delete(){
+    var rows = $('.administrator_card__information_systems_table_row.highlight');
+    var row = rows[0];
+    $(row).children('.is_deleted').text(1);
+    $(row).css('display','none');
+}
+
+
 
 
 /** ============================================================================
@@ -459,14 +480,11 @@ function administrator_card__draw_information_system_row(information_system) {
     type['substitute'] = '';
         type[information_system['type']] = 'selected';
     var content_html =
-    $("<tr>")
+    $("<tr class = 'administrator_card__information_systems_table_row'>")
         // ИД
         .append($("<td class='id hide'>").text(information_system['id']))
         // №
         .append($("<td class='administrator_card__information_systems_table_num'>").text(information_system['ind']))
-           /* .on('click', function (e) {
-                reference.highlight(e)
-            })*/
         // Информационная система
         .append($("<td>")
             .append($("<div class='ref_record'>")
@@ -501,6 +519,8 @@ function administrator_card__draw_information_system_row(information_system) {
                 .val(information_system['type'])
             )
         )
+        // Скрытый признак удаления записи
+        .append($("<td class = 'is_deleted hide'>").text(0))
 
     return content_html;
 }

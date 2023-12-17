@@ -81,6 +81,15 @@
     &__table tbody tr:hover{
         border: 2px solid gray;
     }
+
+    &__table td input{
+        border: none;
+    }
+
+    &__table td select{
+        border: none;
+        width: 100%;
+    }
 }
 
 .ref_record{

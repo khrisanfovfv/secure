@@ -3,6 +3,8 @@
 /**
  * Post Template: Documents Kind
  */
+
+
 require_once(wp_normalize_path(get_template_directory()) . '/common.php');
 $resources = new Resources();
 $button_icons = $resources->get_button_icons();
@@ -149,5 +151,7 @@ $prefix = $wpdb->prefix;
 <script>
     // Стек для передачи данных между окнами
     stack = [];
+    dubl = 0;
 </script>
+
 <?php get_footer() ?>

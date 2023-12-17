@@ -126,7 +126,7 @@
         font-size: 24px;
 
     }
-    &__finish_buttons{
+   /*  &__finish_buttons{
         width: 100%;
         display: flex;
         justify-content: center;
@@ -136,7 +136,7 @@
     }
     &__finish_button{
         width: 100px;
-    }
+    } */
 }
 
 .user{
@@ -309,5 +309,19 @@ select:focus{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
+}
+
+.finish_buttons{
+    padding-top: 20px;
+    display: flex;
+    width: 250px;
+    background-color: inherit;
+    margin: auto auto 40px auto;
+    justify-content: space-between;
+}
+.finish_button{
+    font-size: 18px;
+    width: 100px;
+    margin: 0 auto;
+}
 
