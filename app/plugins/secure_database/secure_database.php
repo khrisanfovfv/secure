@@ -16,6 +16,7 @@ Text Domain: secure_database
 require_once('document_kind.php');
 require_once('administrator.php');
 require_once('information_system.php');
+require_once('organization.php');
 
 if (!function_exists('add_action')) {
     exit;
@@ -26,6 +27,7 @@ class SecDb
     protected $document_kind;
     protected $information_system;
     protected $administrator;
+    protected $organization;
     function __construct()
     {
         
@@ -35,6 +37,7 @@ class SecDb
         $this->document_kind = new DocumentKind();
         $this->information_system = new InformationSystem();
         $this->administrator = new Administrator();
+        $this->organization = new Organization();
         
         //add_action( 'plugins_loaded', array($this, 'myplugin_update_db_check'));
     }
@@ -89,6 +92,7 @@ class SecDb
      * ======================= СОЗДАНИЕ ТАБЛИЦ ==========================
      */
     public function secure_install_tables(){
+        $this->organization->table_install();
         $this->document_kind->table_install();
         $this->information_system->table_install();
         $this->administrator->table_install();   
@@ -98,6 +102,7 @@ class SecDb
      * ============ ЗАПОЛНЕНИЕ ТАБЛИЦ ДАННЫМИ ПО-УМОЛЧАНИЮ ===============
      */
     public function secure_install_data_tables(){
+        $this->organization->install_data();
         $this->document_kind->install_data();
         $this->information_system->install_data();
         $this->administrator->install_data();
