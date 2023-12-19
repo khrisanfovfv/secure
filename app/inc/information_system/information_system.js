@@ -537,26 +537,23 @@ function information_system_delete_record(){
  */
 function information_system_remark_create_record(){
     var ind = $('#information_system_card__remarks_table tbody tr').length +1;
+    var remark = []
+    remark['id'] = '',
+    remark['ind'] = ind,
+    remark['remarkdate'] = '',
+    remark['author'] = 'Вася',
+    remark['content'] = '',
+    remark['eliminated'] = 1,
+    remark['eliminatedate'] = '',
+    remark['performer'] = ''
+
     $('#information_system_card__remarks_table tbody').append(
-        "<tr>"+ 
-            "<td class='id hide'></td>" +
-            "<td class='information_system_card__remarks_table_num'>"+ ind + "</td>" +
-            "<td contenteditable><input type='date'></td>" +
-            "<td contenteditable></td>" +
-            "<td contenteditable></td>" +
-            "<td><select>" +
-                "<option value='1'>Да</option>" +
-                "<option value='0'>Нет</option>" +
-            "</select></td>" + 
-            "<td contenteditable><input type='date' ></td>" +
-            "<td contenteditable></td>" +
-            "<td class='is_deleted hide'>0</td>" +
-        "</tr>"
+        administrator_card__draw_remark_row(remark)
     );
     // Привязываем событи выделения строки к столюбцу №
-    $('.information_system_card__remarks_table_num').on('click', function(e){
+    /*$('.information_system_card__remarks_table_num').on('click', function(e){
         reference.highlight(e)
-    })
+    })*/
 }
 
 /**
@@ -564,34 +561,28 @@ function information_system_remark_create_record(){
  */
 function information_system_remark_copy_record(){
     var rows = $('#information_system_card__remarks_table>tbody>tr.highlight')
+    var ind = $('#information_system_card__remarks_table tbody tr').length +1;
     if (rows.length > 0){
         var row = rows[0];
-        // Вспомогательный массив для отображения колонки 'Устранено' 
-        var eliminated = new Array('','');
-        eliminated[$(row.cells[5]).children().val()] = 'selected';
+        var remark = []
+        remark['id'] = '',
+        remark['ind'] = ind++,
+        remark['remarkdate'] = $(row.cells[2]).children().val(),
+        remark['author'] = $(row.cells[3]).text(),
+        remark['content'] = $(row.cells[4]).text(),
+        remark['eliminated'] = $(row.cells[5]).children().val(),
+        remark['eliminatedate'] = $(row.cells[6]).children().val(),
+        remark['performer'] = $(row.cells[7]).text()
 
-        var ind = $('#information_system_card__remarks_table tbody tr').length +1;
+        
         $('#information_system_card__remarks_table tbody').append(
-            "<tr>"+ 
-                "<td class='id hide'></td>" +
-                "<td class='information_system_card__remarks_table_num'>"+ (ind++) + "</td>" +
-                "<td contenteditable><input type='date' value=" + $(row.cells[2]).children().val() +"></td>" +
-                "<td contenteditable>" + $(row.cells[3]).text() + "</td>" +
-                "<td contenteditable>" + $(row.cells[4]).text() + "</td>" +
-                "<td><select>" +
-                    "<option value='1'" + eliminated[1] + ">Да</option>" +
-                    "<option value='0'" + eliminated[0] + ">Нет</option>" +
-                "</select></td>" + 
-                "<td contenteditable><input type='date' value=" + $(row.cells[6]).children().val() + "></td>" +
-                "<td contenteditable>" + $(row.cells[7]).text() + "</td>" +
-                "<td class='is_deleted hide'>0</td>" +
-            "</tr>"
+            administrator_card__draw_remark_row(remark)
         );
         
         // Привязываем событи выделения строки к столюбцу №
-        $('.information_system_card__remarks_table_num').on('click', function(e){
+        /*$('.information_system_card__remarks_table_num').on('click', function(e){
             reference.highlight(e)
-        })
+        })*/
     }
 }
 
@@ -611,30 +602,15 @@ function information_system_remark_update_records(){
         var ind =1;
         
         rows.forEach( remark =>{
-            // Вспомогательный массив для отображения колонки 'Устранено' 
-            var eliminated = new Array('','');
-            eliminated[remark['eliminated']] = 'selected';
-            var tr = $('#information_system_card__remarks_table tbody').append(
-                "<tr>"+ 
-                    "<td class='id hide'>"+ remark['id']+ "</td>" +
-                    "<td class='information_system_card__remarks_table_num'>"+ (ind++) + "</td>" +
-                    "<td contenteditable><input type='date' value=" + remark['remarkdate'] +"></td>" +
-                    "<td contenteditable>" + remark['author'] + "</td>" +
-                    "<td contenteditable>" + remark['content'] + "</td>" +
-                    "<td><select>" +
-                        "<option value='1'" + eliminated[1] + ">Да</option>" +
-                        "<option value='0'" + eliminated[0] + ">Нет</option>" +
-                    "</select></td>" + 
-                    "<td contenteditable><input type='date' value=" + remark['eliminatedate'] + "></td>" +
-                    "<td contenteditable>" + remark['performer'] + "</td>" +
-                    "<td class='is_deleted hide'>0</td>" +
-                "</tr>"
+            remark['ind'] = ind++;
+            $('#information_system_card__remarks_table tbody').append(
+                administrator_card__draw_remark_row(remark)
             ); 
         });
         // Привязываем событи выделения строки к столюбцу №
-        $('.information_system_card__remarks_table_num').on('click', function(e){
+        /*$('.information_system_card__remarks_table_num').on('click', function(e){
             reference.highlight(e)
-        })
+        })*/
             
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var size = { width: 500, height: 200 };
@@ -654,6 +630,41 @@ function information_system_remark_delete_record(){
         rows[0].children.item(8).textContent = 1;
         rows[0].classList.add('hide');
     }
+}
+
+/** ============================================================================
+ * ========================= ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===========================
+   ============================================================================*/
+
+/**
+ * =========== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ ================
+ * @param {Object} remark 
+ *==============================================================================*/   
+function administrator_card__draw_remark_row(remark){
+    var content_html = 
+    $("<tr>")
+        .append($("<td class='id hide'>").text(remark['id']))
+        .append($("<td class='information_system_card__remarks_table_num'>").text(remark['ind']))
+        .append($("<td contenteditable='true'>")
+            .append($("<input type='date'>").val(remark['remarkdate'])))
+        .append($("<td contenteditable='true'>").text(remark['author']))
+        .append($("<td contenteditable='true'>").text(remark['content']))
+        .append($("<td>")
+            .append($("<select>")
+                .append($('<option>',{
+                    value: "1",
+                    text: "Да"
+                }))
+                .append($('<option>',{
+                    value: "0",
+                    text: "Нет"
+                })).val(remark['eliminated'])
+            ))
+        .append($("<td contenteditable='true'>")
+            .append($("<input type='date'>").val(remark['eliminatedate'])))
+        .append($("<td contenteditable='true'>").text(remark['performer']))
+        .append($("<td class='is_deleted hide'>").text(0))
+    return content_html;
 }
 
 

@@ -64,12 +64,14 @@ var Context = {
             // Открываем контекстное меню соответствующего элемента
             switch (el.id) {
                 case 'information_system_ref__out_context_create': information_system_create_record(); break;
+                case 'information_system_ref__out_context_update': information_system_load_records(); break;
                 case 'information_system_ref__context_edit': information_system_edit_record(); break;
                 case 'information_system_ref__context_copy': information_system_copy_record(); break;
                 case 'information_system_ref__context_delete': information_system_delete_record(); break;
-                case 'information_system_ref__out_context_update': information_system_load_records(); break;
+                
                 case 'information_system_card_remarks__out_context_create': information_system_remark_create_record(); break;
                 case 'information_system_card_remarks__out_context_update': information_system_remark_update_records(); break;
+                
                 case 'information_system_card__documents_open_card': Context.document_open_card(); break;
                 case 'information_system_card__documents_create_version': Context.document_open_version_card(); break;
                 case 'main_menu__references': Context.show_menu_references(); break;
