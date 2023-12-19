@@ -12,7 +12,6 @@ get_header();
 global $wpdb;
 $prefix = $wpdb->prefix;
 
-
 ?>
 <!-- Идетификатор страницы -->
 <p class="hide" id="page_id">organization</p>
@@ -54,10 +53,9 @@ $prefix = $wpdb->prefix;
                             <th style="width: 35px;">№</th>
                             <th style="width: 200px;">Краткое наименование</th>
                             <th>Полн. наименование</th>
-                            <th style="width: 130px;">Аттестована</th>
-                            <th style="width: 130px;">Дата аттестации</th>
-                            <th style="width: 130px;">Дата ввода в эксплуатацию</th>
-                            <th style="width: 130px;">Проблемы ИБ</th>
+                            <th style="width: 130px;">e-mail</th>
+                            <th style="width: 260px;">Руководитель</th>
+                            <th style="width: 130px;">Состояние</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -70,18 +68,15 @@ $prefix = $wpdb->prefix;
                         for ($i = 0; $i < count($rows); $i++) {
                             $row = $rows[$i];
                         ?>
-                            <tr class="organization_table_row">
+                            <tr class="organization_ref_table_row">
                                 <td class="id hide"><?php echo $row["id"] ?></td>
                                 <td><?php echo $i + 1 ?></td>
                                 <td><?php echo $row["briefname"] ?></td>
                                 <td style="text-align: left;"><?php echo $row["fullname"] ?></td>
-                                <td><?php echo get_boolean_value($row["certified"]) ?></td>
-                                <td><?php echo get_data_value($row["certifydate"]) ?></td>
-                                <td><?php echo get_data_value($row["commissioningdate"]) ?></td>
-                                <td><?php echo get_boolean_value($row["hasremark"]) ?></td>
-                                <!--td><!?php echo secure_get_state($row["state"]) ?></td-->
+                                <td><?php echo $row['email'] ?></td>
+                                <td><?php echo $row["boss"] ?></td>
+                                <td><?php echo secure_get_state($row["state"]) ?></td>
                             </tr>
-
                         <?php
                         }
                         ?>
@@ -123,7 +118,7 @@ $prefix = $wpdb->prefix;
     </div>
 </div>
 
-<!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ ИНФОРМАЦИОННЫЕ СИСТЕМЫ -->
+<!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ ОРГАНИЗАЦИИ -->
 <div class="context-menu" id="organization_ref__context">
     <ul class="context-menu__list">
         <li class="context-menu__item" id="organization_ref__context_edit">

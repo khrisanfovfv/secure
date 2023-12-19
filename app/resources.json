@@ -7,7 +7,9 @@
         "copy" : "copy.svg",
         "delete" : "delete.svg",
         "excel" : "excel.svg", 
-        "update": "update.svg"
+        "update" : "update.svg",
+        "profile" :  "profile.svg",
+        "exit" : "exit.svg"
     },
     "document_icons":{
         "ms_word":"ms-word.svg",

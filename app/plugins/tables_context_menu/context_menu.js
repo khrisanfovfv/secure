@@ -17,7 +17,7 @@ var Context = {
         '#administrator_ref__context',
         '#administrator_ref__out_context',
         '#administrator_card__remarks_context',
-        '#organisation_ref__context',
+        '#organization_ref__context',
         '#department_ref__context',
         '#document_kind_ref__context',
         '#contract_ref__context',
@@ -132,7 +132,7 @@ var Context = {
             'information_system_card__remarks_table_num',
             'administrator_ref__table_row',
             'administrator_card__information_systems_table_num',
-            'organisation_ref_table_row',
+            'organization_ref_table_row',
             'department_ref_table_row',
             'document_kind_table_row',
             'contract_ref_table_row',
@@ -190,7 +190,7 @@ var Context = {
             case 'information_system_card__remarks_table_num': Context.menu = $('#information_system_card__remarks_context'); break;
             case 'administrator_ref__table_row': Context.menu = $('#administrator_ref__context'); break;
             case 'administrator_card__information_systems_table_num' : Context.menu = $('#administrator_card__remarks_context'); break;
-            case 'organisation_ref_table_row': Context.menu = $('#organisation_ref__context'); break;
+            case 'organization_ref_table_row': Context.menu = $('#organization_ref__context'); break;
             case 'department_ref_table_row': Context.menu = $('#department_ref__context'); break;
             case 'document_kind_table_row': Context.menu = $('#document_kind_ref__context'); break;
             case 'contract_ref_table_row': Context.menu = $('#contract_ref__context'); break;
