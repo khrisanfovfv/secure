@@ -43,7 +43,7 @@
                     <ul class="submenu__list">
                         <li class="submenu__item"><a class="submenu__link" href="sm_references__information_system" id="information_system_link">Информационные системы</a></li>
                         <li class="submenu__item"><a class="submenu__link" href="sm_references__administrators">Администраторы</a></li>
-                        <li class="submenu__item"><a class="submenu__link" href="sm_references__organisations">Организации</a></li>
+                        <li class="submenu__item"><a class="submenu__link" href="sm_references__organizations">Организации</a></li>
                         <li class="submenu__item"><a class="submenu__link" href="sm_references__departments">Отделы</a>
                         </li>
                         <li class="submenu__item"><a class="submenu__link" href="sm_references__document_kind">Виды
