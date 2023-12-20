@@ -37,6 +37,7 @@ class SecDb
         $this->document_kind = new DocumentKind();
         $this->information_system = new InformationSystem();
         $this->administrator = new Administrator();
+        $this->organization = new Organization();
         
         //add_action( 'plugins_loaded', array($this, 'myplugin_update_db_check'));
     }
@@ -93,7 +94,7 @@ class SecDb
     public function secure_install_tables(){
         $this->organization->table_install();
         $this->document_kind->table_install();
-        $this->organisation->table_install();
+        $this->organization->table_install();
         $this->information_system->table_install();
         $this->administrator->table_install();   
     }
