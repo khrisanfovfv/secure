@@ -175,10 +175,10 @@ class DocumentKind{
         $name = $_POST['name'];
         $state = $_POST['state'];
         $wild = '%';
-        $like_name = $wild . $wpdb->esc_like($name);        
+        $like_name = $wild . $wpdb->esc_like($name) .$wild;        
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT * FROM {$prefix}document_kind 
-            WHERE name LIKE %s AND state=%s",array($like_name, $state)), ARRAY_A 
+            WHERE name LIKE %s AND state= %s",array($like_name, $state)), ARRAY_A 
         );
         echo json_encode($results);
         wp_die();

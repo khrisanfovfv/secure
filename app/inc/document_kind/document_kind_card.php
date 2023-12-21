@@ -13,9 +13,9 @@
             <option value="Inactive">Не действующая</option>
         </select>
     </div>
-    <div class="appdialog__finish_buttons">
-        <button class="appdialog__finish_button" id="document_kind__card_OK">OK</button>
-        <button class="appdialog__finish_button" id="document_kind__card_Cancel">Cancel</button>
+    <div class="finish_buttons">
+        <button class="finish_button" id="document_kind__card_OK">OK</button>
+        <button class="finish_button" id="document_kind__card_Cancel">Cancel</button>
     </div> 
 </div> <!-- /document_kind_card__content -->
 <?php wp_footer() ?>

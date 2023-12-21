@@ -12,9 +12,9 @@
         </select>
        
     </div>
-     <div class="search__finish_buttons">
-        <button class="search__finish_button" id="document_kind_search__button_OK">OK</button>
-        <button class="search__finish_button" id="document_kind_search__button_Cancel">Отмена</button>
+     <div class="finish_buttons">
+        <button class="finish_button" id="document_kind_search__button_OK">OK</button>
+        <button class="finish_button" id="document_kind_search__button_Cancel">Отмена</button>
     </div>
 </div>
 
