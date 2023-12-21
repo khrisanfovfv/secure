@@ -27,7 +27,7 @@ function php(){
 }
 
 function references_php(){
-    var references = ['document_kind','administrator', 'information_system'];
+    var references = ['document_kind','administrator', 'information_system', 'organization'];
     references.forEach(reference => {
         return src([
             'app/inc/'+ reference + '/*.php'
@@ -58,7 +58,7 @@ function scripts(){
         'app/inc/information_system/information_system.js',
         'app/inc/document_kind/document_kind.js',
         'app/inc/administrator/administrator.js',
-        'app/inc/organisation/organisation.js',
+        'app/inc/organization/organization.js',
         'app/inc/department/department.js',
         'app/inc/contract/contract.js',
         'app/inc/employeer/employeer.js',
@@ -105,6 +105,7 @@ function watching(){
     watch('app/plugins/secure_database/*.php',secure_database),
     watch('app/inc/document_kind/*.php', references_php),
     watch('app/inc/information_system/*.php', references_php),
+    watch('app/inc/organization/*.php', references_php),
     watch(['app/**/*.php'], php).on('change', browserSync.reload)
 }
 

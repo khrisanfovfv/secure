@@ -161,7 +161,7 @@ class DocumentKind{
         $like = $wild . $wpdb->esc_like($value) .$wild;
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT * FROM {$prefix}document_kind 
-            WHERE name LIKE '%s'",$like), ARRAY_A);
+            WHERE name LIKE %s",$like), ARRAY_A);
         echo json_encode($results);
         wp_die();
     }
@@ -178,7 +178,7 @@ class DocumentKind{
         $like_name = $wild . $wpdb->esc_like($name);        
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT * FROM {$prefix}document_kind 
-            WHERE name LIKE '%s' AND state=%s",array($like_name, $state)), ARRAY_A 
+            WHERE name LIKE %s AND state=%s",array($like_name, $state)), ARRAY_A 
         );
         echo json_encode($results);
         wp_die();

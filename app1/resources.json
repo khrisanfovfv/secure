@@ -1,0 +1,20 @@
+{
+    "directory":"images",
+    "button_icons":{
+        "create" : "create-record.svg",
+        "select" : "select.svg",
+        "edit" : "edit.svg",
+        "copy" : "copy.svg",
+        "delete" : "delete.svg",
+        "excel" : "excel.svg", 
+        "update" : "update.svg",
+        "profile" :  "profile.svg",
+        "exit" : "exit.svg"
+    },
+    "document_icons":{
+        "ms_word":"ms-word.svg",
+        "ms_excel":"ms-excel.svg",
+        "pdf":"pdf.svg"
+    }
+     
+}

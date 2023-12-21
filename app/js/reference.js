@@ -95,6 +95,7 @@ var reference = {
             case '#document_kind_ref': card = 'document_kind_card'; break;
             case '#information_system_ref': card = 'information_system_card'; break;
             case '#administrator_ref' : card = 'administrator_card'; break;
+            case '#organization_ref' : card = 'organization_card' ; break;
 
             // КАРТОЧКИ ПОИСКА
             case '#document_kind_ref_search' : card = 'document_kind_search'; break;

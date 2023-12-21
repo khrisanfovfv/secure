@@ -1,0 +1,41 @@
+.version_card{
+    width: 600px;
+    height: 150px;
+    padding: 10px;
+    &__fields{
+        display: grid;
+        grid-template-columns: repeat(24, 1fr);
+        gap: 15px;
+    }
+    &__fields label {
+        grid-column: 1/8;
+    }
+
+
+    &__path{
+        display: flex;
+        grid-column: 8/25;
+        width: 100%;
+    }
+
+    &__path p{
+        text-decoration: underline;
+        margin-right: 5px;
+        color: blue;
+        cursor: pointer;
+    }
+    &__path_button{
+        height: 25px;
+    }
+    &__path_button img{
+        height:20px
+        
+    }
+
+
+    &__path_button{
+
+    }
+
+}
+

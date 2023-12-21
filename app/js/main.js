@@ -188,13 +188,13 @@ $(function () {
         $(tab).removeClass('hide');
     })
 
-    $('.is_card__developpers_table_row').on('dblclick', function(){
+   /*  $('.is_card__developpers_table_row').on('dblclick', function(){
         $('#is_card__dialog').css('display','flex');
         $('#is_card__dialog').css('z-index', ++z_index);
         $('#is_card__dialog_window').css('width','800px');
         $('#is_card__dialog_title').text('Карточка организации')
-        $('#is_card__dialog_content').load(host+'inc/organisation/organisation_card.html');
-    })
+        $('#is_card__dialog_content').load(host+'inc/organization/organization_card.html');
+    }) */
 
 
     /** Одиночный клик на таблицу Администраторы ИС */
@@ -210,13 +210,13 @@ $(function () {
         reference.editRecord(informationSystem.prefix, rows, title, informationSystem.cardPath, size);  
     })
 
-    $('#is_card__organisation_btn').on('click', function(){
+    /* $('#is_card__organization_btn').on('click', function(){
         $('#is_card__dialog').css('display','flex');
         $('#is_card__dialog').css('z-index', ++z_index);
         $('#is_card__dialog_window').css('width','800px');
         $('#is_card__dialog_title').text('Карточка организации')
         $('#is_card__dialog_content').load(host+'inc/organisation/organisation_card.html')
-    })
+    }) */
 
     // /** Одиночный клик на таблицу разработчики */
     // $('#is_card__developpers_table tbody tr').on('click', function(){

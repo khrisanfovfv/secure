@@ -1,0 +1,74 @@
+<div class="reference" id="contract__reference">
+    <p class="reference__title">Контракты</p>
+    <div class="reference__buttons">
+        <button class="reference__button" id="contract_create">
+            <img src="../../images/new-document.png" alt="">
+            <p>Создать</p>
+        </button>
+        <button class="reference__button" id="contract_edit">
+            <img src="../../images/pencil.png" alt="">
+            <p>Редактировать</p>
+        </button>
+        <button class="reference__button" id="contract_copy">
+            <img src="../../images/files.png" alt="">
+            <p>Копировать</p>
+        </button>
+        <button class="reference__button" id="contract_delete">
+            <img src="../../images/delete.png" alt="Удалить">
+            <p>Удалить</p>
+        </button>
+        <button class="reference__button" id="contract_excel">
+            <img src="../../images/excel.png" alt="Exel">
+            <p>Эл. таб</p>
+        </button>
+    </div>
+    <table class="reference__table" id="contract_ref_table">
+        <thead>
+            <tr>
+                <th class="hide">Ид</th>
+                <th style="width: 35px;">№</th>
+                <th style="width: 150px;">Номер контракта</th>
+                <th style="width: 150px;">Дата заключения</th>
+                <th>Предмет контракта</th>
+                <th style="width: 150px;">Тип контракта</th>
+                <th style="width: 150px;">Ссылка на сайт закупок</th>
+                <th style="width: 400px;">Информационная система</th>
+                <th style="width: 150px;">Состояние</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="id hide">1</td>
+                <td>1</td>
+                <td>25-36/99-22</td>
+                <td>25.03.2022</td>
+                <td>Сопровождение ИС в 2023 году</td>
+                <td>Поддержка</td>
+                <td>zakupki.gov.ru/123587566/cardinfo255oh</td>
+                <td>Автоматизированная система электронного документооборота органов исполнительной государственной власти Вологодской области</td>
+                <td>Действующая</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Карточка организации -->
+<div class="appdialog" id="contract_ref__dialog">
+    <div class="appdialog__window" id="contract_ref__dialog_window">
+        <div class="appdialog__header">
+            <h3 class="appdialog__header_title">Карточка</h3>
+            <a class="appdialog__header_close" href="#">
+            <span>&#10006;</span> </a>
+        </div>
+        <div class="appdialog__content">
+            <div id="contract_ref__dialog_content"></div>
+                <div class="appdialog__finish_buttons">
+                    <button class="appdialog__finish_button">OK</button>
+                    <button class="appdialog__finish_button">Cancel</button>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+
+<script src="../../js/main.min.js"></script>

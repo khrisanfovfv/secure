@@ -1,0 +1,125 @@
+<div class="document_card__frame">
+    <div class="document_card__content">
+        <div class="document_card__fields">
+            <ul class="main_tabs">
+                <li class="main_tabs__item document__tabs_item main_tabs__highlighted"><a
+                        href="#document_card__general">Общая</a> </li>
+                <li class="main_tabs__item document__tabs_item"><a href="#document_card__send_list">Список
+                        рассылки</a> </li>
+            </ul>
+            <!-- ВКЛАДКА ОБЩАЯ -->
+            <section class="document_card__general" id="document_card__general">
+                <div class="document_card__general_fields">
+                    <!-- Номер документа -->
+                    <Label for="document_card__docNumber">Номер документа</Label>
+                    <input type="text" name="document_card__docNumber" id="document_card__docNumber">
+                    <!-- Дата документа -->
+                    <Label for="document_card__docDate" id="document_card__docDate_label">Дата
+                        документа</Label>
+                    <input type="date" name="document_card__docDate" id="document_card__docDate">
+                    <!-- Наименование документа -->
+                    <label for="document_card__docName">Наименование</label>
+                    <textarea name="document_card__docName" id="document_card__docName" cols="30" rows="3"></textarea>
+                    <!-- Вид документа -->
+                    <label for="document_card__kind">Вид</label>
+                    <div class="card__record">
+                        <input type="text" value='Уведомление'>
+                        <div class="refRecord__button" id="document_card__type">&#183;&#183;&#183;</div>
+                    </div>
+                    <!-- Тип документа -->
+                    <label for="document_card__type">Тип</label>
+                    <select name=document_card__type" id="document_card__type">
+                        <option value="Income">Входящий</option>
+                        <option value="Outcome">Исходящий</option>
+                    </select>
+                    <!-- Дата направления -->
+                    <Label for="document_card__sendDate" id="document_card__sendDate_label">Дата
+                        направления</Label>
+                    <input type="date" name="document_card__sendDate" id="document_card__sendDate">
+                    <!-- Отправитель -->
+                    <label for="document_card__sender">Отправитель</label>
+                    <div class="card__record">
+                        <input type="text"
+                            value='Бюджетное учреждение в сфере информационных технологий Вологодской области "Центр инфорационных технологий"'>
+                        <div class="refRecord__button" id="document_card__sender">&#183;&#183;&#183;</div>
+                    </div>
+                    <!-- Корреспондент -->
+                    <label for="document_card__correspondent">Корреспондент</label>
+                    <div class="card__record">
+                        <input type="text" value='По списку'>
+                        <div class="refRecord__button" id="document_card__correspondent">&#183;&#183;&#183;
+                        </div>
+                    </div>
+
+                    <!-- Подписал -->
+                    <Label for="document_card__signer">Подписал</Label>
+                    <input type="text" name="document_card__signer" id="document_card__signer">
+            </section>
+
+            <!-- ВКЛАДКА СПИСОК РАССЫЛКИ -->
+            <section class="document_card__send_list hide" id="document_card__send_list">
+                <table class="document_card__send_table">
+                    <thead>
+                        <tr>
+                            <th style="display: none;">Ид</th>
+                            <th>№</th>
+                            <th>Корреспондент</th>
+                            <th>Дата направления</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="id" style="display: none;">1</td>
+                            <td style="width: 35px;">1</td>
+                            <td>
+                                <div class="card__record">
+                                    <input type="text"
+                                        value='Федеральная служба по техническому и экспортному контролю'>
+                                    <div class="refRecord__button document_card__send_list_correspondent">
+                                        &#183;&#183;&#183;</div>
+                                </div>
+                            </td>
+                            <td style="width: 150px;"><input type="date" class="document_card__send_list_send_date"></td>
+                        </tr>
+                        <tr>
+                            <td class="id" style="display: none;">2</td>
+                            <td style="width: 35px;">1</td>
+                            <td>
+                                <div class="card__record">
+                                    <input type="text"
+                                        value='Федеральная служба безопасности по Вологодской области'>
+                                    <div class="refRecord__button document_card__send_list_correspondent">
+                                        &#183;&#183;&#183;</div>
+                                </div>
+                            </td>
+                            <td style="width: 150px;"><input type="date" class="document_card__send_list_send_date"></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </section>
+        </div>
+
+    </div>
+
+    <!-- Версии документов -->
+    <div class="attacments">
+        <p class="attacments__title">Версии</p>
+        <ul class="attacments__list">
+            <li class="attacments__item version_item">
+                <a class="attacments__link" href="">
+                    <img class="attacments__ico" src="../../images/pdf.svg" alt="">
+                    <p class="attacments__name_item">Версия 2</p>
+                </a>
+            </li>
+            <li class="attacments__item version_item">
+                <a class="attacments__link" href="">
+                    <img class="attacments__ico" src="../../images/ms-word.svg" alt="">
+                    <p class="attacments__name_item">Версия 1</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <script src="../../js/main.min.js"></script>
+</div>

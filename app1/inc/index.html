@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ИС Безопасность</title>
+    <link rel="stylesheet" href="css/style.min.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Шапка сайта -->
+        <header class="header">
+            <div class="logo">
+                <img src="images/logo.png" alt="Логотип" class="logo__img">
+            </div>
+            <!-- Основное меню -->
+            <!-- Меню сайта -->
+            <div class="main_menu">
+                <ul class="main_menu__list">
+                    <li class="main_menu__item" id="main_menu__reports">Отчеты</li>
+                    <li class="main_menu__item" id="main_menu__settings">Настройки</li>
+                    <li class="main_menu__item" id="main_menu__references">Справочники</li>
+                    <li class="main_menu__item" id="main_menu__help">Помощь</li>
+                </ul>
+                <!-- Подменю Справочники -->
+                <div class="submenu" id="sm_references">
+                    <ul class="submenu__list">
+                        <li class="submenu__item"><a class="submenu__link"
+                                href="sm_references__administrators">Администраторы</a></li>
+                        <li class="submenu__item"><a class="submenu__link"
+                                href="sm_references__organisations">Организации</a></li>
+                        <li class="submenu__item"><a class="submenu__link" href="sm_references__departments">Отделы</a>
+                        </li>
+                        <li class="submenu__item"><a class="submenu__link" href="sm_references__document_kind">Виды
+                                документов</a></li>
+                        <li class="submenu__item"><a class="submenu__link" href="sm_references__contract">Контракты</a>
+                        </li>
+                        <li class="submenu__item"><a class="submenu__link" href="sm_references__employeers">Сотрудники</a>
+                        </li>
+                        <li class="submenu__item"><a class="submenu__link" href="sm_references__documents">Документы</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Подменю Помощ -->
+                <div class="submenu" id="sm_help">
+                    <ul class="submenu__list">
+                        <li class="submenu__item"><a class="submenu__link"
+                                href="sm_help__help">Справка</a></li>
+                        <li class="submenu__item"><a class="submenu__link"
+                                href="sm_help__about">О программе</a></li>
+                    </ul>
+                </div>
+            </div> <!-- Main menu -->
+            <!-- Пользователь -->
+            <div class="user">
+                <img class="user__img" src="images/user.png" alt="Пользователь">
+                <p class="user__text">Иванова И.И.</p>
+            </div>
+        </header>
+        <main class="main">
+            <div class="content">
+                <div class="reference">
+                    <p class="reference__title">Справочник Информационные системы</p>
+                    <div class="reference__buttons">
+                        <button class="reference__button" id="IS_create">
+                            <img src="./images/new-document.png" alt="">
+                            <p>Создать</p>
+                        </button>
+                        <button class="reference__button" id="IS_edit">
+                            <img src="./images/pencil.png" alt="">
+                            <p>Редактировать</p>
+                        </button>
+                        <button class="reference__button" id="IS_copy">
+                            <img src="./images/files.png" alt="">
+                            <p>Копировать</p>
+                        </button>
+                        <button class="reference__button" id="IS_delete">
+                            <img src="./images/delete.png" alt="Удалить">
+                            <p>Удалить</p>
+                        </button>
+                        <button class="reference__button" id="IS_excel">
+                            <img src="./images/excel.png" alt="Удалить">
+                            <p>Эл. таб</p>
+                        </button>
+                    </div>
+                    <table class="reference__table" id="IS_table">
+                        <thead>
+                            <tr>
+                                <th style="width: 35px;">№</th>
+                                <th style="width: 200px;">Краткое наименование</th>
+                                <th>Полн. наименование</th>
+                                <th style="width: 130px;">Аттестована</th>
+                                <th style="width: 130px;">Дата посл. аттестации</th>
+                                <th style="width: 130px;">Срок след. аттестации</th>
+                                <th style="width: 130px;">Проблемы ИБ</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr class="is_table_row">
+                            <td>1</td>
+                            <td>АСЭД</td>
+                            <td style="text-align: left;">Автоматизированная система электронного документооборота
+                                органов исполнительной
+                                государственной власти области</td>
+                            <td>Нет</td>
+                            <td>01.01.2021</td>
+                            <td>01.01.2023</td>
+                            <td>Да</td>
+                        </tr>
+                        <tr class="is_table_row">
+                            <td>2</td>
+                            <td>Корпоративный портал</td>
+                            <td style="text-align: left;">Корпоративный портал Правительства Вологодской области</td>
+                            <td>Да</td>
+                            <td>30.04.2022</td>
+                            <td>30.04.2024</td>
+                            <td>Нет</td>
+                        </tr>
+                        </tbody>
+                        
+                    </table>
+                </div>
+
+            </div>
+        </main>
+        <footer class="footer">
+            <p class="footer__text">&copy Наимова Д.А., 2023</p3>
+        </footer>
+
+        <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ С ИНФОРМАЦИОННЫМИ СИСТЕМАМИ -->
+        <div class="context-menu" id="is_table_context">
+            <ul class="context-menu__list">
+                <li class="context-menu__item">
+                    <img src="./images/pencil.png" alt=Редактировать">
+                    <p>Редактировать</p>
+                </li>
+                <li class="context-menu__item">
+                    <img src="./images/files.png" alt="Копировать">
+                    <p>Копировать</p>
+                </li>
+                <li class="context-menu__item">
+                    <img src="./images/delete.png" alt="Удалить">
+                    <p>Удалить</p>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+    <!-- Cправочник администраторы -->
+    <div id="is_ref__administrator_reference"></div> 
+    <script src="js/main.min.js"></script>
+</body>
+
+</html>

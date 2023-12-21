@@ -1,0 +1,63 @@
+.organization_card{
+    width: 800px;
+    height: 180px;
+    &__content{
+        padding: 20px;
+    }
+    &__fields{
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 15px;
+    }
+    &__fields label{
+        grid-column: 1;
+    }
+    &__fields input{
+        grid-column: 2/13;
+        outline: none;
+    }
+    &__fields select{
+        grid-column: 2/6;
+        background-color: white;
+        border: thin solid gray;
+    }
+}
+
+.organization_search{
+    &__content{
+        padding:20px 10px 10px 10px;
+    }
+    &__fields{
+        display: grid;
+        grid-template-columns: repeat(24,1fr);
+    }
+
+    &__fields label{
+        grid-column: 1;
+    }
+
+    &__fields input{
+        margin: 5px 0;
+        border: none;
+        border-bottom: 1px solid gray;
+        outline: none;
+        grid-column: 5/24;
+    }
+    &__fields input:focus{
+        border-bottom: 2px solid #13406d;
+    }
+    &__fields select{
+        margin: 5px 0;
+        border: none;
+        border-bottom: 1px solid gray;
+        outline: none;
+        grid-column: 5/10;
+        background-color: white;
+    }
+    &__fields select:focus{
+        border-bottom: 2px solid #13406d;
+    }
+}
+
+
+
