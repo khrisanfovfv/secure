@@ -138,6 +138,12 @@ class InformationSystem{
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT * FROM sec_information_system WHERE id = $id"), OBJECT );
+        $administrators = $wpdb->get_results(
+            $wpdb->prepare("SELECT inf_sys_adm.id,inf_sys_adm.administrator_id, administrator.fullname as administrator_name , inf_sys_adm.appointdate, inf_sys_adm.terminatedate, inf_sys_adm.type 
+            FROM {$prefix}information_system_administrator inf_sys_adm 
+            JOIN {$prefix}administrator administrator on inf_sys_adm.administrator_id = administrator.id            
+            WHERE inf_sys_adm.information_system_id = $id"), OBJECT);
+            $results = (object) array_merge( (array)$results, array( 'administrators' => $administrators ));
         $remarks = $wpdb->get_results(
             $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE information_system_id = $id"), OBJECT);
             $results = (object) array_merge( (array)$results, array( 'remarks' => $remarks ));

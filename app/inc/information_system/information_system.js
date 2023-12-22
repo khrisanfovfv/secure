@@ -360,30 +360,23 @@ function card_information_system_load_data(data, openMode) {
     var ind = 1;
     $('#information_system_card__remarks_table tbody tr').remove();
     remarks.forEach( remark =>{
-        // Вспомогательный массив для отображения колонки 'Устранено' 
-        var eliminated = new Array('','');
-        eliminated[remark['eliminated']] = 'selected';
-        var tr = $('#information_system_card__remarks_table tbody').append(
-            "<tr>"+ 
-                "<td class='id hide'>"+ remark['id']+ "</td>" +
-                "<td class='information_system_card__remarks_table_num'>"+ (ind++) + "</td>" +
-                "<td contenteditable><input type='date' value=" + remark['remarkdate'] +"></td>" +
-                "<td contenteditable>" + remark['author'] + "</td>" +
-                "<td contenteditable>" + remark['content'] + "</td>" +
-                "<td><select>" +
-                    "<option value='1'" + eliminated[1] + ">Да</option>" +
-                    "<option value='0'" + eliminated[0] + ">Нет</option>" +
-                "</select></td>" + 
-                "<td contenteditable><input type='date' value=" + remark['eliminatedate'] + "></td>" +
-                "<td contenteditable>" + remark['performer'] + "</td>" +
-                "<td class='is_deleted hide'>0</td>" +
-            "</tr>"
-        ); 
+        remark['ind'] = ind++;
+        $('#information_system_card__remarks_table tbody').append(
+            information_system_card__draw_remark_row(remark)
+        );
     });
-    // Привязываем событи выделения строки к столюбцу №
-    $('.information_system_card__remarks_table_num').on('click', function(e){
-        reference.highlight(e)
-    })
+
+    // Очищаем таблицу Администраторы
+    $('#information_system_card__administrators_table tbody tr').remove();
+    // Заполняем таблицу Администраторы
+    administrators = cardData['administrators'];
+    var ind = 1;
+    administrators.forEach( administrator =>{
+        administrator['ind'] = ind++;
+        $('#information_system_card__administrators_table tbody').append(
+            information_system_card__draw_administrator_row(administrator)
+        );
+    });
 }
 
 
@@ -416,6 +409,13 @@ function information_system_update_reference(records) {
         })
     });
 }
+
+/** 
+ * ===================== АДМИНИСТРАТОРЫ. КНОПКА СОЗДАТЬ ====================
+ */
+$('#information_system_card__administrators_create').on('click', function(){
+    information_system_card__administrator_create_record();
+});
 
 /** 
  * ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА СОЗДАТЬ ====================
@@ -533,6 +533,27 @@ function information_system_delete_record(){
 }  
 
 /**
+ * ============================== АДМИНИСТРАТОРЫ. СОЗДАТЬ ==============================
+ */
+function information_system_card__administrator_create_record(){
+    var ind = $('#information_system_card__administrators_table tbody tr').length +1;
+    administrator = [];
+    administrator['id'] = '',
+    administrator['ind'] = ind; 
+    administrator['information_system_id'] = $('information_system_card__id').text(); 
+    administrator['administrator_id'] = '' 
+    administrator['administrator_name'] = ''
+    administrator['appointdate'] = ''
+    administrator['terminatedate'] = '' 
+    administrator['type'] = '' 
+    $('#information_system_card__administrators_table tbody').append(
+        information_system_card__draw_administrator_row(administrator)
+    );
+}
+
+
+
+/**
  * ========================= ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. СОЗДАТЬ ==========================
  */
 function information_system_remark_create_record(){
@@ -541,14 +562,14 @@ function information_system_remark_create_record(){
     remark['id'] = '',
     remark['ind'] = ind,
     remark['remarkdate'] = '',
-    remark['author'] = 'Вася',
+    remark['author'] = '',
     remark['content'] = '',
     remark['eliminated'] = 1,
     remark['eliminatedate'] = '',
     remark['performer'] = ''
 
     $('#information_system_card__remarks_table tbody').append(
-        administrator_card__draw_remark_row(remark)
+        information_system_card__draw_remark_row(remark)
     );
     // Привязываем событи выделения строки к столюбцу №
     /*$('.information_system_card__remarks_table_num').on('click', function(e){
@@ -576,7 +597,7 @@ function information_system_remark_copy_record(){
 
         
         $('#information_system_card__remarks_table tbody').append(
-            administrator_card__draw_remark_row(remark)
+            information_system_card__draw_remark_row(remark)
         );
         
         // Привязываем событи выделения строки к столюбцу №
@@ -604,7 +625,7 @@ function information_system_remark_update_records(){
         rows.forEach( remark =>{
             remark['ind'] = ind++;
             $('#information_system_card__remarks_table tbody').append(
-                administrator_card__draw_remark_row(remark)
+                information_system_card__draw_remark_row(remark)
             ); 
         });
         // Привязываем событи выделения строки к столюбцу №
@@ -640,7 +661,7 @@ function information_system_remark_delete_record(){
  * =========== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ ================
  * @param {Object} remark 
  *==============================================================================*/   
-function administrator_card__draw_remark_row(remark){
+function information_system_card__draw_remark_row(remark){
     var content_html = 
     $("<tr>")
         .append($("<td class='id hide'>").text(remark['id']))
@@ -664,6 +685,45 @@ function administrator_card__draw_remark_row(remark){
             .append($("<input type='date'>").val(remark['eliminatedate'])))
         .append($("<td contenteditable='true'>").text(remark['performer']))
         .append($("<td class='is_deleted hide'>").text(0))
+    return content_html;
+}
+
+/**
+ * =================== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ АДМИНИСТРАТОРЫ =================
+ * @param {Object} administrator 
+ *==============================================================================*/   
+function information_system_card__draw_administrator_row(administrator){
+    var content_html = 
+    $("<tr>")
+        .append($("<td class='id hide'>"))
+        .append($("<td class='information_system__administrators_table_num'>").text(administrator['ind']))
+        .append($("<td>")
+            .append($("<div class='ref_record'>")
+                .append($("<p class='hide name_reference'>").text("administrator"))
+                .append($("<p class='id hide'>").text(administrator['administrator_id']))
+                .append($("<input class='fullname'>").val(administrator['administrator_name']))
+                .append($("<div class='ref_record__button'>").text("..."))
+            .on('click', function(e){
+                reference.open_reference(e, '#information_system_card','Справочник Информационные системы');
+            })
+    ))
+        .append($("<td>")
+            .append($("<input type='date'>").val(administrator['appointdate'])))
+        .append($("<td>")
+            .append($("<input type='date'>").val(administrator['terminatedate'])))
+        .append($("<td>")
+            .append($("<select>")
+                .append($('<option>',{
+                    value: "base",
+                    text: "Основной"
+                }))
+                .append($('<option>',{
+                    value: "substitute",
+                    text: "Замещающий"
+                }))
+                .val(administrator['type'])
+            )
+        )
     return content_html;
 }
 

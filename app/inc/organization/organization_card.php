@@ -6,7 +6,7 @@
         <!-- Полное наименование-->
     <label id="organization_card__fullName_label" for="organization_card__fullName">Полн.
         наименование</label>
-    <textarea name="organization_card__fullName" id="organization_card__fullName" cols="30"
+    <textarea name="organization_card__fullName" id="organization_card__fullName" cols="100"
         rows="3">Бюджетное учреждение в сфере инфорационных технологий Вологодской облапсти “Центр информационных технологий”</textarea>
     <label for="organization_card__briefName">Кратк. наименование</label>
     <input name="organization_card__briefName" id="organization_card__briefName" type="text">
@@ -32,9 +32,9 @@
         <option value="Inactive">Не действующая</option>
     </select>
     </div>
-    <div class="appdialog__finish_buttons">
-        <button class="appdialog__finish_button" id="organization__card_OK">OK</button>
-        <button class="appdialog__finish_button" id="organization__card_Cancel">Cancel</button>
+    <div class="finish_buttons">
+        <button class="finish_button" id="organization__card_OK">OK</button>
+        <button class="finish_button" id="organization__card_Cancel">Cancel</button>
     </div> 
 </div> <!-- /organization_card__content -->
 <?php wp_footer() ?>

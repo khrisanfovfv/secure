@@ -6,22 +6,43 @@
     }
     &__fields{
         display: grid;
-        grid-template-columns: repeat(12, 1fr);
+        grid-template-columns: repeat(24, 1fr);
         gap: 15px;
     }
     &__fields label{
         grid-column: 1;
     }
     &__fields input{
-        grid-column: 2/13;
+        grid-column: 2/10;
         outline: none;
     }
     &__fields select{
-        grid-column: 2/6;
+        grid-column: 2/11;
         background-color: white;
         border: thin solid gray;
     }
+    &__fields textarea{
+        grid-column: 2/25;
+    }
 }
+
+#organization_card{
+    &__briefName{
+        grid-column: 2/25;
+    }
+    &__kpp_label{
+        grid-column: 11/14;
+    }
+    
+    &__kpp{
+        grid-column: 15/25;
+    }
+}
+
+/*#organization_card__fullName
+{
+    grid-column: 5/25;
+}*/
 
 .organization_search{
     &__content{

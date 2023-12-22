@@ -302,6 +302,22 @@
 
 }
 
+#information_system_card{
+    &__administrators_table input{
+        border: none;
+        width: 100%;
+        background-color: inherit;
+    }
+    &__administrators_table td{
+        background-color: inherit;
+    }
+
+    &__administrators_table select{
+        border: none;
+        background-color: inherit;
+    }
+}
+
 .information_system_search{
     &__content{
         padding:20px 10px 10px 10px;

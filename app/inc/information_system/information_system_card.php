@@ -130,23 +130,23 @@ $document_icons = $resources->get_document_icons();
                     <!-- ВКЛАДКА АДМИНИСТРАТОРЫ -->
                     <section class="information_system_card__administrators hide" id="information_system_card__administrators">
                         <div class="reference__buttons">
-                            <button class="reference__button" id="information_system_card__administrator_create">
+                            <button class="reference__button" id="information_system_card__administrators_create">
                                 <img src="<?php echo $button_icons->create ?>" alt="">
                                 <p>Создать</p>
                             </button>
-                            <button class="reference__button" id="information_system_card__administrator_edit">
+                            <button class="reference__button" id="information_system_card__administrators_edit">
                                 <img src="<?php echo $button_icons->edit ?>" alt="">
                                 <p>Редактировать</p>
                             </button>
-                            <button class="reference__button" id="information_system_card__administrator_copy">
+                            <button class="reference__button" id="information_system_card__administrators_copy">
                                 <img src="<?php echo $button_icons->copy ?>" alt="">
                                 <p>Копировать</p>
                             </button>
-                            <button class="reference__button" id="information_system_card__administrator_delete">
+                            <button class="reference__button" id="information_system_card__administrators_delete">
                                 <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
                                 <p>Удалить</p>
                             </button>
-                            <button class="reference__button" id="information_system_card__administrator_excel">
+                            <button class="reference__button" id="information_system_card__administrators_excel">
                                 <img src="<?php echo $button_icons->excel ?>" alt="Excel">
                                 <p>Эл. таб</p>
                             </button>
@@ -155,28 +155,12 @@ $document_icons = $resources->get_document_icons();
                             <thead>
                                 <th class="hide">Ид</th>
                                 <th style="width: 35px;">№</th>
-                                <th style="width: 270px;">ФИО</th>
-                                <th>Организация</th>
-                                <th>Отдел</th>
-                                <th style="width: 110px;">Тип</th>
+                                <th style="width: 300px;">ФИО</th>
+                                <th>Дата назначения</th>
+                                <th>Дата прекращения</th>
+                                <th style="width:150;">Тип</th>
                             </thead>
                             <tbody>
-                                <tr class="information_system_card__administrators_table_row">
-                                    <td class="id hide">1</td>
-                                    <td>1</td>
-                                    <td>Иванов Иван Иванович</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>Основной</td>
-                                </tr>
-                                <tr class="information_system_card__administrators_table_row">
-                                    <td class="id hide">2</td>
-                                    <td>2</td>
-                                    <td>Петров Петр Петрович</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>Замещающий</td>
-                                </tr>
                             </tbody>
                         </table>
                     </section>

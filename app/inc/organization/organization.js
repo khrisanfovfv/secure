@@ -181,7 +181,7 @@ $('#organization_search__button_Cancel').on('click', function(){
  * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
  * */
 $('#organization_create').on('click', function () {
-    var size = { width: 600, height: 600 };
+    var size = { width: 700, height: 650 };
     reference.open_card('#organization_ref', 'Карточка организации', size, OpenMode.Create, 0);
 });
 
@@ -191,7 +191,7 @@ $('#organization_create').on('click', function () {
 $('#organization_edit').on('click', function () {
     rows = $('.organization_table_row.highlight')
     var id = rows[0].children.item(0).textContent;
-    var size = { width: 600, height: 200 };
+    var size = { width: 700, height: 650 };
     reference.open_card('#organization_ref', 'Карточка Вид документа', size, OpenMode.Edit, id);
 })
 
@@ -202,7 +202,7 @@ $('#organization_edit').on('click', function () {
 $('#organization_copy').on('click', function () {
     rows = $('.organization_table_row.highlight')
     var id = rows[0].children.item(0).textContent;
-    var size = { width: 600, height: 200 };
+    var size = { width: 700, height: 650 };
     // Открываем карточку в режиме создания новой записи
     reference.open_card('#organization_ref', 'Карточка Вид документа', size, OpenMode.Copy, id);
 })
