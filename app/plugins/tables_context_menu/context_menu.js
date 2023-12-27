@@ -130,6 +130,7 @@ var Context = {
             'information_system_card__developpers_table_row',
             'information_system_card__contracts_table_row',
             'information_system_card__remarks_table_num',
+            'information_system_card__administrators_table_num',
             'administrator_ref__table_row',
             'administrator_card__information_systems_table_num',
             'organization_ref_table_row',
@@ -164,7 +165,8 @@ var Context = {
         if (result.nodeName != null) {
             if ((result.nodeName === 'TR') ||
                 (result.classList.contains('information_system_card__remarks_table_num'))||
-                (result.classList.contains('administrator_card__information_systems_table_num'))) {
+                (result.classList.contains('administrator_card__information_systems_table_num'))||
+                (result.classList.contains('information_system_card__administrators_table_num'))){
                     reference.highlight(e);
             }
         }

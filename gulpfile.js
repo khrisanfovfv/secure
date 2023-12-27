@@ -105,6 +105,7 @@ function watching(){
     watch('app/plugins/secure_database/*.php',secure_database),
     watch('app/inc/document_kind/*.php', references_php),
     watch('app/inc/information_system/*.php', references_php),
+    watch('app/inc/administrator/*.php', references_php),
     watch('app/inc/organization/*.php', references_php),
     watch(['app/**/*.php'], php).on('change', browserSync.reload)
 }
@@ -141,8 +142,6 @@ exports.php = php;
 exports.secure_database = secure_database;
 exports.references_php = references_php;
 exports.json = json;
-//exports.styles_administrator = styles_administrator;
-//exports.scripts_administrator = scripts_administrator;
 
 exports.watching = watching;
 exports.browsersync = browsersync;

@@ -81,6 +81,7 @@
     function secure_load_reference(){
         switch($_POST['reference']){
             case 'information_system' : get_template_part('inc/information_system/information_system_ref'); break;
+            case 'administrator' : get_template_part('inc/administrator/administrator_ref'); break;
         }
         wp_die();
     }

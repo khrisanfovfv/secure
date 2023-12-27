@@ -277,6 +277,13 @@ $('#administrator_create').on('click', function () {
 });
 
 /**
+ * =========================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ==============================
+ */
+$('#administrator_select').on('click', function(e){
+    administrator_select_record(e);
+})
+
+/**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
 $('#administrator_edit').on('click', function () {
@@ -395,6 +402,24 @@ function administrator_update_reference(records) {
 function administrator_create_record() {
     var size = { width: 1000, height: 800 };
     reference.open_card('#administrator_ref', 'Карточка Администратор', size, OpenMode.Create, 0);
+}
+
+/**
+ * ======================= АДМИНИСТРАТОР. ВЫБОР ЗАПИСИ =========================
+ */
+function administrator_select_record(e){
+    rows = $('.administrator_ref__table_row.highlight');
+    if (rows.length > 0){
+        id = rows[0].children.item(0).textContent
+        fullname = rows[0].children.item(2).textContent
+        // Извлекаем элемент с помощью которого вызвали справочник из стэка
+        el = stack.pop();
+        // Присваиваем элементу значения выбранного элемента
+        el.children('.id').text(id);
+        el.children('.fullname').val(fullname);
+        // Закрываем окно выбора
+        $(e.target).parents('.appdialog:first').css('display', 'none');
+    }
 }
 
 /**

@@ -145,6 +145,7 @@ var reference = {
      * @param {string} message 
      */
     show_notification(prefix, title, size, message) {
+
         $(prefix + '__notif').css("display", "flex");
         $(prefix + '__notif').css('z-index', ++z_index);
         $(prefix + '__notif_window').css('width', size.width + 'px');
@@ -198,14 +199,14 @@ var reference = {
      * @param {string} prefix 
      * @param {Object} rows 
      */
-    delete_record(prefix ,rows){
+    delete_record(prefix ,rows, action){
         // Проверяем есть ли выделенные записи
         if (rows.length > 0) {
             var id = rows[0].children.item(0).textContent;
 
             // Формируем запрос на удаление записи
             var data = {
-                action: 'delete_record',
+                action: action,
                 card: reference.get_card_name(prefix),
                 id: id
             };
