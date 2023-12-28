@@ -14,6 +14,7 @@ License: GPLv2 or later
 Text Domain: secure_database
 */
 require_once('document_kind.php');
+require_once('department.php');
 require_once('administrator.php');
 require_once('information_system.php');
 require_once('organization.php');
@@ -25,6 +26,7 @@ if (!function_exists('add_action')) {
 class SecDb
 {
     protected $document_kind;
+    protected $department;
     protected $information_system;
     protected $administrator;
     protected $organization;
@@ -35,6 +37,7 @@ class SecDb
         register_activation_hook(__FILE__, array($this, 'secure_install_data_tables'));
         add_action('init', array($this, 'secure_init_plugin'));
         $this->document_kind = new DocumentKind();
+        $this->department = new Department();
         $this->information_system = new InformationSystem();
         $this->administrator = new Administrator();
         $this->organization = new Organization();
@@ -97,6 +100,7 @@ class SecDb
      */
     public function secure_install_tables(){
         $this->organization->table_install();
+        $this->department->table_install();
         $this->document_kind->table_install();
         $this->organization->table_install();
         $this->information_system->table_install();
@@ -108,6 +112,7 @@ class SecDb
      */
     public function secure_install_data_tables(){
         $this->organization->install_data();
+        $this->department->install_data();
         $this->document_kind->install_data();
         $this->information_system->install_data();
         $this->administrator->install_data();
