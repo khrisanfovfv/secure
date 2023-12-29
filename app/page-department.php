@@ -87,7 +87,7 @@ $prefix = $wpdb->prefix;
     </div>
 </main>
 <!-- ДИАЛОГОВОЕ ОКНО -->
-<div class="appdialog" id="department_ref__dialog">
+<div class="appdialog" id="department_ref__dialog1">
     <div class="appdialog__window" id="department_ref__dialog_window">
         <div class="appdialog__header">
             <h3 class="appdialog__header_title" id="department_ref__dialog_title">Карточка Вид документа</h3>
@@ -98,6 +98,10 @@ $prefix = $wpdb->prefix;
             <div id="department_ref__dialog_content"></div>
         </div>
     </div>
+</div>
+
+<div class="hide" id="department_ref__dialog" title="Карточка департамента">
+    <h1>Это карточка департамента</h1>
 </div>
 
 <!-- ОКНО УВЕДОМЛЕНИЯ -->

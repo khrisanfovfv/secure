@@ -5,10 +5,20 @@ $('#department_ref_table tbody tr').on('click', function(){
 })
 
 /** Двойной клик на строку таблицы */
-$('#department_ref_table tbody tr').on('dblclick', function(){
-    $('#department_ref__dialog').css('display','flex');
-    $('#department_ref__dialog_content').load("../department/department_card.html");
-    $("#department_ref__dialog").css('z-index',++z_index);
+$('#department_table tbody tr').on('dblclick', function(){
+   $('#department_ref__dialog').dialog({
+        width: 600,
+        height:600,
+        modal : true,
+        buttons: {
+            OK: function(){
+                $(this).dialog("close");
+            },
+            Cancel: function(){
+                $(this).dialog("close");
+            }
+        } 
+   });
 })
 
 /** Кнока вызова справочника Организации */

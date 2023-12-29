@@ -48,11 +48,17 @@ function json(){
     .pipe(dest(destFolder))
 }
 
+function jquery_style(){
+    return src(['app/plugins/jquery-ui-1.13.2/jquery-ui.css'])
+    .pipe(dest(destFolder + 'css/'));
+}
+
 
 
 function scripts(){
     return src([
         'app/plugins/jquery-ui-1.13.2/external/jquery/jquery.js',
+        'app/plugins/jquery-ui-1.13.2/jquery-ui.js',
         'app/plugins/tables_context_menu/context_menu.js',
         'app/js/reference.js',
         'app/inc/information_system/information_system.js',
@@ -142,10 +148,11 @@ exports.php = php;
 exports.secure_database = secure_database;
 exports.references_php = references_php;
 exports.json = json;
+exports.jquery_style = jquery_style;
 
 exports.watching = watching;
 exports.browsersync = browsersync;
 exports.build = series(cleanDist, building);
 
 //exports.default = parallel(styles, scripts, browsersync, watching);
-exports.default = parallel(json, images, php, references_php, secure_database, styles, scripts, browsersync, watching)
+exports.default = parallel(json, images, php, references_php, secure_database, styles, jquery_style, scripts, browsersync, watching);
