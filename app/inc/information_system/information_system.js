@@ -1,15 +1,15 @@
 /**
- * =================== ВЫБОР ВКЛАДОК НА КАРТОЧКЕ ИС =====================
- * */
-$('.information_system_card__tabs_item').on('click', function () {
+ * ================================ ВЫБОР ВКЛАДКИ ================================
+ */
+function information_system_select_tab(src){
     // Список имеющихся вкладок
     var card_tabs = ['general', 'remarks', 'administrators', 'contracts', 'archive'];
 
     // Устанавливаем класс main_tabs__highlighted у выбранной вкладки
     $('.main_tabs__item').removeClass('main_tabs__highlighted');
     $('.main_tabs__item').css('z-index', 1);
-    $(this).addClass('main_tabs__highlighted');
-    $(this).css('z-index', 2);
+    $(src).addClass('main_tabs__highlighted');
+    $(src).css('z-index', 2);
 
 
     /* Скрываем все вкладки */
@@ -17,9 +17,9 @@ $('.information_system_card__tabs_item').on('click', function () {
         $('#information_system_card__' + item).addClass('hide');
     });
     /* Показываем выбранную */
-    tab = $(this).children().attr('href');
+    tab = $(src).children().attr('href');
     $(tab).removeClass('hide');
-})
+}
 
 /** 
  * ====================== ОДИНОЧНЫЙ КЛИК НА СТРОКУ ТАБЛИЦЫ =======================
@@ -38,7 +38,7 @@ $('#information_system_table tbody tr').on('dblclick', function () {
 /**
  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ИНФОРМАЦИОНОЙ СИСТЕМЫ =========================
  */
-$('#information_system_card__OK').on('click', function () {
+function information_system_card_press_OK(src){
     if (information_system_card__check_fields()) {
         // Формируем запись для запроса
 
@@ -121,10 +121,9 @@ $('#information_system_card__OK').on('click', function () {
                 reference.show_notification('information_system_ref', 'Ошибка', size, message);
             })
         }
-        $(this).parents('.appdialog').css('display', 'none');
+        $(src).parents('.appdialog').css('display', 'none');
     }
-
-});
+}
 
 /**
  * ===================== ПРОВЕРЯЕМ ЗАПОЛНЕННОСТЬ ОБЯЗАТЕЛЬНЫХ ПОЛЕЙ КАРТОЧКИ =======================
@@ -215,12 +214,7 @@ function information_system_card__check_fields() {
 }
 
 
-/**
- * ==================== НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ИНФОРМАЦИОНОЙ СИСТЕМЫ ======================
- */
-$('#information_system_card__Cancel').on('click', function () {
-    $(this).parents('.appdialog').css('display', 'none');
-});
+
 
 
 
@@ -467,53 +461,14 @@ $('#information_system_card__administrators_create').on('click', function () {
     information_system_card__administrator_create_record();
 });
 
-$('#information_system_card__administrators_delete').on('click', function(){
+$('#information_system_card__administrators_delete').on('click', function () {
     information_system_card_administrator_delete_record();
 })
 
-/** 
- * ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА СОЗДАТЬ ====================
- */
-$('#information_system_card__remarks_create').on('click', function () {
-    information_system_remark_create_record()
-})
-
-/** 
- * ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА КОПИРОВАТЬ ====================
- */
-$('#information_system_card__remarks_copy').on('click', function () {
-    information_system_remark_copy_record();
-})
-
-/** 
- * ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА ОБНОВИТЬ ====================
- */
-$('#information_system_card__remarks_update').on('click', function () {
-    information_system_remark_update_records();
-})
-
-/** 
- * ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА УДАЛИТЬ =======================
- */
-$('#information_system_card__remarks_delete').on('click', function () {
-    information_system_remark_delete_record();
-})
 
 
-/**
- * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КОНТЕКСТНОЕ МЕНЮ. КОПИРОВАТЬ ===============
- */
-$('#information_system_card__remarks_context_copy').on('click', function () {
-    information_system_remark_copy_record();
-})
 
 
-/**
- * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КОНТЕКСТНОЕ МЕНЮ. УДАЛИТЬ ===============
- */
-$('#information_system_card__remarks_context_delete').on('click', function () {
-    information_system_remark_delete_record();
-})
 
 
 
@@ -798,6 +753,57 @@ function information_system_card__draw_administrator_row(administrator) {
             )
             .append($("<td class='is_deleted hide'>").text(0))
     return content_html;
+}
+
+/**
+ * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ИНФОРМАЦИОННОЙ СИСТЕМЕ ========== 
+ */
+function information_system_card_binging_events() {
+
+    /* ============================ ВЫБОР ВКЛАДОК НА КАРТОЧКЕ ИС =========================== */
+    $('.information_system_card__tabs_item').on('click', function () {
+        information_system_select_tab(this);
+    })
+
+    /** =========================== НАЖАТИЕ КНОПКИ ОК НА КАРТОЧКЕ ИС ======================== */
+    $('#information_system_card__OK').on('click', function () {
+        information_system_card_press_OK(this);
+    });
+
+    /** ========== НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ИНФОРМАЦИОНОЙ СИСТЕМЫ ==================== */
+    $('#information_system_card__Cancel').on('click', function () {
+        $(this).parents('.appdialog').css('display', 'none');
+    });
+
+    /** ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА СОЗДАТЬ ======================= */
+    $('#information_system_card__remarks_create').on('click', function (e) {
+        information_system_remark_create_record(this)
+    })
+
+    /** ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА КОПИРОВАТЬ ==================== */
+    $('#information_system_card__remarks_copy').on('click', function () {
+        information_system_remark_copy_record();
+    })
+
+    /** ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА ОБНОВИТЬ =====================  */
+    $('#information_system_card__remarks_update').on('click', function () {
+        information_system_remark_update_records();
+    })
+
+    /** ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА УДАЛИТЬ ======================= */
+    $('#information_system_card__remarks_delete').on('click', function () {
+        information_system_remark_delete_record();
+    })
+
+    /** ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КОНТЕКСТНОЕ МЕНЮ. КОПИРОВАТЬ ===============  */
+    $('#information_system_card__remarks_context_copy').on('click', function () {
+        information_system_remark_copy_record();
+    })
+
+    /** ================ ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КОНТЕКСТНОЕ МЕНЮ. УДАЛИТЬ ================= */
+    $('#information_system_card__remarks_context_delete').on('click', function () {
+        information_system_remark_delete_record();
+    })
 }
 
 

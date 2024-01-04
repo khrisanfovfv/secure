@@ -69,6 +69,8 @@ var reference = {
         jQuery.post(MainData.ajaxurl, data, function (textStatus) {
             $(prefix + '__dialog_content').empty();
             $(prefix + '__dialog_content').html(textStatus);
+            // Привязываем события к элементам карточки
+            reference.binding_event_card(prefix);
             switch (openMode){
                 // Режим редактирования
                 case OpenMode.Edit : reference.load_card_data(prefix,id,OpenMode.Edit); break;
@@ -103,6 +105,16 @@ var reference = {
             case 'adminitrator_ref_search' : card = 'administrator_search'; break;
         }
         return card;
+    },
+
+    /**
+     * ========================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ==========================
+     * @param {string} prefix 
+     */
+    binding_event_card(prefix){
+        switch (prefix){
+            case '#information_system_ref' : information_system_card_binging_events(); break;
+        }
     },
 
 

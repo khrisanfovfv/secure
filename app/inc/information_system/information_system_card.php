@@ -1,4 +1,5 @@
-<?php wp_head();
+<?php 
+//wp_head();
 require_once(wp_normalize_path(get_template_directory()) . '/common.php');
 $resources = new Resources();
 $button_icons = $resources->get_button_icons();
@@ -525,4 +526,4 @@ $document_icons = $resources->get_document_icons();
         </div>
     </div>
 </div>
-<?php wp_footer() ?>
+<!--?php wp_footer() ?-->
