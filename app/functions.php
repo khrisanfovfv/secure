@@ -61,6 +61,7 @@
             case 'information_system_ref' : get_template_part('inc/information_system/information_system_ref'); break;
             
             case 'document_kind_search' : get_template_part('inc/document_kind/document_kind_search_form');break;
+            case 'department_search' : get_template_part('inc/department/department_search_form'); break;
             case 'information_system_search' : get_template_part('inc/information_system/information_system_search_form');break;
             case 'administrator_search' : get_template_part('inc/administrator/administrator_search_form');break;
         }

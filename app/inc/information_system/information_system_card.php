@@ -361,12 +361,12 @@ $document_icons = $resources->get_document_icons();
 
 
 <!-- Контекстное меню пользователя -->
-<div class="user__context" id="user__context">
+<!--div class="user__context" id="user__context">
     <ul class="user__context_list">
         <li class="user__context_item">Сменить пароль</li>
         <li class="user__context_item">Выход</li>
     </ul>
-</div>
+</div-->
 
 <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ АДМИНИСТРАТОРЫ -->
 <div class="context-menu" id="information_system_card__general_admins_context">

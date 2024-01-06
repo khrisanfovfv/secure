@@ -79,7 +79,7 @@ class Department{
         global $wpdb;
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT department.id, department.name, organization.fullname as organization_name, department.boss, department.state FROM {$prefix}department department JOIN {$prefix}organization organization on department.organization_id = organization.id
+            $wpdb->prepare("SELECT department.id, department.name, organization.id as organization_id, organization.fullname as organization_name, department.boss, department.state FROM {$prefix}department department JOIN {$prefix}organization organization on department.organization_id = organization.id
             WHERE department.id = %d", $id), OBJECT );
         return $results;
         wp_die();
@@ -99,7 +99,7 @@ class Department{
 
 
     /**
-     * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ВИД ДОКУМЕНТА ======================
+     * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ОТДЕЛА ======================
      */
     function secure_add_department(){
         global $wpdb;
@@ -123,8 +123,25 @@ class Department{
         wp_die();
     }
 
+    /**
+     * ==================== УДАЛЕНИЕ ЗАПИСИ ОТДЕЛА ======================
+     */
+    function secure_delete_department(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $department_id = $_POST['id'];
+        
+        // Удаляем запись отдел
+        $wpdb->delete( $prefix.'department', array( 'ID' => $department_id ), array( '%d' ));
+        echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
+        wp_die();
+
+    }
+     
+
+
     /** 
-     * ====================== ОБНОВЛЕНИЕ ЗАПИСИ ВИД ДОКУМЕНТА ==========================
+     * ====================== ОБНОВЛЕНИЕ ЗАПИСИ ОТДЕЛ ==========================
      */
     function secure_update_department(){
         global $wpdb;
@@ -162,8 +179,11 @@ class Department{
         $wild = '%';
         $like = $wild . $wpdb->esc_like($value) .$wild;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}department 
-            WHERE name LIKE %s",$like), ARRAY_A);
+            $wpdb->prepare("SELECT department.id, department.name, organization.fullname as organization_name, department.boss, department.state FROM {$prefix}department department JOIN {$prefix}organization organization on department.organization_id = organization.id 
+            WHERE department.name LIKE %s 
+            OR organization.fullname LIKE %s
+            OR department.boss LIKE %s
+            ", array($like, $like, $like)), ARRAY_A);
         echo json_encode($results);
         wp_die();
     }
@@ -175,12 +195,19 @@ class Department{
         global $wpdb;
         $prefix = $wpdb->prefix;
         $name = $_POST['name'];
+        $organization_id = $_POST['organization_id'];
+        $boss = $_POST['boss'];
         $state = $_POST['state'];
         $wild = '%';
-        $like_name = $wild . $wpdb->esc_like($name) .$wild;        
+        $like_name = $wild . $wpdb->esc_like($name) .$wild;
+        $organization_query = $organization_id != '' ? "organization.id='$organization_id' AND" : '';
+        $like_boss = $wild . $wpdb->esc_like($boss) .$wild;
+        $state_query = $state !='' ? "AND department.state='$state'" : '';        
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}department 
-            WHERE name LIKE %s AND state= %s",array($like_name, $state)), ARRAY_A 
+            $wpdb->prepare("SELECT department.id, department.name, organization.fullname as organization_name, department.boss, department.state FROM {$prefix}department department 
+            JOIN {$prefix}organization organization on department.organization_id = organization.id
+            WHERE department.name LIKE %s AND $organization_query department.boss LIKE %s $state_query", array($like_name, $like_boss)), ARRAY_A 
+    
         );
         echo json_encode($results);
         wp_die();

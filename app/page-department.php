@@ -21,33 +21,33 @@ $prefix = $wpdb->prefix;
         <div class="reference">
             <p class="reference__title">Справочник Виды документов</p>
             <div class="reference__buttons">
-                <button class="reference__button" id="department_create">
+                <button class="reference__button" id="department_ref__create">
                     <img src="<?php echo $button_icons->create ?>" alt="Создать">
                     <p>Создать</p>
                 </button>
-                <button class="reference__button" id="department_edit" disabled>
+                <button class="reference__button" id="department_ref__edit" disabled>
                     <img src="<?php echo $button_icons->edit ?>" alt="Редактировать">
                     <p>Редактировать</p>
                 </button>
-                <button class="reference__button" id="department_copy" disabled>
+                <button class="reference__button" id="department_ref__copy" disabled>
                     <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
                     <p>Копировать</p>
                 </button>
-                <button class="reference__button" id="department_delete" disabled>
+                <button class="reference__button" id="department_ref__delete" disabled>
                     <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
                     <p>Удалить</p>
                 </button>
-                <button class="reference__button" id="department_excel">
+                <button class="reference__button" id="department_ref__excel">
                     <img src="<?php echo $button_icons->excel ?>" alt="Exel">
                     <p>Эл. таб</p>
                 </button>
-                <button class="reference__button" id="department_update">
+                <button class="reference__button" id="department_ref__update">
                     <img src="<?php echo $button_icons->update ?>" alt="Update">
                     <p>Обновить</p>
                 </button>
             </div>
-            <div class="department__reference_container">
-                <table class="reference__table" id="department_table">
+            <div class="department_ref__container">
+                <table class="reference__table" id="department_ref__table">
                     <thead>
                         <tr>
                             <th class="hide">Ид</th>
@@ -68,7 +68,7 @@ $prefix = $wpdb->prefix;
                         for ($i = 0; $i < count($rows); $i++) {
                             $row = $rows[$i];
                         ?>
-                            <tr class="department_table_row">
+                            <tr class="department_ref__table_row">
                                 <td class="id hide"><?php echo $row["id"] ?></td>
                                 <td><?php echo $i + 1 ?></td>
                                 <td><?php echo esc_html($row["name"]) ?></td>
@@ -117,22 +117,36 @@ $prefix = $wpdb->prefix;
     </div>
 </div>
 
-<!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ ВИДЫ ДОКУМЕНТОВ -->
+<!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ ОТДЕЛЫ -->
 <div class="context-menu" id="department_ref__context">
     <ul class="context-menu__list">
         <li class="context-menu__item" id="department_ref__context_edit">
-            <img src="<?php echo get_template_directory_uri() . '/images/edit.svg' ?>" alt="Редактировать">
+            <img src="<?php echo $button_icons->edit ?>" alt="Редактировать">
             <p>Редактировать</p>
         </li>
         <li class="context-menu__item" id="department_ref__context_copy">
-            <img src="<?php echo get_template_directory_uri() . '/images/copy.svg' ?>" alt="Копировать">
+            <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
             <p>Копировать</p>
         </li>
         <li class="context-menu__item" id="department_ref__context_delete">
-            <img src="<?php echo get_template_directory_uri() . '/images/delete.svg' ?>" alt="Удалить">
+            <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
             <p>Удалить</p>
         </li>
     </ul>
+</div>
+
+<!-- КОНТЕКСТНОЕ МЕНЮ ПД ТАБЛИЦЕЙ ОТДЕЛЫ -->
+<div class="context-menu" id="department_ref__out_context">
+<ul class="context-menu__list">
+    <li class="context-menu__item" id="department_ref__out_context_create">
+        <img src="<?php echo $button_icons->create ?>">
+        <p>Создать</p>
+    </li>
+    <li class="context-menu__item" id="department_ref__out_context_update">
+        <img src="<?php echo $button_icons->update ?>">
+        <p>Обновить</p>
+    </li>
+</ul>    
 </div>
 
 <script>

@@ -100,7 +100,7 @@ $button_icons = $resources->get_button_icons();
     </div>
 </div>
 
-<!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ -->
+<!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ АДМИНИСТРАТОРЫ -->
 <div class="context-menu" id="administrator_card__remarks_context">
     <ul class="context-menu__list">
         <li class="context-menu__item" id="administrator_card__remarks_context_copy">

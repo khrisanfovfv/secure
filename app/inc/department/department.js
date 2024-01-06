@@ -1,15 +1,15 @@
 /** 
  * ====================== ОДИНОЧНЫЙ КЛИК НА СТРОКУ ТАБЛИЦЫ =======================
 */
-$('#department_table tbody tr').on('click', function (e) {
+$('#department_ref__table tbody tr').on('click', function (e) {
     reference.highlight(e);
 })
 
 /** 
  * ======================== ДВОЙНОЙ КЛИК НА СТРОКУ ТАБЛИЦЫ ======================= 
 */
-$('#department_table tbody tr').on('dblclick', function () {
-    rows = $('.department_table_row.highlight')
+$('#department_ref__table tbody tr').on('dblclick', function () {
+    rows = $('.department_ref__table_row.highlight')
     var size = { width: 600, height: 200 };
     reference.editRecord('#department_ref', rows, 'Карточка Вид документа', size);
 })
@@ -107,7 +107,6 @@ function department_common_search(value) {
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
         var records = JSON.parse(result);
-        var ind = 1;
         department_update_reference(records);
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -118,10 +117,10 @@ function department_common_search(value) {
 }
 
 /**
- * ============================ КНОПКА РАСШИРЕННЫЙ ПОИСК =============================
+ * ============================ ОТКРЫТИЕ КАРТОЧКИ РАСШИРЕННЫЙ ПОИСК =============================
  */
 function department_extended_search() {
-    size = { width: 500, height: 200 };
+    size = { width: 600, height: 250 };
     prefix = '#department_ref';
     title = 'Расширенный поиск';
     // Загружаем карточку
@@ -132,6 +131,7 @@ function department_extended_search() {
     reference.show_dialog(prefix, size, title);
     jQuery.post(MainData.ajaxurl, data, function (textStatus) {
         $(prefix + '__dialog_content').html(textStatus);
+        department_search_binding_events();
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
@@ -140,13 +140,122 @@ function department_extended_search() {
     });
 }
 
+
+
+
+
+
+
+/** КНОПКИ НА ПАНЕЛИ ДЕЙСТВИЙ */
+
+/** 
+ * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
+ * */
+$('#department_ref__create').on('click', function () {
+    department_create_record();
+});
+
+/**
+ * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ===========================
+ */
+$('#department_ref__edit').on('click', function () {
+    department_edit_record();
+})
+
+
+/**
+ * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ =============================
+ */
+$('#department_ref__copy').on('click', function () {
+    department_copy_record();
+})
+
+
+/**
+ * ========================= НАЖАТИЕ КНОПКИ УДАЛИТЬ ЗАПИСЬ =========================
+ */
+$('#department_ref__delete').on('click', function () {
+    department_delete_record();
+});
+
+/** 
+ * ========================= НАЖАТИЕ КНОПКИ ОБНОВИТЬ ===============================
+ */
+$('#department_ref__update').on('click', function(){
+    department_load_records()
+})
+
+/** 
+ * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ =================================
+ */
+$('#department_ref__context_edit').on('click', function(){
+    department_edit_record();
+})
+
+/** 
+ * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ КОПИРОВАТЬ =================================
+ */
+$('#department_ref__context_copy').on('click', function(){
+    department_copy_record();
+})
+
+/** 
+ * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ УДАЛИТЬ =================================
+ */
+$('#department_ref__context_delete').on('click', function(){
+    department_delete_record();
+})
+
+/**================================================================================= 
+* ==================================== ДЕЙСТВИЯ ==================================== 
+* ==================================================================================*/
+
+/**
+ * ================================ ОТДЕЛ. СОЗДАТЬ =================================
+ */
+function department_create_record(){
+    var size = { width: 600, height: 250 };
+    reference.open_card('#department_ref', 'Карточка Отдела', size, OpenMode.Create, 0);
+}
+
+/**
+ * ================================ ОТДЕЛ. РЕДАКТИРОВАТЬ =================================
+ */
+function department_edit_record(){
+    rows = $('.department_ref__table_row.highlight')
+    var id = rows[0].children.item(0).textContent;
+    var size = { width: 600, height: 250 };
+    reference.open_card('#department_ref', 'Карточка Отдела', size, OpenMode.Edit, id);
+}
+
+/**
+ * ================================ ОТДЕЛ. КОПИРОВАТЬ =================================
+ */
+function department_copy_record(){
+    rows = $('.department_ref__table_row.highlight')
+    var id = rows[0].children.item(0).textContent;
+    var size = { width: 600, height: 250 };
+    // Открываем карточку в режиме создания новой записи
+    reference.open_card('#department_ref', 'Карточка Отдела', size, OpenMode.Copy, id);
+}
+
+/**
+ * ================================ ОТДЕЛ. УДАЛИТЬ =================================
+ */
+function department_delete_record(){
+    rows = $('.department_ref__table_row.highlight');
+    reference.delete_record('#department_ref', rows, 'delete_department');
+}
+
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
 */
-$('#department_search__button_OK').on('click', function () {
+function department_extended_search_OK() {
     var data = {
         action: 'search_department_extended',
         name: $('#department__search_name').val(),
+        organization_id: $('#department_search__organization').find('.id').text(),
+        boss : $('#department__search_boss').val(),
         state: $('#department__search_state').val()
     };
 
@@ -160,65 +269,9 @@ $('#department_search__button_OK').on('click', function () {
         message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
         reference.show_notification('#department_ref', 'Ошибка', size, message);
     });
-
-})
-
-/**
- * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена =============
-*/
-$('#department_search__button_Cancel').on('click', function () {
-    $(this).parents('.appdialog').css('display', 'none');
-});
+}
 
 
-
-/** КНОПКИ НА ПАНЕЛИ ДЕЙСТВИЙ */
-
-/** 
- * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
- * */
-$('#department_create').on('click', function () {
-    var size = { width: 600, height: 250 };
-    reference.open_card('#department_ref', 'Карточка Отдела', size, OpenMode.Create, 0);
-});
-
-/**
- * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
- */
-$('#department_edit').on('click', function () {
-    rows = $('.department_table_row.highlight')
-    var id = rows[0].children.item(0).textContent;
-    var size = { width: 600, height: 250 };
-    reference.open_card('#department_ref', 'Карточка Отдела', size, OpenMode.Edit, id);
-})
-
-
-/**
- * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
- */
-$('#department_copy').on('click', function () {
-    rows = $('.department_table_row.highlight')
-    var id = rows[0].children.item(0).textContent;
-    var size = { width: 600, height: 200 };
-    // Открываем карточку в режиме создания новой записи
-    reference.open_card('#department_ref', 'Карточка Отдела', size, OpenMode.Copy, id);
-})
-
-
-/**
- * ========================= НАЖАТИЕ КНОПКИ УДАЛИТЬ ЗАПИСЬ ==========================
- */
-$('#department_delete').on('click', function () {
-    rows = $('.department_table_row.highlight');
-    reference.delete_record('#department_ref', rows);
-});
-
-/** 
- * ========================= НАЖАТИЕ КНОПКИ ОБНОВИТЬ =================================
- */
-$('#department_update').on('click', function(){
-    department_load_records()
-})
 
 
 /**
@@ -248,12 +301,13 @@ async function card_department_load_data(data, openMode) {
  *  ========================= ОБНОВЛЕНИЕ СПРАВОЧНИКА ===========================
  * @param {Object} records 
  */
-function department_update_reference(records) {
+function department_update_reference(records) 
+{
     var ind = 1;
-    $('#department_table tbody tr').remove();
+    $('#department_ref__table tbody tr').remove();
     records.forEach(record => {
-        $('#department_table tbody').append(
-            $("<tr class='department_table_row'>")
+        $('#department_ref__table tbody').append(
+            $("<tr class='department_ref__table_row'>")
                 .append($("<td class='id hide'>").text(record["id"]))
                 .append($("<td>").text(ind++))
                 .append($("<td>").text(record["name"]))
@@ -264,26 +318,6 @@ function department_update_reference(records) {
             reference.highlight(e);
         })
     });
-
-
-    /** 
-    * ====================== КОНТЕКТНОЕ МЕНЮ - РЕДАКТИРОВАТЬ ========================= 
-    * */
-    $('#department_ref__context_edit').on('click', function () {
-        rows = $('.department_table_row.highlight');
-        if (rows.length > 0) {
-            var id = rows[0].children.item(0).textContent;
-            //Загружаем карточку
-            textStatus = id;
-            var size = { width: 400, height: 200 };
-            reference.show_notification('#department_ref', 'Уведомление', size, textStatus)
-        } else {
-            var size = { width: 400, height: 200 };
-            message = 'Вы не выбрали запись';
-            reference.show_notification('#department_ref', 'Предупреждение', size, message);
-        }
-    })
-
 }
 
 /**
@@ -304,5 +338,29 @@ function department_card_binging_events() {
         reference.open_reference(e,'#department_card', 'Справочник организации');
     })
 }
+
+/**
+ * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ПОИСКА ===============================
+ */
+function department_search_binding_events(){
+
+    /** ============== ВЫБОР ИЗ СПРАВОЧНИКА ОРГАНИЗАЦИИ ==================== */
+    $('#department_search__organization').on('click', function(e){
+        reference.open_reference(e,'#department_search','Справочник Оргранизации')
+    })
+
+    /** ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОK ================= */
+    $('#department_search__button_OK').on('click', function(e){
+        department_extended_search_OK();
+    })
+
+    /** ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена ============= */
+    $('#department_search__button_Cancel').on('click', function (e) {
+        $(e.target).parents('.appdialog').css('display', 'none');
+    });
+
+}
+
+
 
 

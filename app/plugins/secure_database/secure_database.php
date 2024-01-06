@@ -69,9 +69,11 @@ class SecDb
         add_action('wp_ajax_nopriv_add_department', array('Department','secure_add_department'));
         add_action('wp_ajax_update_department', array('Department','secure_update_department'));
         add_action('wp_ajax_nopriv_update_department', array('Department','secure_update_department'));
+        add_action('wp_ajax_delete_department', array('Department', 'secure_delete_department'));
+        add_action('wp_ajax_nopriv_delete_department', array('Department', 'secure_delete_department'));
         add_action('wp_ajax_search_department', array('Department','secure_search_department'));
         add_action('wp_ajax_nopriv_search_department', array('Department','secure_search_department'));
-        add_action('wp_ajax_search_search_department_extended', array('Department','secure_search_department_extended'));
+        add_action('wp_ajax_search_department_extended', array('Department','secure_search_department_extended'));
         add_action('wp_ajax_nopriv_search_department_extended', array('Department','secure_search_department_extended'));
         // АДМИНИСТРАТОРЫ
         add_action('wp_ajax_load_administrator', array('Administrator', 'secure_load_administrator'));
