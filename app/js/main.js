@@ -37,13 +37,8 @@ $(function () {
 
             case 'sm_references__information_system': open_page('information_system'); break;
             case 'sm_references__administrators': open_page('administrator'); break;
-            case 'sm_references__organizations':open_page('organization'); break;
-            case 'sm_references__departments' : {
-                $("<a>").prop({
-                    target: "_blank",
-                    href:host + "inc/department/department_ref.html"
-                })[0].click();
-            }; break;
+            case 'sm_references__organizations': open_page('organization'); break;
+            case 'sm_references__departments' : open_page('department'); break;
             case 'sm_references__document_kind': open_page('document_kind'); break;
             case 'sm_references__contract':{
                 $("<a>").prop({

@@ -10,6 +10,7 @@ var Context = {
         '#information_system_card__general_developpers_context',
         '#information_system_card__remarks_context',
         '#information_system_card_remarks__out_context',
+        '#information_system_card_administrators__out_context',
         '#information_system_card__contracts_context',
         '#information_system_card__document_context',
         '#information_system_ref__context',
@@ -71,6 +72,10 @@ var Context = {
                 
                 case 'information_system_card_remarks__out_context_create': information_system_remark_create_record(); break;
                 case 'information_system_card_remarks__out_context_update': information_system_remark_update_records(); break;
+                case 'information_system_card_administrators__out_context_create' : information_system_card__administrator_create_record(); break;
+                case 'information_system_card_administrators__out_context_update' : information_system_card__administrator_update_record(); break;
+
+
                 
                 case 'information_system_card__documents_open_card': Context.document_open_card(); break;
                 case 'information_system_card__documents_create_version': Context.document_open_version_card(); break;
@@ -295,6 +300,7 @@ var Context = {
         switch (src_el.className) {
             case 'information_system__reference_container': Context.menu = $('#information_system_ref__out_context'); break;
             case 'information_system_card__remarks_container' : Context.menu = $('#information_system_card_remarks__out_context'); break;
+            case 'information_system_card__administrators_container' : Context.menu = $('#information_system_card_administrators__out_context'); break;
             case 'administrator_ref__container': Context.menu = $('#administrator_ref__out_context'); break;
             default: return false;
         }

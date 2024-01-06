@@ -185,6 +185,13 @@ $('#organization_create').on('click', function () {
     reference.open_card('#organization_ref', 'Карточка организации', size, OpenMode.Create, 0);
 });
 
+/** 
+ * =========================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ==============================
+ * */
+$('#organization_select').on('click', function(e){
+    organization_select_record(e);
+})
+
 /**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
@@ -206,6 +213,24 @@ $('#organization_copy').on('click', function () {
     // Открываем карточку в режиме создания новой записи
     reference.open_card('#organization_ref', 'Карточка Вид документа', size, OpenMode.Copy, id);
 })
+
+/**
+ * ======================= ОРГАНИЗАЦИЯ. ВЫБОР ЗАПИСИ =========================
+ */
+function organization_select_record(e){
+    rows = $('.organization_ref__table_row.highlight');
+    if (rows.length > 0){
+        id = rows[0].children.item(0).textContent
+        fullname = rows[0].children.item(3).textContent
+        // Извлекаем элемент с помощью которого вызвали справочник из стэка
+        el = stack.pop();
+        // Присваиваем элементу значения выбранного элемента
+        el.children('.id').text(id);
+        el.children('.fullname').val(fullname);
+        // Закрываем окно выбора
+        $(e.target).parents('.appdialog:first').css('display', 'none');
+    }
+}
 
 
 /**
@@ -274,4 +299,11 @@ $('#organization_ref__context_edit').on('click', function () {
         reference.show_notification('#organization_ref', 'Предупреждение', size, message);
     }
 })
+}
+
+/**
+ * ============ ПРИВЯЗКА СОБЫТИЙ К СПРАВОЧНИКУ ОРГАНИЗАЦИИ ============ 
+ */
+function organisation_ref_binding_events(){
+
 }

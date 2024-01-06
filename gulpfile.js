@@ -27,7 +27,7 @@ function php(){
 }
 
 function references_php(){
-    var references = ['document_kind','administrator', 'information_system', 'organization'];
+    var references = ['document_kind','department' ,'administrator', 'information_system', 'organization'];
     references.forEach(reference => {
         return src([
             'app/inc/'+ reference + '/*.php'
@@ -104,6 +104,7 @@ function watching(){
         'app/js/main.js','app/js/reference.js','app/inc/**/*.js'], scripts)
     watch('app/plugins/secure_database/*.php',secure_database),
     watch('app/inc/document_kind/*.php', references_php),
+    watch('app/inc/department/*.php', references_php),
     watch('app/inc/information_system/*.php', references_php),
     watch('app/inc/administrator/*.php', references_php),
     watch('app/inc/organization/*.php', references_php),

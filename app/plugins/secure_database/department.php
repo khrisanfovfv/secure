@@ -61,13 +61,13 @@ class Department{
 
 
     /**
-     * ================ ПОЛУЧЕНИЕ ЗАПИСЕЙ ТАБЛИЦЫ ВИДЫ ДОКУМЕНТОВ =================
+     * ================ ПОЛУЧЕНИЕ ЗАПИСЕЙ ТАБЛИЦЫ ОТДЕЛЫ =================
      */
     public function secure_load_department(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}department", ARRAY_A )); 
+            $wpdb->prepare("SELECT department.id, department.name, organization.fullname as organization_name, department.boss, department.state FROM {$prefix}department department JOIN {$prefix}organization organization on department.organization_id = organization.id", ARRAY_A )); 
         echo json_encode($results);
         wp_die();
     }
@@ -79,7 +79,8 @@ class Department{
         global $wpdb;
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}department WHERE id = %s", $id), OBJECT );
+            $wpdb->prepare("SELECT department.id, department.name, organization.fullname as organization_name, department.boss, department.state FROM {$prefix}department department JOIN {$prefix}organization organization on department.organization_id = organization.id
+            WHERE department.id = %d", $id), OBJECT );
         return $results;
         wp_die();
      }
@@ -87,14 +88,14 @@ class Department{
      /**
      * ЗАГРУЗКА ДАННЫХ КАРТОЧКИ. ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ
      */
-    protected function secure_select_data_card($table_name, $id){
+    /* protected function secure_select_data_card($table_name, $id){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT * FROM {$prefix}{$table_name} WHERE id = $id"), OBJECT );
         return $results;
         wp_die();
-    }
+    } */
 
 
     /**
@@ -105,13 +106,18 @@ class Department{
         $prefix = $wpdb->prefix;
         $record = $_POST['record'];
         $wpdb->insert(
-            'sec_department',
+            $prefix . 'department',
             array(
                 'name' => $record['name'],
-                'state' => $record['state'] 
+                'organization_id' => $record['organization_id'],
+                'boss' => $record['boss'],
+                'state' => $record['state']
             ),
             array(
-                '%s', '%s'
+                '%s', // name
+                '%d', // organization_id
+                '%s', // boss
+                '%s'  // state
             )
         );
         wp_die();
@@ -129,12 +135,16 @@ class Department{
             $prefix . 'department',
             array(
                 'name' => $record['name'],
-                'state' => $record['state']	
+                'organization_id' => $record['organization_id'],
+                'boss' => $record['boss'],
+                'state' => $record['state']
             ),
             array( 'ID' => $record['id'] ),
             array(
-                '%s',	
-                '%s'
+                '%s', // name
+                '%d', // organization_id
+                '%s', // boss
+                '%s'  // state
             ),
             array( '%d' )
         );

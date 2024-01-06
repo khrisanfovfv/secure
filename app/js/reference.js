@@ -30,7 +30,7 @@ var reference = {
         var reference_name = el.children('.name_reference').text();
         // Заносим элемент с помощью которого вызвали справочник в стэк
         stack.push(el);
-        var size = { width: 1800, height: 800 };
+        var size = { width: 1500, height: 700 };
         reference.show_dialog(prefix, size, reference_title);
 
         var data = {
@@ -95,6 +95,7 @@ var reference = {
         switch (prefix) {
             // КАРТОЧКИ СПРАВОЧНИКА
             case '#document_kind_ref': card = 'document_kind_card'; break;
+            case '#department_ref': card = 'department_card'; break;
             case '#information_system_ref': card = 'information_system_card'; break;
             case '#administrator_ref' : card = 'administrator_card'; break;
             case '#organization_ref' : card = 'organization_card' ; break;
@@ -114,6 +115,7 @@ var reference = {
     binding_event_card(prefix){
         switch (prefix){
             case '#information_system_ref' : information_system_card_binging_events(); break;
+            case '#department_ref' : department_card_binging_events(); break;
         }
     },
 
@@ -135,6 +137,7 @@ var reference = {
                 // Вызываем функцию для соответствующего вида справочника
                 switch (prefix) {
                     case '#document_kind_ref': card_document_kind_load_data(result, openMode); break;
+                    case '#department_ref': card_department_load_data(result, openMode); break;
                     case '#information_system_ref': card_information_system_load_data(result, openMode); break;
                     case '#administrator_ref': card_administrator_load_data(result, openMode); break;
                 }

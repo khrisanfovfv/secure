@@ -1,4 +1,4 @@
-<?php 
+<?php
 //wp_head();
 require_once(wp_normalize_path(get_template_directory()) . '/common.php');
 $resources = new Resources();
@@ -135,13 +135,13 @@ $document_icons = $resources->get_document_icons();
                                 <img src="<?php echo $button_icons->create ?>" alt="">
                                 <p>Создать</p>
                             </button>
-                            <button class="reference__button" id="information_system_card__administrators_edit">
-                                <img src="<?php echo $button_icons->edit ?>" alt="">
-                                <p>Редактировать</p>
-                            </button>
                             <button class="reference__button" id="information_system_card__administrators_copy">
                                 <img src="<?php echo $button_icons->copy ?>" alt="">
                                 <p>Копировать</p>
+                            </button>
+                            <button class="reference__button" id="information_system_card__administrators_update">
+                                <img src="<?php echo $button_icons->update ?>" alt="Обновить">
+                                <p>Обновить</p>
                             </button>
                             <button class="reference__button" id="information_system_card__administrators_delete">
                                 <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
@@ -152,18 +152,20 @@ $document_icons = $resources->get_document_icons();
                                 <p>Эл. таб</p>
                             </button>
                         </div>
-                        <table class="reference__table" id="information_system_card__administrators_table">
-                            <thead>
-                                <th class="hide">Ид</th>
-                                <th style="width: 35px;">№</th>
-                                <th style="width: 300px;">ФИО</th>
-                                <th>Дата назначения</th>
-                                <th>Дата прекращения</th>
-                                <th style="width:150;">Тип</th>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                        <div class="information_system_card__administrators_container">
+                            <table class="reference__table" id="information_system_card__administrators_table">
+                                <thead>
+                                    <th class="hide">Ид</th>
+                                    <th style="width: 35px;">№</th>
+                                    <th style="width: 300px;">ФИО</th>
+                                    <th>Дата назначения</th>
+                                    <th>Дата прекращения</th>
+                                    <th style="width:150;">Тип</th>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
                     </section>
 
                     <!-- ВКЛАДКА ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ -->
@@ -429,6 +431,23 @@ $document_icons = $resources->get_document_icons();
         </li>
     </ul>
 </div>
+
+<!-- КОНТЕКТНОЕ МЕНЮ ЭЛЕМЕНТА information_system_card__administrators_container -->
+<div class="context-menu" id="information_system_card_administrators__out_context">
+    <ul class="context-menu__list">
+        <li class="context-menu__item" id="information_system_card_administrators__out_context_create">
+            <img src="<?php echo $button_icons->create ?>">
+            <p>Создать</p>
+        </li>
+        <li class="context-menu__item" id="information_system_card_administrators__out_context_update">
+            <img src="<?php echo $button_icons->update ?>">
+            <p>Обновить</p>
+        </li>
+    </ul>
+</div>
+
+
+<!-- КОНТЕКСТНОЕ МЕНЮ ЭЛЕМЕНТА 
 
 <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ КОНТРАКТЫ -->
 <div class="context-menu" id="information_system_card__contracts_context">

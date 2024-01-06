@@ -209,15 +209,7 @@ function information_system_card__check_fields() {
         reference.show_notification('#information_system_ref', 'Предупреждение', size, message);
         return false;
     }
-
-
 }
-
-
-
-
-
-
 
 /**
  * =========================== ЗАГРУЗКА ЗАПИСЕЙ СПРАВОЧНИКА ===========================
@@ -325,8 +317,6 @@ $('#information_system_search__button_Cancel').on('click', function () {
     $(this).parents('.appdialog').css('display', 'none');
 });
 
-
-
 /** КНОПКИ НА ПАНЕЛИ ДЕЙСТВИЙ */
 
 /** 
@@ -365,6 +355,7 @@ $('#information_system_copy').on('click', function () {
 $('#information_system_delete').on('click', function () {
     information_system_delete_record();
 });
+
 /**
  * ============================= НАЖАТИЕ КНОПКИ ОБНОВИТЬ =============================
  */
@@ -423,8 +414,6 @@ function card_information_system_load_data(data, openMode) {
     });
 }
 
-
-
 /**
  *  ========================= ОБНОВЛЕНИЕ СПРАВОЧНИКА ИНФОРМАЦИОННЫЕ СИСТЕМЫ ===========================
  * @param {Object} records 
@@ -453,24 +442,6 @@ function information_system_update_reference(records) {
         })
     });
 }
-
-/** 
- * ===================== АДМИНИСТРАТОРЫ. КНОПКА СОЗДАТЬ ====================
- */
-$('#information_system_card__administrators_create').on('click', function () {
-    information_system_card__administrator_create_record();
-});
-
-$('#information_system_card__administrators_delete').on('click', function () {
-    information_system_card_administrator_delete_record();
-})
-
-
-
-
-
-
-
 
 /**================================================================================= 
 * ==================================== ДЕЙСТВИЯ ==================================== 
@@ -560,8 +531,73 @@ function information_system_card__administrator_create_record() {
     );
 }
 
+/**
+ * =========================== АДМИНИСТРАТОРЫ. КОПИРОВАТЬ ===========================
+ */
+function information_system_card__administrator_copy_record(){
+    var rows = $('#information_system_card__administrators_table>tbody>tr.highlight')
+    var ind = $('#information_system_card__administrators_table tbody tr').length + 1;
+    if (rows.length > 0) {
+        var row = rows[0];
+        var administrator = [];
+        administrator['id'] = '',
+        administrator['ind'] = ind;
+        alert($(row.cells[2]).find('.fullname').val());
+        administrator['information_system_id'] = $('#information_system_card__id').text();
+        administrator['administrator_id'] = $(row.cells[2]).find('.id').text();
+        administrator['administrator_name'] = $(row.cells[2]).find('.fullname').val();
+        administrator['appointdate'] = $(row.cells[3]).children().val();
+        administrator['terminatedate'] = $(row.cells[4]).children().val();
+        administrator['type'] = $(row.cells[5]).children().val();
+        administrator['is_deleted'] = 0;
+        $('#information_system_card__administrators_table tbody').append(
+            information_system_card__draw_administrator_row(administrator)
+        );
+    }
+}
 
 
+/**
+ * =========================== АДМИНИСТРАТОРЫ. ОБНОВИТЬ ===========================
+ */
+function information_system_card__administrator_update_record(){
+    var information_system_id = $('#information_system_card__id').text();
+    // Загружаем детальный раздел Администраторы
+    var data = {
+        action: 'load_information_system_administrators',
+        information_system_id: information_system_id
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var rows = JSON.parse(result);
+        $('#information_system_card__administrators_table tbody tr').remove();
+        var ind = 1;
+
+        rows.forEach(administrator => {
+            administrator['ind'] = ind++;
+            $('#information_system_card__administrators_table tbody').append(
+                information_system_card__draw_administrator_row(administrator)
+            );
+        });
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки детального раздела Замечания по аттестации произощла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#information_system_ref', 'Ошибка', size, message);
+    });
+}
+
+/**
+ * ========================= АДМИНИСТРАТОРЫ. УДАЛИТЬ ===========================
+ * Нам нельзя сразу удалять строку из формы, мы должны сообщить базе что эту строку 
+ * требуется удалить. Поэтому мы ее просто скрываем, а не удаляем. 
+ */
+function information_system_card_administrator_delete_record() {
+    var rows = $('#information_system_card__administrators_table>tbody>tr.highlight')
+    if (rows.length > 0) {
+        var id = rows[0].children.item(0).textContent;
+        rows[0].children.item(6).textContent = 1;
+        rows[0].classList.add('hide');
+    }
+}
 
 
 /**
@@ -588,19 +624,9 @@ function information_system_remark_create_record() {
     })*/
 }
 
-/**
- * ========================= АДМИНИСТРАТОРЫ. УДАЛИТЬ ===========================
- * Нам нельзя сразу удалять строку из формы, мы должны сообщить базе что эту строку 
- * требуется удалить. Поэтому мы ее просто скрываем, а не удаляем. 
- */
-function information_system_card_administrator_delete_record() {
-    var rows = $('#information_system_card__administrators_table>tbody>tr.highlight')
-    if (rows.length > 0) {
-        var id = rows[0].children.item(0).textContent;
-        rows[0].children.item(6).textContent = 1;
-        rows[0].classList.add('hide');
-    }
-}
+
+
+
 
 /**
  * ========================= ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КОПИРОВАТЬ ===========================
@@ -774,6 +800,27 @@ function information_system_card_binging_events() {
     $('#information_system_card__Cancel').on('click', function () {
         $(this).parents('.appdialog').css('display', 'none');
     });
+
+    /** =========================== АДМИНИСТРАТОРЫ. КНОПКА СОЗДАТЬ ========================== */
+    $('#information_system_card__administrators_create').on('click', function () {
+        information_system_card__administrator_create_record();
+    });
+
+    /** =========================== АДМИНИСТРАТОРЫ. КНОПКА КОПИРОВАТЬ ======================= */
+    $('#information_system_card__administrators_copy').on('click', function () {
+        information_system_card__administrator_copy_record();
+    });
+
+    /** =========================== АДМИНИСТРАТОРЫ. КНОПКА ОБНОВИТЬ ========================= */
+    $('#information_system_card__administrators_update').on('click', function () {
+        information_system_card__administrator_update_record();
+    });
+
+    /** =========================== АДМИНИСТРАТОРЫ. КНОПКА УДАЛИТЬ ========================== */
+    $('#information_system_card__administrators_delete').on('click', function () {
+        information_system_card_administrator_delete_record();
+    })
+    
 
     /** ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА СОЗДАТЬ ======================= */
     $('#information_system_card__remarks_create').on('click', function (e) {

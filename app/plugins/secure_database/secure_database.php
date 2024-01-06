@@ -62,6 +62,17 @@ class SecDb
         add_action('wp_ajax_nopriv_search_document_kind', array('DocumentKind','secure_search_document_kind'));
         add_action('wp_ajax_search_search_document_kind_extended', array('DocumentKind','secure_search_document_kind_extended'));
         add_action('wp_ajax_nopriv_search_document_kind_extended', array('DocumentKind','secure_search_document_kind_extended'));
+        // ОТДЕЛЫ
+        add_action('wp_ajax_load_department',array('Department','secure_load_department'));
+        add_action('wp_ajax_nopriv_load_department', array('Department','secure_load_department'));
+        add_action('wp_ajax_add_department', array('Department','secure_add_department'));
+        add_action('wp_ajax_nopriv_add_department', array('Department','secure_add_department'));
+        add_action('wp_ajax_update_department', array('Department','secure_update_department'));
+        add_action('wp_ajax_nopriv_update_department', array('Department','secure_update_department'));
+        add_action('wp_ajax_search_department', array('Department','secure_search_department'));
+        add_action('wp_ajax_nopriv_search_department', array('Department','secure_search_department'));
+        add_action('wp_ajax_search_search_department_extended', array('Department','secure_search_department_extended'));
+        add_action('wp_ajax_nopriv_search_department_extended', array('Department','secure_search_department_extended'));
         // АДМИНИСТРАТОРЫ
         add_action('wp_ajax_load_administrator', array('Administrator', 'secure_load_administrator'));
         add_action('wp_ajax_nopriv_load_administrator', array('Administrator', 'secure_load_administrator'));
@@ -92,6 +103,8 @@ class SecDb
         // ДЕТАЛЬНЫЕ РАЗДЕЛЫ
         add_action('wp_ajax_load_information_system_remarks', array('InformationSystem', 'secure_load_information_system_remarks'));
         add_action('wp_ajax_nopriv_load_information_system_remarks', array('InformationSystem', 'secure_load_information_system_remarks'));
+        add_action('wp_ajax_load_information_system_administrators', array('InformationSystem', 'secure_load_information_system_administrators'));
+        add_action('wp_ajax_nopriv_load_information_system_administrators', array('InformationSystem', 'secure_load_information_system_administrators'));
         
     }
 
@@ -126,6 +139,7 @@ class SecDb
         $id = $_POST['id']; 
         switch($_POST['card']){
             case 'document_kind_card' :{ $results = $this->document_kind->secure_load_card_data($id);};break;
+            case 'department_card' :{ $results = $this->department->secure_load_card_data($id);}; break;
             case 'information_system_card':{ $results = $this->information_system->secure_load_card_data($id);}; break;
             case 'administrator_card' : { $results = $this->administrator->secure_load_card_data($id);}; break;
         }
