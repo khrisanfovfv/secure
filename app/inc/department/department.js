@@ -140,12 +140,6 @@ function department_extended_search() {
     });
 }
 
-
-
-
-
-
-
 /** КНОПКИ НА ПАНЕЛИ ДЕЙСТВИЙ */
 
 /** 
@@ -156,10 +150,17 @@ $('#department_ref__create').on('click', function () {
 });
 
 /**
+ * =========================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ==============================
+ */
+$('#department_ref__select').on('click', function(){
+    department_select_record(e);
+})
+
+/**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ===========================
  */
-$('#department_ref__edit').on('click', function () {
-    department_edit_record();
+$('#department_ref__edit').on('click', function (e) {
+    department_edit_record(e);
 })
 
 
@@ -216,6 +217,24 @@ $('#department_ref__context_delete').on('click', function(){
 function department_create_record(){
     var size = { width: 600, height: 250 };
     reference.open_card('#department_ref', 'Карточка Отдела', size, OpenMode.Create, 0);
+}
+
+/**
+ * ======================= ОТДЕЛ. ВЫБРАТЬ ЗАПИСЬ =========================
+ */
+function department_select_record(e){
+    rows = $('.department_ref__table_row.highlight');
+    if (rows.length > 0){
+        id = rows[0].children.item(0).textContent
+        fullname = rows[0].children.item(2).textContent
+        // Извлекаем элемент с помощью которого вызвали справочник из стэка
+        el = stack.pop();
+        // Присваиваем элементу значения выбранного элемента
+        el.children('.id').text(id);
+        el.children('.fullname').val(fullname);
+        // Закрываем окно выбора
+        $(e.target).parents('.appdialog:first').css('display', 'none');
+    }
 }
 
 /**
@@ -324,18 +343,28 @@ function department_update_reference(records)
  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ОТДЕЛА ============ 
  */
 function department_card_binging_events() {
-    $('#department__card_OK').on('click', function () {
+    $('#department_card__OK').on('click', function () {
         department_card_press_OK(this);
     });
 
     /** ============ НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ВИД ДОКУМЕНТА ============ */
-    $('#department__card_Cancel').on('click', function () {
+    $('#department_card__Cancel').on('click', function () {
         $(this).parents('.appdialog').css('display', 'none');
     });
 
     /** ======== НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА В ПОЛЕ ОРГАНИЗАЦИЯ ========= */
     $('#department_card__organization_btn').on('click', function(e){
         reference.open_reference(e,'#department_card', 'Справочник организации');
+    })
+
+}
+
+/**
+ * ================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СПРАВОЧНИКА ===================
+ */
+function department_ref_binding_events(){
+    $('#department_ref_select').on('click', function(e){
+        department_select_record(e)
     })
 }
 
@@ -346,7 +375,7 @@ function department_search_binding_events(){
 
     /** ============== ВЫБОР ИЗ СПРАВОЧНИКА ОРГАНИЗАЦИИ ==================== */
     $('#department_search__organization').on('click', function(e){
-        reference.open_reference(e,'#department_search','Справочник Оргранизации')
+        reference.open_reference(e,'#department_search','Справочник Оргранизации');
     })
 
     /** ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОK ================= */

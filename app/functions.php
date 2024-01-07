@@ -76,6 +76,7 @@
             case 'information_system' : get_template_part('inc/information_system/information_system_ref'); break;
             case 'administrator' : get_template_part('inc/administrator/administrator_ref'); break;
             case 'organization' : get_template_part('inc/organization/organization_ref'); break;
+            case 'department' : get_template_part('inc/department/department_ref'); break;
         }
         wp_die();
     }

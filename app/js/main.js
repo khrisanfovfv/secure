@@ -89,6 +89,7 @@ $(function () {
             switch(page_id){
                 case 'document_kind' :  document_kind_common_search(value); break;
                 case 'department' : department_common_search(value); break; 
+                case 'administrator' : administrator_common_search(value); break;
                 case 'information_system' : information_system_common_search(value); break;
             }
             
@@ -102,12 +103,10 @@ $(function () {
         switch(page_id){
             case 'document_kind' : document_kind_extended_search(); break;
             case 'department' : department_extended_search(); break;
+            case 'administrator' : administrator_extended_search(); break;
             case 'information_system' : information_system_extended_search();break;
         }
     })
-
-    
-
 
     $('#IS_table tr').on('click', function(e){
         if (e.button == 1){

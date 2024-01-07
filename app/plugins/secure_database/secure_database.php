@@ -82,6 +82,8 @@ class SecDb
         add_action('wp_ajax_nopriv_add_administrator', array('Administrator', 'secure_add_administrator'));
         add_action('wp_ajax_update_administrator', array('Administrator','secure_update_administrator'));
         add_action('wp_ajax_nopriv_update_administrator', array('Administrator','secure_update_administrator'));
+        add_action('wp_ajax_delete_administrator', array('Administrator', 'secure_delete_administrator'));
+        add_action('wp_ajax_nopriv_delete_administrator', array('Administrator', 'secure_delete_administrator'));
         add_action('wp_ajax_search_administrator', array('Administrator','secure_search_administrator'));
         add_action('wp_ajax_nopriv_search_administrator', array('Administrator','secure_search_administrator'));
         add_action('wp_ajax_search_administrator_extended', array('Administrator','secure_search_administrator_extended'));
@@ -103,6 +105,9 @@ class SecDb
         add_action('wp_ajax_nopriv_search_information_system_extended', array('InformationSystem','secure_search_information_system_extended'));
 
         // ДЕТАЛЬНЫЕ РАЗДЕЛЫ
+        add_action('wp_ajax_load_administrator_information_systems', array('Administrator', 'secure_load_administrator_information_systems'));
+        add_action('wp_ajax_nopriv_load_administrator_information_systems', array('Administrator', 'secure_load_administrator_information_systems'));
+
         add_action('wp_ajax_load_information_system_remarks', array('InformationSystem', 'secure_load_information_system_remarks'));
         add_action('wp_ajax_nopriv_load_information_system_remarks', array('InformationSystem', 'secure_load_information_system_remarks'));
         add_action('wp_ajax_load_information_system_administrators', array('InformationSystem', 'secure_load_information_system_administrators'));

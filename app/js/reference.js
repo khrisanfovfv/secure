@@ -40,6 +40,7 @@ var reference = {
     jQuery.post(MainData.ajaxurl, data, function (textStatus) {
         $(prefix + '__dialog_content').empty();
         $(prefix + '__dialog_content').html(textStatus);
+        reference.binding_event_reference(reference_name);
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
         message = 'Во время загрузки карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
@@ -116,7 +117,20 @@ var reference = {
         switch (prefix){
             case '#information_system_ref' : information_system_card_binging_events(); break;
             case '#department_ref' : department_card_binging_events(); break;
+            case '#administrator_ref' : adminisrator_card_binding_events(); break;
         }
+    },
+
+    /**
+     * ПРИВЯЗКА СОБЫТИЙ К СПРАВОЧНИКУ
+     * @param {string} prefix 
+     */
+    binding_event_reference(reference_name){
+        switch(reference_name){
+            case 'organization' : organisation_ref_binding_events();
+            case 'department' : department_ref_binding_events();
+        }
+        
     },
 
 

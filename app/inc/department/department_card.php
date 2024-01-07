@@ -24,8 +24,8 @@
         </select>
     </div>
     <div class="finish_buttons">
-        <button class="finish_button" id="department__card_OK">OK</button>
-        <button class="finish_button" id="department__card_Cancel">Cancel</button>
+        <button class="finish_button" id="department_card__OK">OK</button>
+        <button class="finish_button" id="department_card__Cancel">Cancel</button>
     </div> 
 </div> <!-- /department_card__content -->
 

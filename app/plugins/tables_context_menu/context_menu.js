@@ -65,6 +65,9 @@ var Context = {
             Context.toggleMenuOff();
             // Открываем контекстное меню соответствующего элемента
             switch (el.id) {
+                case 'administrator_ref__out_context_create' : administrator_create_record(); break;
+                case 'administrator_ref__out_context_update' : administrator_load_records(); break;
+
                 case 'information_system_ref__out_context_create': information_system_create_record(); break;
                 case 'information_system_ref__out_context_update': information_system_load_records(); break;
                 case 'information_system_ref__context_edit': information_system_edit_record(); break;
