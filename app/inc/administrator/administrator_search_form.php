@@ -1,8 +1,8 @@
 <div class="administrator_search__content">
     <div class="administrator_search__fields">
         <!-- Наименование -->
-        <label for="administrator_search__name">Наименование</label>
-        <input id="administrator__search_name">
+        <label for="administrator_search__fullname">ФИО</label>
+        <input id="administrator__search_fullname">
         <!-- Организация -->
         <label for="administrator_search__organization">Организация</label>
         <div class="card__record" id="administrator_search__organization">

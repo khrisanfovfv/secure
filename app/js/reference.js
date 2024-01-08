@@ -23,6 +23,7 @@ var reference = {
      * ОТКРЫТИЕ СПРАВОЧНИКА
      * @param {Event} e 
      * @param {string} prefix
+     * @param {string} reference_title
      */
     open_reference(e, prefix, reference_title){
         //получаем jQuery-объект ref_record

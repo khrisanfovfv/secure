@@ -363,77 +363,20 @@ class Administrator{
     function secure_search_administrator_extended(){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $fullname = $_POST['fullname'];
-        $briefname = $_POST['briefname'];
-        $scope = $_POST['scope'];
-        $significancelevel = $_POST['significancelevel'];
-        $certified = $_POST['certified'];
-        $certifydatefrom = $_POST['certifydatefrom'];
-        $certifydateto = $_POST['certifydateto'];
-        $hasremark = $_POST['hasremark'];
-        $commissioningdatefrom = $_POST['commissioningdatefrom'];
-        $commissioningdateto = $_POST['commissioningdateto'];
+        $fullname  = $_POST['fullname'];
+        $organization_id = $_POST['organization_id'];
+        $department_id  = $_POST['department_id'];
         $state = $_POST['state'];
-        $scope_query = '';
-        $significancelevel_query ='';
-        $certified_query = '';
-        $certifydate_query ='';
-        $hasremark_query = '';
-        $commissioningdate_query = '';
-        $state_query = '';
-        if (trim($scope) !==''){
-            $scope_query = "AND scope = '$scope'";        
-        }
-        if (trim($significancelevel) !==''){
-            $significancelevel_query = "AND significancelevel = '$significancelevel'";
-        }
-
-        if (trim($certified) !==''){
-            if ($certified === 'Yes')
-                $certified_query = "AND certified = '1'";
-            else
-                $certified_query = "AND certified = '0'";
-        }
-
-        if (trim($certifydatefrom) !=='' and trim($certifydateto) ===''){
-            $certifydate_query = " AND certifydate >= '" . $certifydatefrom . "'";
-        } elseif(trim($certifydatefrom) !== '' and trim($certifydateto) !== ''){
-            $certifydate_query = " AND certifydate BETWEEN '" . $certifydatefrom . "' and '" . $certifydateto . "'" ;
-        } elseif(trim($certifydatefrom) ==='' and trim($certifydateto) !=='')
-            $certifydate_query = " AND certifydate <= '" . $certifydateto . "'";
-             
-        if (trim($hasremark) !==''){
-            if ($hasremark === 'Yes')
-                $hasremark_query = "AND hasremark = '1'";
-            else
-                $hasremark_query = "AND hasremark = '0'";
-        }
-
-        if (trim($commissioningdatefrom) !=='' and trim($commissioningdateto) ===''){
-            $commissioningdate_query = " AND commissioningdate >= '" . $commissioningdatefrom . "'";
-        } elseif(trim($commissioningdatefrom) !== '' and trim($commissioningdateto) !== ''){
-            $commissioningdate_query = " AND commissioningdate BETWEEN '" . $commissioningdatefrom . "' and '" . $commissioningdateto . "'" ;
-        } elseif(trim($commissioningdatefrom) ==='' and trim($commissioningdateto) !=='')
-            $commissioningdate_query = " AND commissioningdate <= '" . $commissioningdateto . "'";
-
-        if (trim($state) !==''){
-            $state_query = "AND state = '$state'";
-        }
-
-
-
-
-
+        $wild = '%';
+        $like_fullname = $wild . $wpdb->esc_like($fullname) .$wild;
+        $organization_query = $organization_id != '' ? " AND organization.id = %d " : '';
+        $department_query = $department_id != '' ? " AND department.id = %d " : '';
+        $state_query = $state != '' ? " AND administrator.state = %s" : '';  
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}administrator 
-            WHERE fullname LIKE '%$fullname%'
-            AND briefname LIKE '%$briefname%'" . $scope_query .
-            $significancelevel_query .
-            $certified_query .
-            $certifydate_query .
-            $hasremark_query .
-            $commissioningdate_query .
-            $state_query), ARRAY_A ); 
+            $wpdb->prepare("SELECT administrator.id, administrator.fullname, organization.fullname as organization_name, department.name as department_name, administrator.state FROM {$prefix}administrator administrator 
+            JOIN {$prefix}organization organization on administrator.organization = organization.id 
+            JOIN {$prefix}department department on administrator.department = department.id
+            WHERE department.fullname LIKE %s $organization_query $department_query $state_query", array($like_fullname, $organization_id, $department_id)), ARRAY_A); 
         echo json_encode($results);
         wp_die();
     }
