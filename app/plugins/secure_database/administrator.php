@@ -369,14 +369,15 @@ class Administrator{
         $state = $_POST['state'];
         $wild = '%';
         $like_fullname = $wild . $wpdb->esc_like($fullname) .$wild;
-        $organization_query = $organization_id != '' ? " AND organization.id = %d " : '';
-        $department_query = $department_id != '' ? " AND department.id = %d " : '';
-        $state_query = $state != '' ? " AND administrator.state = %s" : '';  
+        $organization_query = $organization_id != '' ? " AND organization.id ='$organization_id'" : '';
+        $department_query = $department_id != '' ? " AND department.id = '$department_id'" : '';
+        $state_query = $state != '' ? " AND administrator.state = '$state'" : '';  
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT administrator.id, administrator.fullname, organization.fullname as organization_name, department.name as department_name, administrator.state FROM {$prefix}administrator administrator 
             JOIN {$prefix}organization organization on administrator.organization = organization.id 
             JOIN {$prefix}department department on administrator.department = department.id
-            WHERE department.fullname LIKE %s $organization_query $department_query $state_query", array($like_fullname, $organization_id, $department_id)), ARRAY_A); 
+            WHERE administrator.fullname LIKE %s $organization_query $department_query $state_query", array($like_fullname)), ARRAY_A);
+            //WHERE administrator.fullname LIKE %s $organization_query $department_query $state_query", array($like_fullname, $organization_id, $department_id)), ARRAY_A); 
         echo json_encode($results);
         wp_die();
     }

@@ -229,7 +229,7 @@ function administrator_extended_search() {
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
 */
-function department_extended_search_OK(e){
+function administrator_extended_search_OK(e){
     var data = {
         // Поля карточки
         action: 'search_administrator_extended',
