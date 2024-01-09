@@ -1,5 +1,4 @@
 <?php 
-wp_head();
 
 require_once(wp_normalize_path(get_template_directory()) . '/common.php');
 $resources = new Resources();
@@ -15,17 +14,19 @@ $button_icons = $resources->get_button_icons();
             <label for="administrator_card__fullname">ФИО</label>
             <input type="text" name="administrator_card__fullname" id="administrator_card__fullname">
             <!-- Организация -->
-            <label for="administrator_card__organisation">Организация</label>
-            <div class="card__record" id="administrator_card__organisation">
+            <label for="administrator_card__organization">Организация</label>
+            <div class="card__record" id="administrator_card__organization">
+                <p class='hide name_reference'>organization</p>
                 <p class="id hide">1</p>
-                <input type="text">
-                <div class="card_record__button" id="administrator_card__organisation_btn">&#183;&#183;&#183;</div>
+                <input class="fullname" type="text">
+                <div class="card_record__button" id="administrator_card__organization_btn">&#183;&#183;&#183;</div>
             </div>
             <!-- Отдел -->
             <label for="administrator_card__department">Отдел</label>
-            <div class="card__record">
+            <div class="card__record" id="administrator_card__department">
+                <p class='hide name_reference'>department</p>
                 <p class="id hide">1</p>
-                <input type="text" id="administrator_card__department" name="administrator_card__department">
+                <input class="fullname" type="text">
                 <div class="card_record__button" id="administrator_card__department_btn">&#183;&#183;&#183;</div>
             </div>
             <label for="administrator_card__state">Состояние</label>
@@ -100,7 +101,7 @@ $button_icons = $resources->get_button_icons();
     </div>
 </div>
 
-<!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ -->
+<!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ АДМИНИСТРАТОРЫ -->
 <div class="context-menu" id="administrator_card__remarks_context">
     <ul class="context-menu__list">
         <li class="context-menu__item" id="administrator_card__remarks_context_copy">
@@ -113,5 +114,3 @@ $button_icons = $resources->get_button_icons();
         </li>
     </ul>
 </div>
-
-<?php wp_footer() ?>

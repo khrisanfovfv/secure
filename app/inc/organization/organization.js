@@ -1,15 +1,15 @@
 /** 
  * ====================== ОДИНОЧНЫЙ КЛИК НА СТРОКУ ТАБЛИЦЫ =======================
 */
-$('#organization_table tbody tr').on('click', function (e) {
+$('#organization_ref__table tbody tr').on('click', function (e) {
     reference.highlight(e);
 })
 
 /** 
  * ======================== ДВОЙНОЙ КЛИК НА СТРОКУ ТАБЛИЦЫ ======================= 
 */
-$('#organization_table tbody tr').on('dblclick', function () {
-    rows = $('.organization_table_row.highlight')
+$('#organization_ref__table tbody tr').on('dblclick', function () {
+    rows = $('.organization_ref__table_row.highlight')
     var size = { width: 600, height: 200 };
     reference.editRecord('#organization_ref', rows, 'Карточка Вид документа', size);
 })
@@ -180,15 +180,22 @@ $('#organization_search__button_Cancel').on('click', function(){
 /** 
  * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
  * */
-$('#organization_create').on('click', function () {
+$('#organization_ref__create').on('click', function () {
     var size = { width: 700, height: 650 };
     reference.open_card('#organization_ref', 'Карточка организации', size, OpenMode.Create, 0);
 });
 
+/** 
+ * =========================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ==============================
+ * */
+$('#organization_ref__select').on('click', function(e){
+    organization_select_record(e);
+})
+
 /**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
-$('#organization_edit').on('click', function () {
+$('#organization_ref__edit').on('click', function () {
     rows = $('.organization_table_row.highlight')
     var id = rows[0].children.item(0).textContent;
     var size = { width: 700, height: 650 };
@@ -199,7 +206,7 @@ $('#organization_edit').on('click', function () {
 /**
  * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
  */
-$('#organization_copy').on('click', function () {
+$('#organization_ref__copy').on('click', function () {
     rows = $('.organization_table_row.highlight')
     var id = rows[0].children.item(0).textContent;
     var size = { width: 700, height: 650 };
@@ -207,12 +214,30 @@ $('#organization_copy').on('click', function () {
     reference.open_card('#organization_ref', 'Карточка Вид документа', size, OpenMode.Copy, id);
 })
 
+/**
+ * ======================= ОРГАНИЗАЦИЯ. ВЫБОР ЗАПИСИ =========================
+ */
+function organization_select_record(e){
+    rows = $('.organization_ref__table_row.highlight');
+    if (rows.length > 0){
+        id = rows[0].children.item(0).textContent
+        fullname = rows[0].children.item(3).textContent
+        // Извлекаем элемент с помощью которого вызвали справочник из стэка
+        el = stack.pop();
+        // Присваиваем элементу значения выбранного элемента
+        el.children('.id').text(id);
+        el.children('.fullname').val(fullname);
+        // Закрываем окно выбора
+        $(e.target).parents('.appdialog:first').css('display', 'none');
+    }
+}
+
 
 /**
  * ========================= НАЖАТИЕ КНОПКИ УДАЛИТЬ ЗАПИСЬ ==========================
  */
 $('#organization_delete').on('click', function () {
-    rows = $('.organization_table_row.highlight');
+    rows = $('.organization_ref__table_row.highlight');
     reference.delete_record('#organization_ref', rows);
 });
 
@@ -243,7 +268,7 @@ async function card_organization_load_data(data, openMode) {
  */
 function organization_update_reference(records) {
     var ind = 1;
-    $('#organization_table tbody tr').remove();
+    $('#organization_ref__table tbody tr').remove();
     records.forEach(record => {
         $('#organization_table tbody').append(
             $("<tr class='organization_table_row'>")
@@ -261,7 +286,7 @@ function organization_update_reference(records) {
  * ====================== КОНТЕКТНОЕ МЕНЮ - РЕДАКТИРОВАТЬ ========================= 
  * */
 $('#organization_ref__context_edit').on('click', function () {
-    rows = $('.organization_table_row.highlight');
+    rows = $('.organizatio_ref__table_row.highlight');
     if (rows.length > 0) {
         var id = rows[0].children.item(0).textContent;
         //Загружаем карточку
@@ -274,4 +299,18 @@ $('#organization_ref__context_edit').on('click', function () {
         reference.show_notification('#organization_ref', 'Предупреждение', size, message);
     }
 })
+}
+
+/**
+ * ============ ПРИВЯЗКА СОБЫТИЙ К СПРАВОЧНИКУ ОРГАНИЗАЦИИ ============ 
+ */
+function organisation_ref_binding_events(){
+
+    $('#organization_ref__table tbody tr').on('click', function(e){
+        reference.highlight(e);
+    });
+
+    $('#organization_ref__select').on('click', function(e){
+        organization_select_record(e);
+    })
 }

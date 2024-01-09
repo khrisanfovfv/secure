@@ -37,7 +37,7 @@ $(function () {
 
             case 'sm_references__information_system': open_page('information_system'); break;
             case 'sm_references__administrators': open_page('administrator'); break;
-            case 'sm_references__organizations':open_page('organization'); break;
+            case 'sm_references__organizations': open_page('organization'); break;
             case 'sm_references__departments' : open_page('department'); break;
             case 'sm_references__document_kind': open_page('document_kind'); break;
             case 'sm_references__contract':{
@@ -88,6 +88,8 @@ $(function () {
             var value = $('#search__text').val().trim();
             switch(page_id){
                 case 'document_kind' :  document_kind_common_search(value); break;
+                case 'department' : department_common_search(value); break; 
+                case 'administrator' : administrator_common_search(value); break;
                 case 'information_system' : information_system_common_search(value); break;
             }
             
@@ -100,12 +102,11 @@ $(function () {
     $('#search_button').on('click', function(){
         switch(page_id){
             case 'document_kind' : document_kind_extended_search(); break;
+            case 'department' : department_extended_search(); break;
+            case 'administrator' : administrator_extended_search(); break;
             case 'information_system' : information_system_extended_search();break;
         }
     })
-
-    
-
 
     $('#IS_table tr').on('click', function(e){
         if (e.button == 1){

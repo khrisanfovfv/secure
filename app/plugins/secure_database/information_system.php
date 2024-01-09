@@ -393,6 +393,22 @@ class InformationSystem{
     }
 
     /**
+     * ======================== АДМИНИСТРАТОРЫ. ЗАГРУЗКА ЗАПИСЕЙ ===============
+     */
+    public function secure_load_information_system_administrators(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $information_system_id = $_POST['information_system_id'];
+        $results = $wpdb->get_results(
+                $wpdb->prepare("SELECT inf_sys_adm.id,inf_sys_adm.administrator_id, administrator.fullname as administrator_name , inf_sys_adm.appointdate, inf_sys_adm.terminatedate, inf_sys_adm.type 
+            FROM {$prefix}information_system_administrator inf_sys_adm 
+            JOIN {$prefix}administrator administrator on inf_sys_adm.administrator_id = administrator.id            
+            WHERE inf_sys_adm.information_system_id = $information_system_id"), OBJECT);
+         echo json_encode($results);
+        wp_die();
+    }
+
+    /**
      * ============== АДМИНИСТРАТОРЫ. СОЗДАНИЕ ЗАПИСИ ==============
      */
     protected function secure_create_administrator($information_system_id, $administrator){

@@ -3,10 +3,6 @@
 require_once(wp_normalize_path(get_template_directory()) . '/common.php');
 $resources = new Resources();
 $button_icons = $resources->get_button_icons();
-/**
- * Post Template: Documents Kind
- */
-get_header();
 
 global $wpdb;
 $prefix = $wpdb->prefix;
@@ -24,6 +20,10 @@ $prefix = $wpdb->prefix;
                 <button class="reference__button" id="department_ref__create">
                     <img src="<?php echo $button_icons->create ?>" alt="Создать">
                     <p>Создать</p>
+                </button>
+                <button class="reference__button reference__button_select" id="department_ref_select" disabled>
+                    <img src="<?php echo $button_icons->select ?>" alt="Выбрать">
+                    <p>Выбрать</p>
                 </button>
                 <button class="reference__button" id="department_ref__edit" disabled>
                     <img src="<?php echo $button_icons->edit ?>" alt="Редактировать">
@@ -148,12 +148,3 @@ $prefix = $wpdb->prefix;
     </li>
 </ul>    
 </div>
-
-<script>
-    // Стек для передачи данных между окнами
-    stack = [];
-    dubl = 0;
-</script>
-
-
-<?php get_footer() ?>

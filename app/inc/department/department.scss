@@ -1,43 +1,96 @@
-#department_ref__dialog_window{
-    width: 800px;
-    height: 220px;
+
+/* Справочник */
+.department_ref{
+    &__container{
+        height: 100%;
+    }
 }
 
-
 .department_card{
+    width: 800px;
+    height: 180px;
     &__content{
-        padding: 10px;
+        padding: 20px;
     }
     &__fields{
         display: grid;
         grid-template-columns: repeat(24, 1fr);
-        gap: 15px;
+        gap: 20px;
     }
     &__fields label{
         grid-column: 1;
     }
-    &__fields .card__record{
-        grid-column: 3/25;
-    }
-
-    &__fields .card__record input{
-        width: 100%;
-    }
-
     &__fields input{
-        grid-column: 3/25;
+        grid-column: 2/25;
         outline: none;
     }
+    &__fields .card__record{
+        grid-column: 2/25;
+    }
     &__fields select{
+        grid-column: 2/12;
         background-color: white;
-        border: thin solid gray;
+        border-bottom: thin solid gray;
     }
-
-    &__fields #department_card__state{
-        grid-column: 3/12;
-    }
-
-
 }
+
+.department_search{
+    &__content{
+        padding:20px 10px 10px 10px;
+    }
+
+    &__fields{
+        display: grid;
+        row-gap: 10px;
+        grid-template-columns: repeat(24,1fr);
+    }
+
+    &__fields label{
+        grid-column: 1;
+    }
+    
+    &__fields .card__record{
+        grid-column: 5/24;
+    }
+
+    &__fields select{
+        margin: 5px 0;
+        border: none;
+        border-bottom: 1px solid gray;
+        outline: none;
+        grid-column: 5/15;
+        background-color: white;
+    }
+
+    
+   
+
+   
+
+    // &__fields input{
+    //     margin: 5px 0;
+    //     border: none;
+    //     border-bottom: 1px solid gray;
+    //     outline: none;
+    //     grid-column: 5/24;
+    // }
+    // &__fields .card__record{
+    //     grid-column: 5/24;
+    // }
+
+    // &__fields .card__record input{
+    //     width: 100%;
+    // }
+
+    // &__fields input:focus{
+    //     border-bottom: 2px solid #13406d;
+    // }
+    
+    // }
+    // &__fields select:focus{
+    //     border-bottom: 2px solid #13406d;
+    // }
+}
+
 
 

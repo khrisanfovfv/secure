@@ -20,7 +20,7 @@ class Administrator{
         $administrator_sql = "CREATE TABLE $table_name (
             id mediumint(9) NOT NULL AUTO_INCREMENT,
             fullname text NOT NULL,
-            organisation mediumint(9),
+            organization mediumint(9),
             department mediumint(9),
             state varchar(14) DEFAULT 'Active' NOT NULL,
             PRIMARY KEY  (id)
@@ -63,13 +63,13 @@ class Administrator{
             $table_name,
             array(
                 'fullname' => 'Васильев Игорь Петрович',
-                'organisation' => 1,
+                'organization' => 1,
                 'department' => 1,
                 'state' => 'Active',
             ),
             array(
                 '%s', // fullname
-                '%d', // organisation
+                '%d', // organization
                 '%d', // department
                 '%s'  // state
             )
@@ -106,7 +106,9 @@ class Administrator{
         global $wpdb;
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM  {$prefix}administrator"), ARRAY_A );
+            $wpdb->prepare("SELECT administrator.id, administrator.fullname, organization.fullname as organization_name, department.name as department_name, administrator.state FROM {$prefix}administrator administrator 
+            JOIN {$prefix}organization organization on administrator.organization = organization.id 
+            JOIN {$prefix}department department on administrator.department = department.id"), ARRAY_A );
         echo json_encode($results);
         wp_die();
     }
@@ -119,7 +121,10 @@ class Administrator{
         global $wpdb;
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM sec_administrator WHERE id = $id"), OBJECT );
+            $wpdb->prepare("SELECT administrator.id, administrator.fullname,organization.id as organization_id, organization.fullname as organization_name, department.id as department_id, department.name as department_name, administrator.state FROM {$prefix}administrator administrator 
+            JOIN {$prefix}organization organization on administrator.organization = organization.id 
+            JOIN {$prefix}department department on administrator.department = department.id 
+            WHERE administrator.id = $id"), OBJECT );
         $information_system_administrator = $wpdb->get_results(
             $wpdb->prepare("SELECT inf_sys_adm.id,inf_sys_adm.information_system_id, inf_sys.fullname as information_system_name , inf_sys_adm.appointdate, inf_sys_adm.terminatedate, inf_sys_adm.type 
             FROM {$prefix}information_system_administrator inf_sys_adm 
@@ -143,13 +148,13 @@ class Administrator{
             $prefix.'administrator',
             array(
                 'fullname' => $record['fullname'],
-                'organisation' => $record['organisation'],
-                'department' => $record['department'],
+                'organization' => $record['organization_id'],
+                'department' => $record['department_id'],
                 'state' => $record['state'],
             ),
             array(
                 '%s', // fullname
-                '%d', // organisation
+                '%d', // organization
                 '%d', // department
                 '%s'  // state
             )
@@ -195,14 +200,14 @@ class Administrator{
             $prefix.'administrator',
             array(
                 'fullname' => $record['fullname'],
-                'organisation' => $record['organisation'],
-                'department' => $record['department'],
+                'organization' => $record['organization_id'],
+                'department' => $record['department_id'],
                 'state' => $record['state'],
             ),
             array( 'ID' => $record['id'] ),
             array(
                 '%s', // fullname
-                '%d', // organisation
+                '%d', // organization
                 '%d', // department
                 '%s'  // state
             ),
@@ -231,6 +236,25 @@ class Administrator{
         }
         
         echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
+        wp_die();
+    }
+    /** 
+     * ====================== УДАЛЕНИЕ ЗАПИСИ АДМИНИСТРАТОР ==========================
+     */
+    public function secure_delete_administrator(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $administrator_id = $_POST['id'];
+        
+        // Удаляем связанные записи из таблицы information_system_administrator
+        $information_systems = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}information_system_administrator WHERE administrator_id = %d", Array($administrator_id)), OBJECT );
+        foreach($information_systems as $information_system){
+            Administrator::secure_delete_information_system($information_system);
+        }
+        // Удаляем запись Администратор
+        $wpdb->delete( $prefix.'administrator', array( 'ID' => $administrator_id ), array( '%d' ));
+        echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
         wp_die();
     }
 
@@ -295,21 +319,40 @@ class Administrator{
         wp_die();
     }
 
+    /**
+     * ============== ИНФОРМАЦИОННЫЕ СИСТЕМЫ. ОБНОВЛЕНИЕ ДЕТАЛЬНОГО РАЗДЕЛА ==============
+     */
+    public function secure_load_administrator_information_systems(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+
+            $administrator_id = $_POST['administrator_id'];
+            $results = $wpdb->get_results( 
+                $wpdb->prepare("SELECT inf_sys_adm.id, inf_sys_adm.information_system_id, information_system.fullname as information_system_name, inf_sys_adm.appointdate, inf_sys_adm.terminatedate, inf_sys_adm.type FROM {$prefix}information_system_administrator inf_sys_adm
+                    JOIN  {$prefix}information_system information_system on inf_sys_adm.information_system_id = information_system.id
+                    WHERE inf_sys_adm.administrator_id = $administrator_id"), ARRAY_A ); 
+        echo json_encode($results);
+        wp_die();
+    }
+
 
     /**
-     * ================ ИНФОРМАЦИОННЫЕ СИСТЕМЫ. ОБЩИЙ ПОИСК =================
+     * ================ АДМИНИСТРАТОРЫ. ОБЩИЙ ПОИСК =================
      */
     function secure_search_administrator(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $value = $_POST['value'];
+        $wild = '%';
+        $like = $wild . $wpdb->esc_like($value) .$wild;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}administrator 
-            WHERE fullname LIKE '%$value%'
-            OR briefname LIKE '%$value%'
-            OR certifydate LIKE '%$value%'
-            OR commissioningdate LIKE '%$value%'
-            "), ARRAY_A ); 
+            $wpdb->prepare("SELECT administrator.id, administrator.fullname, organization.fullname as organization_name, department.name as department_name, administrator.state FROM {$prefix}administrator administrator 
+            JOIN {$prefix}organization organization on administrator.organization = organization.id 
+            JOIN {$prefix}department department on administrator.department = department.id 
+            WHERE administrator.fullname LIKE %s
+            OR organization.fullname LIKE '%s'
+            OR department.name LIKE '%s'
+            ",array($like,$like, $like)), ARRAY_A); 
         echo json_encode($results);
         wp_die();
     }
@@ -320,77 +363,20 @@ class Administrator{
     function secure_search_administrator_extended(){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $fullname = $_POST['fullname'];
-        $briefname = $_POST['briefname'];
-        $scope = $_POST['scope'];
-        $significancelevel = $_POST['significancelevel'];
-        $certified = $_POST['certified'];
-        $certifydatefrom = $_POST['certifydatefrom'];
-        $certifydateto = $_POST['certifydateto'];
-        $hasremark = $_POST['hasremark'];
-        $commissioningdatefrom = $_POST['commissioningdatefrom'];
-        $commissioningdateto = $_POST['commissioningdateto'];
+        $fullname  = $_POST['fullname'];
+        $organization_id = $_POST['organization_id'];
+        $department_id  = $_POST['department_id'];
         $state = $_POST['state'];
-        $scope_query = '';
-        $significancelevel_query ='';
-        $certified_query = '';
-        $certifydate_query ='';
-        $hasremark_query = '';
-        $commissioningdate_query = '';
-        $state_query = '';
-        if (trim($scope) !==''){
-            $scope_query = "AND scope = '$scope'";        
-        }
-        if (trim($significancelevel) !==''){
-            $significancelevel_query = "AND significancelevel = '$significancelevel'";
-        }
-
-        if (trim($certified) !==''){
-            if ($certified === 'Yes')
-                $certified_query = "AND certified = '1'";
-            else
-                $certified_query = "AND certified = '0'";
-        }
-
-        if (trim($certifydatefrom) !=='' and trim($certifydateto) ===''){
-            $certifydate_query = " AND certifydate >= '" . $certifydatefrom . "'";
-        } elseif(trim($certifydatefrom) !== '' and trim($certifydateto) !== ''){
-            $certifydate_query = " AND certifydate BETWEEN '" . $certifydatefrom . "' and '" . $certifydateto . "'" ;
-        } elseif(trim($certifydatefrom) ==='' and trim($certifydateto) !=='')
-            $certifydate_query = " AND certifydate <= '" . $certifydateto . "'";
-             
-        if (trim($hasremark) !==''){
-            if ($hasremark === 'Yes')
-                $hasremark_query = "AND hasremark = '1'";
-            else
-                $hasremark_query = "AND hasremark = '0'";
-        }
-
-        if (trim($commissioningdatefrom) !=='' and trim($commissioningdateto) ===''){
-            $commissioningdate_query = " AND commissioningdate >= '" . $commissioningdatefrom . "'";
-        } elseif(trim($commissioningdatefrom) !== '' and trim($commissioningdateto) !== ''){
-            $commissioningdate_query = " AND commissioningdate BETWEEN '" . $commissioningdatefrom . "' and '" . $commissioningdateto . "'" ;
-        } elseif(trim($commissioningdatefrom) ==='' and trim($commissioningdateto) !=='')
-            $commissioningdate_query = " AND commissioningdate <= '" . $commissioningdateto . "'";
-
-        if (trim($state) !==''){
-            $state_query = "AND state = '$state'";
-        }
-
-
-
-
-
+        $wild = '%';
+        $like_fullname = $wild . $wpdb->esc_like($fullname) .$wild;
+        $organization_query = $organization_id != '' ? " AND organization.id = %d " : '';
+        $department_query = $department_id != '' ? " AND department.id = %d " : '';
+        $state_query = $state != '' ? " AND administrator.state = %s" : '';  
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}administrator 
-            WHERE fullname LIKE '%$fullname%'
-            AND briefname LIKE '%$briefname%'" . $scope_query .
-            $significancelevel_query .
-            $certified_query .
-            $certifydate_query .
-            $hasremark_query .
-            $commissioningdate_query .
-            $state_query), ARRAY_A ); 
+            $wpdb->prepare("SELECT administrator.id, administrator.fullname, organization.fullname as organization_name, department.name as department_name, administrator.state FROM {$prefix}administrator administrator 
+            JOIN {$prefix}organization organization on administrator.organization = organization.id 
+            JOIN {$prefix}department department on administrator.department = department.id
+            WHERE department.fullname LIKE %s $organization_query $department_query $state_query", array($like_fullname, $organization_id, $department_id)), ARRAY_A); 
         echo json_encode($results);
         wp_die();
     }
