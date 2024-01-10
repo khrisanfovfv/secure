@@ -5,11 +5,13 @@
         <p class="hide" id="organization_card__id"></p>
         <!-- Полное наименование-->
     <label id="organization_card__fullName_label" for="organization_card__fullName">Полн.
-        наименование</label>
+        наименование<span class="required">*</span></label>
     <textarea name="organization_card__fullName" id="organization_card__fullName" cols="100"
         rows="3"></textarea>
-    <label for="organization_card__briefName">Кратк. наименование</label>
+    <label for="organization_card__briefName">Кратк. наименование<span class="required">*</span></label>
     <input name="organization_card__briefName" id="organization_card__briefName" type="text">
+    <label for="organization_card__boss">ФИО Руководителя<span class="required">*</span></label>
+    <input name="organization_card__boss" id="organization_card__boss" type="text">
     <label id="organization_card__inn_label" for="organization_card__inn">ИНН</label>
     <input name="organization_card__inn" id="organization_card__inn" type="text">
     <label id="organization_card__kpp_label" for="organization_card__kpp">КПП</label>
@@ -24,9 +26,9 @@
     <label for="organization_card__postAddress">Юридический адрес</label>
     <textarea name="organization_card__postAddress" id="organization_card__legalAddress" cols="30"
         rows="3"></textarea>
-    <label for="organization_card__email">email</label>
+    <label for="organization_card__email">email<span class="required">*</span></label>
     <input name="organization_card__email" id="organization_card__email" type="text">
-    <label id="organization_card__state_label" for="organization_card__state">Состояние</label>
+    <label id="organization_card__state_label" for="organization_card__state">Состояние<span class="required">*</span></label>
     <select name="organization_card__state" id="organization_card__state">
         <option value="Active">Действующая</option>
         <option value="Inactive">Не действующая</option>

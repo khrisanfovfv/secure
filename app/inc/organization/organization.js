@@ -329,9 +329,50 @@ function organization_card_binding_events(){
 
 }
 /**
- * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ОРГАНИЗАЦИИ =========================
+ * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ОРГАНИЗАЦИИ (   Проверка на заполнение обязательных полей) =========================
  */
 function organization_card_press_OK(sender) {
+    // var message = '';
+    // // Карточка Организации. Поле Полное наименование
+    // if ($('#organization_card__fullName').val().trim() == '') {
+    //     message += 'Не заполнено поле Полное наименование\n';
+    //     $('#organization_card__fullName').addClass('red_border');
+    // }
+
+    // // Таблица информационные системы
+    // var rows = $('#administrator_card__information_systems_table tbody tr');
+    // var has_empty = false;
+    // rows.each(function (i, row) {
+    //     // Поле Информационная система
+    //     if ($(row.cells[2]).find('.fullname').val().trim() == '') {
+    //         $(row.cells[2]).addClass('red_border');
+    //         has_empty = true
+    //     } else {
+    //         $(row.cells[2]).removeClass('red_border');
+    //     }
+    //     // Поле Дата назначения
+    //     if ($(row.cells[3]).children().val().trim() == '') {
+    //         $(row.cells[3]).addClass('red_border');
+    //         has_empty = true
+    //     } else {
+    //         $(row.cells[3]).removeClass('red_border');
+    //     }
+    // })
+
+    // if (has_empty == true) {
+    //     message += 'Таблица Замечания по аттестации имеет незаполненные обязательные поля';
+    // }
+
+
+    // if (message == '') {
+    //     return true;
+    // } else {
+    //     // Отправляем уведомление
+    //     var size = { width: 400, height: 200 };
+    //     reference.show_notification('#administrator_ref', 'Предупреждение', size, message);
+    //     return false;
+    // }
+
     if ($('#organization_card__fullName').val().trim() == '') {
         $('#organization_card__fullName').addClass('red_border');
 
@@ -381,5 +422,37 @@ function organization_card_press_OK(sender) {
         }
         $(sender).parents('.appdialog').css('display', 'none');
     }
+    if ($('#organization_card__briefName').val().trim() == '') {
+        $('#organization_card__briefName').addClass('red_border');
+
+        // Отправляем уведомление
+        var size = { width: 400, height: 200 };
+        var message = 'Не заполнено обязательное поле';
+        reference.show_notification('#organization_ref', 'Предупреждение', size, message);
+    }
+    if ($('#organization_card__boss').val().trim() == '') {
+        $('#organization_card__boss').addClass('red_border');
+
+        // Отправляем уведомление
+        var size = { width: 400, height: 200 };
+        var message = 'Не заполнено обязательное поле';
+        reference.show_notification('#organization_ref', 'Предупреждение', size, message);
+    } 
+    if ($('#organization_card__email').val().trim() == '') {
+        $('#organization_card__email').addClass('red_border');
+
+        // Отправляем уведомление
+        var size = { width: 400, height: 200 };
+        var message = 'Не заполнено обязательное поле';
+        reference.show_notification('#organization_ref', 'Предупреждение', size, message);
+    } 
+    if ($('#organization_card__state').val().trim() == '') {
+        $('#organization_card__state').addClass('red_border');
+
+        // Отправляем уведомление
+        var size = { width: 400, height: 200 };
+        var message = 'Не заполнено обязательное поле';
+        reference.show_notification('#organization_ref', 'Предупреждение', size, message);
+    } 
     
 }

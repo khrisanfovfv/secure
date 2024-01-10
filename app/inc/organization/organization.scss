@@ -29,6 +29,8 @@
 #organization_card{
     &__briefName{
         grid-column: 2/25;
+    &__boss{
+        grid-column: 5/25;
     }
     &__kpp_label{
         grid-column: 11/14;
