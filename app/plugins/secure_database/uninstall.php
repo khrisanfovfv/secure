@@ -17,6 +17,7 @@ $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}information_system_administrat
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}administrator");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}department");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}organization");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}document");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}document_kind");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}remarks");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}information_system");

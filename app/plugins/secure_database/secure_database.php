@@ -18,6 +18,7 @@ require_once('department.php');
 require_once('administrator.php');
 require_once('information_system.php');
 require_once('organization.php');
+require_once('document.php');
 
 if (!function_exists('add_action')) {
     exit;
@@ -30,6 +31,7 @@ class SecDb
     protected $information_system;
     protected $administrator;
     protected $organization;
+    protected $document;
     function __construct()
     {
         
@@ -41,6 +43,7 @@ class SecDb
         $this->information_system = new InformationSystem();
         $this->administrator = new Administrator();
         $this->organization = new Organization();
+        $this->document = new Document();
         
         //add_action( 'plugins_loaded', array($this, 'myplugin_update_db_check'));
     }
@@ -117,6 +120,20 @@ class SecDb
         add_action('wp_ajax_search_information_system_extended', array('InformationSystem','secure_search_information_system_extended'));
         add_action('wp_ajax_nopriv_search_information_system_extended', array('InformationSystem','secure_search_information_system_extended'));
 
+        // ДОКУМЕНТЫ
+        add_action('wp_ajax_load_document', array('Administrator', 'secure_load_document'));
+        add_action('wp_ajax_nopriv_load_document', array('Administrator', 'secure_load_document'));
+        add_action('wp_ajax_add_document', array('Administrator', 'secure_add_document'));
+        add_action('wp_ajax_nopriv_add_document', array('Administrator', 'secure_add_document'));
+        add_action('wp_ajax_update_document', array('Administrator','secure_update_document'));
+        add_action('wp_ajax_nopriv_update_document', array('Administrator','secure_update_document'));
+        add_action('wp_ajax_delete_document', array('Administrator', 'secure_delete_document'));
+        add_action('wp_ajax_nopriv_delete_document', array('Administrator', 'secure_delete_document'));
+        add_action('wp_ajax_search_document', array('Administrator','secure_search_document'));
+        add_action('wp_ajax_nopriv_search_document', array('Administrator','secure_search_document'));
+        add_action('wp_ajax_search_document_extended', array('Administrator','secure_search_document_extended'));
+        add_action('wp_ajax_nopriv_search_document_extended', array('Administrator','secure_search_document_extended'));
+
         // ДЕТАЛЬНЫЕ РАЗДЕЛЫ
         add_action('wp_ajax_load_administrator_information_systems', array('Administrator', 'secure_load_administrator_information_systems'));
         add_action('wp_ajax_nopriv_load_administrator_information_systems', array('Administrator', 'secure_load_administrator_information_systems'));
@@ -137,7 +154,8 @@ class SecDb
         $this->document_kind->table_install();
         $this->organization->table_install();
         $this->information_system->table_install();
-        $this->administrator->table_install();   
+        $this->administrator->table_install();  
+        $this->document->table_install(); 
     }
 
     /**
@@ -149,6 +167,7 @@ class SecDb
         $this->document_kind->install_data();
         $this->information_system->install_data();
         $this->administrator->install_data();
+        $this->document->install_data();
     }
 
     /**

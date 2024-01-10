@@ -53,6 +53,7 @@ class DocumentKind{
             'Заключение по аттестации',
             'Протокол по аттестации',
             'Аттестат ИС',
+            'Уведомление'
         );
 
         $table_name = $wpdb->prefix . 'document_kind';
