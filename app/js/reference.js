@@ -30,7 +30,7 @@ var reference = {
         var reference_name = el.children('.name_reference').text();
         // Заносим элемент с помощью которого вызвали справочник в стэк
         stack.push(el);
-        var size = { width: 1800, height: 800 };
+        var size = { width: 1000, height: 600 };
         reference.show_dialog(prefix, size, reference_title);
 
         var data = {
