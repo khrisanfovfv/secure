@@ -211,7 +211,7 @@ $(function () {
         $('#is_card__dialog').css('z-index', ++z_index);
         $('#is_card__dialog_window').css('width','800px');
         $('#is_card__dialog_title').text('Карточка организации')
-        $('#is_card__dialog_content').load(host+'inc/organisation/organisation_card.html')
+        $('#is_card__dialog_content').load(host+'inc/organization/organization_card.html')
     }) */
 
     // /** Одиночный клик на таблицу разработчики */
@@ -224,7 +224,7 @@ $(function () {
     // $('#is_card__developpers_table tbody tr').on('dblclick', function(){
     //     var rows = '#is_card__developpers_table tbody tr';
     //     var title = 'Карточка организации';
-    //     var cardPath = 'inc/organisation/organisation_card.html';
+    //     var cardPath = 'inc/organization/organization_card.html';
     //     var size ={ width : 800, height : 600 }
 
     //     reference.editRecord(informationSystem.prefix, rows, title, cardPath, size);
@@ -232,7 +232,7 @@ $(function () {
     //     $('#is_card__dialog').css('z-index', ++z_index);
     //     $('#is_card__dialog_window').css('width','800px');
     //     $('#is_card__dialog_title').text('Карточка организации')
-    //     $('#is_card__dialog_content').load(host+'inc/organisation/organisation_card.html')*/
+    //     $('#is_card__dialog_content').load(host+'inc/organization/organization_card.html')*/
     // })
 
     /** Одиночный клик на таблицу Контракты */

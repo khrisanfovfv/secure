@@ -74,7 +74,7 @@ $prefix = $wpdb->prefix;
                                 <td class="id hide"><?php echo $row["id"] ?></td>
                                 <td><?php echo $i + 1 ?></td>
                                 <td><?php echo $row["fullname"] ?></td>
-                                <td style="text-align: left;"><?php echo $row["organisation"] ?></td>
+                                <td style="text-align: left;"><?php echo $row["organization"] ?></td>
                                 <td><?php echo $row["department"] ?></td>
                                 <td><?php echo secure_get_state($row["state"]) ?></td>
                             </tr>

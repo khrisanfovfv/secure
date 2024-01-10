@@ -12,12 +12,12 @@ $('#employeer_ref_table tbody tr').on('dblclick', function(){
 })
 
 /** Кнока вызова справочника Сотрудники */
-$('#employeer_card__organisation_btn').on('click', function(){
+$('#employeer_card__organization_btn').on('click', function(){
     $('#employeer_card__dialog').css('display', 'flex')
     $('#employeer_card__dialog').css('z-index',++z_index);
     $('#employeer_card__dialog_window').css('width','1400px');
     $('#employeer_card__dialog_window').css('height','800px');
-    $('#employeer_card__dialog_content').load(host + 'inc/reference_tables/organisation.html');
+    $('#employeer_card__dialog_content').load(host + 'inc/reference_tables/organization.html');
 })
 
 $('#employeer_card__department_btn').on('click', function(){

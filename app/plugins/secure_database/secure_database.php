@@ -88,6 +88,19 @@ class SecDb
         add_action('wp_ajax_nopriv_search_administrator', array('Administrator','secure_search_administrator'));
         add_action('wp_ajax_search_administrator_extended', array('Administrator','secure_search_administrator_extended'));
         add_action('wp_ajax_nopriv_search_administrator_extended', array('Administrator','secure_search_administrator_extended'));
+         // Организации
+         add_action('wp_ajax_load_organization', array('Organization', 'secure_load_organization'));
+         add_action('wp_ajax_nopriv_load_organization', array('Organization', 'secure_load_organization'));
+         add_action('wp_ajax_add_organization', array('Organization', 'secure_add_organization'));
+         add_action('wp_ajax_nopriv_add_organization', array('Organization', 'secure_add_organization'));
+         add_action('wp_ajax_update_organization', array('Organization','secure_update_organization'));
+         add_action('wp_ajax_nopriv_update_organization', array('Organization','secure_update_organization'));
+         add_action('wp_ajax_delete_organization', array('Organization', 'secure_delete_organization'));
+         add_action('wp_ajax_nopriv_delete_organization', array('Organization', 'secure_delete_organization'));
+         add_action('wp_ajax_search_organization', array('Organization','secure_search_organization'));
+         add_action('wp_ajax_nopriv_search_organization', array('Organization','secure_search_organization'));
+         add_action('wp_ajax_search_organization_extended', array('Organization','secure_search_organization_extended'));
+         add_action('wp_ajax_nopriv_search_organization_extended', array('Organization','secure_search_organization_extended'));
         // ИНФОРМАЦИОННЫЕ СИСТЕМЫ
         add_action('wp_ajax_load_information_system', array('InformationSystem', 'secure_load_information_system'));
         add_action('wp_ajax_nopriv_load_information_system', array('InformationSystem', 'secure_load_information_system'));
@@ -149,6 +162,7 @@ class SecDb
             case 'department_card' :{ $results = $this->department->secure_load_card_data($id);}; break;
             case 'information_system_card':{ $results = $this->information_system->secure_load_card_data($id);}; break;
             case 'administrator_card' : { $results = $this->administrator->secure_load_card_data($id);}; break;
+            case 'organization_card' : { $results = $this->organization->secure_load_card_data($id);}; break;
         }
         echo json_encode($results);
         wp_die();

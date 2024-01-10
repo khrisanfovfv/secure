@@ -30,7 +30,7 @@
                         <li class="submenu__item"><a class="submenu__link"
                                 href="sm_references__administrators">Администраторы</a></li>
                         <li class="submenu__item"><a class="submenu__link"
-                                href="sm_references__organisations">Организации</a></li>
+                                href="sm_references__organizations">Организации</a></li>
                         <li class="submenu__item"><a class="submenu__link" href="sm_references__departments">Отделы</a>
                         </li>
                         <li class="submenu__item"><a class="submenu__link" href="sm_references__document_kind">Виды
@@ -61,18 +61,18 @@
         </header>
         <main class="main">
             <div class="content">
-                <div class="reference" id="organisation__reference">
+                <div class="reference" id="organization__reference">
                     <p class="reference__title">Организации</p>
                     <div class="reference__buttons">
-                        <button class="reference__button" id="administrator_create">
+                        <button class="reference__button" id="organization_create">
                             <img src="../../images/new-document.png" alt="">
                             <p>Создать</p>
                         </button>
-                        <button class="reference__button" id="organisation_edit">
+                        <button class="reference__button" id="organization_edit">
                             <img src="../../images/pencil.png" alt="">
                             <p>Редактировать</p>
                         </button>
-                        <button class="reference__button" id="organisation_copy">
+                        <button class="reference__button" id="organization_copy">
                             <img src="../../images/files.png" alt="">
                             <p>Копировать</p>
                         </button>
@@ -85,7 +85,7 @@
                             <p>Эл. таб</p>
                         </button>
                     </div>
-                    <table class="reference__table" id="organisation_ref_table">
+                    <table class="reference__table" id="organization_ref_table">
                         <thead>
                             <tr>
                                 <th class="hide">Ид</th>
@@ -97,7 +97,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="organisation_ref_table_row">
+                            <tr class="organization_ref_table_row">
                                 <td class="id hide">1</td>
                                 <td>1</td>
                                 <td>БУ ВО "ЦИТ"</td>
@@ -106,7 +106,7 @@
                                 <td>3525249297</td>
                                 <td>160000, Вологодская Область, г. Вологда, ул. Герцена, д.27</td>
                             </tr>
-                            <tr class="organisation_ref_table_row">
+                            <tr class="organization_ref_table_row">
                                 <td class="id hide">2</td>
                                 <td>2</td>
                                 <td>ООО "Старков Групп"</td>
@@ -122,15 +122,15 @@
         </main>
     </div>
     <!-- Карточка организации -->
-    <div class="appdialog" id="organisation_ref__dialog">
-        <div class="appdialog__window" id="organisation_ref__dialog_window">
+    <div class="appdialog" id="organization_ref__dialog">
+        <div class="appdialog__window" id="organization_ref__dialog_window">
             <div class="appdialog__header">
                 <h3 class="appdialog__header_title">Карточка организации</h3>
                 <a class="appdialog__header_close" href="#">
                 <span>&#10006;</span> </a>
             </div>
             <div class="appdialog__content">
-                <div id="organisation_ref__dialog_content"></div>
+                <div id="organization_ref__dialog_content"></div>
                     <div class="appdialog__finish_buttons">
                         <button class="appdialog__finish_button">OK</button>
                         <button class="appdialog__finish_button">Cancel</button>
@@ -141,17 +141,17 @@
     </div>
 
     <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ ОРГАНИЗАЦИИ -->
-    <div class="context-menu" id="organisation_ref__context">
+    <div class="context-menu" id="organization_ref__context">
         <ul class="context-menu__list">
-            <li class="context-menu__item" id="organisation_ref__context_edit">
+            <li class="context-menu__item" id="organization_ref__context_edit">
                 <img src="../../images/edit.svg" alt=Редактировать">
                 <p>Редактировать</p>
             </li>
-            <li class="context-menu__item" id="organisation_ref__context_copy">
+            <li class="context-menu__item" id="organization_ref__context_copy">
                 <img src="../../images/copy.svg" alt="Копировать">
                 <p>Копировать</p>
             </li>
-            <li class="context-menu__item" id="organisation_ref__context_delete">
+            <li class="context-menu__item" id="organization_ref__context_delete">
                 <img src="../../images/delete.svg" alt="Удалить">
                 <p>Удалить</p>
             </li>

@@ -119,6 +119,7 @@ var reference = {
             case '#information_system_ref' : information_system_card_binging_events(); break;
             case '#department_ref' : department_card_binging_events(); break;
             case '#administrator_ref' : adminisrator_card_binding_events(); break;
+            case '#organization_ref' : organization_card_binding_events(); break
         }
     },
 
@@ -128,7 +129,7 @@ var reference = {
      */
     binding_event_reference(reference_name){
         switch(reference_name){
-            case 'organization' : organisation_ref_binding_events();
+            case 'organization' : organization_ref_binding_events();
             case 'department' : department_ref_binding_events();
         }
         
@@ -155,6 +156,7 @@ var reference = {
                     case '#department_ref': card_department_load_data(result, openMode); break;
                     case '#information_system_ref': card_information_system_load_data(result, openMode); break;
                     case '#administrator_ref': card_administrator_load_data(result, openMode); break;
+                    case '#organization_ref': card_organization_load_data(result, openMode); break;
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 var size = { width: 500, height: 200 };
@@ -248,6 +250,7 @@ var reference = {
                     case '#information_system_ref': information_system_load_records(); break;
                     case '#administrator_ref' : administrator_load_records(); break;
                     case '#department_ref' : department_load_records(); break;
+                    case '#organization_ref' : organization_load_records(); break;
                 }
                 
                 

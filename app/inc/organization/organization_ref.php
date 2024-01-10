@@ -21,7 +21,7 @@ $prefix = $wpdb->prefix;
 <main class="main">
     <div class="content">
         <div class="reference">
-            <p class="reference__title">Справочник Информационные системы</p>
+            <p class="reference__title">Справочник Организации</p>
             <div class="reference__buttons">
                 <button class="reference__button" id="organization_ref__create">
                     <img src="<?php echo $button_icons->create ?>" alt="Создать">
@@ -59,8 +59,8 @@ $prefix = $wpdb->prefix;
                             <th style="width: 35px;">№</th>
                             <th style="width: 200px;">Краткое наименование</th>
                             <th>Полн. наименование</th>
-                            <th style="width: 130px;">e-mail</th>
                             <th style="width: 130px;">Руководитель</th>
+                            <th style="width: 130px;">e-mail</th>
                             <th style="width: 130px;">Состояние</th>
                         </tr>
                     </thead>
@@ -79,8 +79,8 @@ $prefix = $wpdb->prefix;
                                 <td><?php echo $i + 1 ?></td>
                                 <td><?php echo $row["briefname"] ?></td>
                                 <td style="text-align: left;"><?php echo $row["fullname"] ?></td>
-                                <td><?php echo $row['email'] ?></td>
                                 <td><?php echo $row["boss"] ?></td>
+                                <td><?php echo $row['email'] ?></td>
                                 <td><?php echo secure_get_state($row["state"]) ?></td>
                             </tr>
                         <?php
@@ -124,7 +124,7 @@ $prefix = $wpdb->prefix;
     </div>
 </div>
 
-<!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ ИНФОРМАЦИОННЫЕ СИСТЕМЫ -->
+<!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ Организации -->
 <div class="context-menu" id="organization_ref__context">
     <ul class="context-menu__list">
         <li class="context-menu__item" id="organization_ref__context_edit">

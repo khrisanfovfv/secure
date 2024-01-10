@@ -1,4 +1,4 @@
-<?php wp_head(); ?>
+
 <div class="organization_card__content">
     <div class="organization_card__fields">
         <!-- ИД -->
@@ -7,7 +7,7 @@
     <label id="organization_card__fullName_label" for="organization_card__fullName">Полн.
         наименование</label>
     <textarea name="organization_card__fullName" id="organization_card__fullName" cols="100"
-        rows="3">Бюджетное учреждение в сфере инфорационных технологий Вологодской облапсти “Центр информационных технологий”</textarea>
+        rows="3"></textarea>
     <label for="organization_card__briefName">Кратк. наименование</label>
     <input name="organization_card__briefName" id="organization_card__briefName" type="text">
     <label id="organization_card__inn_label" for="organization_card__inn">ИНН</label>
@@ -20,10 +20,10 @@
     <input name="organization_card__okpo" id="organization_card__okpo" type="text">
     <label for="organization_card__postAddress">Почтовый адрес</label>
     <textarea name="organization_card__postAddress" id="organization_card__postAddress" cols="30"
-        rows="3">160000, Вологодская Область, г. Вологда, ул. Герцена, д.27</textarea>
+        rows="3"></textarea>
     <label for="organization_card__postAddress">Юридический адрес</label>
     <textarea name="organization_card__postAddress" id="organization_card__legalAddress" cols="30"
-        rows="3">160000, Вологодская Область, г. Вологда, ул. Герцена, д.27</textarea>
+        rows="3"></textarea>
     <label for="organization_card__email">email</label>
     <input name="organization_card__email" id="organization_card__email" type="text">
     <label id="organization_card__state_label" for="organization_card__state">Состояние</label>
@@ -33,8 +33,24 @@
     </select>
     </div>
     <div class="finish_buttons">
-        <button class="finish_button" id="organization__card_OK">OK</button>
-        <button class="finish_button" id="organization__card_Cancel">Cancel</button>
+        <button class="finish_button" id="organization_card__OK">OK</button>
+        <button class="finish_button" id="organization_card__Cancel">Cancel</button>
     </div> 
+    
+<!-- Диалоговое окно -->
+<div class="appdialog" id="organization_card__dialog">
+    <div class="appdialog__window" id="organization_card__dialog_window">
+        <div class="appdialog__header">
+            <h3 class="appdialog__header_title" id="organization_card__dialog_title">Карточка</h3>
+            <a class="appdialog__header_close" href="#">
+                <span>&#10006;</span> </a>
+        </div>
+        <div class="appdialog__content">
+            <div id="organization_card__dialog_content">
+                <!-- P - Для диалогоых окон -->
+                <p class="appdialog__content_text"></p>
+            </div>
+        </div>
+    </div>
+</div>
 </div> <!-- /organization_card__content -->
-<?php wp_footer() ?>
