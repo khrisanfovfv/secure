@@ -108,6 +108,20 @@
     &__remarks_container{
         height: 100%;
     }
+
+    &__administrators{
+        height: 100%;
+        margin-top: -1px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        /*border: thin solid black;*/
+        padding: 0 5px;
+    }
+
+    &__administrators_container{
+        height: 100%;
+    }
     /* &__remarks_table{
         margin-top: 20px;
         width: 100%;

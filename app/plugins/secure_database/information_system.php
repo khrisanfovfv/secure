@@ -187,6 +187,22 @@ class InformationSystem{
         );
 
         $id = $wpdb->insert_id;
+        // Создаем записи в детальном разделе Замечания по аттестации
+        // Убираем символы экранирования '/'
+        $remarks_json = stripcslashes($record['remarks']);
+        $remarks = json_decode($remarks_json);
+        foreach ($remarks as $remark){
+            InformationSystem::secure_create_remark($id, $remark);
+        }
+
+        // Создаем записи в детальном разделе Администраторы
+        $administrators_json = stripcslashes($record['administrators']);
+        $administrators = json_decode($administrators_json);
+        foreach ($administrators as $administrator){
+            InformationSystem::secure_create_administrator($id, $administrator);
+        }
+        
+
         echo 'Запись добавлена ИД=' . $id ; 
         wp_die();
         ;
@@ -233,16 +249,63 @@ class InformationSystem{
         $remarks = json_decode($remarks_json);
         foreach ($remarks as $remark){
             if ($remark->id ==''){
-                InformationSystem::secure_create_remark($record['id'], $remark);
+                if ($remark->is_deleted == 0){
+                    InformationSystem::secure_create_remark($record['id'], $remark);
+                }
             }elseif ($remark->is_deleted ==='1'){
                 InformationSystem::secure_delete_remark($remark);
             } else {
                 InformationSystem::secure_update_remark($remark);
             }
         }
+
+        // Обновляем записи в детальном разделе Администраторы
+        $administrators_json = stripcslashes($record['administrators']);
+        $administrators = json_decode($administrators_json);
+        foreach ($administrators as $administrator){
+            if (trim($administrator->id) ==''){
+                print_r($administrator->id);
+                if ($administrator->is_deleted == 0){
+                    InformationSystem::secure_create_administrator($record['id'], $administrator);
+                }
+            }elseif ($administrator->is_deleted == 1){
+                print_r('Выполняем удаение записи');
+                InformationSystem::secure_delete_administrator($administrator);
+            } else {
+                InformationSystem::secure_update_administrator($administrator);
+            }
+        }
         
         echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
         wp_die();
+    }
+
+    /**
+     * ============== УДАЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ===============
+     */
+    public function secure_delete_information_system(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $information_system_id = $_POST['id'];
+        // Удаляем связанные записи из таблицы remarks
+        $remarks = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE information_system_id = %d", Array($information_system_id)), OBJECT );
+        foreach($remarks as $remark){
+            InformationSystem::secure_delete_remark($remark);
+        }
+
+        // Удаляем связанные записи из таблицы information_system_administrator
+        $administrators = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}information_system_administrator WHERE information_system_id = %d", Array($information_system_id)), OBJECT );
+        foreach($administrators as $administrator){
+            InformationSystem::secure_delete_administrator($administrator);
+        }
+
+        // Удаляем запись информационная система
+        $wpdb->delete( $prefix.'information_system', array( 'ID' => $information_system_id ), array( '%d' ));
+        echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
+        wp_die();
+
     }
 
     /**
@@ -308,6 +371,7 @@ class InformationSystem{
      * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. УДАЛЕНИЕ ЗАПИСИ ==============
      */
     protected function secure_delete_remark($remark){
+        print_r('Мы зашли в функцию');
         global $wpdb;
         $prefix = $wpdb->prefix;
         $wpdb->delete( $prefix . 'remarks', array( 'ID' => $remark->id ), array( '%d' ));
@@ -327,6 +391,83 @@ class InformationSystem{
         echo json_encode($results);
         wp_die();
     }
+
+    /**
+     * ======================== АДМИНИСТРАТОРЫ. ЗАГРУЗКА ЗАПИСЕЙ ===============
+     */
+    public function secure_load_information_system_administrators(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $information_system_id = $_POST['information_system_id'];
+        $results = $wpdb->get_results(
+                $wpdb->prepare("SELECT inf_sys_adm.id,inf_sys_adm.administrator_id, administrator.fullname as administrator_name , inf_sys_adm.appointdate, inf_sys_adm.terminatedate, inf_sys_adm.type 
+            FROM {$prefix}information_system_administrator inf_sys_adm 
+            JOIN {$prefix}administrator administrator on inf_sys_adm.administrator_id = administrator.id            
+            WHERE inf_sys_adm.information_system_id = $information_system_id"), OBJECT);
+         echo json_encode($results);
+        wp_die();
+    }
+
+    /**
+     * ============== АДМИНИСТРАТОРЫ. СОЗДАНИЕ ЗАПИСИ ==============
+     */
+    protected function secure_create_administrator($information_system_id, $administrator){
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'information_system_administrator';
+        $wpdb->insert(
+            $table_name,
+            array(
+                'information_system_id' => $information_system_id,
+                'administrator_id' => $administrator->administrator_id,
+                'appointdate' => $administrator->appointdate,
+                'terminatedate' => $administrator->terminatedate,
+                'type' => $administrator->type
+            ),
+            array(
+                '%d', // information_system_id
+                '%d', // administrator_id
+                '%s', // appointdate
+                '%s', // terminatedate
+                '%s'  // type   
+            )
+        );
+    }
+
+    function secure_update_administrator($administrator){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $wpdb->update(
+            $prefix.'administrators',
+            array(
+                'information_system_id' => $administrator->information_system_id,
+                'administrator_id' => $administrator->administrator_id,
+                'appointdate' => $administrator->appointdate,
+                'terminatedate' => $administrator->terminatedate,
+                'type' => $administrator->type
+            ),
+            array( 'ID' => $administrator->id ),
+            array(
+                '%d', // information_system_id
+                '%d', // administrator_id
+                '%s', // appointdate
+                '%s', // terminatedate
+                '%s'  // type   
+            ),
+            array( '%d' )
+        );
+    }
+
+    /**
+     * ============== АДМИНИСТРАТОРЫ. УДАЛЕНИЕ ЗАПИСИ ==============
+     */
+    protected function secure_delete_administrator($administrator){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $wpdb->delete( $prefix . 'information_system_administrator', array( 'ID' => $administrator->id ), array( '%d' ));
+        echo 'Запись ид = ' . $administrator->id . ' успешно удалена';
+        wp_die();
+    }
+
 
 
     /**
@@ -409,10 +550,6 @@ class InformationSystem{
         if (trim($state) !==''){
             $state_query = "AND state = '$state'";
         }
-
-
-
-
 
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT * FROM {$prefix}information_system 

@@ -17,9 +17,11 @@
         
         wp_register_script( 'main_script', get_template_directory_uri() . '/js/main.min.js', array(), filemtime(get_template_directory() . '/js/main.min.js'), true );
         wp_register_style('main_style', get_template_directory_uri() . '/css/style.min.css', array(), filemtime(get_template_directory() . '/css/style.min.css'), 'all');
+        wp_register_style('jquery_style', get_template_directory_uri() . '/css/jquery-ui.css', array(), filemtime(get_template_directory() . '/css/jquery-ui.css'), 'all');
         wp_enqueue_script('main_script');
+        wp_enqueue_style('jquery_style');
         wp_enqueue_style('main_style'); 
-
+        
         // Передаем переменную ajaxurl в main.js
         wp_localize_script('main_script','MainData', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
@@ -53,6 +55,7 @@
     function secure_load_card(){
         switch($_POST['card']){
             case 'document_kind_card' : get_template_part('inc/document_kind/document_kind_card');break;
+            case 'department_card' : get_template_part('inc/department/department_card');break;
             case 'information_system_card' : get_template_part('inc/information_system/information_system_card');break;
             case 'administrator_card' : get_template_part('inc/administrator/administrator_card'); break;
             case 'organization_card' : get_template_part('inc/organization/organization_card'); break;
@@ -60,6 +63,7 @@
             case 'information_system_ref' : get_template_part('inc/information_system/information_system_ref'); break;
             
             case 'document_kind_search' : get_template_part('inc/document_kind/document_kind_search_form');break;
+            case 'department_search' : get_template_part('inc/department/department_search_form'); break;
             case 'information_system_search' : get_template_part('inc/information_system/information_system_search_form');break;
             case 'administrator_search' : get_template_part('inc/administrator/administrator_search_form');break;
         }
@@ -72,15 +76,14 @@
     function secure_load_reference(){
         switch($_POST['reference']){
             case 'information_system' : get_template_part('inc/information_system/information_system_ref'); break;
+            case 'administrator' : get_template_part('inc/administrator/administrator_ref'); break;
+            case 'organization' : get_template_part('inc/organization/organization_ref'); break;
+            case 'department' : get_template_part('inc/department/department_ref'); break;
         }
         wp_die();
     }
 
     
-
-    
-
-
     //$args = array( 'supports' => array( 'page-attributes') );
     
 

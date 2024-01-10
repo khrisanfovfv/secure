@@ -1,4 +1,4 @@
-<?php
+<?php wp_head();
 
 /**
  * Post Template: Documents Kind
@@ -9,7 +9,6 @@ require_once(wp_normalize_path(get_template_directory()) . '/common.php');
 $resources = new Resources();
 $button_icons = $resources->get_button_icons();
 
-get_header();
 
 global $wpdb;
 $prefix = $wpdb->prefix;
@@ -24,29 +23,29 @@ $prefix = $wpdb->prefix;
         <div class="reference">
             <p class="reference__title">Справочник Администраторы</p>
             <div class="reference__buttons">
-                <button class="reference__button" id="administrator_ref__create">
+                <button class="reference__button" id="administrator_create">
                     <img src="<?php echo $button_icons->create ?>" alt="Создать">
                     <p>Создать</p>
                 </button>
-                <button class="reference__button" id="administrator_ref__edit" disabled>
+                <button class="reference__button reference__button_select" id="administrator_select">
+                    <img src="<?php echo $button_icons->select ?>" alt="Выбрать">
+                    <p>Выбрать</p>
+                </button>
+                <button class="reference__button" id="administrator_edit" disabled>
                     <img src="<?php echo $button_icons->edit ?>" alt="Редактировать">
                     <p>Редактировать</p>
                 </button>
-                <button class="reference__button" id="administrator_ref__copy" disabled>
+                <button class="reference__button" id="administrator_copy" disabled>
                     <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
                     <p>Копировать</p>
                 </button>
-                <button class="reference__button" id="administrator_ref__delete" disabled>
+                <button class="reference__button" id="administrator_delete" disabled>
                     <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
                     <p>Удалить</p>
                 </button>
-                <button class="reference__button" id="administrator_ref__excel">
-                    <img src="<?php echo $button_icons->excel ?>" alt="Exel">
+                <button class="reference__button" id="administrator_excel">
+                    <img src="<?php echo get_template_directory_uri() . '/images/excel.svg' ?>" alt="Exel">
                     <p>Эл. таб</p>
-                </button>
-                <button class="reference__button" id="administrator_ref___update">
-                    <img src="<?php echo $button_icons->update ?>" alt="Update">
-                    <p>Обновить</p>
                 </button>
             </div>
             <div class="administrator_ref__container">
@@ -65,10 +64,7 @@ $prefix = $wpdb->prefix;
                         <!-- Выводим строки таблицы -->
                         <?php
                         $rows = $wpdb->get_results(
-                            $wpdb->prepare("SELECT administrator.id, administrator.fullname, organization.fullname as organization_name, department.name as department_name, administrator.state FROM {$prefix}administrator administrator 
-                                JOIN {$prefix}organization organization on administrator.organization = organization.id 
-                                JOIN {$prefix}department department on administrator.department = department.id 
-                                "),
+                            $wpdb->prepare("SELECT * FROM {$prefix}administrator"),
                             ARRAY_A
                         );
                         for ($i = 0; $i < count($rows); $i++) {
@@ -78,8 +74,8 @@ $prefix = $wpdb->prefix;
                                 <td class="id hide"><?php echo $row["id"] ?></td>
                                 <td><?php echo $i + 1 ?></td>
                                 <td><?php echo $row["fullname"] ?></td>
-                                <td style="text-align: left;"><?php echo $row["organization_name"] ?></td>
-                                <td><?php echo $row["department_name"] ?></td>
+                                <td style="text-align: left;"><?php echo $row["organisation"] ?></td>
+                                <td><?php echo $row["department"] ?></td>
                                 <td><?php echo secure_get_state($row["state"]) ?></td>
                             </tr>
 
@@ -155,10 +151,10 @@ $prefix = $wpdb->prefix;
     </li>
 </ul>    
 </div>
-<script>
+<!--script>
     // Стек для передачи данных между окнами
     stack = [];
     dubl = 0;
-</script>
+</script-->
 
-<?php get_footer() ?>
+<?php wp_footer() ?>

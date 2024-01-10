@@ -23,6 +23,7 @@ var reference = {
      * ОТКРЫТИЕ СПРАВОЧНИКА
      * @param {Event} e 
      * @param {string} prefix
+     * @param {string} reference_title
      */
     open_reference(e, prefix, reference_title){
         //получаем jQuery-объект ref_record
@@ -30,7 +31,7 @@ var reference = {
         var reference_name = el.children('.name_reference').text();
         // Заносим элемент с помощью которого вызвали справочник в стэк
         stack.push(el);
-        var size = { width: 1000, height: 600 };
+        var size = { width: 1500, height: 700 };
         reference.show_dialog(prefix, size, reference_title);
 
         var data = {
@@ -40,6 +41,7 @@ var reference = {
     jQuery.post(MainData.ajaxurl, data, function (textStatus) {
         $(prefix + '__dialog_content').empty();
         $(prefix + '__dialog_content').html(textStatus);
+        reference.binding_event_reference(reference_name);
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
         message = 'Во время загрузки карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
@@ -69,6 +71,8 @@ var reference = {
         jQuery.post(MainData.ajaxurl, data, function (textStatus) {
             $(prefix + '__dialog_content').empty();
             $(prefix + '__dialog_content').html(textStatus);
+            // Привязываем события к элементам карточки
+            reference.binding_event_card(prefix);
             switch (openMode){
                 // Режим редактирования
                 case OpenMode.Edit : reference.load_card_data(prefix,id,OpenMode.Edit); break;
@@ -93,6 +97,7 @@ var reference = {
         switch (prefix) {
             // КАРТОЧКИ СПРАВОЧНИКА
             case '#document_kind_ref': card = 'document_kind_card'; break;
+            case '#department_ref': card = 'department_card'; break;
             case '#information_system_ref': card = 'information_system_card'; break;
             case '#administrator_ref' : card = 'administrator_card'; break;
             case '#organization_ref' : card = 'organization_card' ; break;
@@ -103,6 +108,30 @@ var reference = {
             case 'adminitrator_ref_search' : card = 'administrator_search'; break;
         }
         return card;
+    },
+
+    /**
+     * ========================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ==========================
+     * @param {string} prefix 
+     */
+    binding_event_card(prefix){
+        switch (prefix){
+            case '#information_system_ref' : information_system_card_binging_events(); break;
+            case '#department_ref' : department_card_binging_events(); break;
+            case '#administrator_ref' : adminisrator_card_binding_events(); break;
+        }
+    },
+
+    /**
+     * ПРИВЯЗКА СОБЫТИЙ К СПРАВОЧНИКУ
+     * @param {string} prefix 
+     */
+    binding_event_reference(reference_name){
+        switch(reference_name){
+            case 'organization' : organisation_ref_binding_events();
+            case 'department' : department_ref_binding_events();
+        }
+        
     },
 
 
@@ -123,6 +152,7 @@ var reference = {
                 // Вызываем функцию для соответствующего вида справочника
                 switch (prefix) {
                     case '#document_kind_ref': card_document_kind_load_data(result, openMode); break;
+                    case '#department_ref': card_department_load_data(result, openMode); break;
                     case '#information_system_ref': card_information_system_load_data(result, openMode); break;
                     case '#administrator_ref': card_administrator_load_data(result, openMode); break;
                 }
@@ -145,6 +175,7 @@ var reference = {
      * @param {string} message 
      */
     show_notification(prefix, title, size, message) {
+
         $(prefix + '__notif').css("display", "flex");
         $(prefix + '__notif').css('z-index', ++z_index);
         $(prefix + '__notif_window').css('width', size.width + 'px');
@@ -198,14 +229,14 @@ var reference = {
      * @param {string} prefix 
      * @param {Object} rows 
      */
-    delete_record(prefix ,rows){
+    delete_record(prefix ,rows, action){
         // Проверяем есть ли выделенные записи
         if (rows.length > 0) {
             var id = rows[0].children.item(0).textContent;
 
             // Формируем запрос на удаление записи
             var data = {
-                action: 'delete_record',
+                action: action,
                 card: reference.get_card_name(prefix),
                 id: id
             };
@@ -216,6 +247,7 @@ var reference = {
                     case '#document_kind_ref': document_kind_load_records(); break;
                     case '#information_system_ref': information_system_load_records(); break;
                     case '#administrator_ref' : administrator_load_records(); break;
+                    case '#department_ref' : department_load_records(); break;
                 }
                 
                 

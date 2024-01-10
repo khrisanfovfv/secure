@@ -38,7 +38,8 @@ $('#administrator_ref__table tbody tr').on('dblclick', function () {
 /**
  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ АДМИНИСТРАТОРА =========================
  */
-$('#administrator_card__OK').on('click', function () {
+
+function administrator_card_press_OK(sender) {
     if (administrator_card__check_fields()) {
         // Формируем запись для запроса
         // Вкладка Замечания по аттестации
@@ -61,8 +62,8 @@ $('#administrator_card__OK').on('click', function () {
         record = {
             id: $('#administrator_card__id').text(),
             fullname: $('#administrator_card__fullname').val(),
-            organisation: 1, // временно
-            department: 1,  // временно
+            organization_id : $('#administrator_card__organization').find('.id').text(),
+            department_id: $('#administrator_card__department').find('.id').text(),  
             state: $('#administrator_card__state').val(),
             information_systems: JSON.stringify(information_systems)
         }
@@ -73,7 +74,6 @@ $('#administrator_card__OK').on('click', function () {
                 record: record
             };
             jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-                alert(textStatus);
                 administrator_load_records();
             }).fail(function () {
                 var size = { width: 500, height: 200 };
@@ -95,10 +95,12 @@ $('#administrator_card__OK').on('click', function () {
                 reference.show_notification('administrator_ref', 'Ошибка', size, message);
             })
         }
-        $(this).parents('.appdialog').css('display', 'none');
+        $(sender).parents('.appdialog').css('display', 'none');
     }
 
-});
+}
+
+
 
 /**
  * ===================== ПРОВЕРЯЕМ ЗАПОЛНЕННОСТЬ ОБЯЗАТЕЛЬНЫХ ПОЛЕЙ КАРТОЧКИ =======================
@@ -205,7 +207,7 @@ function administrator_common_search(value) {
  * ============================ КНОПКА РАСШИРЕННЫЙ ПОИСК =============================
  */
 function administrator_extended_search() {
-    size = { width: 900, height: 450 };
+    size = { width: 600, height: 250 };
     prefix = '#administrator_ref';
     title = 'Расширенный поиск';
     // Загружаем карточку
@@ -216,7 +218,7 @@ function administrator_extended_search() {
     reference.show_dialog(prefix, size, title);
     jQuery.post(MainData.ajaxurl, data, function (textStatus) {
         $(prefix + '__dialog_content').html(textStatus);
-
+        administrator_search_binding_events();
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
         message = 'Во время загрузки карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
@@ -227,22 +229,14 @@ function administrator_extended_search() {
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
 */
-$('#administrator_search__button_OK').on('click', function (e) {
+function administrator_extended_search_OK(e){
     var data = {
         // Поля карточки
         action: 'search_administrator_extended',
-        fullname: $('#administrator_search__fullName').val(),
-        briefname: $('#administrator_search__briefName').val(),
-        scope: $('#administrator_search__scope').val(),
-        significancelevel: $('#administrator_search__significance_level').val(),
-        certified: $('#administrator_search__certified').val(),
-        certifydatefrom: $('#administrator_search__certifyDateFrom').val(),
-        certifydateto: $('#administrator_search__certifyDateTo').val(),
-        commissioningdatefrom: $('#administrator_search__commissioningDateFrom').val(),
-        commissioningdateto: $('#administrator_search__commissioningDateTo').val(),
-        hasremark: $('#administrator_search__has_remark').val(),
+        fullname : $('#administrator__search_fullname').val(),
+        organization_id : $('#administrator_search__organization').find('.id').text(),
+        department_id : $('#administrator_search__department').find('.id').text(), 
         state: $('#administrator__search_state').val()
-
     };
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
@@ -255,8 +249,7 @@ $('#administrator_search__button_OK').on('click', function (e) {
         message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
         reference.show_notification('#administrator_ref', 'Ошибка', size, message);
     });
-
-})
+}
 
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена =============
@@ -272,14 +265,21 @@ $('#administrator_search__button_Cancel').on('click', function () {
 /** 
  * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
  * */
-$('#administrator_create').on('click', function () {
+$('#administrator_ref__create').on('click', function () {
     administrator_create_record()
 });
 
 /**
+ * =========================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ==============================
+ */
+$('#administrator_ref__select').on('click', function(e){
+    administrator_select_record(e);
+})
+
+/**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
-$('#administrator_edit').on('click', function () {
+$('#administrator_ref__edit').on('click', function () {
     administrator_edit_record();
 })
 
@@ -287,7 +287,7 @@ $('#administrator_edit').on('click', function () {
 /**
  * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
  */
-$('#administrator_copy').on('click', function () {
+$('#administrator_ref__copy').on('click', function () {
     administrator_copy_record();
 })
 
@@ -295,13 +295,13 @@ $('#administrator_copy').on('click', function () {
 /**
  * ========================= НАЖАТИЕ КНОПКИ УДАЛИТЬ ЗАПИСЬ ==========================
  */
-$('#administrator_delete').on('click', function () {
+$('#administrator_ref__delete').on('click', function () {
     administrator_delete_record();
 });
 /**
  * ============================= НАЖАТИЕ КНОПКИ ОБНОВИТЬ =============================
  */
-$('#administrator_update').on('click', function () {
+$('#administrator_ref__update').on('click', function () {
     administrator_load_records();
 })
 
@@ -338,6 +338,10 @@ function card_administrator_load_data(data, openMode) {
         case OpenMode.Copy: $('#administrator_card__id').text(''); break;
     }
     $('#administrator_card__fullname').val(cardData[0].fullname);
+    $('#administrator_card__organization').find('.id').text(cardData[0].organization_id);
+    $('#administrator_card__organization').find('.fullname').val(cardData[0].organization_name);
+    $('#administrator_card__department').find('.id').text(cardData[0].department_id);
+    $('#administrator_card__department').find('.fullname').val(cardData[0].department_name);
     $('#administrator_card__state').val(cardData[0].state);
 
     // Заполняем таблицу Информационные системы
@@ -374,8 +378,8 @@ function administrator_update_reference(records) {
                 .append($("<td class='id hide'>").text(record["id"]))
                 .append($("<td>").text(ind++))
                 .append($("<td>").text(record["fullname"]))
-                .append($("<td>").text(record["organisation"]))
-                .append($("<td>").text(record["department"]))
+                .append($("<td>").text(record["organization_name"]))
+                .append($("<td>").text(record["department_name"]))
                 .append($("<td>").text(reference.get_state(record["state"])))
         ).on('click', function (e) {
             reference.highlight(e);
@@ -398,6 +402,24 @@ function administrator_create_record() {
 }
 
 /**
+ * ======================= АДМИНИСТРАТОР. ВЫБОР ЗАПИСИ =========================
+ */
+function administrator_select_record(e){
+    rows = $('.administrator_ref__table_row.highlight');
+    if (rows.length > 0){
+        id = rows[0].children.item(0).textContent
+        fullname = rows[0].children.item(2).textContent
+        // Извлекаем элемент с помощью которого вызвали справочник из стэка
+        el = stack.pop();
+        // Присваиваем элементу значения выбранного элемента
+        el.children('.id').text(id);
+        el.children('.fullname').val(fullname);
+        // Закрываем окно выбора
+        $(e.target).parents('.appdialog:first').css('display', 'none');
+    }
+}
+
+/**
  * АДМИНИСТРАТОР. РЕДАКТИРОВАНИЕ ЗАПИСИ
  */
 function administrator_edit_record() {
@@ -415,7 +437,7 @@ function administrator_edit_record() {
  * АДМИНИСТРАТОР. КОПИРОВАНИЕ ЗАПИСИ
  */
 function administrator_copy_record() {
-    rows = $('.administrator_table_row.highlight')
+    rows = $('.administrator_ref__table_row.highlight')
     if (rows.length > 0) {
         var id = rows[0].children.item(0).textContent;
         var size = { width: 1400, height: 800 };
@@ -431,7 +453,7 @@ function administrator_copy_record() {
 function administrator_delete_record() {
     rows = $('.administrator_ref__table_row.highlight');
     if (rows.length > 0) {
-        reference.delete_record('#administrator_ref', rows);
+        reference.delete_record('#administrator_ref', rows, 'delete_administrator');
     }
     $('#administrator_ref__context').css('display', 'none');
 }
@@ -457,6 +479,31 @@ function administrator_information_systems_create() {
 }
 
 /**
+ * ================== ИНФОРМАЦИОННЫЕ СИСТЕМЫ. КОПИРОВАНИЕ ЗАПИСИ ====================
+ */
+function administrator_information_systems_copy() {
+    var rows = $('#administrator_card__information_systems_table>tbody>tr.highlight')
+    var ind = $('#administrator_card__information_systems_table tbody tr').length + 1;
+    if (rows.length > 0) {
+        var row = rows[0];
+        var information_system = []
+        information_system['id'] = '',
+        information_system['ind'] = ind++,
+        information_system['information_system_id'] = $(row.cells[2]).find('.id').text(),
+        information_system['information_system_name'] = $(row.cells[2]).find('.fullname').val(),
+        information_system['administrator_id'] = $('#administrator_card__id').text(),
+        information_system['appointdate'] = $(row.cells[3]).children().val(),
+        information_system['terminatedate'] = $(row.cells[4]).children().val(),
+        information_system['type'] = $(row.cells[5]).children().val(),
+        information_system['is_deleted'] = 0;
+        $('#administrator_card__information_systems_table tbody').append(
+            administrator_card__draw_information_system_row(information_system)
+        );
+    }
+}
+
+
+/**
  * ==================== ИНФОРМАЦИОННЫЕ СИСТЕМЫ. УДАЛЕНИЕ ЗАПИСИ =====================
  */
 function administrator_information_systems_delete(){
@@ -464,6 +511,39 @@ function administrator_information_systems_delete(){
     var row = rows[0];
     $(row).children('.is_deleted').text(1);
     $(row).css('display','none');
+}
+
+/**
+ * ==================== ИНФОРМАЦИОННЫЕ СИСТЕМЫ. ОБНОВЛЕНИЕ РАЗДЕЛА ==================
+ */
+function administrator_information_systems_update(){
+    var administrator_id = $('#administrator_card__id').text();
+    // Загружаем детальный раздел Замечания по аттестации
+    var data = {
+        action: 'load_administrator_information_systems',
+        administrator_id: administrator_id
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var rows = JSON.parse(result);
+        $('#administrator_card__information_systems_table tbody tr').remove();
+        var ind = 1;
+
+        rows.forEach(information_system => {
+            information_system['ind'] = ind++;
+            $('#administrator_card__information_systems_table tbody').append(
+                administrator_card__draw_information_system_row(information_system)
+            );
+        });
+        // Привязываем событи выделения строки к столюбцу №
+        /*$('.information_system_card__remarks_table_num').on('click', function(e){
+            reference.highlight(e)
+        })*/
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки детального раздела Замечания по аттестации произощла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#information_system_ref', 'Ошибка', size, message);
+    });
 }
 
 
@@ -523,6 +603,83 @@ function administrator_card__draw_information_system_row(information_system) {
         .append($("<td class = 'is_deleted hide'>").text(0))
 
     return content_html;
+}
+
+/**
+ * ====================ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ АДМИНИИСТРАТОР =====================
+ */
+function adminisrator_card_binding_events(){
+    
+    /** ============== ВЫБОР ИЗ СПРАВОЧНИКА ОРГАНИЗАЦИИ ==================== */
+    $('#administrator_card__organization_btn').on('click', function(e){
+        reference.open_reference(e,'#administrator_card','Справочник Оргранизации');
+    })
+
+    /** =================== ВЫБОР ИЗ СПРАВОЧНИКА ОТДЕЛЫ ==================== */
+    $('#administrator_card__department_btn').on('click', function(e){
+        reference.open_reference(e,'#administrator_card','Справочник Отделы');
+    })
+
+    /** ============== ИНФОРМАЦИОННЫЕ СИСТЕМЫ. КНОПКА СОЗДАТЬ ============== */
+    $('#administrator_card__information_systems_create').on('click', function(){
+        administrator_information_systems_create();
+    })
+    
+    /** ============== ИНФОРМАЦИОННЫЕ СИСТЕМЫ. КНОПКА СОЗДАТЬ ============== */
+    $('#administrator_card__information_systems_copy').on('click', function(){
+        administrator_information_systems_copy();
+    })
+
+     /** ============== ИНФОРМАЦИОННЫЕ СИСТЕМЫ. КНОПКА УДАЛИТЬ ============== */
+     $('#administrator_card__information_systems_delete').on('click', function(){
+        administrator_information_systems_delete();
+    })
+
+    $('#administrator_card__information_systems_update').on('click', function(){
+        administrator_information_systems_update();
+    })
+
+
+
+
+    
+
+    /** ==================== НАЖАТИЕ КНОПКИ ОК ============================= */
+    $('#administrator_card__OK').on('click', function () {
+        administrator_card_press_OK(this);
+    });
+
+    /** ======================== НАЖАТИЕ КНОПКИ ОТМЕНА ====================== */
+    $('#administrator_card__Cancel').on('click', function(){
+        $(this).parents('.appdialog').css('display', 'none');
+    })
+}
+
+/**
+ * ==================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ПОИСКА =====================
+ */
+function administrator_search_binding_events(){
+
+    /** ============= НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА ОРГАНИЗАЦИИ ========= */
+    $('#administrator_search__organization_btn').on('click', function(e){
+        reference.open_reference(e,'#administrator_search','Справочник Организации');
+    })
+
+    $('#administrator_search__button_OK').on('click', function(e){
+        administrator_extended_search_OK(e);
+    })
+
+    /** ============= НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА ОРГАНИЗАЦИИ ========= */
+    $('#administrator_search__department_btn').on('click', function(e){
+        reference.open_reference(e,'#administrator_search','Справочник Отделы');
+    })
+
+    /** ======================== НАЖАТИЕ КНОПКИ ОТМЕНА  ======================= */
+    $('#administrator_search__button_Cancel').on('click', function(e){
+        $(e.target).parents('.appdialog').css('display', 'none');
+    })
+
+    
 }
 
 

@@ -27,7 +27,7 @@ function php(){
 }
 
 function references_php(){
-    var references = ['document_kind','administrator', 'information_system', 'organization'];
+    var references = ['document_kind','department' ,'administrator', 'information_system', 'organization'];
     references.forEach(reference => {
         return src([
             'app/inc/'+ reference + '/*.php'
@@ -48,11 +48,17 @@ function json(){
     .pipe(dest(destFolder))
 }
 
+function jquery_style(){
+    return src(['app/plugins/jquery-ui-1.13.2/jquery-ui.css'])
+    .pipe(dest(destFolder + 'css/'));
+}
+
 
 
 function scripts(){
     return src([
         'app/plugins/jquery-ui-1.13.2/external/jquery/jquery.js',
+        'app/plugins/jquery-ui-1.13.2/jquery-ui.js',
         'app/plugins/tables_context_menu/context_menu.js',
         'app/js/reference.js',
         'app/inc/information_system/information_system.js',
@@ -104,7 +110,9 @@ function watching(){
         'app/js/main.js','app/js/reference.js','app/inc/**/*.js'], scripts)
     watch('app/plugins/secure_database/*.php',secure_database),
     watch('app/inc/document_kind/*.php', references_php),
+    watch('app/inc/department/*.php', references_php),
     watch('app/inc/information_system/*.php', references_php),
+    watch('app/inc/administrator/*.php', references_php),
     watch('app/inc/organization/*.php', references_php),
     watch(['app/**/*.php'], php).on('change', browserSync.reload)
 }
@@ -141,12 +149,11 @@ exports.php = php;
 exports.secure_database = secure_database;
 exports.references_php = references_php;
 exports.json = json;
-//exports.styles_administrator = styles_administrator;
-//exports.scripts_administrator = scripts_administrator;
+exports.jquery_style = jquery_style;
 
 exports.watching = watching;
 exports.browsersync = browsersync;
 exports.build = series(cleanDist, building);
 
 //exports.default = parallel(styles, scripts, browsersync, watching);
-exports.default = parallel(json, images, php, references_php, secure_database, styles, scripts, browsersync, watching)
+exports.default = parallel(json, images, php, references_php, secure_database, styles, jquery_style, scripts, browsersync, watching);
