@@ -23,33 +23,33 @@ $prefix = $wpdb->prefix;
         <div class="reference">
             <p class="reference__title">Справочник Информационные системы</p>
             <div class="reference__buttons">
-                <button class="reference__button" id="document_create">
+                <button class="reference__button" id="document_ref__create">
                     <img src="<?php echo $button_icons->create ?>" alt="Создать">
                     <p>Создать</p>
                 </button>
-                <button class="reference__button" id="document_edit" disabled>
+                <button class="reference__button" id="document_ref__edit" disabled>
                     <img src="<?php echo $button_icons->edit ?>" alt="Редактировать">
                     <p>Редактировать</p>
                 </button>
-                <button class="reference__button" id="document_copy" disabled>
+                <button class="reference__button" id="document_ref__copy" disabled>
                     <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
                     <p>Копировать</p>
                 </button>
-                <button class="reference__button" id="document_delete" disabled>
+                <button class="reference__button" id="document_ref__delete" disabled>
                     <img src="<?php echo  $button_icons->delete ?>" alt="Удалить">
                     <p>Удалить</p>
                 </button>
-                <button class="reference__button" id="document_excel">
+                <button class="reference__button" id="document_ref__excel">
                     <img src="<?php echo $button_icons->excel ?>" alt="Excel">
                     <p>Эл. таб</p>
                 </button>
-                <button class="reference__button" id="document_update">
+                <button class="reference__button" id="document_ref__update">
                     <img src="<?php echo $button_icons->update ?>" alt="Update">
                     <p>Обновить</p>
                 </button>
             </div>
-            <div class="document__reference_container">
-                <table class="reference__table" id="document_table">
+            <div class="document_ref__container">
+                <table class="reference__table" id="document_ref__table">
                     <thead>
                         <tr>
                             <th style="width: 35px;">№</th>
@@ -71,7 +71,7 @@ $prefix = $wpdb->prefix;
                         for ($i = 0; $i < count($rows); $i++) {
                             $row = $rows[$i];
                         ?>
-                            <tr class="document_table_row">
+                            <tr class="document_ref__table_row">
                                 <td class="id hide"><?php echo $row["id"] ?></td>
                                 <td><?php echo $i + 1 ?></td>
                                 <td><?php echo $row["number"] ?></td>

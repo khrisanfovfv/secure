@@ -25,6 +25,7 @@ var Context = {
         '#contract_ref__context',
         '#employeer_ref__context',
         '#document_ref__context',
+        '#document_ref__out_context',
         '#sm_references',
         '#sm_help',
         '#user__context'
@@ -82,7 +83,7 @@ var Context = {
                 case 'department_ref__out_context_create' : department_create_record(); break;
                 case 'department_ref__out_context_update' : department_load_records(); break;
 
-
+                case 'document_ref__out_context_update' : document_load_records(); break; 
                 
                 case 'information_system_card__documents_open_card': Context.document_open_card(); break;
                 case 'information_system_card__documents_create_version': Context.document_open_version_card(); break;
@@ -310,6 +311,7 @@ var Context = {
             case 'information_system_card__administrators_container' : Context.menu = $('#information_system_card_administrators__out_context'); break;
             case 'administrator_ref__container': Context.menu = $('#administrator_ref__out_context'); break;
             case 'department_ref__container' : Context.menu = $('#department_ref__out_context'); break;
+            case 'document_ref__container' : Context.menu = $('#document_ref__out_context'); break; 
             default: return false;
         }
         return src_el;

@@ -101,7 +101,7 @@ function organization_load_records() {
  *  ================================== ОБЩИЙ ПОИСК =======================================
  * @param {string} value 
  */
-function organization_common_search(value){
+function organization_common_search(value) {
     // Делаем ajax - запрос
     var data = {
         action: 'search_organization',
@@ -123,8 +123,8 @@ function organization_common_search(value){
 /**
  * ============================ КНОПКА РАСШИРЕННЫЙ ПОИСК =============================
  */
-function organization_extended_search(){
-    size = {width : 500, height : 200};
+function organization_extended_search() {
+    size = { width: 500, height: 200 };
     prefix = '#organization_ref';
     title = 'Расширенный поиск';
     // Загружаем карточку
@@ -135,22 +135,22 @@ function organization_extended_search(){
     reference.show_dialog(prefix, size, title);
     jQuery.post(MainData.ajaxurl, data, function (textStatus) {
         $(prefix + '__dialog_content').html(textStatus);
-            
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            var size = { width: 500, height: 200 };
-            message = 'Во время загрузки карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
-            reference.show_notification('#organization_ref', 'Ошибка', size, message);
-        });
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#organization_ref', 'Ошибка', size, message);
+    });
 }
 
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
 */
-$('#organization_search__button_OK').on('click', function(){
+$('#organization_search__button_OK').on('click', function () {
     var data = {
         action: 'search_organization_extended',
-        name : $('#organization__search_name').val(),
-        state : $('#organization__search_state').val()
+        name: $('#organization__search_name').val(),
+        state: $('#organization__search_state').val()
     };
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
@@ -169,7 +169,7 @@ $('#organization_search__button_OK').on('click', function(){
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена =============
 */
-$('#organization_search__button_Cancel').on('click', function(){
+$('#organization_search__button_Cancel').on('click', function () {
     $(this).parents('.appdialog').css('display', 'none');
 });
 
@@ -180,7 +180,7 @@ $('#organization_search__button_Cancel').on('click', function(){
 /** 
  * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
  * */
-$('#organization_ref__create').on('click', function () { 
+$('#organization_ref__create').on('click', function () {
     var size = { width: 700, height: 650 };
     reference.open_card('#organization_ref', 'Карточка организации', size, OpenMode.Create, 0);
 });
@@ -188,7 +188,7 @@ $('#organization_ref__create').on('click', function () {
 /** 
  * =========================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ==============================
  * */
-$('#organization_ref__select').on('click', function(e){
+$('#organization_ref__select').on('click', function (e) {
     organization_select_record(e);
 })
 
@@ -217,9 +217,9 @@ $('#organization_ref__copy').on('click', function () {
 /**
  * ======================= ОРГАНИЗАЦИЯ. ВЫБОР ЗАПИСИ =========================
  */
-function organization_select_record(e){
+function organization_select_record(e) {
     rows = $('.organization_ref__table_row.highlight');
-    if (rows.length > 0){
+    if (rows.length > 0) {
         id = rows[0].children.item(0).textContent
         fullname = rows[0].children.item(3).textContent
         // Извлекаем элемент с помощью которого вызвали справочник из стэка
@@ -283,9 +283,9 @@ function organization_update_reference(records) {
 }
 
 
-    /** 
- * ====================== КОНТЕКТНОЕ МЕНЮ - РЕДАКТИРОВАТЬ ========================= 
- * */
+/** 
+* ====================== КОНТЕКТНОЕ МЕНЮ - РЕДАКТИРОВАТЬ ========================= 
+* */
 $('#organization_ref__context_edit').on('click', function () {
     rows = $('.organizatio_ref__table_row.highlight');
     if (rows.length > 0) {
@@ -304,26 +304,26 @@ $('#organization_ref__context_edit').on('click', function () {
 /**
  * ============ ПРИВЯЗКА СОБЫТИЙ К СПРАВОЧНИКУ ОРГАНИЗАЦИИ ============ 
  */
-function organization_ref_binding_events(){
+function organization_ref_binding_events() {
 
-    $('#organization_ref__table tbody tr').on('click', function(e){
+    $('#organization_ref__table tbody tr').on('click', function (e) {
         reference.highlight(e);
     });
 
-    $('#organization_ref__select').on('click', function(e){
+    $('#organization_ref__select').on('click', function (e) {
         organization_select_record(e);
     })
 }
 /**
  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ОРГАНИЗАЦИИ ===============================
  */
-function organization_card_binding_events(){
-        /** ==============Карточка Организации: НАЖАТИЕ КНОПКИ OK ============= */
-        $('#organization_card__OK ').on('click', function () {
-            organization_card_press_OK(this);
-        });
-     /** ==============Карточка Организации: НАЖАТИЕ КНОПКИ Отмена ============= */
-     $('#organization_card__Cancel').on('click', function (e) {
+function organization_card_binding_events() {
+    /** ==============Карточка Организации: НАЖАТИЕ КНОПКИ OK ============= */
+    $('#organization_card__OK ').on('click', function () {
+        organization_card_press_OK(this);
+    });
+    /** ==============Карточка Организации: НАЖАТИЕ КНОПКИ Отмена ============= */
+    $('#organization_card__Cancel').on('click', function (e) {
         $(e.target).parents('.appdialog').css('display', 'none');
     });
 
@@ -333,7 +333,7 @@ function organization_card_binding_events(){
  */
 function organization_card_press_OK(sender) {
     if (organization_card__check_fields() == true) {
-        alert ('работает');
+        alert('работает');
     }
 }
 
@@ -342,47 +342,51 @@ function organization_card__check_fields() {
     // // Карточка Организации. Поле Полное наименование
     if ($('#organization_card__fullName').val().trim() == '') {
         $('#organization_card__fullName').addClass('red_border');
-        message += "Не заполнено обязательное поле: Полное наименование \n"; }
-        else{
-            $('#organization_card__fullName').removeClass('red_border');  
-        }
+        message += "Не заполнено обязательное поле: Полное наименование \n";
+    }
+    else {
+        $('#organization_card__fullName').removeClass('red_border');
+    }
     if ($('#organization_card__briefName').val().trim() == '') {
-            $('#organization_card__briefName').addClass('red_border');
-            message += "Не заполнено обязательное поле: Краткое наименование " + '\n';}
-            else {
-                $('#organization_card__briefName').removeClass('red_border');
-            }
+        $('#organization_card__briefName').addClass('red_border');
+        message += "Не заполнено обязательное поле: Краткое наименование " + '\n';
+    }
+    else {
+        $('#organization_card__briefName').removeClass('red_border');
+    }
     if ($('#organization_card__email').val().trim() == '') {
-                $('#organization_card__email').addClass('red_border');
-                message += "Не заполнено обязательное поле: email" + '\n';}
-                else {
-                    $('#organization_card__email').removeClass('red_border');
-                }
-    
-            if (message == ''){
-                return true;
-            }
-            else {
-    
+        $('#organization_card__email').addClass('red_border');
+        message += "Не заполнено обязательное поле: email" + '\n';
+    }
+    else {
+        $('#organization_card__email').removeClass('red_border');
+    }
+
+    if (message == '') {
+        return true;
+    }
+    else {
+
         // Отправляем уведомление
         var size = { width: 400, height: 200 };
-        
+
         reference.show_notification('#organization_ref', 'Предупреждение', size, message);
-        return false;}
-} 
+        return false;
+    }
+}
 
 
-    
 
-   
-    // if (message == '') {
-    //     return true;
-    // } else {
-    //     // Отправляем уведомление
-    //     var size = { width: 400, height: 200 };
-    //     reference.show_notification('#administrator_ref', 'Предупреждение', size, message);
-    //     return false;
-    // }
 
-    
-    
+
+// if (message == '') {
+//     return true;
+// } else {
+//     // Отправляем уведомление
+//     var size = { width: 400, height: 200 };
+//     reference.show_notification('#administrator_ref', 'Предупреждение', size, message);
+//     return false;
+// }
+
+
+

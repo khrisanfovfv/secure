@@ -3,7 +3,7 @@
 class Document{
     protected $table_name;
     public function __construct() {
-        $this->table_name = 'administrator';
+        $this->table_name = 'document';
     }
 
     /**
@@ -72,15 +72,14 @@ class Document{
 
 
     /**
-     * ================ ПОЛУЧЕНИЕ ЗАПИСИ ТАБЛИЦЫ ДОКУМЕНТЫ =================
+     * ================ ПОЛУЧЕНИЕ ЗАПИСЕЙ ТАБЛИЦЫ ДОКУМЕНТЫ =================
      */
     public function secure_load_document(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT administrator.id, administrator.fullname, organization.fullname as organization_name, department.name as department_name, administrator.state FROM {$prefix}administrator administrator 
-            JOIN {$prefix}organization organization on administrator.organization = organization.id 
-            JOIN {$prefix}department department on administrator.department = department.id"), ARRAY_A );
+            $wpdb->prepare("SELECT document.id, document.number, document.documentdate, document.name, document_kind.name as document_kind, document.state  FROM {$prefix}document document 
+            JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id"), ARRAY_A );
         echo json_encode($results);
         wp_die();
     }
@@ -133,28 +132,6 @@ class Document{
         );
         $id = $wpdb->insert_id;
 
-        // Создаем записи в детальном разделе Информационные системы
-        // Убираем символы экранирования '/'
-        $information_systems_json = stripcslashes($record['information_systems']);
-        $information_systems = json_decode( $information_systems_json);
-        foreach ($information_systems as $information_system ){
-            $information_system->administrator_id = $id;
-            if ($information_system->id == ''){
-                // Запись не удалена
-                if ($information_system->is_deleted == 0){
-                    Document::secure_create_information_system($information_system);
-                }
-            } else{
-                // Запись не удаена
-                if ($information_system->is_deleted == 0){
-                    Document::secure_update_information_system($information_system);
-                }
-                // Запись удалена
-                else{
-                    Document::secure_delete_information_system($information_system);
-                } 
-            }
-        }
 
         echo 'Запись добавлена ИД=' . $id; 
         wp_die();
@@ -163,13 +140,13 @@ class Document{
     /** 
      * ====================== ОБНОВЛЕНИЕ ЗАПИСИ ДОКУМЕНТ ==========================
      */
-    function secure_update_administrator(){
+    function secure_update_document(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $record = $_POST['record'];
 
         $wpdb->update(
-            $prefix.'administrator',
+            $prefix.'document',
             array(
                 'fullname' => $record['fullname'],
                 'organization' => $record['organization_id'],
@@ -186,26 +163,6 @@ class Document{
             array( '%d' )
         );
 
-        $information_systems_json = stripcslashes($record['information_systems']);
-        $information_systems = json_decode($information_systems_json);
-        // Цикл по информационным системам
-        foreach($information_systems as $information_system){
-            if ($information_system->id == ''){
-                // Запись не удалена
-                if ($information_system->is_deleted == 0){
-                    Document::secure_create_information_system($information_system);
-                }
-            } else{
-                // Запись не удаена
-                if ($information_system->is_deleted == 0){
-                    Document::secure_update_information_system($information_system);
-                }
-                // Запись удалена
-                else{
-                    Document::secure_delete_information_system($information_system);
-                } 
-            }
-        }
         
         echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
         wp_die();
@@ -213,118 +170,34 @@ class Document{
     /** 
      * ====================== УДАЛЕНИЕ ЗАПИСИ ДОКУМЕНТ ==========================
      */
-    public function secure_delete_administrator(){
+    public function secure_delete_document(){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $administrator_id = $_POST['id'];
+        $document_id = $_POST['id'];
         
-        // Удаляем связанные записи из таблицы information_system_administrator
-        $information_systems = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}information_system_administrator WHERE administrator_id = %d", Array($administrator_id)), OBJECT );
-        foreach($information_systems as $information_system){
-            Document::secure_delete_information_system($information_system);
-        }
         // Удаляем запись Документ
-        $wpdb->delete( $prefix.'administrator', array( 'ID' => $administrator_id ), array( '%d' ));
+        $wpdb->delete( $prefix.'document', array( 'ID' => $document_id ), array( '%d' ));
         echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
         wp_die();
     }
 
     /**
-     * ============== ИНФОРМАЦИОННЫЕ СИСТЕМЫ. СОЗДАНИЕ ЗАПИСИ ==============
-     */
-    public function secure_create_information_system($information_system){
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'information_system_administrator';
-        $wpdb->insert(
-            $table_name,
-            array(
-                'information_system_id' => $information_system->information_system_id,
-                'administrator_id' => $information_system->administrator_id,
-                'appointdate' => $information_system->appointdate,
-                'terminatedate' => $information_system->terminatedate,
-                'type' => $information_system->type,
-            ),
-            array(
-                '%d', // information_system_id
-                '%d', // administrator_id
-                '%s', // appointdate
-                '%s', // terminatedate
-                '%s'  // type   
-            )
-        );
-    }
-    /**
-     * ============== ИНФОРМАЦИОННЫЕ СИСТЕМЫ. РЕДАКТИРОВАНИЕ ЗАПИСИ ==============
-     */
-    public function secure_update_information_system($information_system){
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        $wpdb->update(
-            $prefix.'information_system_administrator',
-            array(
-                'information_system_id' => $information_system->information_system_id,
-                'administrator_id' => $information_system->administrator_id,
-                'appointdate' => $information_system->appointdate,
-                'terminatedate' => $information_system->terminatedate,
-                'type' => $information_system->type,
-            ),
-            array( 'ID' => $information_system->id ),
-            array(
-                '%d', // information_system_id
-                '%d', // administrator_id
-                '%s', // appointdate
-                '%s', // terminatedate
-                '%s'  // type   
-            ),
-            array( '%d' )
-        );
-    }
-    /**
-     * ============== ИНФОРМАЦИОННЫЕ СИСТЕМЫ. УДАЛЕНИЕ ЗАПИСИ ==============
-     */
-    public function secure_delete_information_system($information_system){
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        $wpdb->delete( $prefix . 'information_system_administrator', array( 'ID' => $information_system->id ), array( '%d' ));
-        echo 'Запись ид = ' . $information_system->id . ' успешно удалена';
-        wp_die();
-    }
-
-    /**
-     * ============== ИНФОРМАЦИОННЫЕ СИСТЕМЫ. ОБНОВЛЕНИЕ ДЕТАЛЬНОГО РАЗДЕЛА ==============
-     */
-    public function secure_load_administrator_information_systems(){
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-
-            $administrator_id = $_POST['administrator_id'];
-            $results = $wpdb->get_results( 
-                $wpdb->prepare("SELECT inf_sys_adm.id, inf_sys_adm.information_system_id, information_system.fullname as information_system_name, inf_sys_adm.appointdate, inf_sys_adm.terminatedate, inf_sys_adm.type FROM {$prefix}information_system_administrator inf_sys_adm
-                    JOIN  {$prefix}information_system information_system on inf_sys_adm.information_system_id = information_system.id
-                    WHERE inf_sys_adm.administrator_id = $administrator_id"), ARRAY_A ); 
-        echo json_encode($results);
-        wp_die();
-    }
-
-
-    /**
      * ================ ДОКУМЕНТЫ. ОБЩИЙ ПОИСК =================
      */
-    function secure_search_administrator(){
+    function secure_search_document(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $value = $_POST['value'];
         $wild = '%';
         $like = $wild . $wpdb->esc_like($value) .$wild;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT administrator.id, administrator.fullname, organization.fullname as organization_name, department.name as department_name, administrator.state FROM {$prefix}administrator administrator 
-            JOIN {$prefix}organization organization on administrator.organization = organization.id 
-            JOIN {$prefix}department department on administrator.department = department.id 
-            WHERE administrator.fullname LIKE %s
-            OR organization.fullname LIKE '%s'
-            OR department.name LIKE '%s'
-            ",array($like,$like, $like)), ARRAY_A); 
+            $wpdb->prepare("SELECT document.id, document.number, document.documentdate, document.name, document_kind.name as document_kind, document.state  FROM {$prefix}document document 
+            JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id
+            WHERE document.number LIKE %s
+            OR document.documentdate LIKE %s
+            OR document.name LIKE %s
+            OR document_kind.name LIKE %s
+            ",array($like, $like, $like, $like)), ARRAY_A); 
         echo json_encode($results);
         wp_die();
     }
@@ -332,7 +205,7 @@ class Document{
     /**
      * ================= ИНФОРМАЦИОННЫЕ СИСТЕМЫ. РАСШИРЕННЫЙ ПОИСК =================
      */
-    function secure_search_administrator_extended(){
+    function secure_search_document_extended(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $fullname  = $_POST['fullname'];

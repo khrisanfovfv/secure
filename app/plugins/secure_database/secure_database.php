@@ -121,18 +121,18 @@ class SecDb
         add_action('wp_ajax_nopriv_search_information_system_extended', array('InformationSystem','secure_search_information_system_extended'));
 
         // ДОКУМЕНТЫ
-        add_action('wp_ajax_load_document', array('Administrator', 'secure_load_document'));
-        add_action('wp_ajax_nopriv_load_document', array('Administrator', 'secure_load_document'));
-        add_action('wp_ajax_add_document', array('Administrator', 'secure_add_document'));
-        add_action('wp_ajax_nopriv_add_document', array('Administrator', 'secure_add_document'));
-        add_action('wp_ajax_update_document', array('Administrator','secure_update_document'));
-        add_action('wp_ajax_nopriv_update_document', array('Administrator','secure_update_document'));
-        add_action('wp_ajax_delete_document', array('Administrator', 'secure_delete_document'));
-        add_action('wp_ajax_nopriv_delete_document', array('Administrator', 'secure_delete_document'));
-        add_action('wp_ajax_search_document', array('Administrator','secure_search_document'));
-        add_action('wp_ajax_nopriv_search_document', array('Administrator','secure_search_document'));
-        add_action('wp_ajax_search_document_extended', array('Administrator','secure_search_document_extended'));
-        add_action('wp_ajax_nopriv_search_document_extended', array('Administrator','secure_search_document_extended'));
+        add_action('wp_ajax_load_document', array('Document', 'secure_load_document'));
+        add_action('wp_ajax_nopriv_load_document', array('Document', 'secure_load_document'));
+        add_action('wp_ajax_add_document', array('Document', 'secure_add_document'));
+        add_action('wp_ajax_nopriv_add_document', array('Document', 'secure_add_document'));
+        add_action('wp_ajax_update_document', array('Document','secure_update_document'));
+        add_action('wp_ajax_nopriv_update_document', array('Document','secure_update_document'));
+        add_action('wp_ajax_delete_document', array('Document', 'secure_delete_document'));
+        add_action('wp_ajax_nopriv_delete_document', array('Document', 'secure_delete_document'));
+        add_action('wp_ajax_search_document', array('Document','secure_search_document'));
+        add_action('wp_ajax_nopriv_search_document', array('Document','secure_search_document'));
+        add_action('wp_ajax_search_document_extended', array('Document','secure_search_document_extended'));
+        add_action('wp_ajax_nopriv_search_document_extended', array('Document','secure_search_document_extended'));
 
         // ДЕТАЛЬНЫЕ РАЗДЕЛЫ
         add_action('wp_ajax_load_administrator_information_systems', array('Administrator', 'secure_load_administrator_information_systems'));

@@ -83,6 +83,7 @@ $(function () {
             var value = $('#search__text').val().trim();
             switch(page_id){
                 case 'document_kind' :  document_kind_common_search(value); break;
+                case 'document' : document_common_search(value); break; 
                 case 'department' : department_common_search(value); break; 
                 case 'administrator' : administrator_common_search(value); break;
                 case 'information_system' : information_system_common_search(value); break;
@@ -109,53 +110,6 @@ $(function () {
         }
     });
 
-    /** ======= Таблица Информационные системы. ======== */
-
-    // /* /* /** Одинарный щелчок  */
-    // $('#IS_table tbody tr').on('click', function(){
-    //     $('#IS_table tbody tr').removeClass('highlight');
-    //     $(this).addClass('highlight');
-    // })
-
-    // /** Двойной щелчок */
-    // $('#IS_table tbody tr').on('dblclick', function(){
-    //     $("<a>").prop({
-    //         target: "_blank",
-    //         href: "card.html"
-    //     })[0].click();
-    // })
-
-    // /** Кнопка Создать */
-    // $('#IS_create').on('click', function(){
-    //     $("<a>").prop({
-    //         target: "_blank",
-    //         href: "card.html"
-    //     })[0].click();
-    // })
-
-    // /** Кнопка Редактировать */
-    // $('#IS_edit').on('click', function(){
-    //     $('#IS_table tbody tr').each(function(index,element){
-    //         if ($(this).hasClass('bg_blue')){
-    //             $("<a>").prop({
-    //                 target: "_blank",
-    //                 href: "card.html"
-    //             })[0].click();
-    //         }
-    //     })
-    // }) */ */
-
-    // /** Кнопка копировать */
-    // $('#IS_copy').on('click', function(){
-    //     $('#IS_table tbody tr').each(function(index,element){
-    //         if ($(this).hasClass('bg_blue')){
-    //             $("<a>").prop({
-    //                 target: "_blank",
-    //                 href: "card.html"
-    //             })[0].click();
-    //         }
-    //     })
-    // })
 
 
 
@@ -323,30 +277,30 @@ $(function () {
         }
     })
 
-    /** Кнопка Начать аттестацию */
-    $('#start_certification_button').on('click', function(){
-        $('#is_card__dialog').css('display','flex');
-        $('#is_card__dialog').css('z-index', ++z_index);
-       // $('#is_card__dialog_window').css('width','1200px');
-        $('#is_card__dialog_content').empty();
-        $('#is_card__dialog_content').append("<p class='appdialog__content_text'>Вы действительно хотите начать новую аттестацию?</p>");
-        $('#is_card__dialog_title').text('Начать аттестацию')
-        //newItem.text('')
-    })
+    // /** Кнопка Начать аттестацию */
+    // $('#start_certification_button').on('click', function(){
+    //     $('#is_card__dialog').css('display','flex');
+    //     $('#is_card__dialog').css('z-index', ++z_index);
+    //    // $('#is_card__dialog_window').css('width','1200px');
+    //     $('#is_card__dialog_content').empty();
+    //     $('#is_card__dialog_content').append("<p class='appdialog__content_text'>Вы действительно хотите начать новую аттестацию?</p>");
+    //     $('#is_card__dialog_title').text('Начать аттестацию')
+    //     //newItem.text('')
+    // })
 
-    /** Таблица Администраторы. Кнопка Создать */
-    $('#is_card__administrator_create').on('click', function(){
-        var title = 'Карточка администратора'; 
-        reference.createRecord(informationSystem.prefix, title, informationSystem.cardPath);
-    })
+    // /** Таблица Администраторы. Кнопка Создать */
+    // $('#is_card__administrator_create').on('click', function(){
+    //     var title = 'Карточка администратора'; 
+    //     reference.createRecord(informationSystem.prefix, title, informationSystem.cardPath);
+    // })
 
-    /** Таблица Администраторы. Кнопка Редактировать */
-    $('#is_card__administrator_edit').on('click', function(){
-        var rows = '#is_card__administrators_table tbody tr';
-        var title = 'Карточка администратора';
-        var size ={ width : 800, height : 600 }
-        reference.editRecord(informationSystem.prefix, rows, title, informationSystem.cardPath, size);
-    })
+    // /** Таблица Администраторы. Кнопка Редактировать */
+    // $('#is_card__administrator_edit').on('click', function(){
+    //     var rows = '#is_card__administrators_table tbody tr';
+    //     var title = 'Карточка администратора';
+    //     var size ={ width : 800, height : 600 }
+    //     reference.editRecord(informationSystem.prefix, rows, title, informationSystem.cardPath, size);
+    // })
 
     $('.appdialog__notify_button').on('click', function(){
         $(this).parents('.appdialog').css('display', 'none');
