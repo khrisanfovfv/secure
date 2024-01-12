@@ -23,12 +23,12 @@
     <label for="organization_card__postAddress">Почтовый адрес</label>
     <textarea name="organization_card__postAddress" id="organization_card__postAddress" cols="30"
         rows="3"></textarea>
-    <label for="organization_card__postAddress">Юридический адрес</label>
-    <textarea name="organization_card__postAddress" id="organization_card__legalAddress" cols="30"
+    <label for="organization_card__legalAddress">Юридический адрес</label>
+    <textarea name="organization_card__legalAddress" id="organization_card__legalAddress" cols="30"
         rows="3"></textarea>
     <label for="organization_card__email">email<span class="required">*</span></label>
     <input name="organization_card__email" id="organization_card__email" type="text">
-    <label id="organization_card__state_label" for="organization_card__state">Состояние<span class="required">*</span></label>
+    <label id="organization_card__state_label" for="organization_card__state">Состояние</label>
     <select name="organization_card__state" id="organization_card__state">
         <option value="Active">Действующая</option>
         <option value="Inactive">Не действующая</option>

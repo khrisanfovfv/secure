@@ -333,8 +333,52 @@ function organization_card_binding_events() {
  */
 function organization_card_press_OK(sender) {
     if (organization_card__check_fields() == true) {
-        alert('работает');
+        //alert($('#organization_card__fullName').val())
+        record = {
+            id: $('#organization_card__id').text(),
+            fullname: $('#organization_card__fullName').val(),
+            briefname : $('#organization_card__briefname').val(),
+            boss: $('#organization_card__boss').val(),  
+            inn: $('#organization_card__inn').val(),
+            kpp: $('#organization_card__kpp').val(),
+            ogrn: $('#organization_card__ogrn').val(),
+            okpo: $('#organization_card__okpo').val(),
+            postAddress: $('#organization_card__postAddress').val(),
+            legalAddress : $('#organization_card__legalAddress').val(),
+            email: $('#organization_card__email').val(),
+            state : $('#organization_card__state').val(), 
+        }
+        if ($('#organization_card__id').text() == '') {
+            // ДОБАВЛЯЕМ значение в базу
+            var data = {
+                action: 'add_organization',
+                record: record
+            };
+            jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+                organization_load_records();
+            }).fail(function () {
+                var size = { width: 500, height: 200 };
+                var message = 'Во время добавления записи произошла ошибка';
+                reference.show_notification('organization_ref', 'Ошибка', size, message);
+            })
+        } else {
+            // ОБНОВЛЯЕМ значение в базе данных
+            var data = {
+                action: 'update_organization',
+                record: record
+            };
+
+            jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+                organization_load_records();
+            }).fail(function () {
+                var size = { width: 500, height: 200 };
+                var message = 'Во время обновления записи произощла ошибка';
+                reference.show_notification('organization_ref', 'Ошибка', size, message);
+            })
+        
+        $(sender).parents('.appdialog').css('display', 'none');
     }
+}
 }
 
 function organization_card__check_fields() {
@@ -342,21 +386,21 @@ function organization_card__check_fields() {
     // // Карточка Организации. Поле Полное наименование
     if ($('#organization_card__fullName').val().trim() == '') {
         $('#organization_card__fullName').addClass('red_border');
-        message += "Не заполнено обязательное поле: Полное наименование \n";
+        message += "Не заполнено обязательное поле: Полное наименование <br \/>";
     }
     else {
         $('#organization_card__fullName').removeClass('red_border');
     }
     if ($('#organization_card__briefName').val().trim() == '') {
         $('#organization_card__briefName').addClass('red_border');
-        message += "Не заполнено обязательное поле: Краткое наименование " + '\n';
+        message += "Не заполнено обязательное поле: Краткое наименование  <br \/>";
     }
     else {
         $('#organization_card__briefName').removeClass('red_border');
     }
     if ($('#organization_card__email').val().trim() == '') {
         $('#organization_card__email').addClass('red_border');
-        message += "Не заполнено обязательное поле: email" + '\n';
+        message += " Не заполнено обязательное поле: email <br \/>";
     }
     else {
         $('#organization_card__email').removeClass('red_border');
@@ -374,9 +418,51 @@ function organization_card__check_fields() {
         return false;
     }
 }
+function organization_load_records() {
+    var data = {
+        action: 'load_organization',
+    };
 
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var records = JSON.parse(result);
+        organization_update_reference(records);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        var message = 'Во время обновления списка записей произощла ошибка ' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#administrator_ref', 'Ошибка', size, message);
+    });
 
-
+}
+/**
+ *  ========================= ОБНОВЛЕНИЕ СПРАВОЧНИКА ОРГАНИЗАЦИИ ===========================
+ * @param {Object} records 
+ */
+function organization_update_reference(records) {
+    var ind = 1;
+    $('#organization_ref__table tbody tr').remove();
+    records.forEach(record => {
+        $('#organization_ref__table tbody').append(
+            $("<tr class='organization_ref__table_row'>")
+                .append($("<td class='id hide'>").text(record["id"]))
+                .append($("<td>").text(ind++))
+                .append($("<td>").text(record["fullname"]))
+                .append($("<td>").text(record["briefname"]))
+                .append($("<td>").text(record["boss"]))
+                .append($("<td>").text(record["inn"]))
+                .append($("<td>").text(record["kpp"]))
+                .append($("<td>").text(record["ogrn"]))
+                .append($("<td>").text(record["okpo"]))
+                .append($("<td>").text(record["postAddress"]))
+                .append($("<td>").text(record["legalAddress"]))
+                .append($("<td>").text(record["email"]))
+                .append($("<td>").text(reference.get_state(record["state"])))
+        ).on('click', function (e) {
+            reference.highlight(e);
+        }).on('dblclick', function () {
+            organization_edit_record();
+        })
+    });
+}
 
 
 // if (message == '') {

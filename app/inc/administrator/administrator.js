@@ -77,7 +77,7 @@ function administrator_card_press_OK(sender) {
                 administrator_load_records();
             }).fail(function () {
                 var size = { width: 500, height: 200 };
-                var message = 'Во время добавления записи произощла ошибка';
+                var message = 'Во время добавления записи произошла ошибка';
                 reference.show_notification('administrator_ref', 'Ошибка', size, message);
             })
         } else {
@@ -198,7 +198,7 @@ function administrator_common_search(value) {
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
-        message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+        message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
         reference.show_notification('#administrator_ref', 'Ошибка', size, message);
     });
 }
@@ -221,7 +221,7 @@ function administrator_extended_search() {
         administrator_search_binding_events();
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
-        message = 'Во время загрузки карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+        message = 'Во время загрузки карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
         reference.show_notification('#administrator_ref', 'Ошибка', size, message);
     });
 }
@@ -246,7 +246,7 @@ function administrator_extended_search_OK(e){
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
-        message = 'Во время загрузки данных карточки ' + data.card + ' произощла ошибка' + textStatus + ' ' + errorThrown;
+        message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
         reference.show_notification('#administrator_ref', 'Ошибка', size, message);
     });
 }
@@ -541,7 +541,7 @@ function administrator_information_systems_update(){
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
-        message = 'Во время загрузки детального раздела Замечания по аттестации произощла ошибка' + textStatus + ' ' + errorThrown;
+        message = 'Во время загрузки детального раздела Замечания по аттестации произошла ошибка' + textStatus + ' ' + errorThrown;
         reference.show_notification('#information_system_ref', 'Ошибка', size, message);
     });
 }

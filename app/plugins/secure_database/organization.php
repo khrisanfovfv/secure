@@ -26,6 +26,7 @@ class Organization
             inn varchar(10),
             okpo varchar(8),
             kpp varchar(9),
+            ogrn varchar(13),
             postAddress text,
             legalAddress text,
             email tinytext,
@@ -56,6 +57,7 @@ class Organization
                 'briefname' => 'БУ ВО "ЦИТ"',
                 'inn' => '3525249297',
                 'okpo' => '66756691',
+                'ogrn' => '',
                 'kpp' => '352501001',
                 'postAddress' => '160000, Вологодская область, город Вологда, ул. Герцена, д.27',
                 'legalAddress' => '160000, Вологодская область, город Вологда, ул. Герцена, д.27',
@@ -68,7 +70,8 @@ class Organization
                 '%s', // briefname
                 '%s', // inn
                 '%s', // okpo
-                '%s', // kpp                
+                '%s', // kpp  
+                '%s', // ogrn             
                 '%s', // postAddress
                 '%s', // legalAddress
                 '%s', // email
@@ -133,13 +136,32 @@ class Organization
         $prefix = $wpdb->prefix;
         $record = $_POST['record'];
         $wpdb->insert(
-            'sec_organization',
+            $prefix . 'organization',
             array(
-                'name' => $record['name'],
+                'fullname' => $record['fullname'],
+                'briefname' => $record['briefname'],
+                'boss' => $record['boss'],
+                'inn' => $record['inn'],
+                'kpp' => $record['kpp'],
+                'ogrn' => $record['ogrn'],
+                'okpo' => $record['okpo'],
+                'postAddress' => $record['postAddress'],
+                'legalAddress' => $record['legalAddress'],
+                'email' => $record['email'],
                 'state' => $record['state']
             ),
             array(
-                '%s', '%s'
+                '%s', // fullname
+                '%s', //briefName
+                '%s', //boss
+                '%s', // inn
+                '%s', // kpp
+                '%s',  // ogrn
+                '%s', // okpo
+                '%s', // postAddress
+                '%s', // legalAddress
+                '%s', // email
+                '%s'  // state
             )
         );
         wp_die();

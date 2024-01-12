@@ -31,14 +31,21 @@
         grid-column: 2/25;
     }
     &__boss{
-        grid-column: 5/25;
+        grid-column: 2/25;
     }
     &__kpp_label{
         grid-column: 11/14;
     }
     
     &__kpp{
-        grid-column: 15/25;
+        grid-column: 14/25;
+    }
+    &__okpo_label{
+        grid-column: 11/14;
+        }
+        
+    &__okpo{
+        grid-column: 14/25;
     }
 }
 
@@ -65,7 +72,7 @@
         border: none;
         border-bottom: 1px solid gray;
         outline: none;
-        grid-column: 5/24;
+        grid-column: 3/24;
     }
     &__fields input:focus{
         border-bottom: 2px solid #13406d;
@@ -79,9 +86,5 @@
         background-color: white;
     }
     &__fields select:focus{
-        border-bottom: 2px solid #13406d;
-    }
+        border-bottom: 2px solid #13406d;}
 }
-
-
-
