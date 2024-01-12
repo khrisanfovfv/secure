@@ -463,7 +463,12 @@ function organization_update_reference(records) {
         })
     });
 }
-
+/**
+ * ============================= НАЖАТИЕ КНОПКИ ОБНОВИТЬ =============================
+ */
+$('#organization_ref__update').on('click', function () {
+    organization_load_records();
+})
 
 // if (message == '') {
 //     return true;
