@@ -23,14 +23,14 @@ class Document{
             name text NOT NULL,
             kind mediumint(9),
             type varchar(9),
-            version mediumint(9),
             sender mediumint(9),
             sendreceive date,
             signer tinytext,
             signed boolean,
             state varchar(14) DEFAULT 'Active' NOT NULL,
             PRIMARY KEY  (id),
-            FOREIGN KEY (kind) REFERENCES {$wpdb->prefix}document_kind(id)
+            FOREIGN KEY (kind) REFERENCES {$wpdb->prefix}document_kind(id),
+            FOREIGN KEY (sender) REFERENCES {$wpdb->prefix}organization(id)
         ) $charset_collate;";
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -54,20 +54,57 @@ class Document{
                 'number' => 'ИХ.01-20333/15',
                 'documentdate' => '2023-02-04',
                 'name' => 'Уведомление о прохождении аттестации',
-                'kind' => 15
+                'kind' => 15,
+                'type' => 'Inbox',
+                'sender' => 1,
+                'sendreceive' => '2023-02-01',
+                'signer' => 'Васильев Олег Петрович',
+                'signed' => 1,
+                'state' => 'Active'
+
             ),
             array(
                 '%s', // number
                 '%s', // documentdate
                 '%s', // name
-                '%d'  // kind
+                '%d', // kind
+                '%s', // type
+                '%d', // sender
+                '%s', // sendreceive
+                '%s', // signer
+                '%d', // signed
+                '%s', // state
             )
-
         );
 
+        $wpdb->insert(
+            $table_name,
+            array(
+                'number' => '25-П-456',
+                'documentdate' => '2023-03-05',
+                'name' => 'Уведомление об исправлении ощибок',
+                'kind' => 15,
+                'type' => 'Outbox',
+                'sender' => 1,
+                'sendreceive' => '2023-03-04',
+                'signer' => 'Пучков Николай Анатольевич',
+                'signed' => 1,
+                'state' => 'Active'
 
-
-
+            ),
+            array(
+                '%s', // number
+                '%s', // documentdate
+                '%s', // name
+                '%d', // kind
+                '%s', // type
+                '%d', // sender
+                '%s', // sendreceive
+                '%s', // signer
+                '%d', // signed
+                '%s', // state
+            )
+        );
     }
 
 
@@ -203,26 +240,45 @@ class Document{
     }
 
     /**
-     * ================= ИНФОРМАЦИОННЫЕ СИСТЕМЫ. РАСШИРЕННЫЙ ПОИСК =================
+     * ================= ДОКУМЕНТЫ. РАСШИРЕННЫЙ ПОИСК =================
      */
     function secure_search_document_extended(){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $fullname  = $_POST['fullname'];
-        $organization_id = $_POST['organization_id'];
-        $department_id  = $_POST['department_id'];
-        $state = $_POST['state'];
+
+        $number         =   $_POST['number'];
+        $documentdate   =   $_POST['documentdate'];
+        $name           =   $_POST['name']; 
+        $kind_id        =   $_POST['kind_id']; 
+        $type           =   $_POST['type'];
+        $sender_id      =   $_POST['sender_id']; 
+        $sendreceive    =   $_POST['sendreceive']; 
+        $signer         =   $_POST['signer']; 
+        $signed         =   $_POST['signed']; 
+        $state          =   $_POST['state']; 
+
         $wild = '%';
-        $like_fullname = $wild . $wpdb->esc_like($fullname) .$wild;
-        $organization_query = $organization_id != '' ? " AND organization.id ='$organization_id'" : '';
-        $department_query = $department_id != '' ? " AND department.id = '$department_id'" : '';
-        $state_query = $state != '' ? " AND administrator.state = '$state'" : '';  
+        $like_number        =   $wild . $wpdb->esc_like($number) .$wild;
+        $like_documentdate  =   $wild . $wpdb->esc_like($documentdate) .$wild;
+        $like_name          =   $wild . $wpdb->esc_like($name) .$wild;
+        $like_sendreceive   =   $wild . $wpdb->esc_like($sendreceive) .$wild;
+        $like_signer        =   $wild . $wpdb->esc_like($signer) .$wild;
+
+        $kind_query         =   $kind_id != '' ? " AND document_kind.id  ='$kind_id'" : '';
+        $type_query         =   $type != '' ? " AND document.type = '$type'" : '';
+        $sender_query       =   $sender_id != '' ? " AND organization.id = '$sender_id'" : '';
+        $signed_query       =   $signed != '' ? " AND document.signed  ='$signed'" : '';
+        $state_query        =   $state != '' ? " AND document.state  ='$state'" : '';  
+
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT administrator.id, administrator.fullname, organization.fullname as organization_name, department.name as department_name, administrator.state FROM {$prefix}administrator administrator 
-            JOIN {$prefix}organization organization on administrator.organization = organization.id 
-            JOIN {$prefix}department department on administrator.department = department.id
-            WHERE administrator.fullname LIKE %s $organization_query $department_query $state_query", array($like_fullname)), ARRAY_A);
-            //WHERE administrator.fullname LIKE %s $organization_query $department_query $state_query", array($like_fullname, $organization_id, $department_id)), ARRAY_A); 
+            $wpdb->prepare("SELECT document.id, document.number, document.documentdate, document.name, document_kind.name as document_kind, document.state  
+            FROM {$prefix}document document 
+            JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id
+            JOIN {$prefix}organization organization on document.sender = organization.id
+            WHERE document.number LIKE %s AND document.documentdate LIKE %s AND document.name LIKE %s 
+            AND document.sendreceive LIKE %s AND document.signer LIKE %s 
+            $kind_query $type_query $sender_query $signed_query $state_query", 
+            array($like_number, $like_documentdate, $like_name, $like_sendreceive, $like_signer)), ARRAY_A);
         echo json_encode($results);
         wp_die();
     }

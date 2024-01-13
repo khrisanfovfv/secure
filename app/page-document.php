@@ -96,7 +96,7 @@ $prefix = $wpdb->prefix;
     <div class="appdialog__window" id="document_ref__dialog_window">
         <div class="appdialog__header">
             <h3 class="appdialog__header_title" id="document_ref__dialog_title">Карточка Вид документа</h3>
-            <a class="appdialog__header_close" href="#">
+            <a class="appdialog__header_close" href="#" id="document_ref__dialog_close">
                 <span>&#10006;</span> </a>
         </div>
         <div class="appdialog__content">

@@ -131,6 +131,7 @@ var reference = {
         switch(reference_name){
             case 'organization' : organization_ref_binding_events();
             case 'department' : department_ref_binding_events();
+            case 'document_kind' : document_kind_ref_binding_events();
         }
         
     },

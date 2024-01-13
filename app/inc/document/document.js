@@ -114,7 +114,7 @@ function document_common_search(value) {
  * ============================ ОТКРЫТИЕ КАРТОЧКИ РАСШИРЕННЫЙ ПОИСК =============================
  */
 function document_extended_search() {
-    size = { width: 600, height: 250 };
+    size = { width: 600, height: 500 };
     prefix = '#document_ref';
     title = 'Расширенный поиск';
     // Загружаем карточку
@@ -206,7 +206,7 @@ $('#document_ref__context_delete').on('click', function(){
 * ==================================================================================*/
 
 /**
- * ================================ ОТДЕЛ. СОЗДАТЬ =================================
+ * ================================ ДОКУМЕНТ. СОЗДАТЬ =================================
  */
 function document_create_record(){
     var size = { width: 600, height: 250 };
@@ -214,7 +214,7 @@ function document_create_record(){
 }
 
 /**
- * ======================= ОТДЕЛ. ВЫБРАТЬ ЗАПИСЬ =========================
+ * ======================= ДОКУМЕНТ. ВЫБРАТЬ ЗАПИСЬ =========================
  */
 function document_select_record(e){
     rows = $('.document_ref__table_row.highlight');
@@ -232,7 +232,7 @@ function document_select_record(e){
 }
 
 /**
- * ================================ ОТДЕЛ. РЕДАКТИРОВАТЬ =================================
+ * ================================ ДОКУМЕНТ. РЕДАКТИРОВАТЬ =================================
  */
 function document_edit_record(){
     rows = $('.document_ref__table_row.highlight')
@@ -242,7 +242,7 @@ function document_edit_record(){
 }
 
 /**
- * ================================ ОТДЕЛ. КОПИРОВАТЬ =================================
+ * ================================ ДОКУМЕНТ. КОПИРОВАТЬ =================================
  */
 function document_copy_record(){
     rows = $('.document_ref__table_row.highlight')
@@ -253,7 +253,7 @@ function document_copy_record(){
 }
 
 /**
- * ================================ ОТДЕЛ. УДАЛИТЬ =================================
+ * ================================ ДОКУМЕНТ. УДАЛИТЬ =================================
  */
 function document_delete_record(){
     rows = $('.document_ref__table_row.highlight');
@@ -266,10 +266,17 @@ function document_delete_record(){
 function document_extended_search_OK() {
     var data = {
         action: 'search_document_extended',
-        name: $('#document__search_name').val(),
-        organization_id: $('#document_search__organization').find('.id').text(),
-        boss : $('#document__search_boss').val(),
-        state: $('#document__search_state').val()
+        number: $('#document_search__number').val(),
+        documentdate : $('#document_search__documentdate').val(),
+        name : $('#document_search__name').val(),
+
+        kind_id: $('#document_search__kind').find('.id').text(),
+        type : $('#document_search__type').val(),
+        sender_id : $('#document_search__sender').find('.id').text(),
+        sendreceive : $('#document_search__sendreceive').val(),
+        signer : $('#document_search__signer').val(),
+        signed : $('#document_search__signed').val(),
+        state: $('#document_search__state').val()
     };
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
@@ -335,7 +342,7 @@ function document_update_reference(records)
 }
 
 /**
- * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ОТДЕЛА ============ 
+ * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ДОКУМЕНТА ============ 
  */
 function document_card_binging_events() {
     $('#document_card__OK').on('click', function () {
@@ -368,9 +375,13 @@ function document_ref_binding_events(){
  */
 function document_search_binding_events(){
 
-    /** ============== ВЫБОР ИЗ СПРАВОЧНИКА ОРГАНИЗАЦИИ ==================== */
-    $('#document_search__organization').on('click', function(e){
-        reference.open_reference(e,'#document_search','Справочник Оргранизации');
+    /** ============== ВЫБОР ИЗ СПРАВОЧНИКА ВИДЫ ДОКУМЕНТОВ ==================== */
+    $('#document_search__kind').on('click', function(e){
+        reference.open_reference(e,'#document_search','Справочник Виды документов');
+    })
+
+    $('#document_search__sender').on('click', function(e){
+        reference.open_reference(e, '#document_search', 'Справочник Организации');
     })
 
     /** ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОK ================= */

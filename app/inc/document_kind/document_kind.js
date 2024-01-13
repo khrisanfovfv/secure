@@ -149,7 +149,7 @@ function document_kind_extended_search(){
 $('#document_kind_search__button_OK').on('click', function(){
     var data = {
         action: 'search_document_kind_extended',
-        name : $('#document_kind__search_name').val(),
+        number : $('#document_kind__search_name').val(),
         state : $('#document_kind__search_state').val()
     };
 
@@ -186,6 +186,13 @@ $('#document_kind_create').on('click', function () {
 });
 
 /**
+ * =========================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ==============================
+ */
+$('#document_kind_ref__select').on('click', function(e){
+    document_kind_select_record(e);
+})
+
+/**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
 $('#document_kind_edit').on('click', function () {
@@ -215,6 +222,25 @@ $('#document_kind_delete').on('click', function () {
     rows = $('.document_kind_table_row.highlight');
     reference.delete_record('#document_kind_ref', rows);
 });
+
+
+/**
+ * ======================= ВИД ДОКУМЕНТА. ВЫБОР ЗАПИСИ =========================
+ */
+function document_kind_select_record(e){
+    rows = $('.document_kind_ref__table_row.highlight');
+    if (rows.length > 0){
+        id = rows[0].children.item(0).textContent
+        fullname = rows[0].children.item(2).textContent
+        // Извлекаем элемент с помощью которого вызвали справочник из стэка
+        el = stack.pop();
+        // Присваиваем элементу значения выбранного элемента
+        el.children('.id').text(id);
+        el.children('.fullname').val(fullname);
+        // Закрываем окно выбора
+        $(e.target).parents('.appdialog:first').css('display', 'none');
+    }
+}
 
 
 /**
@@ -255,9 +281,9 @@ function document_kind_update_reference(records) {
             reference.highlight(e);
         })
     });
+}
 
-
-    /** 
+/** 
  * ====================== КОНТЕКТНОЕ МЕНЮ - РЕДАКТИРОВАТЬ ========================= 
  * */
 $('#document_kind_ref__context_edit').on('click', function () {
@@ -274,4 +300,18 @@ $('#document_kind_ref__context_edit').on('click', function () {
         reference.show_notification('#document_kind_ref', 'Предупреждение', size, message);
     }
 })
+
+/**
+ * ================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СПРАВОЧНИКА ===================
+ */
+function document_kind_ref_binding_events(){
+    $('#document_kind_ref__table tbody tr').on('click', function(e){
+        reference.highlight(e);
+    })
+
+    $('#document_kind_ref__select').on('click', function(e){
+        document_kind_select_record(e)
+    })
+
+
 }

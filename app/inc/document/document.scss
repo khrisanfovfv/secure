@@ -18,207 +18,8 @@
         flex-direction: row;
         height: 100%;
     }
-    &__layer_1{
-        display: flex;
-        width: 100%;
-        flex-direction: column;
-        background-color: white;
-    }
-    &__layer_2{
-        display: flex;
-        align-items: stretch;
-        height: 100%;
-        flex-direction: row;
-        border-bottom: 2px solid rgb(212, 212, 212);
-    }
-    &__content{
-        background-color: white;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        height: 100%;
-        margin-right: 5px;
-        flex: 5;
-        border-right: 2px solid rgb(212, 212, 212);
-    }
+}
     
-    /* Вкладка - Общая */
-    &__general{
-        margin-top: -1px;
-        display: flex;
-        flex-direction: column;
-        /*border: thin solid black;*/
-        padding: 5px;
-    }
-    &__general_top{
-        display: flex;
-    }
-    &__general_admins{
-        margin-left: 20px;
-        margin-right: 15px;
-        width: 100%;
-        flex: 1;
-    }
-    /* Основные поля общей вкладки */
-    &__general_fields{
-        flex: 1;
-        display: grid;
-        font-size: 16px;
-        grid-template-columns: repeat(24,1fr);
-        gap: 10px;
-        align-items: center;
-        padding: 5px;
-        margin-top: -1px;
-        background-color: $main_tabs_hilighted_tabs
-    }
-    &__general_fields label{
-        grid-column: 1;
-    }
-
-    &__general_fields textarea,
-    &__general_fields input{
-        grid-column: 2/25;
-        outline: none;
-    }
-
-    &__general_fields select{
-        background-color: white;
-        /*border: thin solid gray;*/
-    }
-
-    &__general_fields input[type=checkbox]{
-        grid-column: 2;
-    }
-
-    &__developpers_table_row{
-        cursor: pointer;
-    }
-    
-    /* Вкладка - Замечания по аттестации */
-    &__remarks{
-        height: 100%;
-        margin-top: -1px;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        /*border: thin solid black;*/
-        padding: 0 5px;
-    }
-    /* Таблица вкладки - Замечания по аттестации */
-    &__remarks_container{
-        height: 100%;
-    }
-
-    &__administrators{
-        height: 100%;
-        margin-top: -1px;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        /*border: thin solid black;*/
-        padding: 0 5px;
-    }
-
-    &__administrators_container{
-        height: 100%;
-    }
-
-    [contenteditable] {
-        outline: 0px solid transparent;
-    }
-
-    /* Вкладка - Контракты */
-    &__contracts{
-        margin-top: -1px;
-        /*border: thin solid black;*/
-        padding: 5px;
-    }
-
-    /* Вкладка - Архив */
-    &__archive{
-        display: flex;
-        flex-direction: column;
-        margin-top: -1px;
-        /*border: thin solid black;*/
-        padding: 5px;
-    }
-
-}
-
-
-/*Поле с выбором из справочника*/
-.refRecord{
-    display: flex;
-    align-items: center;
-    width: 100%;
-    &__field{
-        width: 100%;
-        height: 30px;
-        border: none;
-    }
-    &__button{
-        border: thin dotted black;
-        width: 30px;
-        height: 30px;
-        padding: 5px;
-        cursor: pointer;
-    }
-}
-
-
-/* Панель вкладок */
-.main_tabs{
-    display: flex;
-    /* Отдельная вкладка*/
-    &__item{
-        margin-bottom: 5px;
-        padding: 10px 20px;
-        cursor: pointer;
-        z-index: 2;
-    }
-
-    &__item a{
-        color: black;
-    }
-
-    &__item::after{
-        content: '';
-        border-bottom: 2px solid #13406d;
-    }
-    /* Класс для обозначения выделенной вкладки*/
-    &__highlighted{
-        border-bottom: thin solid white;
-        background-color: $main_tabs_hilighted_tabs;
-        position: relative;
-    }
-
-    &__highlighted::after{
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 40px;
-        border-bottom:2px solid  #13406d;
-        width: 100%;
-    }
-
-}
-
-#document_ref__dialog_content{
-    height: 100%;
-}
-
-/* Расположение элементов вкладки - Общая*/
-
-
-
-
-
-
-
-
-#document_card{
-
-}
 
 .document_search{
     &__content{
@@ -235,16 +36,23 @@
     }
 
     &__fields label{
-        grid-column: 1/9;
+        grid-column: 1;
         font-weight: bold;
     }
 
     &__fields input{
-        grid-column: 10/24;
+        grid-column: 3/24;
+    }
+
+    &__fields input[type="date"]{
+        grid-column: 3/16;
+    }
+    &__fields .card__record{
+        grid-column: 3/24;
     }
 
     &__fields select{
-        grid-column: 10/15;
+        grid-column: 3/16;
         background-color: white;
     }
 }

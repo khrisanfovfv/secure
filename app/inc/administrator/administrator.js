@@ -639,11 +639,6 @@ function adminisrator_card_binding_events(){
         administrator_information_systems_update();
     })
 
-
-
-
-    
-
     /** ==================== НАЖАТИЕ КНОПКИ ОК ============================= */
     $('#administrator_card__OK').on('click', function () {
         administrator_card_press_OK(this);
