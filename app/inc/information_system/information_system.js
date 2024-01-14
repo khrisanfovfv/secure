@@ -6,9 +6,9 @@ function information_system_select_tab(src){
     var card_tabs = ['general', 'remarks', 'administrators', 'contracts', 'archive'];
 
     // Устанавливаем класс main_tabs__highlighted у выбранной вкладки
-    $('.main_tabs__item').removeClass('main_tabs__highlighted');
-    $('.main_tabs__item').css('z-index', 1);
-    $(src).addClass('main_tabs__highlighted');
+    $('.tabs__item').removeClass('tabs__highlighted');
+    $('.tabs__item').css('z-index', 1);
+    $(src).addClass('tabs__highlighted');
     $(src).css('z-index', 2);
 
 

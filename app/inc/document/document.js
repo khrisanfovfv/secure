@@ -9,10 +9,37 @@ $('#document_ref__table tbody tr').on('click', function (e) {
  * ======================== ДВОЙНОЙ КЛИК НА СТРОКУ ТАБЛИЦЫ ======================= 
 */
 $('#document_ref__table tbody tr').on('dblclick', function () {
-    rows = $('.document_ref__table_row.highlight')
+    document_edit_record();
+    /*rows = $('.document_ref__table_row.highlight')
     var size = { width: 600, height: 200 };
-    reference.editRecord('#document_ref', rows, 'Карточка Вид документа', size);
+    reference.editRecord('#document_ref', rows, 'Карточка Вид документа', size);*/
 })
+
+/**
+ * =========== ВЫБОР ВКЛАДОК НА КАРТОЧКЕ ДОКУМЕНТ =====================
+ * */
+function document__chose_tab(e){
+    e.preventDefault();
+    var el = $(e.target)
+    // Если щелкнули на элементе внутри .tabs__item
+    if (!el.hasClass('tabs__item')){
+        el = el.parents('.tabs__item');
+    }
+    // Список имеющихся вкладок
+    var card_tabs = ['general','send_list'];
+
+    // Устанавливаем класс tabs__highlighted у выбранной вкладки
+    $('.tabs__item').removeClass('tabs__highlighted');
+    $(el).addClass('tabs__highlighted');
+    
+    /* Скрываем все вкладки */
+    card_tabs.forEach(item => {
+        $('.document_card__'+ item).addClass('hide');
+    });
+    /* Показываем выбранную */
+    tab=$(el).children().attr('href');
+    $(tab).removeClass('hide');
+}
 
 /**
  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ДОКУМЕНТА =========================
@@ -209,8 +236,8 @@ $('#document_ref__context_delete').on('click', function(){
  * ================================ ДОКУМЕНТ. СОЗДАТЬ =================================
  */
 function document_create_record(){
-    var size = { width: 600, height: 250 };
-    reference.open_card('#document_ref', 'Карточка Отдела', size, OpenMode.Create, 0);
+    var size = { width: 1000, height: 600 };
+    reference.open_card('#document_ref', 'Карточка Документа', size, OpenMode.Create, 0);
 }
 
 /**
@@ -237,7 +264,7 @@ function document_select_record(e){
 function document_edit_record(){
     rows = $('.document_ref__table_row.highlight')
     var id = rows[0].children.item(0).textContent;
-    var size = { width: 600, height: 250 };
+    var size = { width: 1000, height: 600 };
     reference.open_card('#document_ref', 'Карточка Отдела', size, OpenMode.Edit, id);
 }
 
@@ -247,7 +274,7 @@ function document_edit_record(){
 function document_copy_record(){
     rows = $('.document_ref__table_row.highlight')
     var id = rows[0].children.item(0).textContent;
-    var size = { width: 600, height: 250 };
+    var size = { width: 1000, height: 600 };
     // Открываем карточку в режиме создания новой записи
     reference.open_card('#document_ref', 'Карточка Отдела', size, OpenMode.Copy, id);
 }
@@ -350,14 +377,21 @@ function document_card_binging_events() {
     });
 
     /** ============ НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ВИД ДОКУМЕНТА ============ */
-    $('#document_card__Cancel').on('click', function () {
-        $(this).parents('.appdialog').css('display', 'none');
+    $('#document_card__Cancel').on('click', function (e) {
+        $(e.target).parents('.appdialog').css('display', 'none');
     });
 
     /** ======== НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА В ПОЛЕ ОРГАНИЗАЦИЯ ========= */
     $('#document_card__organization_btn').on('click', function(e){
         reference.open_reference(e,'#document_card', 'Справочник организации');
     })
+
+    /** ===================== ВЫБОР ВКЛАДКИ НА КАРТОЧКЕ ДОКУМЕНТА ================ */
+    $('.document__tabs_item').on('click',function(e){
+        document__chose_tab(e);
+    })
+
+
 
 }
 
@@ -367,6 +401,10 @@ function document_card_binging_events() {
 function document_ref_binding_events(){
     $('#document_ref_select').on('click', function(e){
         document_select_record(e)
+    })
+
+    $('#department_ref__table tbody tr').on('dblclick', function(e){
+        document_edit_record();
     })
 }
 

@@ -116,23 +116,7 @@ $(function () {
 
     
 
-    /**=========== Выбор вкладок на карточке Документ =====================*/
-    $('.document__tabs_item').on('click',function(){
-        // Список имеющихся вкладок
-        var card_tabs = ['general','send_list'];
-
-        // Устанавливаем класс main_tabs__highlighted у выбранной вкладки
-        $('.main_tabs__item').removeClass('main_tabs__highlighted');
-        $(this).addClass('main_tabs__highlighted');
-        
-        /* Скрываем все вкладки */
-        card_tabs.forEach(item => {
-            $('#document_card__'+ item).addClass('hide');
-        });
-        /* Показываем выбранную */
-        tab=$(this).children().attr('href');
-        $(tab).removeClass('hide');
-    })
+    
 
    /*  $('.is_card__developpers_table_row').on('dblclick', function(){
         $('#is_card__dialog').css('display','flex');

@@ -246,16 +246,16 @@ class Document{
         global $wpdb;
         $prefix = $wpdb->prefix;
 
-        $number         =   $_POST['number'];
-        $documentdate   =   $_POST['documentdate'];
-        $name           =   $_POST['name']; 
-        $kind_id        =   $_POST['kind_id']; 
-        $type           =   $_POST['type'];
-        $sender_id      =   $_POST['sender_id']; 
-        $sendreceive    =   $_POST['sendreceive']; 
-        $signer         =   $_POST['signer']; 
-        $signed         =   $_POST['signed']; 
-        $state          =   $_POST['state']; 
+        $number             =   $_POST['number'];
+        $documentdate       =   $_POST['documentdate'];
+        $name               =   $_POST['name']; 
+        $kind_id            =   $_POST['kind_id']; 
+        $type               =   $_POST['type'];
+        $sender_id          =   $_POST['sender_id']; 
+        $sendreceive        =   $_POST['sendreceive']; 
+        $signer             =   $_POST['signer']; 
+        $signed             =   $_POST['signed']; 
+        $state              =   $_POST['state']; 
 
         $wild = '%';
         $like_number        =   $wild . $wpdb->esc_like($number) .$wild;

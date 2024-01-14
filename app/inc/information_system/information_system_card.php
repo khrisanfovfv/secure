@@ -12,14 +12,14 @@ $document_icons = $resources->get_document_icons();
                 <!-- Содержимое основной карточки -->
                 <div class="information_system_card__content">
                     <!-- Группа вкладок -->
-                    <ul class="main_tabs">
-                        <li class="main_tabs__item information_system_card__tabs_item main_tabs__highlighted"><a href="#information_system_card__general">Общая</a> </li>
-                        <li class="main_tabs__item information_system_card__tabs_item"><a href="#information_system_card__remarks">Замечания по
+                    <ul class="tabs">
+                        <li class="tabs__item information_system_card__tabs_item tabs__highlighted"><a href="#information_system_card__general">Общая</a> </li>
+                        <li class="tabs__item information_system_card__tabs_item"><a href="#information_system_card__remarks">Замечания по
                                 аттестации</a> </li>
-                        <li class="main_tabs__item information_system_card__tabs_item"><a href="#information_system_card__administrators">Администраторы</a>
+                        <li class="tabs__item information_system_card__tabs_item"><a href="#information_system_card__administrators">Администраторы</a>
                         </li>
-                        <li class="main_tabs__item information_system_card__tabs_item"><a href="#information_system_card__contracts">Контракты</a> </li>
-                        <li class="main_tabs__item information_system_card__tabs_item"><a href="#information_system_card__archive">Архив</a> </li>
+                        <li class="tabs__item information_system_card__tabs_item"><a href="#information_system_card__contracts">Контракты</a> </li>
+                        <li class="tabs__item information_system_card__tabs_item"><a href="#information_system_card__archive">Архив</a> </li>
                     </ul>
 
                     <!-- ВКЛАДКА ОБЩАЯ -->

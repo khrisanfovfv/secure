@@ -97,6 +97,7 @@ var reference = {
         switch (prefix) {
             // КАРТОЧКИ СПРАВОЧНИКА
             case '#document_kind_ref': card = 'document_kind_card'; break;
+            case '#document_ref' : card = 'document_card'; break;
             case '#department_ref': card = 'department_card'; break;
             case '#information_system_ref': card = 'information_system_card'; break;
             case '#administrator_ref' : card = 'administrator_card'; break;
@@ -120,6 +121,7 @@ var reference = {
             case '#department_ref' : department_card_binging_events(); break;
             case '#administrator_ref' : adminisrator_card_binding_events(); break;
             case '#organization_ref' : organization_card_binding_events(); break
+            case '#document_ref' : document_card_binging_events(); break;
         }
     },
 
@@ -132,6 +134,7 @@ var reference = {
             case 'organization' : organization_ref_binding_events();
             case 'department' : department_ref_binding_events();
             case 'document_kind' : document_kind_ref_binding_events();
+            case 'document' : document_ref_binding_events();
         }
         
     },

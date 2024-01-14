@@ -11,13 +11,98 @@
     flex-direction: column;
     align-items: stretch;
     /*margin-right: 10px;*/
-    background-color: rgb(235, 235, 235);
     height: 100%;
     &__frame{
+        padding: 5px;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         height: 100%;
     }
+    &__frame-top{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        border-bottom: 2px solid rgb(212, 212, 212);
+    };
+    &__frame-top-left{
+        display: flex;
+        flex-direction: column;
+        flex: 4;
+        border-right: 2px solid rgb(212, 212, 212);
+    }
+    &__frame-top-right{
+        margin-left: 10px;
+        flex: 1;
+    }
+
+    &__content{
+        display: flex;
+        flex-direction: column;
+    }
+    &__general{
+        display: grid;
+        row-gap: 10px;
+        font-size: 18px;
+        grid-template-columns: repeat(24,1fr);
+        padding-right: 5px;
+        padding-bottom: 15px;
+    }
+    &__send_list{
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__content label{
+        grid-column: 1;
+        align-self: center;
+    };
+
+    &__content input{
+        grid-column: 3/25;
+        align-self: center;
+    }
+
+    &__content textarea{
+        grid-column: 3/25;
+        align-self: center;
+    }
+    &__content .card__record{
+        grid-column: 3/25;
+        align-self: center;
+    }
+    &__content select{
+        grid-column: 3/10;
+        background-color: white;
+        align-self: center;
+    }
+    &__content input[type="file"]{
+        border: none;
+    }
+
+
+
+}
+
+#document_card{
+    &__number{
+        grid-column: 3/10;
+    }
+    &__documentdate_label{
+        grid-column: 11/17;
+    }
+    &__documentdate{
+        grid-column: 18/25;
+    }
+    &__sendreceive{
+        grid-column: 3/10; 
+    }
+    &__signed{
+        grid-column: 11;
+    }
+    &__signed_label{
+        grid-column: 13/25;
+    }
+
 }
     
 
@@ -56,6 +141,43 @@
         background-color: white;
     }
 }
+
+/* Панель вкладок */
+.document_tabs{
+    display: flex;
+    /* Отдельная вкладка*/
+    &__item{
+        margin-bottom: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        z-index: 2;
+    }
+
+    &__item a{
+        color: black;
+    }
+
+    &__item::after{
+        content: '';
+        border-bottom: 2px solid #13406d;
+    }
+    /* Класс для обозначения выделенной вкладки*/
+    &__highlighted{
+        border-bottom: thin solid white;
+        background-color: $main_tabs_hilighted_tabs;
+        position: relative;
+    }
+
+    &__highlighted::after{
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 40px;
+        border-bottom:2px solid  #13406d;
+        width: 100%;
+    }
+}
+
 
 
 

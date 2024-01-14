@@ -55,6 +55,7 @@
     function secure_load_card(){
         switch($_POST['card']){
             case 'document_kind_card' : get_template_part('inc/document_kind/document_kind_card');break;
+            case 'document_card' : get_template_part('inc/document/document_card'); break;
             case 'department_card' : get_template_part('inc/department/department_card');break;
             case 'information_system_card' : get_template_part('inc/information_system/information_system_card');break;
             case 'administrator_card' : get_template_part('inc/administrator/administrator_card'); break;
