@@ -115,18 +115,18 @@ $document_icons = $resources->get_document_icons();
             <!-- Правая сторона -->
             <div class="document_card__frame-top-right">
                 <div class="attachments">
-                    <p class="attacments__title">Версии</p>
-                    <ul class="attacments__list">
-                        <li class="attacments__item document__item">
-                            <a class="attacments__link" href="">
-                                <img class="attacments__ico" src="<?php echo $document_icons->pdf ?>" alt="">
-                                <p class="attacments__name_item">Версия 2</p>
+                    <p class="attachments__title">Версии</p>
+                    <ul class="attachments__list document_card__version_list">
+                        <li class="attachments__item version__item">
+                            <a class="attachments__link" href="#">
+                                <img class="attachments__ico" src="<?php echo $document_icons->pdf ?>" alt="">
+                                <p class="attachments__name_item">Версия 2</p>
                             </a>
                         </li>
-                        <li class="attacments__item document__item">
-                            <a class="attacments__link" href="">
-                                <img class="attacments__ico" src="<?php echo $document_icons->ms_word ?>" alt="">
-                                <p class="attacments__name_item">Версия 1</p>
+                        <li class="attachments__item version__item">
+                            <a class="attachments__link" href="#">
+                                <img class="attachments__ico" src="<?php echo $document_icons->ms_word ?>" alt="">
+                                <p class="attachments__name_item">Версия 1</p>
                             </a>
                         </li>
                 </div>
@@ -137,4 +137,19 @@ $document_icons = $resources->get_document_icons();
             <button class="finish_button" id="document_card__Cancel">Отмена</button>
         </div>
     </div>
+</div>
+
+<!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ОБЛАСТИ С ВЕРСИЯМИ ДОКУМЕНТА -->
+<div class="context-menu" id="document_card__version_out_context">
+    <ul class="context-menu__list">
+        <li class="context-menu__item" id="documents_card__version_out_context-create">
+            <img src="<?php echo $button_icons->create ?>" alt=Создать">
+            <p>Создать</p>
+        </li>
+        <li class="context-menu__item" id="documents_card__version_out_context-update">
+            <img src="<?php echo $button_icons->update ?>" alt=Обновить">
+            <p>Обновить</p>
+        </li>
+
+    </ul>
 </div>

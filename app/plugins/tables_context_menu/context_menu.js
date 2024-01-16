@@ -26,6 +26,7 @@ var Context = {
         '#employeer_ref__context',
         '#document_ref__context',
         '#document_ref__out_context',
+        '#document_card__version_out_context',
         '#sm_references',
         '#sm_help',
         '#user__context'
@@ -184,7 +185,7 @@ var Context = {
             }
         }
 
-        // Проверяем щелкнули ли м в пустом месте табицы
+        // Проверяем щелкнули ли в пустом месте табицы
         if (!result) {
             result = Context.createContext(src_el);
         }
@@ -264,8 +265,7 @@ var Context = {
                 Context.bodyPaddingRight - Context.wrapperPaddingRight - 9;
             Context.menu.css('left', left + "px")
         } else {
-            //menu.style.left = clickCoordsX + "px";
-            Context.menu.css('left', clickCoordsX)
+            var left = clickCoordsX;
         }
 
         if ((windowHeight - clickCoordsY) < menuHeight) {
@@ -275,9 +275,9 @@ var Context = {
 
             Context.menu.css('top', top + "px");
         } else {
-            //menu.style.top = clickCoordsY + "px";
-            Context.menu.css('top', clickCoordsY)
+            var top = clickCoordsY;
         }
+        Context.menu.offset({top:top, left: left})
     },
     /** ФУНКЦИИ ДЛЯ РАБОТЫ С ПУНКТАМИ ГЛАВНОГО МЕНЮ */
 
@@ -312,6 +312,7 @@ var Context = {
             case 'administrator_ref__container': Context.menu = $('#administrator_ref__out_context'); break;
             case 'department_ref__container' : Context.menu = $('#department_ref__out_context'); break;
             case 'document_ref__container' : Context.menu = $('#document_ref__out_context'); break; 
+            case 'attachments__list document_card__version_list' : Context.menu = $('#document_card__version_out_context'); break;
             default: return false;
         }
         return src_el;
