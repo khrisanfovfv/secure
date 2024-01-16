@@ -329,19 +329,19 @@ $document_icons = $resources->get_document_icons();
 
                 </div> <!-- information_system_card__content -->
                 <!-- ПАНЕЛЬ ДОКУМЕНТЫ -->
-                <div class="attacments">
-                    <p class="attacments__title">Документы</p>
-                    <ul class="attacments__list">
-                        <li class="attacments__item document__item">
-                            <a class="attacments__link" href="">
-                                <img class="attacments__ico" src="<?php echo $document_icons->pdf ?>" alt="">
-                                <p class="attacments__name_item">Аттестат соответствия</p>
+                <div class="attachments">
+                    <p class="attachments__title">Документы</p>
+                    <ul class="attachments__list">
+                        <li class="attachments__item document__item">
+                            <a class="attachments__link" href="">
+                                <img class="attachments__ico" src="<?php echo $document_icons->pdf ?>" alt="">
+                                <p class="attachments__name_item">Аттестат соответствия</p>
                             </a>
                         </li>
-                        <li class="attacments__item document__item">
-                            <a class="attacments__link" href="">
-                                <img class="attacments__ico" src="<?php echo $document_icons->ms_word ?>" alt="">
-                                <p class="attacments__name_item">Технический паспорт</p>
+                        <li class="attachments__item document__item">
+                            <a class="attachments__link" href="">
+                                <img class="attachments__ico" src="<?php echo $document_icons->ms_word ?>" alt="">
+                                <p class="attachments__name_item">Технический паспорт</p>
                             </a>
                         </li>
                     </ul>
