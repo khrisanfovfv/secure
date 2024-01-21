@@ -157,6 +157,7 @@ var reference = {
                 // Вызываем функцию для соответствующего вида справочника
                 switch (prefix) {
                     case '#document_kind_ref': card_document_kind_load_data(result, openMode); break;
+                    case '#document_ref': card_document_load_data(result, openMode); break;
                     case '#department_ref': card_department_load_data(result, openMode); break;
                     case '#information_system_ref': card_information_system_load_data(result, openMode); break;
                     case '#administrator_ref': card_administrator_load_data(result, openMode); break;
@@ -297,5 +298,6 @@ var reference = {
             }
         }
     },
-    
-}
+
+
+}    

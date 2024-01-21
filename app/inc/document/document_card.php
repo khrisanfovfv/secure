@@ -30,7 +30,7 @@ $document_icons = $resources->get_document_icons();
                         <textarea id="document_card__name" name="document_card__name" size="80" rows="3" cols="33"></textarea>
                         <!-- Вид документа -->
                         <label for="document_card__kind">Вид документа</label>
-                        <div class="card__record" id="document_kard__kind">
+                        <div class="card__record" id="document_card__kind">
                             <p class='hide name_reference'>document_kind</p>
                             <p class="id hide"></p>
                             <input class='fullname' type="text">
@@ -116,19 +116,21 @@ $document_icons = $resources->get_document_icons();
             <div class="document_card__frame-top-right">
                 <div class="attachments">
                     <p class="attachments__title">Версии</p>
-                    <ul class="attachments__list document_card__version_list">
-                        <li class="attachments__item version__item">
-                            <a class="attachments__link" href="#">
-                                <img class="attachments__ico" src="<?php echo $document_icons->pdf ?>" alt="">
-                                <p class="attachments__name_item">Версия 2</p>
-                            </a>
+                    <ul class="attachments__list" id="document_card__version_list">
+                        <!-- <li class="attachments__item version__item">
+                            <p class="id hide">2</p>
+                            <p class="version_number hide">2</p>
+                            <p class="dateversion hide"></p>
+                            <img class="attachments__ico" src="<?php echo $document_icons->pdf ?>" alt="">
+                            <p class="attachments__name_item">Версия 2</p>
                         </li>
                         <li class="attachments__item version__item">
-                            <a class="attachments__link" href="#">
-                                <img class="attachments__ico" src="<?php echo $document_icons->ms_word ?>" alt="">
-                                <p class="attachments__name_item">Версия 1</p>
-                            </a>
-                        </li>
+                            <p class="id hide">1</p>
+                            <p class="version_number hide">1</p>
+                            <p class="dateversion hide"></p>
+                            <img class="attachments__ico" src="<?php echo $document_icons->ms_word ?>" alt="">
+                            <p class="attachments__name_item">Версия 1</p>
+                        </li> -->
                 </div>
             </div>
         </div>

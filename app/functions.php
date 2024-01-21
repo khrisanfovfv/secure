@@ -5,7 +5,7 @@
      * 
      * @package Secure
      * */
-
+    require_once('common.php');
     
     
     /**
@@ -25,6 +25,7 @@
         // Передаем переменную ajaxurl в main.js
         wp_localize_script('main_script','MainData', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
+            'document_icons' => secure_get_document_icons(),
             'stack' => array()
         ));
     }
@@ -36,6 +37,8 @@
     add_action('wp_ajax_nopriv_load_card', 'secure_load_card');
     add_action('wp_ajax_load_reference', 'secure_load_reference');
     add_action('wp_ajax_nopriv_load_reference', 'secure_load_reference');
+    add_action('wp_ajax_load_document_icons', 'secure_load_document_icons');
+    add_action('wp_ajax_nopriv_load_document_icons', 'secure_load_document_icons');
     // add_action('wp_ajax_load_card_data', 'secure_load_card_data');
     // add_action('wp_ajax_nopriv_load_card_data', 'secure_load_card_data');
     
@@ -138,6 +141,16 @@
         }
 
     }
+
+    /** 
+     * ==================== ПОЛУЧЕНИЕ ИКОНОК ДОКУМЕНТОВ ====================
+     * */
+    function secure_get_document_icons(){
+        $icons = new Resources();
+        return json_encode($icons->get_document_icons());
+    }
+
+
    
 
 

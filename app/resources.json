@@ -14,7 +14,8 @@
     "document_icons":{
         "ms_word":"ms-word.svg",
         "ms_excel":"ms-excel.svg",
-        "pdf":"pdf.svg"
+        "pdf":"pdf.svg",
+        "other":"other.svg"
     }
      
 }

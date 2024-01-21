@@ -178,6 +178,7 @@ class SecDb
         $id = $_POST['id']; 
         switch($_POST['card']){
             case 'document_kind_card' :{ $results = $this->document_kind->secure_load_card_data($id);};break;
+            case 'document_card' :{ $results = $this->document->secure_load_card_data($id);}; break;
             case 'department_card' :{ $results = $this->department->secure_load_card_data($id);}; break;
             case 'information_system_card':{ $results = $this->information_system->secure_load_card_data($id);}; break;
             case 'administrator_card' : { $results = $this->administrator->secure_load_card_data($id);}; break;

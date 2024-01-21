@@ -265,7 +265,7 @@ function document_edit_record(){
     rows = $('.document_ref__table_row.highlight')
     var id = rows[0].children.item(0).textContent;
     var size = { width: 1000, height: 600 };
-    reference.open_card('#document_ref', 'Карточка Отдела', size, OpenMode.Edit, id);
+    reference.open_card('#document_ref', 'Карточка Документа', size, OpenMode.Edit, id);
 }
 
 /**
@@ -276,7 +276,7 @@ function document_copy_record(){
     var id = rows[0].children.item(0).textContent;
     var size = { width: 1000, height: 600 };
     // Открываем карточку в режиме создания новой записи
-    reference.open_card('#document_ref', 'Карточка Отдела', size, OpenMode.Copy, id);
+    reference.open_card('#document_ref', 'Карточка Документв', size, OpenMode.Copy, id);
 }
 
 /**
@@ -286,6 +286,9 @@ function document_delete_record(){
     rows = $('.document_ref__table_row.highlight');
     reference.delete_record('#document_ref', rows, 'delete_document');
 }
+
+
+
 
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
@@ -337,10 +340,19 @@ async function card_document_load_data(data, openMode) {
         case OpenMode.Edit: $('#document_card__id').text(cardData[0].id); break;
         case OpenMode.Copy: $('#document_card__id').text(''); break;
     }
+    $('#document_card__number').val(cardData[0].number);
+    $('#document_card__documentdate').val(cardData[0].documentdate);
     $('#document_card__name').val(cardData[0].name);
-    $('#document_card__organization').find('.id').text(cardData[0].organization_id);
-    $('#document_card__organization').find('.fullname').val(cardData[0].organization_name);
-    $('#document_card__boss').val(cardData[0].boss)
+    $('#document_card__kind').find('.id').text(cardData[0].document_kind_id);
+    $('#document_card__kind').find('.fullname').val(cardData[0].document_kind_name);
+    $('#document_card__type').val(cardData[0].type);
+    $('#document_card__sendreceive').val(cardData[0].sendreceive);
+    $('#document_card__signed').prop('checked', cardData[0].signed);
+    $('#document_card__signer').val(cardData[0].signer);
+    $('#document_card__sender').find('.id').text(cardData[0].sender_id);
+    $('#document_card__sender').find('.fullname').val(cardData[0].sender_name);
+    $('#document_card__correspondent').find('.id').text(cardData[0].correspondent_id);
+    $('#document_card__correspondent').find('.fullname').val(cardData[0].correspondent_name);
     $('#document_card__state').val(cardData[0].state);
 }
 
@@ -372,6 +384,7 @@ function document_update_reference(records)
  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ДОКУМЕНТА ============ 
  */
 function document_card_binging_events() {
+    
     $('#document_card__OK').on('click', function () {
         document_card_press_OK(this);
     });
@@ -389,6 +402,45 @@ function document_card_binging_events() {
     /** ===================== ВЫБОР ВКЛАДКИ НА КАРТОЧКЕ ДОКУМЕНТА ================ */
     $('.document__tabs_item').on('click',function(e){
         document__chose_tab(e);
+    })
+
+
+    $('#document_card__file').on('change', function(e){
+        var files = $(e.target).prop('files');
+        var file = files[0];
+        var document_icons = JSON.parse(MainData.document_icons);
+        
+        // Находим масимальный номер версии
+        var version_numbers = [];
+        var versions = $('#document_card__version_list .version__item .version_number');
+        versions.each(function(index, element){
+            version_numbers[index] = Number($(element).text());
+        })
+        var max_version_number = 0; 
+        if (version_numbers.length > 0){
+            max_version_number = Math.max.apply(null,version_numbers);
+        }
+        var version_number = max_version_number + 1;
+        
+        // Подставляем подходящую иконку
+        var icon = document_icons.other
+        switch(file.type){
+            case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
+                icon = document_icons.ms_word; break;
+            case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                icon = document_icons.ms_excel; break;
+            case 'application/pdf' : icon = document_icons.pdf; break;
+
+        }
+        // Отображаем созданную версию
+        $('#document_card__version_list')
+            .prepend($("<li class='attachments__item version__item'>")
+                .append($("<p class='id hide'>"))
+                .append($("<p class='version_number hide'>").text(version_number))
+                .append($("<p class='dateversion hide'>").text(file.lastModified))
+                .append($("<img class='attachments__ico'>").attr('src',icon))
+                .append($("<p class='attachments__name_item'>").text('Версия '+ version_number))
+            )
     })
 
 

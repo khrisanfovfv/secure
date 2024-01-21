@@ -24,13 +24,15 @@ class Document{
             kind mediumint(9),
             type varchar(9),
             sender mediumint(9),
+            correspondent mediumint(9),
             sendreceive date,
             signer tinytext,
             signed boolean,
             state varchar(14) DEFAULT 'Active' NOT NULL,
             PRIMARY KEY  (id),
             FOREIGN KEY (kind) REFERENCES {$wpdb->prefix}document_kind(id),
-            FOREIGN KEY (sender) REFERENCES {$wpdb->prefix}organization(id)
+            FOREIGN KEY (sender) REFERENCES {$wpdb->prefix}organization(id),
+            FOREIGN KEY (correspondent) REFERENCES {$wpdb->prefix}organization(id)
         ) $charset_collate;";
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -57,6 +59,7 @@ class Document{
                 'kind' => 15,
                 'type' => 'Inbox',
                 'sender' => 1,
+                'correspondent' => 1,
                 'sendreceive' => '2023-02-01',
                 'signer' => 'Васильев Олег Петрович',
                 'signed' => 1,
@@ -70,6 +73,7 @@ class Document{
                 '%d', // kind
                 '%s', // type
                 '%d', // sender
+                '%d', // correspondent
                 '%s', // sendreceive
                 '%s', // signer
                 '%d', // signed
@@ -86,6 +90,7 @@ class Document{
                 'kind' => 15,
                 'type' => 'Outbox',
                 'sender' => 1,
+                'correspondent' => 1,
                 'sendreceive' => '2023-03-04',
                 'signer' => 'Пучков Николай Анатольевич',
                 'signed' => 1,
@@ -99,6 +104,7 @@ class Document{
                 '%d', // kind
                 '%s', // type
                 '%d', // sender
+                '%d', // correspondent
                 '%s', // sendreceive
                 '%s', // signer
                 '%d', // signed
@@ -124,21 +130,20 @@ class Document{
     /**
      * ============================ ЗАГРУЗКА ДАННЫХ КАРТОЧКИ ===============================
      */
-
-     public function secure_load_card_data($id){
+     public function secure_load_card_data($document_id){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT administrator.id, administrator.fullname,organization.id as organization_id, organization.fullname as organization_name, department.id as department_id, department.name as department_name, administrator.state FROM {$prefix}administrator administrator 
-            JOIN {$prefix}organization organization on administrator.organization = organization.id 
-            JOIN {$prefix}department department on administrator.department = department.id 
-            WHERE administrator.id = $id"), OBJECT );
-        $information_system_administrator = $wpdb->get_results(
-            $wpdb->prepare("SELECT inf_sys_adm.id,inf_sys_adm.information_system_id, inf_sys.fullname as information_system_name , inf_sys_adm.appointdate, inf_sys_adm.terminatedate, inf_sys_adm.type 
-            FROM {$prefix}information_system_administrator inf_sys_adm 
-            JOIN {$prefix}information_system inf_sys on inf_sys_adm.information_system_id = inf_sys.id            
-            WHERE administrator_id = $id"), OBJECT);
-            $results = (object) array_merge( (array)$results, array( 'information_systems' => $information_system_administrator ));
+            $wpdb->prepare("SELECT document.id, document.number, document.documentdate, 
+            document.name, document.type, document.sendreceive, document.signer, document.signed, document.state, 
+            document_kind.id as document_kind_id, document_kind.name document_kind_name, 
+            sender.id as sender_id, sender.fullname as sender_name,
+            correspondent.id as correspondent_id, correspondent.fullname as correspondent_name 
+            FROM {$prefix}document document 
+            JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id 
+            JOIN {$prefix}organization sender on document.sender = sender.id
+            JOIN {$prefix}organization correspondent on document.correspondent = correspondent.id 
+            WHERE document.id = $document_id"), OBJECT );
         return $results;
         wp_die();
      }
