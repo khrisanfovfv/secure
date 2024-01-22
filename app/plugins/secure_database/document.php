@@ -1,8 +1,10 @@
-<?php 
+<?php
 
-class Document{
+class Document
+{
     protected $table_name;
-    public function __construct() {
+    public function __construct()
+    {
         $this->table_name = 'document';
     }
 
@@ -33,6 +35,22 @@ class Document{
             FOREIGN KEY (kind) REFERENCES {$wpdb->prefix}document_kind(id),
             FOREIGN KEY (sender) REFERENCES {$wpdb->prefix}organization(id),
             FOREIGN KEY (correspondent) REFERENCES {$wpdb->prefix}organization(id)
+        ) $charset_collate;";
+
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta($document_sql);
+
+        // Запрос на создание таблицы Версии документов
+        $table_name = $wpdb->prefix . 'document_version';
+        $document_sql = "CREATE TABLE $table_name (
+            id mediumint(9) NOT NULL AUTO_INCREMENT,
+            document mediumint(9),
+            versiondate date,
+            type tinytext,
+            filepath text,
+            state varchar(14) DEFAULT 'Active' NOT NULL,
+            PRIMARY KEY  (id),
+            FOREIGN KEY (document) REFERENCES {$wpdb->prefix}document(id)
         ) $charset_collate;";
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -111,18 +129,37 @@ class Document{
                 '%s', // state
             )
         );
+        $table_name = $wpdb->prefix . 'document_version';
+        $wpdb->insert(
+            $table_name,
+            array(
+                'document' => 1,
+                'versiondate' => 123,
+                'type' => 'application/pdf',
+                'filepath' => ''
+            ),
+            array(
+                '%d', // document
+                '%d', // versiondate
+                '%s', // type
+                '%s'  // filepath
+            )
+        );
     }
 
 
     /**
      * ================ ПОЛУЧЕНИЕ ЗАПИСЕЙ ТАБЛИЦЫ ДОКУМЕНТЫ =================
      */
-    public function secure_load_document(){
+    public function secure_load_document()
+    {
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $results = $wpdb->get_results( 
+        $results = $wpdb->get_results(
             $wpdb->prepare("SELECT document.id, document.number, document.documentdate, document.name, document_kind.name as document_kind, document.state  FROM {$prefix}document document 
-            JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id"), ARRAY_A );
+            JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id"),
+            ARRAY_A
+        );
         echo json_encode($results);
         wp_die();
     }
@@ -130,10 +167,11 @@ class Document{
     /**
      * ============================ ЗАГРУЗКА ДАННЫХ КАРТОЧКИ ===============================
      */
-     public function secure_load_card_data($document_id){
+    public function secure_load_card_data($document_id)
+    {
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $results = $wpdb->get_results( 
+        $results = $wpdb->get_results(
             $wpdb->prepare("SELECT document.id, document.number, document.documentdate, 
             document.name, document.type, document.sendreceive, document.signer, document.signed, document.state, 
             document_kind.id as document_kind_id, document_kind.name document_kind_name, 
@@ -143,22 +181,25 @@ class Document{
             JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id 
             JOIN {$prefix}organization sender on document.sender = sender.id
             JOIN {$prefix}organization correspondent on document.correspondent = correspondent.id 
-            WHERE document.id = $document_id"), OBJECT );
+            WHERE document.id = $document_id"),
+            OBJECT
+        );
         return $results;
         wp_die();
-     }
+    }
 
     /**
      * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ДОКУМЕНТА ======================
      */
-    function secure_add_administrator(){
+    function secure_add_administrator()
+    {
 
         global $wpdb;
         $prefix = $wpdb->prefix;
         $record = $_POST['record'];
-        
+
         $wpdb->insert(
-            $prefix.'administrator',
+            $prefix . 'administrator',
             array(
                 'fullname' => $record['fullname'],
                 'organization' => $record['organization_id'],
@@ -175,50 +216,52 @@ class Document{
         $id = $wpdb->insert_id;
 
 
-        echo 'Запись добавлена ИД=' . $id; 
+        echo 'Запись добавлена ИД=' . $id;
         wp_die();
     }
 
     /** 
      * ====================== ОБНОВЛЕНИЕ ЗАПИСИ ДОКУМЕНТ ==========================
      */
-    function secure_update_document(){
+    function secure_update_document()
+    {
         global $wpdb;
         $prefix = $wpdb->prefix;
         $record = $_POST['record'];
 
         $wpdb->update(
-            $prefix.'document',
+            $prefix . 'document',
             array(
                 'fullname' => $record['fullname'],
                 'organization' => $record['organization_id'],
                 'department' => $record['department_id'],
                 'state' => $record['state'],
             ),
-            array( 'ID' => $record['id'] ),
+            array('ID' => $record['id']),
             array(
                 '%s', // fullname
                 '%d', // organization
                 '%d', // department
                 '%s'  // state
             ),
-            array( '%d' )
+            array('%d')
         );
 
-        
+
         echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
         wp_die();
     }
     /** 
      * ====================== УДАЛЕНИЕ ЗАПИСИ ДОКУМЕНТ ==========================
      */
-    public function secure_delete_document(){
+    public function secure_delete_document()
+    {
         global $wpdb;
         $prefix = $wpdb->prefix;
         $document_id = $_POST['id'];
-        
+
         // Удаляем запись Документ
-        $wpdb->delete( $prefix.'document', array( 'ID' => $document_id ), array( '%d' ));
+        $wpdb->delete($prefix . 'document', array('ID' => $document_id), array('%d'));
         echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
         wp_die();
     }
@@ -226,20 +269,23 @@ class Document{
     /**
      * ================ ДОКУМЕНТЫ. ОБЩИЙ ПОИСК =================
      */
-    function secure_search_document(){
+    function secure_search_document()
+    {
         global $wpdb;
         $prefix = $wpdb->prefix;
         $value = $_POST['value'];
         $wild = '%';
-        $like = $wild . $wpdb->esc_like($value) .$wild;
-        $results = $wpdb->get_results( 
+        $like = $wild . $wpdb->esc_like($value) . $wild;
+        $results = $wpdb->get_results(
             $wpdb->prepare("SELECT document.id, document.number, document.documentdate, document.name, document_kind.name as document_kind, document.state  FROM {$prefix}document document 
             JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id
             WHERE document.number LIKE %s
             OR document.documentdate LIKE %s
             OR document.name LIKE %s
             OR document_kind.name LIKE %s
-            ",array($like, $like, $like, $like)), ARRAY_A); 
+            ", array($like, $like, $like, $like)),
+            ARRAY_A
+        );
         echo json_encode($results);
         wp_die();
     }
@@ -247,45 +293,49 @@ class Document{
     /**
      * ================= ДОКУМЕНТЫ. РАСШИРЕННЫЙ ПОИСК =================
      */
-    function secure_search_document_extended(){
+    function secure_search_document_extended()
+    {
         global $wpdb;
         $prefix = $wpdb->prefix;
 
         $number             =   $_POST['number'];
         $documentdate       =   $_POST['documentdate'];
-        $name               =   $_POST['name']; 
-        $kind_id            =   $_POST['kind_id']; 
+        $name               =   $_POST['name'];
+        $kind_id            =   $_POST['kind_id'];
         $type               =   $_POST['type'];
-        $sender_id          =   $_POST['sender_id']; 
-        $sendreceive        =   $_POST['sendreceive']; 
-        $signer             =   $_POST['signer']; 
-        $signed             =   $_POST['signed']; 
-        $state              =   $_POST['state']; 
+        $sender_id          =   $_POST['sender_id'];
+        $sendreceive        =   $_POST['sendreceive'];
+        $signer             =   $_POST['signer'];
+        $signed             =   $_POST['signed'];
+        $state              =   $_POST['state'];
 
         $wild = '%';
-        $like_number        =   $wild . $wpdb->esc_like($number) .$wild;
-        $like_documentdate  =   $wild . $wpdb->esc_like($documentdate) .$wild;
-        $like_name          =   $wild . $wpdb->esc_like($name) .$wild;
-        $like_sendreceive   =   $wild . $wpdb->esc_like($sendreceive) .$wild;
-        $like_signer        =   $wild . $wpdb->esc_like($signer) .$wild;
+        $like_number        =   $wild . $wpdb->esc_like($number) . $wild;
+        $like_documentdate  =   $wild . $wpdb->esc_like($documentdate) . $wild;
+        $like_name          =   $wild . $wpdb->esc_like($name) . $wild;
+        $like_sendreceive   =   $wild . $wpdb->esc_like($sendreceive) . $wild;
+        $like_signer        =   $wild . $wpdb->esc_like($signer) . $wild;
 
         $kind_query         =   $kind_id != '' ? " AND document_kind.id  ='$kind_id'" : '';
         $type_query         =   $type != '' ? " AND document.type = '$type'" : '';
         $sender_query       =   $sender_id != '' ? " AND organization.id = '$sender_id'" : '';
         $signed_query       =   $signed != '' ? " AND document.signed  ='$signed'" : '';
-        $state_query        =   $state != '' ? " AND document.state  ='$state'" : '';  
+        $state_query        =   $state != '' ? " AND document.state  ='$state'" : '';
 
-        $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT document.id, document.number, document.documentdate, document.name, document_kind.name as document_kind, document.state  
+        $results = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT document.id, document.number, document.documentdate, document.name, document_kind.name as document_kind, document.state  
             FROM {$prefix}document document 
             JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id
             JOIN {$prefix}organization organization on document.sender = organization.id
             WHERE document.number LIKE %s AND document.documentdate LIKE %s AND document.name LIKE %s 
             AND document.sendreceive LIKE %s AND document.signer LIKE %s 
-            $kind_query $type_query $sender_query $signed_query $state_query", 
-            array($like_number, $like_documentdate, $like_name, $like_sendreceive, $like_signer)), ARRAY_A);
+            $kind_query $type_query $sender_query $signed_query $state_query",
+                array($like_number, $like_documentdate, $like_name, $like_sendreceive, $like_signer)
+            ),
+            ARRAY_A
+        );
         echo json_encode($results);
         wp_die();
     }
-
 }

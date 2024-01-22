@@ -432,6 +432,7 @@ function document_card_binging_events() {
             case 'application/pdf' : icon = document_icons.pdf; break;
 
         }
+        alert(icon);
         // Отображаем созданную версию
         $('#document_card__version_list')
             .prepend($("<li class='attachments__item version__item'>")

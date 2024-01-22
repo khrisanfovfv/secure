@@ -17,63 +17,63 @@ $('#organization_ref__table tbody tr').on('dblclick', function () {
 /**
  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ВИД ДОКУМЕНТА =========================
  */
-$('#organization__card_OK').on('click', function () {
-    if ($('#organization_card__name').val().trim() == '') {
-        $('#organization_card__name').addClass('red_border');
+// $('#organization__card_OK').on('click', function () {
+//     if ($('#organization_card__name').val().trim() == '') {
+//         $('#organization_card__name').addClass('red_border');
 
-        // Отправляем уведомление
-        var size = { width: 400, height: 200 };
-        var message = 'Не заполнено обязательное поле';
-        reference.show_notification('#organization_ref', 'Предупреждение', size, message);
-    } else {
-        $('#organization_card__name').removeClass('red_border');
-        // Формируем запись для запроса
-        record = {
-            id: $('#organization_card__id').text(),
-            name: $('#organization_card__name').val(),
-            state: $('#organization_card__state').val()
-        }
-        if ($('#organization_card__id').text() == '') {
+//         // Отправляем уведомление
+//         var size = { width: 400, height: 200 };
+//         var message = 'Не заполнено обязательное поле';
+//         reference.show_notification('#organization_ref', 'Предупреждение', size, message);
+//     } else {
+//         $('#organization_card__name').removeClass('red_border');
+//         // Формируем запись для запроса
+//         record = {
+//             id: $('#organization_card__id').text(),
+//             name: $('#organization_card__name').val(),
+//             state: $('#organization_card__state').val()
+//         }
+//         if ($('#organization_card__id').text() == '') {
 
-            // ДОБАВЛЯЕМ значение в базу
-            var data = {
-                action: 'add_organization',
-                record: record
-            };
+//             // ДОБАВЛЯЕМ значение в базу
+//             var data = {
+//                 action: 'add_organization',
+//                 record: record
+//             };
 
-            jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-                organization_load_records();
-            }).fail(function () {
-                var size = { width: 500, height: 200 };
-                var message = 'Во время добавления записи произошла ошибка';
-                reference.show_notification('organization_ref', 'Ошибка', size, message);
-            })
-        } else {
-            // ОБНОВЛЯЕМ значение в базе данных
-            var data = {
-                action: 'update_organization',
-                record: record
-            };
+//             jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+//                 organization_load_records();
+//             }).fail(function () {
+//                 var size = { width: 500, height: 200 };
+//                 var message = 'Во время добавления записи произошла ошибка';
+//                 reference.show_notification('organization_ref', 'Ошибка', size, message);
+//             })
+//         } else {
+//             // ОБНОВЛЯЕМ значение в базе данных
+//             var data = {
+//                 action: 'update_organization',
+//                 record: record
+//             };
 
-            jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-                organization_load_records();
-            }).fail(function () {
-                var size = { width: 500, height: 200 };
-                var message = 'Во время обновления записи произошла ошибка';
-                reference.show_notification('organization_ref', 'Ошибка', size, message);
-            })
-        }
-        $(this).parents('.appdialog').css('display', 'none');
-    }
+//             jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+//                 organization_load_records();
+//             }).fail(function () {
+//                 var size = { width: 500, height: 200 };
+//                 var message = 'Во время обновления записи произошла ошибка';
+//                 reference.show_notification('organization_ref', 'Ошибка', size, message);
+//             })
+//         }
+//         $(this).parents('.appdialog').css('display', 'none');
+//     }
 
-});
+// });
 
-/**
- * ==================== НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ВИД ДОКУМЕНТА ======================
- */
-$('#organization__card_Cancel').on('click', function () {
-    $(this).parents('.appdialog').css('display', 'none');
-});
+// /**
+//  * ==================== НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ВИД ДОКУМЕНТА ======================
+//  */
+// $('#organization__card_Cancel').on('click', function () {
+//     $(this).parents('.appdialog').css('display', 'none');
+// });
 
 
 
@@ -319,8 +319,9 @@ function organization_ref_binding_events() {
  */
 function organization_card_binding_events() {
     /** ==============Карточка Организации: НАЖАТИЕ КНОПКИ OK ============= */
-    $('#organization_card__OK ').on('click', function () {
-        organization_card_press_OK(this);
+    $('#organization_card__OK ').on('click', function (e) {
+        organization_card_press_OK(e.target);
+        //$(e.target).parents('.appdialog').css('display', 'none');
     });
     /** ==============Карточка Организации: НАЖАТИЕ КНОПКИ Отмена ============= */
     $('#organization_card__Cancel').on('click', function (e) {
@@ -337,16 +338,16 @@ function organization_card_press_OK(sender) {
         record = {
             id: $('#organization_card__id').text(),
             fullname: $('#organization_card__fullName').val(),
-            briefname : $('#organization_card__briefname').val(),
-            boss: $('#organization_card__boss').val(),  
+            briefname: $('#organization_card__briefname').val(),
+            boss: $('#organization_card__boss').val(),
             inn: $('#organization_card__inn').val(),
             kpp: $('#organization_card__kpp').val(),
             ogrn: $('#organization_card__ogrn').val(),
             okpo: $('#organization_card__okpo').val(),
             postAddress: $('#organization_card__postAddress').val(),
-            legalAddress : $('#organization_card__legalAddress').val(),
+            legalAddress: $('#organization_card__legalAddress').val(),
             email: $('#organization_card__email').val(),
-            state : $('#organization_card__state').val(), 
+            state: $('#organization_card__state').val(),
         }
         if ($('#organization_card__id').text() == '') {
             // ДОБАВЛЯЕМ значение в базу
@@ -375,10 +376,9 @@ function organization_card_press_OK(sender) {
                 var message = 'Во время обновления записи произощла ошибка';
                 reference.show_notification('organization_ref', 'Ошибка', size, message);
             })
-        
+        }
         $(sender).parents('.appdialog').css('display', 'none');
     }
-}
 }
 
 function organization_card__check_fields() {
