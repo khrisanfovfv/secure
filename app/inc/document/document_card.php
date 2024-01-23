@@ -37,7 +37,7 @@ $document_icons = $resources->get_document_icons();
                             <div class="card_record__button" id="document_card__kind_btn">&#183;&#183;&#183;</div>
                         </div>
                         <!-- Тип -->
-                        <label for="document_card__type">Тип</label>
+                        <label for="document_card__name">Тип</label>
                         <select id="document_card__type">
                             <option value=""></option>
                             <option value="Inbox">Входящий</option>
@@ -117,20 +117,7 @@ $document_icons = $resources->get_document_icons();
                 <div class="attachments">
                     <p class="attachments__title">Версии</p>
                     <ul class="attachments__list" id="document_card__version_list">
-                        <!-- <li class="attachments__item version__item">
-                            <p class="id hide">2</p>
-                            <p class="version_number hide">2</p>
-                            <p class="dateversion hide"></p>
-                            <img class="attachments__ico" src="<?php echo $document_icons->pdf ?>" alt="">
-                            <p class="attachments__name_item">Версия 2</p>
-                        </li>
-                        <li class="attachments__item version__item">
-                            <p class="id hide">1</p>
-                            <p class="version_number hide">1</p>
-                            <p class="dateversion hide"></p>
-                            <img class="attachments__ico" src="<?php echo $document_icons->ms_word ?>" alt="">
-                            <p class="attachments__name_item">Версия 1</p>
-                        </li> -->
+                    </ul>
                 </div>
             </div>
         </div>

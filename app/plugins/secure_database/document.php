@@ -46,6 +46,8 @@ class Document
             id mediumint(9) NOT NULL AUTO_INCREMENT,
             document mediumint(9),
             versiondate date,
+            version_number smallint,
+            version_title tinytext, 
             type tinytext,
             filepath text,
             state varchar(14) DEFAULT 'Active' NOT NULL,
@@ -135,12 +137,16 @@ class Document
             array(
                 'document' => 1,
                 'versiondate' => 123,
+                'version_number' => 1,
+                'version_title' => 'Версия 1',
                 'type' => 'application/pdf',
                 'filepath' => ''
             ),
             array(
                 '%d', // document
-                '%d', // versiondate
+                '%s', // versiondate
+                '%d', // version_number
+                '%s', // version_title
                 '%s', // type
                 '%s'  // filepath
             )
@@ -184,6 +190,9 @@ class Document
             WHERE document.id = $document_id"),
             OBJECT
         );
+        $document_versions = $wpdb->get_results(
+            $wpdb->prepare("SELECT * FROM {$prefix}document_version WHERE document = $document_id"), OBJECT);
+        $results = (object) array_merge( (array)$results, array( 'document_versions' => $document_versions ));
         return $results;
         wp_die();
     }

@@ -196,12 +196,12 @@ class Organization
      /** 
      * ====================== УДАЛЕНИЕ ЗАПИСИ Организации ==========================
      */
-    public function secure_delete_organization(){
+    function secure_delete_organization(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $organization_id = $_POST['id'];
         
-        // Удаляем запись Администратор
+        // Удаляем запись Организации
         $wpdb->delete( $prefix.'organization', array( 'ID' => $organization_id ), array( '%d' ));
         echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
         wp_die();

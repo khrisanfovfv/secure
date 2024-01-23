@@ -237,8 +237,9 @@ function organization_select_record(e) {
  * ========================= НАЖАТИЕ КНОПКИ УДАЛИТЬ ЗАПИСЬ ==========================
  */
 $('#organization_delete').on('click', function () {
-    rows = $('.organization_ref__table_row.highlight');
-    reference.delete_record('#organization_ref', rows);
+    organization_delete_record()
+    //rows = $('.organization_ref__table_row.highlight');
+    //reference.delete_record('#organization_ref', rows);
 });
 
 

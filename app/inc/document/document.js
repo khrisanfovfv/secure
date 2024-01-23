@@ -1,3 +1,5 @@
+var document_icons = JSON.parse(MainData.document_icons);
+
 /** 
  * ====================== ОДИНОЧНЫЙ КЛИК НА СТРОКУ ТАБЛИЦЫ =======================
 */
@@ -57,9 +59,16 @@ function document_card_press_OK(sender) {
         // Формируем запись для запроса
         record = {
             id: $('#document_card__id').text(),
+            number: $('#document_card__number').val(),
+            documentdate: $('#document_card__documentdate').val(),
             name: $('#document_card__name').val(),
-            organization_id : $('#document_card__organization').find('.id').text(),
-            boss : $('#document_card__boss').val(),
+            kind : $('#document_card__kind').find('.id').text(),
+            type : $('#document_card__type').val(),
+            sender : $('#document_card__sender').find('.id').text(),
+            correspondent : $('#document_card__correspondent').find('.id').text(),
+            sendreceive : $('#document_card__sendreceive').val(),
+            signed : $('#document_card__signed').attr('checked'),
+            signer : $('#document_card__signer').val(),
             state: $('#document_card__state').val()
         }
         if ($('#document_card__id').text() == '') {
@@ -354,6 +363,16 @@ async function card_document_load_data(data, openMode) {
     $('#document_card__correspondent').find('.id').text(cardData[0].correspondent_id);
     $('#document_card__correspondent').find('.fullname').val(cardData[0].correspondent_name);
     $('#document_card__state').val(cardData[0].state);
+
+    // Версии документа
+    var document_versions = cardData['document_versions']
+    var ind = 1;
+    document_versions.forEach(document_version => {
+        document_version['ind'] = ind++;
+        $('#document_card__version_list').prepend(
+            document_card_draw_version(document_version)
+        );
+    });
 }
 
 /**
@@ -422,30 +441,40 @@ function document_card_binging_events() {
         }
         var version_number = max_version_number + 1;
         
-        // Подставляем подходящую иконку
-        var icon = document_icons.other
-        switch(file.type){
-            case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
-                icon = document_icons.ms_word; break;
-            case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-                icon = document_icons.ms_excel; break;
-            case 'application/pdf' : icon = document_icons.pdf; break;
-
-        }
-        alert(icon);
+        
         // Отображаем созданную версию
-        $('#document_card__version_list')
-            .prepend($("<li class='attachments__item version__item'>")
-                .append($("<p class='id hide'>"))
-                .append($("<p class='version_number hide'>").text(version_number))
-                .append($("<p class='dateversion hide'>").text(file.lastModified))
-                .append($("<img class='attachments__ico'>").attr('src',icon))
-                .append($("<p class='attachments__name_item'>").text('Версия '+ version_number))
-            )
+        var document_version = [];
+        document_version['version_number'] = version_number;
+        document_version['versiondate'] = file.lastModified;
+        document_version['type'] = file.type;
+        document_version['version_title'] = 'Версия '+ version_number;
+        $('#document_card__version_list').prepend(
+            document_card_draw_version(document_version)
+        );
     })
 
+}
 
-
+/**
+ * ================== ОТОБРАЖАЕМ ВЕРСИЮ ДОКУМЕНТА ===================
+ */
+function document_card_draw_version(document_version){
+    // Подставляем подходящую иконку
+    var icon = document_icons.other
+    switch(document_version['type']){
+        case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
+            icon = document_icons.ms_word; break;
+        case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+            icon = document_icons.ms_excel; break;
+        case 'application/pdf' : icon = document_icons.pdf; break;
+    }
+    var content_html =  $("<li class='attachments__item version__item'>")
+        .append($("<p class='id hide'>").text(document_version['id']))
+        .append($("<p class='version_number hide'>").text(document_version['version_number']))
+        .append($("<p class='versiondate hide'>").text(document_version['versiondate']))
+        .append($("<img class='attachments__ico'>").attr('src',icon))
+        .append($("<p class='attachments__name_item'>").text(document_version['version_title']))
+    return content_html;
 }
 
 /**
