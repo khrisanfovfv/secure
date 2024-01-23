@@ -301,6 +301,18 @@ $('#organization_ref__context_edit').on('click', function () {
     }
 })
 
+
+/**
+ * Организации. УДАЛЕНИЕ ЗАПИСИ
+ */
+function organization_delete_record() {
+    rows = $('.organization_ref__table_row.highlight');
+    if (rows.length > 0) {
+        reference.delete_record('#organization_ref', rows, 'delete_organization');
+    }
+    $('#organization_ref__context').css('display', 'none');
+}
+
 /**
  * ============ ПРИВЯЗКА СОБЫТИЙ К СПРАВОЧНИКУ ОРГАНИЗАЦИИ ============ 
  */
