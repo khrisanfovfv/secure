@@ -47,7 +47,7 @@ $prefix = $wpdb->prefix;
                 </button>
             </div>
             <div class="organization__reference_container">
-                <table class="reference__table" id="organization_table">
+                <table class="reference__table" id="organization_ref__table">
                     <thead>
                         <tr>
                             <th style="width: 35px;">№</th>
@@ -68,7 +68,7 @@ $prefix = $wpdb->prefix;
                         for ($i = 0; $i < count($rows); $i++) {
                             $row = $rows[$i];
                         ?>
-                            <tr class="organization_ref_table_row">
+                            <tr class="organization_ref__table_row">
                                 <td class="id hide"><?php echo $row["id"] ?></td>
                                 <td><?php echo $i + 1 ?></td>
                                 <td><?php echo $row["briefname"] ?></td>

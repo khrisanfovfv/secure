@@ -338,7 +338,7 @@ function organization_card_press_OK(sender) {
         record = {
             id: $('#organization_card__id').text(),
             fullname: $('#organization_card__fullName').val(),
-            briefname: $('#organization_card__briefname').val(),
+            briefname: $('#organization_card__briefNguame').val(),
             boss: $('#organization_card__boss').val(),
             inn: $('#organization_card__inn').val(),
             kpp: $('#organization_card__kpp').val(),
@@ -445,15 +445,9 @@ function organization_update_reference(records) {
             $("<tr class='organization_ref__table_row'>")
                 .append($("<td class='id hide'>").text(record["id"]))
                 .append($("<td>").text(ind++))
-                .append($("<td>").text(record["fullname"]))
                 .append($("<td>").text(record["briefname"]))
+                .append($("<td style='text-align: left'>").text(record["fullname"]))
                 .append($("<td>").text(record["boss"]))
-                .append($("<td>").text(record["inn"]))
-                .append($("<td>").text(record["kpp"]))
-                .append($("<td>").text(record["ogrn"]))
-                .append($("<td>").text(record["okpo"]))
-                .append($("<td>").text(record["postAddress"]))
-                .append($("<td>").text(record["legalAddress"]))
                 .append($("<td>").text(record["email"]))
                 .append($("<td>").text(reference.get_state(record["state"])))
         ).on('click', function (e) {
