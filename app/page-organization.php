@@ -41,7 +41,7 @@ $prefix = $wpdb->prefix;
                     <img src="<?php echo $button_icons->excel ?>" alt="Excel">
                     <p>Эл. таб</p>
                 </button>
-                <button class="reference__button" id="organization_update">
+                <button class="reference__button" id="organization_ref__update">
                     <img src="<?php echo $button_icons->update ?>" alt="Update">
                     <p>Обновить</p>
                 </button>

@@ -196,10 +196,10 @@ $('#organization_ref__select').on('click', function (e) {
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
 $('#organization_ref__edit').on('click', function () {
-    rows = $('.organization_table_row.highlight')
-    var id = rows[0].children.item(0).textContent;
-    var size = { width: 700, height: 650 };
-    reference.open_card('#organization_ref', 'Карточка Вид документа', size, OpenMode.Edit, id);
+    // rows = $('.organization_table_row.highlight')
+    // var id = rows[0].children.item(0).textContent;
+    // var size = { width: 700, height: 650 };
+    // reference.open_card('#organization_ref', 'Карточка Вид документа', size, OpenMode.Edit, id);
 })
 
 
@@ -213,6 +213,13 @@ $('#organization_ref__copy').on('click', function () {
     // Открываем карточку в режиме создания новой записи
     reference.open_card('#organization_ref', 'Карточка Вид документа', size, OpenMode.Copy, id);
 })
+/**
+ * ========================= НАЖАТИЕ КНОПКИ Обновить ===========================
+ */
+$('#organization_ref__update').on('click', function () {
+    organization_load_records()
+})
+
 
 /**
  * ======================= ОРГАНИЗАЦИЯ. ВЫБОР ЗАПИСИ =========================
@@ -431,18 +438,22 @@ function organization_card__check_fields() {
         return false;
     }
 }
-function organization_load_records() {
+function organization_load_records(textStatus = '') {
     var data = {
         action: 'load_organization',
     };
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
         var records = JSON.parse(result);
+        var size = { width: 500, height: 200 };
         organization_update_reference(records);
+        if (textStatus != '') {
+            reference.show_notification('#organization_ref', 'Уведомления', size, textStatus)
+        }
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
-        var message = 'Во время обновления списка записей произощла ошибка ' + textStatus + ' ' + errorThrown;
-        reference.show_notification('#administrator_ref', 'Ошибка', size, message);
+        var message = 'Во время обновления списка записей произошла ошибка ' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#organization_ref', 'Ошибка', size, message);
     });
 
 }

@@ -85,11 +85,16 @@ var Context = {
                 case 'department_ref__out_context_update' : department_load_records(); break;
 
                 case 'document_ref__out_context_update' : document_load_records(); break; 
+
+                case 'organization_ref__context_edit': organization_edit_record(); break;
+                case 'organization_ref__context_delete' : organization_delete_record(); break;
                 
                 case 'information_system_card__documents_open_card': Context.document_open_card(); break;
                 case 'information_system_card__documents_create_version': Context.document_open_version_card(); break;
                 case 'main_menu__references': Context.show_menu_references(); break;
                 case 'main_menu__help': Context.show_menu_help(); break;
+
+
                 default: {
                     var button = e.which || e.button;
                     if (button === 1) {
@@ -147,7 +152,7 @@ var Context = {
             'information_system_card__administrators_table_num',
             'administrator_ref__table_row',
             'administrator_card__information_systems_table_num',
-            'organization_ref_table_row',
+            'organization_ref__table_row',
             'department_ref__table_row',
             'document_kind_table_row',
             'contract_ref_table_row',
@@ -206,7 +211,7 @@ var Context = {
             case 'information_system_card__remarks_table_num': Context.menu = $('#information_system_card__remarks_context'); break;
             case 'administrator_ref__table_row': Context.menu = $('#administrator_ref__context'); break;
             case 'administrator_card__information_systems_table_num' : Context.menu = $('#administrator_card__remarks_context'); break;
-            case 'organization_ref_table_row': Context.menu = $('#organization_ref__context'); break;
+            case 'organization_ref__table_row': Context.menu = $('#organization_ref__context'); break;
             case 'department_ref__table_row': Context.menu = $('#department_ref__context'); break;
             case 'document_kind_table_row': Context.menu = $('#document_kind_ref__context'); break;
             case 'contract_ref_table_row': Context.menu = $('#contract_ref__context'); break;
