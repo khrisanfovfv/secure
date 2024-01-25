@@ -190,29 +190,26 @@ $('#organization_ref__create').on('click', function () {
  * */
 $('#organization_ref__select').on('click', function (e) {
     organization_select_record(e);
-})
+});
 
 /**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
 $('#organization_ref__edit').on('click', function () {
-    // rows = $('.organization_table_row.highlight')
-    // var id = rows[0].children.item(0).textContent;
-    // var size = { width: 700, height: 650 };
-    // reference.open_card('#organization_ref', 'Карточка Вид документа', size, OpenMode.Edit, id);
-})
+oraganization_edit_record() 
 
-
+});
+   
 /**
  * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
  */
-$('#organization_ref__copy').on('click', function () {
-    rows = $('.organization_table_row.highlight')
-    var id = rows[0].children.item(0).textContent;
-    var size = { width: 700, height: 650 };
-    // Открываем карточку в режиме создания новой записи
-    reference.open_card('#organization_ref', 'Карточка Вид документа', size, OpenMode.Copy, id);
-})
+// $('#organization_ref__copy').on('click', function () {
+//     rows = $('.organization_table_row.highlight')
+//     var id = rows[0].children.item(0).textContent;
+//     var size = { width: 700, height: 650 };
+//     // Открываем карточку в режиме создания новой записи
+//     reference.open_card('#organization_ref', 'Карточка Вид документа', size, OpenMode.Copy, id);
+// })
 /**
  * ========================= НАЖАТИЕ КНОПКИ Обновить ===========================
  */
@@ -239,6 +236,17 @@ function organization_select_record(e) {
     }
 }
 
+/**
+ * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
+ */
+$('#organization_copy').on('click', function () {
+    organization_copy_record()
+    // rows = $('.organization_table_row.highlight')
+    // var id = rows[0].children.item(0).textContent;
+    // var size = { width: 600, height: 200 };
+    // Открываем карточку в режиме создания новой записи
+    reference.open_card('#organization_ref', 'Карточка Организации', size, OpenMode.Copy, id);
+})
 
 /**
  * ========================= НАЖАТИЕ КНОПКИ УДАЛИТЬ ЗАПИСЬ ==========================
@@ -266,7 +274,15 @@ async function card_organization_load_data(data, openMode) {
         case OpenMode.Edit: $('#organization_card__id').text(cardData[0].id); break;
         case OpenMode.Copy: $('#organization_card__id').text(''); break;
     }
-    $('#organization_card__name').val(cardData[0].name);
+    $('#organization_card__fullName').val(cardData[0].fullname);
+    $('#organization_card__briefName').val(cardData[0].briefname);
+    $('#organization_card__boss').val(cardData[0].boss);
+    $('#organization_card__inn').val(cardData[0].inn);
+    $('#organization_card__kpp').val(cardData[0].kpp);
+    $('#organization_card__ogrn').val(cardData[0].ogrn);
+    $('#organization_card__okpo').val(cardData[0].okpo);
+    $('#organization_card__postAddress').val(cardData[0].postAddress);
+    $('#organization_card__email').val(cardData[0].email);
     $('#organization_card__state').val(cardData[0].state);
 }
 
@@ -295,7 +311,7 @@ function organization_update_reference(records) {
 * ====================== КОНТЕКТНОЕ МЕНЮ - РЕДАКТИРОВАТЬ ========================= 
 * */
 $('#organization_ref__context_edit').on('click', function () {
-    rows = $('.organizatio_ref__table_row.highlight');
+    rows = $('.organization_ref__table_row.highlight');
     if (rows.length > 0) {
         var id = rows[0].children.item(0).textContent;
         //Загружаем карточку
@@ -308,7 +324,18 @@ $('#organization_ref__context_edit').on('click', function () {
         reference.show_notification('#organization_ref', 'Предупреждение', size, message);
     }
 })
-
+/**
+ * Организации. Редактирование ЗАПИСИ
+ */
+function oraganization_edit_record(){
+    rows = $('.organization_ref__table_row.highlight')
+    if (rows.length > 0) {
+        var id = rows[0].children.item(0).textContent;
+        var size = { width: 1000, height: 800 };
+        reference.open_card('#organization_ref', 'Карточка Организации', size, OpenMode.Edit, id);
+    }
+    $('#organization_ref__context').css('display', 'none');
+} 
 
 /**
  * Организации. УДАЛЕНИЕ ЗАПИСИ
@@ -358,7 +385,7 @@ function organization_card_press_OK(sender) {
         record = {
             id: $('#organization_card__id').text(),
             fullname: $('#organization_card__fullName').val(),
-            briefname: $('#organization_card__briefNguame').val(),
+            briefname: $('#organization_card__briefName').val(),
             boss: $('#organization_card__boss').val(),
             inn: $('#organization_card__inn').val(),
             kpp: $('#organization_card__kpp').val(),

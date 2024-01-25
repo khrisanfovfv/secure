@@ -179,13 +179,31 @@ class Organization
         $wpdb->update(
             $prefix . 'organization',
             array(
-                'name' => $record['name'],
+                'fullname' => $record['fullname'],
+                'briefname' => $record['briefname'],
+                'boss' => $record['boss'],
+                'inn' => $record['inn'],
+                'kpp' => $record['kpp'],
+                'ogrn' => $record['ogrn'],
+                'okpo' => $record['okpo'],
+                'postAddress' => $record['postAddress'],
+                'legalAddress' => $record['legalAddress'],
+                'email' => $record['email'],
                 'state' => $record['state']
             ),
             array('ID' => $record['id']),
             array(
-                '%s',
-                '%s'
+                '%s', // fullname
+                '%s', //briefName
+                '%s', //boss
+                '%s', // inn
+                '%s', // kpp
+                '%s',  // ogrn
+                '%s', // okpo
+                '%s', // postAddress
+                '%s', // legalAddress
+                '%s', // email
+                '%s'  // state
             ),
             array('%d')
         );
