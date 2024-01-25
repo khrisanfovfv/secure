@@ -163,7 +163,7 @@ class Document
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results(
             $wpdb->prepare("SELECT document.id, document.number, document.documentdate, document.name, document_kind.name as document_kind, document.state  FROM {$prefix}document document 
-            JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id"),
+            LEFT JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id"),
             ARRAY_A
         );
         echo json_encode($results);
@@ -184,9 +184,9 @@ class Document
             sender.id as sender_id, sender.fullname as sender_name,
             correspondent.id as correspondent_id, correspondent.fullname as correspondent_name 
             FROM {$prefix}document document 
-            JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id 
-            JOIN {$prefix}organization sender on document.sender = sender.id
-            JOIN {$prefix}organization correspondent on document.correspondent = correspondent.id 
+            LEFT JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id 
+            LEFT JOIN {$prefix}organization sender on document.sender = sender.id
+            LEFT JOIN {$prefix}organization correspondent on document.correspondent = correspondent.id 
             WHERE document.id = $document_id"),
             OBJECT
         );
@@ -200,28 +200,42 @@ class Document
     /**
      * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ДОКУМЕНТА ======================
      */
-    function secure_add_administrator()
+    function secure_add_document()
     {
 
         global $wpdb;
         $prefix = $wpdb->prefix;
         $record = $_POST['record'];
-
-        $wpdb->insert(
-            $prefix . 'administrator',
-            array(
-                'fullname' => $record['fullname'],
-                'organization' => $record['organization_id'],
-                'department' => $record['department_id'],
-                'state' => $record['state'],
-            ),
-            array(
-                '%s', // fullname
-                '%d', // organization
-                '%d', // department
-                '%s'  // state
-            )
-        );
+            $wpdb->insert(
+                $prefix . 'document',
+                array(
+                    'number' => $record['number'],
+                    'documentdate' => $record['documentdate'],
+                    'name' => $record['name'],
+                    'kind' => $record['kind'] == ''? null : $record['kind'],
+                    'type' => $record['type'],
+                    'sender' => $record['sender'] == ''? null : $record['sender'],
+                    'correspondent' => $record['correspondent']  == ''? null : $record['correspondent'],
+                    'sendreceive' => $record['sendreceive'],
+                    'signer' => $record['signer'],
+                    'signed' => $record['signed'],
+                    'state' => 'Active'
+    
+                ),
+                array(
+                    '%s', // number
+                    '%s', // documentdate
+                    '%s', // name
+                    '%d', // kind
+                    '%s', // type
+                    '%d', // sender
+                    '%d', // correspondent
+                    '%s', // sendreceive
+                    '%s', // signer
+                    '%d', // signed
+                    '%s', // state
+                )
+            ) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
         $id = $wpdb->insert_id;
 
 
@@ -241,20 +255,34 @@ class Document
         $wpdb->update(
             $prefix . 'document',
             array(
-                'fullname' => $record['fullname'],
-                'organization' => $record['organization_id'],
-                'department' => $record['department_id'],
-                'state' => $record['state'],
+                'number' => $record['number'],
+                'documentdate' => $record['documentdate'],
+                'name' => $record['name'],
+                'kind' => $record['kind'] == ''? null : $record['kind'],
+                'type' => $record['type'],
+                'sender' => $record['sender'] == ''? null : $record['sender'],
+                'correspondent' => $record['correspondent']  == ''? null : $record['correspondent'],
+                'sendreceive' => $record['sendreceive'],
+                'signer' => $record['signer'],
+                'signed' => $record['signed'],
+                'state' => 'Active'
             ),
             array('ID' => $record['id']),
             array(
-                '%s', // fullname
-                '%d', // organization
-                '%d', // department
-                '%s'  // state
+                '%s', // number
+                '%s', // documentdate
+                '%s', // name
+                '%d', // kind
+                '%s', // type
+                '%d', // sender
+                '%d', // correspondent
+                '%s', // sendreceive
+                '%s', // signer
+                '%d', // signed
+                '%s', // state
             ),
             array('%d')
-        );
+        ) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
 
 
         echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
@@ -270,7 +298,8 @@ class Document
         $document_id = $_POST['id'];
 
         // Удаляем запись Документ
-        $wpdb->delete($prefix . 'document', array('ID' => $document_id), array('%d'));
+        $wpdb->delete($prefix . 'document', array('ID' => $document_id), array('%d'))
+            or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
         echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
         wp_die();
     }

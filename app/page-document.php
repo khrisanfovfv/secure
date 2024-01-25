@@ -65,7 +65,7 @@ $prefix = $wpdb->prefix;
                         <?php
                         $rows = $wpdb->get_results(
                             $wpdb->prepare("SELECT document.id, document.number, document.documentdate, document.name, document_kind.name as document_kind, document.state  FROM {$prefix}document document 
-                                JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id"),
+                                LEFT JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id"),
                             ARRAY_A
                         );
                         for ($i = 0; $i < count($rows); $i++) {

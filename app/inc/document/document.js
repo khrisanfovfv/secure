@@ -20,26 +20,26 @@ $('#document_ref__table tbody tr').on('dblclick', function () {
 /**
  * =========== ВЫБОР ВКЛАДОК НА КАРТОЧКЕ ДОКУМЕНТ =====================
  * */
-function document__chose_tab(e){
+function document__chose_tab(e) {
     e.preventDefault();
     var el = $(e.target)
     // Если щелкнули на элементе внутри .tabs__item
-    if (!el.hasClass('tabs__item')){
+    if (!el.hasClass('tabs__item')) {
         el = el.parents('.tabs__item');
     }
     // Список имеющихся вкладок
-    var card_tabs = ['general','send_list'];
+    var card_tabs = ['general', 'send_list'];
 
     // Устанавливаем класс tabs__highlighted у выбранной вкладки
     $('.tabs__item').removeClass('tabs__highlighted');
     $(el).addClass('tabs__highlighted');
-    
+
     /* Скрываем все вкладки */
     card_tabs.forEach(item => {
-        $('.document_card__'+ item).addClass('hide');
+        $('.document_card__' + item).addClass('hide');
     });
     /* Показываем выбранную */
-    tab=$(el).children().attr('href');
+    tab = $(el).children().attr('href');
     $(tab).removeClass('hide');
 }
 
@@ -47,28 +47,20 @@ function document__chose_tab(e){
  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ДОКУМЕНТА =========================
  */
 function document_card_press_OK(sender) {
-    if ($('#document_card__name').val().trim() == '') {
-        $('#document_card__name').addClass('red_border');
-
-        // Отправляем уведомление
-        var size = { width: 400, height: 200 };
-        var message = 'Не заполнено обязательное поле';
-        reference.show_notification('#document_ref', 'Предупреждение', size, message);
-    } else {
-        $('#document_card__name').removeClass('red_border');
+    if (document_card__check_fields()) {
         // Формируем запись для запроса
         record = {
             id: $('#document_card__id').text(),
             number: $('#document_card__number').val(),
             documentdate: $('#document_card__documentdate').val(),
             name: $('#document_card__name').val(),
-            kind : $('#document_card__kind').find('.id').text(),
-            type : $('#document_card__type').val(),
-            sender : $('#document_card__sender').find('.id').text(),
-            correspondent : $('#document_card__correspondent').find('.id').text(),
-            sendreceive : $('#document_card__sendreceive').val(),
-            signed : $('#document_card__signed').attr('checked'),
-            signer : $('#document_card__signer').val(),
+            kind: $('#document_card__kind').find('.id').text(),
+            type: $('#document_card__type').val(),
+            sender: $('#document_card__sender').find('.id').text(),
+            correspondent: $('#document_card__correspondent').find('.id').text(),
+            sendreceive: $('#document_card__sendreceive').val(),
+            signed: $('#document_card__signed').attr('checked'),
+            signer: $('#document_card__signer').val(),
             state: $('#document_card__state').val()
         }
         if ($('#document_card__id').text() == '') {
@@ -103,6 +95,30 @@ function document_card_press_OK(sender) {
         }
         $(sender).parents('.appdialog').css('display', 'none');
     }
+}
+
+/**
+ * ===================== ПРОВЕРЯЕМ ЗАПОЛНЕННОСТЬ ОБЯЗАТЕЛЬНЫХ ПОЛЕЙ КАРТОЧКИ =======================
+ */
+function document_card__check_fields() {
+    var message = ''
+    if ($('#document_card__name').val().trim() == '') {
+        $('#document_card__name').addClass('red_border');
+        message += 'Не заполнено обязательное поле Наименование <br \/>';
+    } else {
+        $('#document_card__name').removeClass('red_border');
+    }
+    if (message == ''){
+        return true;
+    }else{
+        // Отправляем уведомление
+        var size = { width: 400, height: 200 };
+        reference.show_notification('#document_ref', 'Предупреждение', size, message);
+        return false;
+    }
+    
+
+
 }
 
 /**
@@ -182,7 +198,7 @@ $('#document_ref__create').on('click', function () {
 /**
  * =========================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ==============================
  */
-$('#document_ref__select').on('click', function(){
+$('#document_ref__select').on('click', function () {
     document_select_record(e);
 })
 
@@ -212,28 +228,28 @@ $('#document_ref__delete').on('click', function () {
 /** 
  * ========================= НАЖАТИЕ КНОПКИ ОБНОВИТЬ ===============================
  */
-$('#document_ref__update').on('click', function(){
+$('#document_ref__update').on('click', function () {
     document_load_records();
 })
 
 /** 
  * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ =================================
  */
-$('#document_ref__context_edit').on('click', function(){
+$('#document_ref__context_edit').on('click', function () {
     document_edit_record();
 })
 
 /** 
  * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ КОПИРОВАТЬ =================================
  */
-$('#document_ref__context_copy').on('click', function(){
+$('#document_ref__context_copy').on('click', function () {
     document_copy_record();
 })
 
 /** 
  * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ УДАЛИТЬ =================================
  */
-$('#document_ref__context_delete').on('click', function(){
+$('#document_ref__context_delete').on('click', function () {
     document_delete_record();
 })
 
@@ -244,7 +260,7 @@ $('#document_ref__context_delete').on('click', function(){
 /**
  * ================================ ДОКУМЕНТ. СОЗДАТЬ =================================
  */
-function document_create_record(){
+function document_create_record() {
     var size = { width: 1000, height: 600 };
     reference.open_card('#document_ref', 'Карточка Документа', size, OpenMode.Create, 0);
 }
@@ -252,9 +268,9 @@ function document_create_record(){
 /**
  * ======================= ДОКУМЕНТ. ВЫБРАТЬ ЗАПИСЬ =========================
  */
-function document_select_record(e){
+function document_select_record(e) {
     rows = $('.document_ref__table_row.highlight');
-    if (rows.length > 0){
+    if (rows.length > 0) {
         id = rows[0].children.item(0).textContent
         fullname = rows[0].children.item(2).textContent
         // Извлекаем элемент с помощью которого вызвали справочник из стэка
@@ -270,7 +286,7 @@ function document_select_record(e){
 /**
  * ================================ ДОКУМЕНТ. РЕДАКТИРОВАТЬ =================================
  */
-function document_edit_record(){
+function document_edit_record() {
     rows = $('.document_ref__table_row.highlight')
     var id = rows[0].children.item(0).textContent;
     var size = { width: 1000, height: 600 };
@@ -280,7 +296,7 @@ function document_edit_record(){
 /**
  * ================================ ДОКУМЕНТ. КОПИРОВАТЬ =================================
  */
-function document_copy_record(){
+function document_copy_record() {
     rows = $('.document_ref__table_row.highlight')
     var id = rows[0].children.item(0).textContent;
     var size = { width: 1000, height: 600 };
@@ -291,7 +307,7 @@ function document_copy_record(){
 /**
  * ================================ ДОКУМЕНТ. УДАЛИТЬ =================================
  */
-function document_delete_record(){
+function document_delete_record() {
     rows = $('.document_ref__table_row.highlight');
     reference.delete_record('#document_ref', rows, 'delete_document');
 }
@@ -306,15 +322,15 @@ function document_extended_search_OK() {
     var data = {
         action: 'search_document_extended',
         number: $('#document_search__number').val(),
-        documentdate : $('#document_search__documentdate').val(),
-        name : $('#document_search__name').val(),
+        documentdate: $('#document_search__documentdate').val(),
+        name: $('#document_search__name').val(),
 
         kind_id: $('#document_search__kind').find('.id').text(),
-        type : $('#document_search__type').val(),
-        sender_id : $('#document_search__sender').find('.id').text(),
-        sendreceive : $('#document_search__sendreceive').val(),
-        signer : $('#document_search__signer').val(),
-        signed : $('#document_search__signed').val(),
+        type: $('#document_search__type').val(),
+        sender_id: $('#document_search__sender').find('.id').text(),
+        sendreceive: $('#document_search__sendreceive').val(),
+        signer: $('#document_search__signer').val(),
+        signed: $('#document_search__signed').val(),
         state: $('#document_search__state').val()
     };
 
@@ -379,8 +395,7 @@ async function card_document_load_data(data, openMode) {
  *  ========================= ОБНОВЛЕНИЕ СПРАВОЧНИКА ===========================
  * @param {Object} records 
  */
-function document_update_reference(records) 
-{
+function document_update_reference(records) {
     var ind = 1;
     $('#document_ref__table tbody tr').remove();
     records.forEach(record => {
@@ -403,7 +418,7 @@ function document_update_reference(records)
  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ДОКУМЕНТА ============ 
  */
 function document_card_binging_events() {
-    
+
     $('#document_card__OK').on('click', function () {
         document_card_press_OK(this);
     });
@@ -414,40 +429,40 @@ function document_card_binging_events() {
     });
 
     /** ======== НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА В ПОЛЕ ОРГАНИЗАЦИЯ ========= */
-    $('#document_card__organization_btn').on('click', function(e){
-        reference.open_reference(e,'#document_card', 'Справочник организации');
+    $('#document_card__kind_btn').on('click', function (e) {
+        reference.open_reference(e, '#document_card', 'Справочник Виды докуиентов');
     })
 
     /** ===================== ВЫБОР ВКЛАДКИ НА КАРТОЧКЕ ДОКУМЕНТА ================ */
-    $('.document__tabs_item').on('click',function(e){
+    $('.document__tabs_item').on('click', function (e) {
         document__chose_tab(e);
     })
 
 
-    $('#document_card__file').on('change', function(e){
+    $('#document_card__file').on('change', function (e) {
         var files = $(e.target).prop('files');
         var file = files[0];
         var document_icons = JSON.parse(MainData.document_icons);
-        
+
         // Находим масимальный номер версии
         var version_numbers = [];
         var versions = $('#document_card__version_list .version__item .version_number');
-        versions.each(function(index, element){
+        versions.each(function (index, element) {
             version_numbers[index] = Number($(element).text());
         })
-        var max_version_number = 0; 
-        if (version_numbers.length > 0){
-            max_version_number = Math.max.apply(null,version_numbers);
+        var max_version_number = 0;
+        if (version_numbers.length > 0) {
+            max_version_number = Math.max.apply(null, version_numbers);
         }
         var version_number = max_version_number + 1;
-        
-        
+
+
         // Отображаем созданную версию
         var document_version = [];
         document_version['version_number'] = version_number;
         document_version['versiondate'] = file.lastModified;
         document_version['type'] = file.type;
-        document_version['version_title'] = 'Версия '+ version_number;
+        document_version['version_title'] = 'Версия ' + version_number;
         $('#document_card__version_list').prepend(
             document_card_draw_version(document_version)
         );
@@ -458,21 +473,21 @@ function document_card_binging_events() {
 /**
  * ================== ОТОБРАЖАЕМ ВЕРСИЮ ДОКУМЕНТА ===================
  */
-function document_card_draw_version(document_version){
+function document_card_draw_version(document_version) {
     // Подставляем подходящую иконку
     var icon = document_icons.other
-    switch(document_version['type']){
-        case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
+    switch (document_version['type']) {
+        case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
             icon = document_icons.ms_word; break;
         case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
             icon = document_icons.ms_excel; break;
-        case 'application/pdf' : icon = document_icons.pdf; break;
+        case 'application/pdf': icon = document_icons.pdf; break;
     }
-    var content_html =  $("<li class='attachments__item version__item'>")
+    var content_html = $("<li class='attachments__item version__item'>")
         .append($("<p class='id hide'>").text(document_version['id']))
         .append($("<p class='version_number hide'>").text(document_version['version_number']))
         .append($("<p class='versiondate hide'>").text(document_version['versiondate']))
-        .append($("<img class='attachments__ico'>").attr('src',icon))
+        .append($("<img class='attachments__ico'>").attr('src', icon))
         .append($("<p class='attachments__name_item'>").text(document_version['version_title']))
     return content_html;
 }
@@ -480,12 +495,12 @@ function document_card_draw_version(document_version){
 /**
  * ================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СПРАВОЧНИКА ===================
  */
-function document_ref_binding_events(){
-    $('#document_ref_select').on('click', function(e){
+function document_ref_binding_events() {
+    $('#document_ref_select').on('click', function (e) {
         document_select_record(e)
     })
 
-    $('#department_ref__table tbody tr').on('dblclick', function(e){
+    $('#department_ref__table tbody tr').on('dblclick', function (e) {
         document_edit_record();
     })
 }
@@ -493,19 +508,19 @@ function document_ref_binding_events(){
 /**
  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ПОИСКА ===============================
  */
-function document_search_binding_events(){
+function document_search_binding_events() {
 
     /** ============== ВЫБОР ИЗ СПРАВОЧНИКА ВИДЫ ДОКУМЕНТОВ ==================== */
-    $('#document_search__kind').on('click', function(e){
-        reference.open_reference(e,'#document_search','Справочник Виды документов');
+    $('#document_search__kind').on('click', function (e) {
+        reference.open_reference(e, '#document_search', 'Справочник Виды документов');
     })
 
-    $('#document_search__sender').on('click', function(e){
+    $('#document_search__sender').on('click', function (e) {
         reference.open_reference(e, '#document_search', 'Справочник Организации');
     })
 
     /** ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОK ================= */
-    $('#document_search__button_OK').on('click', function(e){
+    $('#document_search__button_OK').on('click', function (e) {
         document_extended_search_OK();
     })
 

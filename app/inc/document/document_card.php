@@ -26,7 +26,7 @@ $document_icons = $resources->get_document_icons();
                         <label for="document_card__documentdate" id=document_card__documentdate_label>Дата документа</label>
                         <input type="date" id=document_card__documentdate>
                         <!-- Наименование -->
-                        <label for="document_card__name">Наименование</label>
+                        <label for="document_card__name">Наименование<span class="required">*</span></label>
                         <textarea id="document_card__name" name="document_card__name" size="80" rows="3" cols="33"></textarea>
                         <!-- Вид документа -->
                         <label for="document_card__kind">Вид документа</label>
