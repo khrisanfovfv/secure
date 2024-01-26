@@ -1,3 +1,9 @@
+/* Справочник */
+.organization_ref{
+    &__container{
+        height: 100%;
+    }
+}
 .organization_card{
     width: 800px;
     height: 180px;

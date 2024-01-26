@@ -29,7 +29,7 @@ $prefix = $wpdb->prefix;
                     <img src="<?php echo $button_icons->edit ?>" alt="Редактировать">
                     <p>Редактировать</p>
                 </button>
-                <button class="reference__button" id="organization_copy" disabled>
+                <button class="reference__button" id="organization_ref__copy" disabled>
                     <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
                     <p>Копировать</p>
                 </button>
@@ -46,7 +46,7 @@ $prefix = $wpdb->prefix;
                     <p>Обновить</p>
                 </button>
             </div>
-            <div class="organization__reference_container">
+            <div class="organization_ref__container">
                 <table class="reference__table" id="organization_ref__table">
                     <thead>
                         <tr>

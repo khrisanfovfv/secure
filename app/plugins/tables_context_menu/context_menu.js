@@ -19,6 +19,7 @@ var Context = {
         '#administrator_ref__out_context',
         '#administrator_card__remarks_context',
         '#organization_ref__context',
+        '#organization_ref__out_context',
         '#department_ref__context',
         '#department_ref__out_context',
         '#document_kind_ref__context',
@@ -88,11 +89,15 @@ var Context = {
 
                 case 'organization_ref__context_edit': organization_edit_record(); break;
                 case 'organization_ref__context_delete' : organization_delete_record(); break;
-                
+                case 'organization_ref__context_copy' : organization_copy_record(); break;
+                case 'organization_ref__out_context_create' : oraganization_create_record(); break
+                case 'organization_ref__out_context_update' : organization_load_records(); break
+
                 case 'information_system_card__documents_open_card': Context.document_open_card(); break;
                 case 'information_system_card__documents_create_version': Context.document_open_version_card(); break;
                 case 'main_menu__references': Context.show_menu_references(); break;
                 case 'main_menu__help': Context.show_menu_help(); break;
+
 
 
                 default: {
@@ -318,6 +323,7 @@ var Context = {
             case 'department_ref__container' : Context.menu = $('#department_ref__out_context'); break;
             case 'document_ref__container' : Context.menu = $('#document_ref__out_context'); break; 
             case 'attachments__list document_card__version_list' : Context.menu = $('#document_card__version_out_context'); break;
+            case 'organization_ref__container' : Context.menu = $('#organization_ref__out_context'); break;
             default: return false;
         }
         return src_el;

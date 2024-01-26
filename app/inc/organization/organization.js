@@ -181,8 +181,8 @@ $('#organization_search__button_Cancel').on('click', function () {
  * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
  * */
 $('#organization_ref__create').on('click', function () {
-    var size = { width: 700, height: 650 };
-    reference.open_card('#organization_ref', 'Карточка организации', size, OpenMode.Create, 0);
+    oraganization_create_record();
+
 });
 
 /** 
@@ -196,10 +196,10 @@ $('#organization_ref__select').on('click', function (e) {
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
 $('#organization_ref__edit').on('click', function () {
-oraganization_edit_record() 
+    oraganization_edit_record()
 
 });
-   
+
 /**
  * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
  */
@@ -216,6 +216,11 @@ oraganization_edit_record()
 $('#organization_ref__update').on('click', function () {
     organization_load_records()
 })
+
+function oraganization_create_record() {
+    var size = { width: 700, height: 650 };
+    reference.open_card('#organization_ref', 'Карточка организации', size, OpenMode.Create, 0);
+}
 
 
 /**
@@ -239,13 +244,8 @@ function organization_select_record(e) {
 /**
  * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
  */
-$('#organization_copy').on('click', function () {
+$('#organization_ref__copy').on('click', function () {
     organization_copy_record()
-    // rows = $('.organization_table_row.highlight')
-    // var id = rows[0].children.item(0).textContent;
-    // var size = { width: 600, height: 200 };
-    // Открываем карточку в режиме создания новой записи
-    reference.open_card('#organization_ref', 'Карточка Организации', size, OpenMode.Copy, id);
 })
 
 /**
@@ -266,7 +266,7 @@ $('#organization_delete').on('click', function () {
 async function card_organization_load_data(data, openMode) {
     var cardData = JSON.parse(data);
     /** 
-     * Для того чтоб создалась новая карточка при редимах создания и копирования 
+     * Для того чтоб создалась новая карточка при режимах создания и копирования 
      * обнуляем поле id
      */
     switch (openMode) {
@@ -274,7 +274,12 @@ async function card_organization_load_data(data, openMode) {
         case OpenMode.Edit: $('#organization_card__id').text(cardData[0].id); break;
         case OpenMode.Copy: $('#organization_card__id').text(''); break;
     }
-    $('#organization_card__fullName').val(cardData[0].fullname);
+    if (openMode == OpenMode.Copy) {
+        $('#organization_card__fullName').val(cardData[0].fullname + ' - Копия');
+    }
+    else {
+        $('#organization_card__fullName').val(cardData[0].fullname);
+    }
     $('#organization_card__briefName').val(cardData[0].briefname);
     $('#organization_card__boss').val(cardData[0].boss);
     $('#organization_card__inn').val(cardData[0].inn);
@@ -327,7 +332,7 @@ $('#organization_ref__context_edit').on('click', function () {
 /**
  * Организации. Редактирование ЗАПИСИ
  */
-function oraganization_edit_record(){
+function oraganization_edit_record() {
     rows = $('.organization_ref__table_row.highlight')
     if (rows.length > 0) {
         var id = rows[0].children.item(0).textContent;
@@ -335,7 +340,23 @@ function oraganization_edit_record(){
         reference.open_card('#organization_ref', 'Карточка Организации', size, OpenMode.Edit, id);
     }
     $('#organization_ref__context').css('display', 'none');
-} 
+}
+
+/**
+ * ОРГАНИЗАТОР. КОПИРОВАНИЕ ЗАПИСИ
+ */
+function organization_copy_record() {
+    rows = $('.organization_ref__table_row.highlight')
+    if (rows.length > 0) {
+        var id = rows[0].children.item(0).textContent;
+        var size = { width: 1400, height: 800 };
+        // Открываем карточку в режиме копирования записи
+        reference.open_card('#organization_ref', 'Карточка Организации', size, OpenMode.Copy, id);
+    }
+    $('#organization_ref__context').css('display', 'none');
+}
+
+
 
 /**
  * Организации. УДАЛЕНИЕ ЗАПИСИ

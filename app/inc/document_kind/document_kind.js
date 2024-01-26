@@ -259,7 +259,12 @@ async function card_document_kind_load_data(data, openMode) {
         case OpenMode.Edit: $('#document_kind_card__id').text(cardData[0].id); break;
         case OpenMode.Copy: $('#document_kind_card__id').text(''); break;
     }
-    $('#document_kind_card__name').val(cardData[0].name);
+    if (openMode == OpenMode.Copy) {
+        $('#document_kind_card__name').val(cardData[0].name + ' - Копия');
+    }
+    else {
+        $('#organization_card__fullName').val(cardData[0].fullname);
+    }
     $('#document_kind_card__state').val(cardData[0].state);
 }
 
