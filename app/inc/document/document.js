@@ -12,9 +12,6 @@ $('#document_ref__table tbody tr').on('click', function (e) {
 */
 $('#document_ref__table tbody tr').on('dblclick', function () {
     document_edit_record();
-    /*rows = $('.document_ref__table_row.highlight')
-    var size = { width: 600, height: 200 };
-    reference.editRecord('#document_ref', rows, 'Карточка Вид документа', size);*/
 })
 
 /**
@@ -48,6 +45,22 @@ function document__chose_tab(e) {
  */
 function document_card_press_OK(sender) {
     if (document_card__check_fields()) {
+        
+        // Детальный раздел версии
+        var rows = $('#document_card__version_list li');
+        var document_versions = [];
+        var document_version = {};
+        rows.each(function(ind, element){
+            document_version.id = $(element).children('.id').text();
+            document_version.version_number = $(element).children('.version_number').text();
+            document_version.versiondate = $(element).children('.versiondate').text();
+            document_version.version_title = $(element).children('.attachments__name_item').text();
+            document_version.type = $(element).children('.type').text();
+            // Копируем обьект в массив
+            document_versions[ind] = JSON.stringify(document_version);
+            alert(document_versions[ind]);
+        })
+
         // Формируем запись для запроса
         record = {
             id: $('#document_card__id').text(),
@@ -61,6 +74,7 @@ function document_card_press_OK(sender) {
             sendreceive: $('#document_card__sendreceive').val(),
             signed: $('#document_card__signed').attr('checked'),
             signer: $('#document_card__signer').val(),
+            document_versions : JSON.stringify(document_versions),
             state: $('#document_card__state').val()
         }
         if ($('#document_card__id').text() == '') {
@@ -487,6 +501,7 @@ function document_card_draw_version(document_version) {
         .append($("<p class='id hide'>").text(document_version['id']))
         .append($("<p class='version_number hide'>").text(document_version['version_number']))
         .append($("<p class='versiondate hide'>").text(document_version['versiondate']))
+        .append($("<p class='type hide'>").text(document_version['type']))
         .append($("<img class='attachments__ico'>").attr('src', icon))
         .append($("<p class='attachments__name_item'>").text(document_version['version_title']))
     return content_html;

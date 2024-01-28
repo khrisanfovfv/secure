@@ -19,6 +19,8 @@ $document_icons = $resources->get_document_icons();
 
                 <div class="document_card__content">
                     <div class="document_card__general">
+                        <!-- ИД -->
+                        <p class="hide" id="document_card__id"></p>
                         <!-- Номер -->
                         <label for="document_card__number">Номер</label>
                         <input id="document_card__number">

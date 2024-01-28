@@ -38,7 +38,7 @@ class Document
         ) $charset_collate;";
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($document_sql);
+        dbDelta($document_sql) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
 
         // Запрос на создание таблицы Версии документов
         $table_name = $wpdb->prefix . 'document_version';
@@ -56,7 +56,7 @@ class Document
         ) $charset_collate;";
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($document_sql);
+        dbDelta($document_sql) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
     }
 
     /**
@@ -99,7 +99,7 @@ class Document
                 '%d', // signed
                 '%s', // state
             )
-        );
+        ) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
 
         $wpdb->insert(
             $table_name,
@@ -130,7 +130,7 @@ class Document
                 '%d', // signed
                 '%s', // state
             )
-        );
+        ) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
         $table_name = $wpdb->prefix . 'document_version';
         $wpdb->insert(
             $table_name,
@@ -150,7 +150,7 @@ class Document
                 '%s', // type
                 '%s'  // filepath
             )
-        );
+        ) or  wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
     }
 
 
@@ -238,10 +238,19 @@ class Document
             ) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
         $id = $wpdb->insert_id;
 
+        // Создаем записи в таблице Версии документов
+        // Убираем символы экранирования '/'
+        $document_versions_json = stripcslashes($record['document_versions']);
+        $document_versions = json_decode($document_versions_json);
+        foreach ($document_versions as $document_version){
+            Document::secure_create_document_version($id, $document_version);
+        }
 
         echo 'Запись добавлена ИД=' . $id;
         wp_die();
     }
+
+
 
     /** 
      * ====================== ОБНОВЛЕНИЕ ЗАПИСИ ДОКУМЕНТ ==========================
@@ -284,6 +293,21 @@ class Document
             array('%d')
         ) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
 
+        // Обновляем записи в детальном разделе Замечания по аттестации
+        // Убираем символы экранирования '/'
+        $document_versions_json = stripcslashes($record['document_versions']);
+        $document_versions = json_decode($document_versions_json);
+        foreach ($document_versions as $document_version){
+            if ($document_version->id ==''){
+                if ($document_version->is_deleted == 0){
+                    Document::secure_create_document_version($record['id'], $document_version);
+                }
+            }elseif ($document_version->is_deleted ==='1'){
+                Document::secure_delete_document_version($document_version);
+            } else {
+                Document::secure_update_document_version($document_version);
+            }
+        }
 
         echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
         wp_die();
@@ -303,6 +327,78 @@ class Document
         echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
         wp_die();
     }
+
+    /**
+     * ============== ВЕРСИЯ ДОКУМЕНТА. СОЗДАНИЕ ЗАПИСИ ==============
+     */
+    public function secure_create_document_version($id, $document_version){
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'document_version';
+        print_r('Автор ' . $document_version->author);
+        $wpdb->insert(
+            $table_name,
+            array(
+                'document' => $id,
+                'versiondate' =>$document_version->versiondate,
+                'version_number' => $document_version->version_number,
+                'version_title' => $document_version->version_title,
+                'type' => $document_version->type,
+                'filepath' => ''
+            ),
+            array(
+                '%d', // document
+                '%s', // versiondate
+                '%d', // version_number
+                '%s', // version_title
+                '%s', // type
+                '%s'  // filepath
+            )
+        )or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
+    }
+
+    /**
+     * ============== ВЕРСИЯ ДОКУМЕНТА. РЕДАКТИРОВАНИЕ ЗАПИСИ ==============
+     */
+    protected function secure_update_document_version($document_version){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $wpdb->update(
+            $prefix.'remarks',
+            array(
+                //'document' => $id,
+                'versiondate' =>$document_version->versiondate,
+                'version_number' => $document_version->author,
+                'version_title' => $document_version->content,
+                'type' => $document_version->eliminated,
+                'filepath' => ''
+            ),
+            array( 'ID' => $document_version->id ),
+            array(
+                //'%d', // document
+                '%s', // versiondate
+                '%d', // version_number
+                '%s', // version_title
+                '%s', // type
+                '%s'  // filepath
+            ),
+            array( '%d' )
+        ) or  wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
+
+    }
+
+    /**
+     * ============== ВЕРСИЯ ДОКУМЕНТА. УДАЛЕНИЕ ЗАПИСИ ==============
+     */
+    protected function secure_delete_document_version($document_version){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $wpdb->delete( $prefix . 'document_versions', array( 'ID' => $document_version->id ), array( '%d' )) 
+        or  wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
+        echo 'Запись ид = ' . $document_version->id . ' успешно удалена';
+        wp_die();
+    }
+
+    
 
     /**
      * ================ ДОКУМЕНТЫ. ОБЩИЙ ПОИСК =================
