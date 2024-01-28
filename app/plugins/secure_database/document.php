@@ -131,6 +131,7 @@ class Document
                 '%s', // state
             )
         ) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
+        // Заполняем таблицу Версии документов
         $table_name = $wpdb->prefix . 'document_version';
         $wpdb->insert(
             $table_name,
@@ -302,7 +303,7 @@ class Document
                 if ($document_version->is_deleted == 0){
                     Document::secure_create_document_version($record['id'], $document_version);
                 }
-            }elseif ($document_version->is_deleted ==='1'){
+            }elseif ($document_version->is_deleted ===1){
                 Document::secure_delete_document_version($document_version);
             } else {
                 Document::secure_update_document_version($document_version);
@@ -334,7 +335,7 @@ class Document
     public function secure_create_document_version($id, $document_version){
         global $wpdb;
         $table_name = $wpdb->prefix . 'document_version';
-        print_r('Автор ' . $document_version->author);
+        print_r('Название версии ' . $document_version->version_title);
         $wpdb->insert(
             $table_name,
             array(

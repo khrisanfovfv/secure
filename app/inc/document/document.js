@@ -56,9 +56,9 @@ function document_card_press_OK(sender) {
             document_version.versiondate = $(element).children('.versiondate').text();
             document_version.version_title = $(element).children('.attachments__name_item').text();
             document_version.type = $(element).children('.type').text();
+            document_version.is_deleted = $(element).children('.is_deleted').text();
             // Копируем обьект в массив
-            document_versions[ind] = JSON.stringify(document_version);
-            alert(document_versions[ind]);
+            document_versions[ind] = JSON.parse(JSON.stringify(document_version));
         })
 
         // Формируем запись для запроса
@@ -399,6 +399,7 @@ async function card_document_load_data(data, openMode) {
     var ind = 1;
     document_versions.forEach(document_version => {
         document_version['ind'] = ind++;
+        document_version['is_deleted'] = 0;
         $('#document_card__version_list').prepend(
             document_card_draw_version(document_version)
         );
@@ -437,16 +438,27 @@ function document_card_binging_events() {
         document_card_press_OK(this);
     });
 
-    /** ============ НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ВИД ДОКУМЕНТА ============ */
+    /** ============ НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ВИД ДОКУМЕНТА ============= */
     $('#document_card__Cancel').on('click', function (e) {
         $(e.target).parents('.appdialog').css('display', 'none');
     });
 
-    /** ======== НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА В ПОЛЕ ОРГАНИЗАЦИЯ ========= */
+    /** ======== НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА В ПОЛЕ ВИД ДОКУМЕНТА ======= */
     $('#document_card__kind_btn').on('click', function (e) {
         reference.open_reference(e, '#document_card', 'Справочник Виды докуиентов');
     })
 
+    /** ======== НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА В ПОЛЕ ОТПРАВИТЕЛЬ ========= */
+    $('#document_card__sender_btn').on('click', function (e) {
+        reference.open_reference(e, '#document_card', 'Справочник Организации');
+    })
+
+    /** ======== НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА В ПОЛЕ КОРРЕСПОНДЕНТ ======== */
+    $('#document_card__correspondent_btn').on('click', function (e) {
+        reference.open_reference(e, '#document_card', 'Справочник Организации');
+    })
+
+    
     /** ===================== ВЫБОР ВКЛАДКИ НА КАРТОЧКЕ ДОКУМЕНТА ================ */
     $('.document__tabs_item').on('click', function (e) {
         document__chose_tab(e);
@@ -477,6 +489,7 @@ function document_card_binging_events() {
         document_version['versiondate'] = file.lastModified;
         document_version['type'] = file.type;
         document_version['version_title'] = 'Версия ' + version_number;
+        document_version['is_deleted'] = 0;
         $('#document_card__version_list').prepend(
             document_card_draw_version(document_version)
         );
@@ -504,6 +517,7 @@ function document_card_draw_version(document_version) {
         .append($("<p class='type hide'>").text(document_version['type']))
         .append($("<img class='attachments__ico'>").attr('src', icon))
         .append($("<p class='attachments__name_item'>").text(document_version['version_title']))
+        .append($("<p class='is_deleted hide'>").text(document_version['is_deleted']))
     return content_html;
 }
 
@@ -515,6 +529,7 @@ function document_ref_binding_events() {
         document_select_record(e)
     })
 
+    
     $('#department_ref__table tbody tr').on('dblclick', function (e) {
         document_edit_record();
     })

@@ -130,6 +130,23 @@ $document_icons = $resources->get_document_icons();
     </div>
 </div>
 
+<!-- Диалоговое окно -->
+<div class="appdialog" id="document_card__dialog">
+    <div class="appdialog__window" id="document_card__dialog_window">
+        <div class="appdialog__header">
+            <h3 class="appdialog__header_title" id="document_card__dialog_title">Карточка</h3>
+            <a class="appdialog__header_close" href="#">
+                <span>&#10006;</span> </a>
+        </div>
+        <div class="appdialog__content">
+            <div id="document_card__dialog_content">
+                <!-- P - Для диалогоых окон -->
+                <p class="appdialog__content_text"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ОБЛАСТИ С ВЕРСИЯМИ ДОКУМЕНТА -->
 <div class="context-menu" id="document_card__version_out_context">
     <ul class="context-menu__list">
