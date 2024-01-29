@@ -322,6 +322,13 @@ class Document
         $prefix = $wpdb->prefix;
         $document_id = $_POST['id'];
 
+        // Удаляем версии документа
+        $document_versions = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}document_version WHERE document = %d", Array($document_id)), OBJECT );
+        foreach($document_versions as $document_version){
+            Document::secure_delete_document_version($document_version);
+        }
+
         // Удаляем запись Документ
         $wpdb->delete($prefix . 'document', array('ID' => $document_id), array('%d'))
             or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
@@ -364,7 +371,7 @@ class Document
         global $wpdb;
         $prefix = $wpdb->prefix;
         $wpdb->update(
-            $prefix.'remarks',
+            $prefix.'document_version',
             array(
                 //'document' => $id,
                 'versiondate' =>$document_version->versiondate,
@@ -393,7 +400,7 @@ class Document
     protected function secure_delete_document_version($document_version){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $wpdb->delete( $prefix . 'document_versions', array( 'ID' => $document_version->id ), array( '%d' )) 
+        $wpdb->delete( $prefix . 'document_version', array( 'ID' => $document_version->id ), array( '%d' )) 
         or  wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
         echo 'Запись ид = ' . $document_version->id . ' успешно удалена';
         wp_die();
