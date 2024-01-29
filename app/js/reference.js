@@ -247,7 +247,6 @@ var reference = {
                 card: reference.get_card_name(prefix),
                 id: id
             };
-    
             jQuery.post(MainData.ajaxurl, data, function (textStatus) {
                 var size = { width: 500, height: 200 };
                 switch(prefix){

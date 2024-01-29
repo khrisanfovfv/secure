@@ -68,6 +68,7 @@ class DocumentKind{
         }
     }
 
+    
 
     /**
      * ================ ПОЛУЧЕНИЕ ЗАПИСЕЙ ТАБЛИЦЫ ВИДЫ ДОКУМЕНТОВ =================
@@ -150,6 +151,22 @@ class DocumentKind{
         echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
         wp_die();
     }
+
+     /** 
+     * ====================== УДАЛЕНИЕ ЗАПИСИ  ==========================
+     */
+    function secure_delete_document_kind(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $document_kind_id = $_POST['id'];
+        
+        // Удаляем запись вид документа
+        $wpdb->delete( $prefix.'document_kind', array( 'ID' => $document_kind_id ), array( '%d' )) ;
+        //or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));;
+        echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
+        wp_die();
+    }
+
 
     /**
      * ================ ВИДЫ ДОКУМЕНТОВ. ОБЩИЙ ПОИСК =================

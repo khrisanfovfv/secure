@@ -41,7 +41,7 @@ $prefix = $wpdb->prefix;
             </div>
             <table class="reference__table" id="document_kind_table">
                 <thead>
-                    <tr>
+                    <tr class = "document_kind_ref__table_row">
                         <th class="hide">Ид</th>
                         <th style="width: 35px;">№</th>
                         <th>Вид документа</th>

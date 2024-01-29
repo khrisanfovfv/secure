@@ -219,9 +219,10 @@ $('#document_kind_copy').on('click', function () {
  * ========================= НАЖАТИЕ КНОПКИ УДАЛИТЬ ЗАПИСЬ ==========================
  */
 $('#document_kind_delete').on('click', function () {
-    rows = $('.document_kind_table_row.highlight');
-    reference.delete_record('#document_kind_ref', rows);
+    document_kind_delete_record()
 });
+
+
 
 
 /**
@@ -305,6 +306,18 @@ $('#document_kind_ref__context_edit').on('click', function () {
         reference.show_notification('#document_kind_ref', 'Предупреждение', size, message);
     }
 })
+
+/**
+ * Организации. УДАЛЕНИЕ ЗАПИСИ
+ */
+function document_kind_delete_record() {
+    rows = $('.document_kind_ref__table_row.highlight');
+    alert(rows.length);
+    if (rows.length > 0) {
+        reference.delete_record('#document_kind_ref', rows, 'delete_document_kind');
+    }
+    $('#document_kind_ref__context').css('display', 'none');
+}
 
 /**
  * ================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СПРАВОЧНИКА ===================
