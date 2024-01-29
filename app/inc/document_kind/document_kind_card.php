@@ -14,8 +14,8 @@
         </select>
     </div>
     <div class="finish_buttons">
-        <button class="finish_button" id="document_kind__card_OK">OK</button>
-        <button class="finish_button" id="document_kind__card_Cancel">Cancel</button>
+        <button class="finish_button" id="document_kind_card__OK">OK</button>
+        <button class="finish_button" id="document_kind_card__Cancel">Cancel</button>
     </div> 
 </div> <!-- /document_kind_card__content -->
 <?php wp_footer() ?>

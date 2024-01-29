@@ -18,30 +18,30 @@ $prefix = $wpdb->prefix;
         <div class="reference">
             <p class="reference__title">Справочник Виды документов</p>
             <div class="reference__buttons">
-                <button class="reference__button" id="document_kind_create">
+                <button class="reference__button" id="document_kind_ref__create">
                     <img src="<?php echo get_template_directory_uri() . '/images/create-record.svg' ?>" alt="Создать">
                     <p>Создать</p>
                 </button>
-                <button class="reference__button" id="document_kind_edit" disabled>
+                <button class="reference__button" id="document_kind_ref__edit" disabled>
                     <img src="<?php echo get_template_directory_uri() . '/images/edit.svg' ?>" alt="Редактировать">
                     <p>Редактировать</p>
                 </button>
-                <button class="reference__button" id="document_kind_copy" disabled>
+                <button class="reference__button" id="document_kind_ref__copy" disabled>
                     <img src="<?php echo get_template_directory_uri() . '/images/copy.svg' ?>" alt="Копировать">
                     <p>Копировать</p>
                 </button>
-                <button class="reference__button" id="document_kind_delete" disabled>
+                <button class="reference__button" id="document_kind_ref__delete" disabled>
                     <img src="<?php echo get_template_directory_uri() . '/images/delete.svg' ?>" alt="Удалить">
                     <p>Удалить</p>
                 </button>
-                <button class="reference__button" id="document_kind_excel">
+                <button class="reference__button" id="document_kind_ref__excel">
                     <img src="<?php echo get_template_directory_uri() . '/images/excel.svg' ?>" alt="Exel">
                     <p>Эл. таб</p>
                 </button>
             </div>
-            <table class="reference__table" id="document_kind_table">
+            <table class="reference__table" id="document_kind_ref__table">
                 <thead>
-                    <tr class = "document_kind_ref__table_row">
+                    <tr>
                         <th class="hide">Ид</th>
                         <th style="width: 35px;">№</th>
                         <th>Вид документа</th>
@@ -55,7 +55,7 @@ $prefix = $wpdb->prefix;
                     for ($i = 0; $i < $document_kind_count; $i++) {
                         $row = $wpdb->get_row('SELECT id,name, state FROM ' . $prefix . 'document_kind', ARRAY_A, $i);
                     ?>
-                        <tr class="document_kind_table_row">
+                        <tr class="document_kind_ref__table_row">
                             <td class="id hide"><?php echo $row["id"] ?></td>
                             <td><?php echo $i + 1 ?></td>
                             <td><?php echo esc_html($row["name"]) ?></td>

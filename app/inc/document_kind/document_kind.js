@@ -1,15 +1,15 @@
 /** 
  * ====================== ОДИНОЧНЫЙ КЛИК НА СТРОКУ ТАБЛИЦЫ =======================
 */
-$('#document_kind_table tbody tr').on('click', function (e) {
+$('#document_kind_ref__table tbody tr').on('click', function (e) {
     reference.highlight(e);
 })
 
 /** 
  * ======================== ДВОЙНОЙ КЛИК НА СТРОКУ ТАБЛИЦЫ ======================= 
 */
-$('#document_kind_table tbody tr').on('dblclick', function () {
-    rows = $('.document_kind_table_row.highlight')
+$('#document_kind_ref__table tbody tr').on('dblclick', function () {
+    rows = $('.document_kind_ref__table_row.highlight')
     var size = { width: 600, height: 200 };
     reference.editRecord('#document_kind_ref', rows, 'Карточка Вид документа', size);
 })
@@ -17,7 +17,7 @@ $('#document_kind_table tbody tr').on('dblclick', function () {
 /**
  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ВИД ДОКУМЕНТА =========================
  */
-$('#document_kind__card_OK').on('click', function () {
+$('#document_kind_card__OK').on('click', function () {
     if ($('#document_kind_card__name').val().trim() == '') {
         $('#document_kind_card__name').addClass('red_border');
 
@@ -71,7 +71,7 @@ $('#document_kind__card_OK').on('click', function () {
 /**
  * ==================== НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ВИД ДОКУМЕНТА ======================
  */
-$('#document_kind__card_Cancel').on('click', function () {
+$('#document_kind_card__Cancel').on('click', function () {
     $(this).parents('.appdialog').css('display', 'none');
 });
 
@@ -180,7 +180,7 @@ $('#document_kind_search__button_Cancel').on('click', function(){
 /** 
  * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
  * */
-$('#document_kind_create').on('click', function () {
+$('#document_kind_ref__create').on('click', function () {
     var size = { width: 600, height: 250 };
     reference.open_card('#document_kind_ref', 'Карточка Вид документа', size, OpenMode.Create, 0);
 });
@@ -195,8 +195,8 @@ $('#document_kind_ref__select').on('click', function(e){
 /**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
-$('#document_kind_edit').on('click', function () {
-    rows = $('.document_kind_table_row.highlight')
+$('#document_kind_ref__edit').on('click', function () {
+    rows = $('.document_kind_ref__table_row.highlight')
     var id = rows[0].children.item(0).textContent;
     var size = { width: 600, height: 200 };
     reference.open_card('#document_kind_ref', 'Карточка Вид документа', size, OpenMode.Edit, id);
@@ -206,8 +206,8 @@ $('#document_kind_edit').on('click', function () {
 /**
  * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
  */
-$('#document_kind_copy').on('click', function () {
-    rows = $('.document_kind_table_row.highlight')
+$('#document_kind_ref__copy').on('click', function () {
+    rows = $('.document_kind_ref__table_row.highlight')
     var id = rows[0].children.item(0).textContent;
     var size = { width: 600, height: 200 };
     // Открываем карточку в режиме создания новой записи
@@ -218,7 +218,7 @@ $('#document_kind_copy').on('click', function () {
 /**
  * ========================= НАЖАТИЕ КНОПКИ УДАЛИТЬ ЗАПИСЬ ==========================
  */
-$('#document_kind_delete').on('click', function () {
+$('#document_kind_ref__delete').on('click', function () {
     document_kind_delete_record()
 });
 
@@ -275,10 +275,10 @@ async function card_document_kind_load_data(data, openMode) {
  */
 function document_kind_update_reference(records) {
     var ind = 1;
-    $('#document_kind_table tbody tr').remove();
+    $('#document_kind_ref__table tbody tr').remove();
     records.forEach(record => {
-        $('#document_kind_table tbody').append(
-            $("<tr class='document_kind_table_row'>")
+        $('#document_kind_ref__table tbody').append(
+            $("<tr class='document_kind_ref__table_row'>")
                 .append($("<td class='id hide'>").text(record["id"]))
                 .append($("<td>").text(ind++))
                 .append($("<td>").text(record["name"]))
@@ -293,7 +293,7 @@ function document_kind_update_reference(records) {
  * ====================== КОНТЕКТНОЕ МЕНЮ - РЕДАКТИРОВАТЬ ========================= 
  * */
 $('#document_kind_ref__context_edit').on('click', function () {
-    rows = $('.document_kind_table_row.highlight');
+    rows = $('.document_kind_ref__table_row.highlight');
     if (rows.length > 0) {
         var id = rows[0].children.item(0).textContent;
         //Загружаем карточку
@@ -312,7 +312,6 @@ $('#document_kind_ref__context_edit').on('click', function () {
  */
 function document_kind_delete_record() {
     rows = $('.document_kind_ref__table_row.highlight');
-    alert(rows.length);
     if (rows.length > 0) {
         reference.delete_record('#document_kind_ref', rows, 'delete_document_kind');
     }
