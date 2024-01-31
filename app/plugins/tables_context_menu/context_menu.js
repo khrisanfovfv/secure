@@ -71,6 +71,10 @@ var Context = {
                 case 'administrator_ref__out_context_create' : administrator_create_record(); break;
                 case 'administrator_ref__out_context_update' : administrator_load_records(); break;
 
+                case 'document_kind_ref__context_edit' : document_kind_edit_record(); break;
+                case 'document_kind_ref__context_copy' : document_kind_copy_record(); break;
+                case 'document_kind_ref__context_delete' : document_kind_delete_record(); break;
+
                 case 'information_system_ref__out_context_create': information_system_create_record(); break;
                 case 'information_system_ref__out_context_update': information_system_load_records(); break;
                 case 'information_system_ref__context_edit': information_system_edit_record(); break;
@@ -90,8 +94,8 @@ var Context = {
                 case 'organization_ref__context_edit': organization_edit_record(); break;
                 case 'organization_ref__context_delete' : organization_delete_record(); break;
                 case 'organization_ref__context_copy' : organization_copy_record(); break;
-                case 'organization_ref__out_context_create' : oraganization_create_record(); break
-                case 'organization_ref__out_context_update' : organization_load_records(); break
+                case 'organization_ref__out_context_create' : oraganization_create_record(); break;
+                case 'organization_ref__out_context_update' : organization_load_records(); break;
 
                 case 'information_system_card__documents_open_card': Context.document_open_card(); break;
                 case 'information_system_card__documents_create_version': Context.document_open_version_card(); break;
@@ -159,7 +163,7 @@ var Context = {
             'administrator_card__information_systems_table_num',
             'organization_ref__table_row',
             'department_ref__table_row',
-            'document_kind_table_row',
+            'document_kind_ref__table_row',
             'contract_ref_table_row',
             'employeer_ref_table_row',
             'document_ref__table_row',
@@ -218,7 +222,7 @@ var Context = {
             case 'administrator_card__information_systems_table_num' : Context.menu = $('#administrator_card__remarks_context'); break;
             case 'organization_ref__table_row': Context.menu = $('#organization_ref__context'); break;
             case 'department_ref__table_row': Context.menu = $('#department_ref__context'); break;
-            case 'document_kind_table_row': Context.menu = $('#document_kind_ref__context'); break;
+            case 'document_kind_ref__table_row': Context.menu = $('#document_kind_ref__context'); break;
             case 'contract_ref_table_row': Context.menu = $('#contract_ref__context'); break;
             case 'employeer_ref_table_row': Context.menu = $('#employeer_ref__context'); break;
             case 'document_ref__table_row': Context.menu = $('#document_ref__context'); break;
@@ -293,6 +297,7 @@ var Context = {
 
     /** Показать меню справочники */
     show_menu_references: function () {
+        alert ('rabotaet');
         Context.menuState = 1;
         $('#sm_references').css('display', 'flex');
     },

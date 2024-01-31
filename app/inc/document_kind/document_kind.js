@@ -190,29 +190,22 @@ $('#document_kind_ref__create').on('click', function () {
  */
 $('#document_kind_ref__select').on('click', function(e){
     document_kind_select_record(e);
-})
+});
 
 /**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
 $('#document_kind_ref__edit').on('click', function () {
-    rows = $('.document_kind_ref__table_row.highlight')
-    var id = rows[0].children.item(0).textContent;
-    var size = { width: 600, height: 200 };
-    reference.open_card('#document_kind_ref', 'Карточка Вид документа', size, OpenMode.Edit, id);
-})
+   document_kind_edit_record();
+});
 
 
 /**
  * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
  */
 $('#document_kind_ref__copy').on('click', function () {
-    rows = $('.document_kind_ref__table_row.highlight')
-    var id = rows[0].children.item(0).textContent;
-    var size = { width: 600, height: 200 };
-    // Открываем карточку в режиме создания новой записи
-    reference.open_card('#document_kind_ref', 'Карточка Вид документа', size, OpenMode.Copy, id);
-})
+    document_kind_copy_record();
+});
 
 
 /**
@@ -222,6 +215,24 @@ $('#document_kind_ref__delete').on('click', function () {
     document_kind_delete_record()
 });
 
+/**
+ * ======================= ВИД ДОКУМЕНТА. РЕДАКТИРОВАТЬ ЗАПИСЬ =========================
+ */
+function document_kind_edit_record(e){ 
+    rows = $('.document_kind_ref__table_row.highlight')
+    var id = rows[0].children.item(0).textContent;
+    var size = { width: 600, height: 200 };
+    reference.open_card('#document_kind_ref', 'Карточка Вид документа', size, OpenMode.Edit, id);
+}
+/*** ======================= ВИД ДОКУМЕНТА. КОПИРОВАТЬ ЗАПИСЬ =========================
+*/
+function document_kind_copy_record(e){
+    rows = $('.document_kind_ref__table_row.highlight')
+    var id = rows[0].children.item(0).textContent;
+    var size = { width: 600, height: 200 };
+    // Открываем карточку в режиме создания новой записи
+    reference.open_card('#document_kind_ref', 'Карточка Вид документа', size, OpenMode.Copy, id);
+}
 
 
 
@@ -239,7 +250,7 @@ function document_kind_select_record(e){
         el.children('.id').text(id);
         el.children('.fullname').val(fullname);
         // Закрываем окно выбора
-        $(e.target).parents('.appdialog:first').css('display', 'none');
+        $(e.target).parents('.appdialog:first').css('display', 'none')
     }
 }
 
