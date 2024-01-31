@@ -1,4 +1,4 @@
-<?php wp_head(); ?>
+
 <div class="document_kind_card__content">
     <div class="document_kind_card__fields">
         <!-- ИД -->
@@ -18,4 +18,3 @@
         <button class="finish_button" id="document_kind_card__Cancel">Cancel</button>
     </div> 
 </div> <!-- /document_kind_card__content -->
-<?php wp_footer() ?>

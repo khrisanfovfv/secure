@@ -122,6 +122,7 @@ var reference = {
             case '#administrator_ref' : adminisrator_card_binding_events(); break;
             case '#organization_ref' : organization_card_binding_events(); break
             case '#document_ref' : document_card_binging_events(); break;
+            case '#document_kind_ref' : document_kind_card_binging_events(); break;
         }
     },
 

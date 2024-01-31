@@ -297,7 +297,6 @@ var Context = {
 
     /** Показать меню справочники */
     show_menu_references: function () {
-        alert ('rabotaet');
         Context.menuState = 1;
         $('#sm_references').css('display', 'flex');
     },

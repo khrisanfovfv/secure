@@ -17,7 +17,7 @@ $('#document_kind_ref__table tbody tr').on('dblclick', function () {
 /**
  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ВИД ДОКУМЕНТА =========================
  */
-$('#document_kind_card__OK').on('click', function () {
+function document_kind_card_press_OK(sender) {
     if ($('#document_kind_card__name').val().trim() == '') {
         $('#document_kind_card__name').addClass('red_border');
 
@@ -63,10 +63,10 @@ $('#document_kind_card__OK').on('click', function () {
                 reference.show_notification('document_kind_ref', 'Ошибка', size, message);
             })
         }
-        $(this).parents('.appdialog').css('display', 'none');
+        $(sender).parents('.appdialog').css('display', 'none');
     }
-
-});
+    
+};
 
 /**
  * ==================== НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ВИД ДОКУМЕНТА ======================
@@ -275,7 +275,7 @@ async function card_document_kind_load_data(data, openMode) {
         $('#document_kind_card__name').val(cardData[0].name + ' - Копия');
     }
     else {
-        $('#organization_card__fullName').val(cardData[0].fullname);
+        $('#document_kind_card__name').val(cardData[0].name);
     }
     $('#document_kind_card__state').val(cardData[0].state);
 }
@@ -340,6 +340,16 @@ function document_kind_ref_binding_events(){
     $('#document_kind_ref__select').on('click', function(e){
         document_kind_select_record(e)
     })
-
-
 }
+
+function document_kind_card_binging_events (){
+    /** ==============Карточка ВИДА ДОКУМЕНТОВ: НАЖАТИЕ КНОПКИ OK ============= */
+    $('#document_kind_card__OK').on('click', function (e) {
+        document_kind_card_press_OK(e.target);
+    });
+    /** ==============Карточка ВИДА ДОКУМЕНТОВ: НАЖАТИЕ КНОПКИ Отмена ============= */
+    $('#document_kind_card__Cancel').on('click', function (e) {
+        $(e.target).parents('.appdialog').css('display', 'none');
+    });
+}
+
