@@ -9,9 +9,10 @@ $('#organization_ref__table tbody tr').on('click', function (e) {
  * ======================== ДВОЙНОЙ КЛИК НА СТРОКУ ТАБЛИЦЫ ======================= 
 */
 $('#organization_ref__table tbody tr').on('dblclick', function () {
-    rows = $('.organization_ref__table_row.highlight')
-    var size = { width: 600, height: 200 };
-    reference.editRecord('#organization_ref', rows, 'Карточка Вид документа', size);
+    // rows = $('.organization_ref__table_row.highlight')
+    // var size = { width: 600, height: 200 };
+    // reference.editRecord('#organization_ref', rows, 'Карточка Вид документа', size);
+    organization_edit_record();
 })
 
 /**
@@ -97,28 +98,28 @@ function organization_load_records() {
 
 }
 
-/**
- *  ================================== ОБЩИЙ ПОИСК =======================================
- * @param {string} value 
- */
-function organization_common_search(value) {
-    // Делаем ajax - запрос
-    var data = {
-        action: 'search_organization',
-        value: value
-    };
+// /**
+//  *  ================================== ОБЩИЙ ПОИСК =======================================
+//  * @param {string} value 
+//  */
+// function organization_common_search(value) {
+//     // Делаем ajax - запрос
+//     var data = {
+//         action: 'search_organization',
+//         value: value
+//     };
 
-    jQuery.post(MainData.ajaxurl, data, function (result) {
-        var records = JSON.parse(result);
-        var ind = 1;
-        organization_update_reference(records);
+//     jQuery.post(MainData.ajaxurl, data, function (result) {
+//         var records = JSON.parse(result);
+//         var ind = 1;
+//         organization_update_reference(records);
 
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        var size = { width: 500, height: 200 };
-        message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
-        reference.show_notification('#organization_ref', 'Ошибка', size, message);
-    });
-}
+//     }).fail(function (jqXHR, textStatus, errorThrown) {
+//         var size = { width: 500, height: 200 };
+//         message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
+//         reference.show_notification('#organization_ref', 'Ошибка', size, message);
+//     });
+// }
 
 /**
  * ============================ КНОПКА РАСШИРЕННЫЙ ПОИСК =============================
@@ -196,7 +197,7 @@ $('#organization_ref__select').on('click', function (e) {
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
 $('#organization_ref__edit').on('click', function () {
-    oraganization_edit_record()
+    organization_edit_record()
 
 });
 
@@ -287,6 +288,7 @@ async function card_organization_load_data(data, openMode) {
     $('#organization_card__ogrn').val(cardData[0].ogrn);
     $('#organization_card__okpo').val(cardData[0].okpo);
     $('#organization_card__postAddress').val(cardData[0].postAddress);
+    $('#organization_card__legalAddress').val(cardData[0].legalAddress);
     $('#organization_card__email').val(cardData[0].email);
     $('#organization_card__state').val(cardData[0].state);
 }
@@ -312,27 +314,27 @@ function organization_update_reference(records) {
 }
 
 
-/** 
-* ====================== КОНТЕКТНОЕ МЕНЮ - РЕДАКТИРОВАТЬ ========================= 
-* */
-$('#organization_ref__context_edit').on('click', function () {
-    rows = $('.organization_ref__table_row.highlight');
-    if (rows.length > 0) {
-        var id = rows[0].children.item(0).textContent;
-        //Загружаем карточку
-        textStatus = id;
-        var size = { width: 400, height: 200 };
-        reference.show_notification('#organization_ref', 'Уведомление', size, textStatus)
-    } else {
-        var size = { width: 400, height: 200 };
-        message = 'Вы не выбрали запись';
-        reference.show_notification('#organization_ref', 'Предупреждение', size, message);
-    }
-})
+// /** 
+// * ====================== КОНТЕКТНОЕ МЕНЮ - РЕДАКТИРОВАТЬ ========================= 
+// * */
+// $('#organization_ref__context_edit').on('click', function () {
+//     rows = $('.organization_ref__table_row.highlight');
+//     if (rows.length > 0) {
+//         var id = rows[0].children.item(0).textContent;
+//         //Загружаем карточку
+//         textStatus = id;
+//         var size = { width: 400, height: 200 };
+//         reference.show_notification('#organization_ref', 'Уведомление', size, textStatus)
+//     } else {
+//         var size = { width: 400, height: 200 };
+//         message = 'Вы не выбрали запись';
+//         reference.show_notification('#organization_ref', 'Предупреждение', size, message);
+//     }
+// })
 /**
  * Организации. Редактирование ЗАПИСИ
  */
-function oraganization_edit_record() {
+function organization_edit_record() {
     rows = $('.organization_ref__table_row.highlight')
     if (rows.length > 0) {
         var id = rows[0].children.item(0).textContent;
@@ -536,14 +538,29 @@ $('#organization_ref__update').on('click', function () {
     organization_load_records();
 })
 
-// if (message == '') {
-//     return true;
-// } else {
-//     // Отправляем уведомление
-//     var size = { width: 400, height: 200 };
-//     reference.show_notification('#administrator_ref', 'Предупреждение', size, message);
-//     return false;
-// }
+/**
+ *  ================================== ОБЩИЙ ПОИСК =======================================
+ * @param {string} value 
+ */
+function organization_common_search(value) {
+    // Делаем ajax - запрос
+    var data = {
+        action: 'search_organization',
+        value: value
+    };
+
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var records = JSON.parse(result);
+        console.log(records);
+        organization_update_reference(records);
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#organization_ref', 'Ошибка', size, message);
+    });
+}
+
 
 
 

@@ -86,6 +86,7 @@ $(function () {
                 case 'document' : document_common_search(value); break; 
                 case 'department' : department_common_search(value); break; 
                 case 'administrator' : administrator_common_search(value); break;
+                case 'organization' : organization_common_search(value); break;
                 case 'information_system' : information_system_common_search(value); break;
             }
             
