@@ -266,7 +266,16 @@ class Organization
         $like_name = $wild . $wpdb->esc_like($name);
         $results = $wpdb->get_results(
             $wpdb->prepare("SELECT * FROM {$prefix}organization 
-            WHERE name LIKE '%s' AND state=%s", array($like_name, $state)),
+           WHERE fullname LIKE %s 
+            or briefname LIKE %s
+            or boss LIKE %s
+            or email LIKE %s 
+            or inn LIKE %s
+            or okpo LIKE %s
+            or kpp LIKE %s
+            or ogrn LIKE %s
+            or postAddress LIKE %s
+            or LegalAddress LIKE %s", array($like, $like, $like, $like, $like, $like, $like, $like, $like, $like)),
             ARRAY_A
         );
         echo json_encode($results);
