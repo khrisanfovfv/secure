@@ -399,6 +399,24 @@ function organization_card_binding_events() {
     });
 
 }
+
+/**
+ * ==================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ РАСШИРЕННОГО ПОИСКА =====================
+ */
+function organization_search_binding_events() {
+
+    $('#organization_search__button_OK').on('click', function (e) {
+        organization_extended_search_OK(e);
+    })
+    /** ======================== НАЖАТИЕ КНОПКИ ОТМЕНА  ======================= */
+    $('#organization_search__button_Cancel').on('click', function (e) {
+        $(e.target).parents('.appdialog').css('display', 'none');
+    })
+
+
+}
+
+
 /**
  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ОРГАНИЗАЦИИ (   Проверка на заполнение обязательных полей) =========================
  */
@@ -564,8 +582,11 @@ function organization_common_search(value) {
 /**
  * ============================ КНОПКА РАСШИРЕННЫЙ ПОИСК =============================
  */
-function organization_extended_search(){
-    size = {width : 500, height : 200};
+/**
+ * ============================ КНОПКА РАСШИРЕННЫЙ ПОИСК =============================
+ */
+function organization_extended_search() {
+    size = { width: 600, height: 500 };
     prefix = '#organization_ref';
     title = 'Расширенный поиск';
     // Загружаем карточку
@@ -576,22 +597,22 @@ function organization_extended_search(){
     reference.show_dialog(prefix, size, title);
     jQuery.post(MainData.ajaxurl, data, function (textStatus) {
         $(prefix + '__dialog_content').html(textStatus);
-            
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            var size = { width: 500, height: 200 };
-            message = 'Во время загрузки карточки ' + data.card + ' Произошла ошибка' + textStatus + ' ' + errorThrown;
-            reference.show_notification('#organization_ref', 'Ошибка', size, message);
-        });
+        organization_search_binding_events();
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#organization_ref', 'Ошибка', size, message);
+    });
 }
 
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
 */
-$('#organization_search__button_OK').on('click', function(){
+$('#organization_search__button_OK').on('click', function () {
     var data = {
         action: 'search_organization_extended',
-        number : $('#organization__search_name').val(),
-        state : $('#organization__search_state').val()
+        number: $('#organization__search_name').val(),
+        state: $('#organization__search_state').val()
     };
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
@@ -610,7 +631,7 @@ $('#organization_search__button_OK').on('click', function(){
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена =============
 */
-$('#organization_search__button_Cancel').on('click', function(){
+$('#organization_search__button_Cancel').on('click', function () {
     $(this).parents('.appdialog').css('display', 'none');
 });
 

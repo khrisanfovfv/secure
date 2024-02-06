@@ -71,6 +71,7 @@
             case 'department_search' : get_template_part('inc/department/department_search_form'); break;
             case 'information_system_search' : get_template_part('inc/information_system/information_system_search_form');break;
             case 'administrator_search' : get_template_part('inc/administrator/administrator_search_form');break;
+            case 'organization_search' : get_template_part('inc/organization/organization_search_form');break;
         }
         wp_die();
     }
