@@ -103,6 +103,7 @@ $(function () {
             case 'department' : department_extended_search(); break;
             case 'administrator' : administrator_extended_search(); break;
             case 'information_system' : information_system_extended_search();break;
+            case 'organization' : organization_extended_search();break;
         }
     })
 
