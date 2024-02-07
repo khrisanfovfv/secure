@@ -330,7 +330,7 @@ function document_kind_delete_record() {
 }
 
 /**
- * ================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СПРАВОЧНИКА ===================
+ * ================== ПРИВЯЗКА СОБЫТИЙ К СПРАВОЧНИКУ ===================
  */
 function document_kind_ref_binding_events(){
     $('#document_kind_ref__table tbody tr').on('click', function(e){
@@ -341,7 +341,9 @@ function document_kind_ref_binding_events(){
         document_kind_select_record(e)
     })
 }
-
+/**
+ * ================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СПРАВОЧНИКА ===================
+ */
 function document_kind_card_binging_events (){
     /** ==============Карточка ВИДА ДОКУМЕНТОВ: НАЖАТИЕ КНОПКИ OK ============= */
     $('#document_kind_card__OK').on('click', function (e) {

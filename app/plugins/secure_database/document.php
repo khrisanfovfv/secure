@@ -49,7 +49,7 @@ class Document
             version_number smallint,
             version_title tinytext, 
             type tinytext,
-            filepath text,
+            filename text,
             state varchar(14) DEFAULT 'Active' NOT NULL,
             PRIMARY KEY  (id),
             FOREIGN KEY (document) REFERENCES {$wpdb->prefix}document(id)
@@ -141,7 +141,7 @@ class Document
                 'version_number' => 1,
                 'version_title' => 'Версия 1',
                 'type' => 'application/pdf',
-                'filepath' => ''
+                'filename' => ''
             ),
             array(
                 '%d', // document
@@ -149,7 +149,7 @@ class Document
                 '%d', // version_number
                 '%s', // version_title
                 '%s', // type
-                '%s'  // filepath
+                '%s'  // filename
             )
         ) or  wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
     }
@@ -277,7 +277,7 @@ class Document
                 'signed' => $record['signed'],
                 'state' => 'Active'
             ),
-            array('ID' => $record['id']),
+            array( 'ID' => $record['id'] ),
             array(
                 '%s', // number
                 '%s', // documentdate
@@ -291,27 +291,28 @@ class Document
                 '%d', // signed
                 '%s', // state
             ),
-            array('%d')
-        ) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
+            array( '%d' )
+        );
 
-        // Обновляем записи в детальном разделе Замечания по аттестации
+        // Обновляем записи в детальном разделе Версии документов
         // Убираем символы экранирования '/'
         $document_versions_json = stripcslashes($record['document_versions']);
         $document_versions = json_decode($document_versions_json);
-        foreach ($document_versions as $document_version){
-            if ($document_version->id ==''){
-                if ($document_version->is_deleted == 0){
-                    Document::secure_create_document_version($record['id'], $document_version);
+            foreach ($document_versions as $document_version){
+                if ($document_version->id ==''){
+                    if ($document_version->is_deleted == 0){
+                        Document::secure_create_document_version($record['id'], $document_version);
+                    }
+                }elseif ($document_version->is_deleted == 1){
+                    Document::secure_delete_document_version($document_version);
+                } else {
+                    Document::secure_update_document_version($document_version);
                 }
-            }elseif ($document_version->is_deleted ===1){
-                Document::secure_delete_document_version($document_version);
-            } else {
-                Document::secure_update_document_version($document_version);
             }
-        }
-
+    
         echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
         wp_die();
+        
     }
     /** 
      * ====================== УДАЛЕНИЕ ЗАПИСИ ДОКУМЕНТ ==========================
@@ -351,7 +352,7 @@ class Document
                 'version_number' => $document_version->version_number,
                 'version_title' => $document_version->version_title,
                 'type' => $document_version->type,
-                'filepath' => ''
+                'filename' => ''
             ),
             array(
                 '%d', // document
@@ -359,9 +360,9 @@ class Document
                 '%d', // version_number
                 '%s', // version_title
                 '%s', // type
-                '%s'  // filepath
+                '%s'  // filename
             )
-        )or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
+        );
     }
 
     /**
@@ -375,10 +376,10 @@ class Document
             array(
                 //'document' => $id,
                 'versiondate' =>$document_version->versiondate,
-                'version_number' => $document_version->author,
-                'version_title' => $document_version->content,
-                'type' => $document_version->eliminated,
-                'filepath' => ''
+                'version_number' => $document_version->version_number,
+                'version_title' => $document_version->version_title,
+                'type' => $document_version->type,
+                'filename' => ''
             ),
             array( 'ID' => $document_version->id ),
             array(
@@ -387,7 +388,7 @@ class Document
                 '%d', // version_number
                 '%s', // version_title
                 '%s', // type
-                '%s'  // filepath
+                '%s'  // filename
             ),
             array( '%d' )
         ) or  wp_die($wpdb->last_error,'Ошибка', array('response' => 500));

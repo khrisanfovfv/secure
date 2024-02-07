@@ -90,6 +90,7 @@ var Context = {
                 case 'department_ref__out_context_update' : department_load_records(); break;
 
                 case 'document_ref__out_context_update' : document_load_records(); break; 
+                case 'documents_card__version_out_context-create' : document_card_create_version(); break; 
 
                 case 'organization_ref__context_edit': organization_edit_record(); break;
                 case 'organization_ref__context_delete' : organization_delete_record(); break;
@@ -326,7 +327,7 @@ var Context = {
             case 'administrator_ref__container': Context.menu = $('#administrator_ref__out_context'); break;
             case 'department_ref__container' : Context.menu = $('#department_ref__out_context'); break;
             case 'document_ref__container' : Context.menu = $('#document_ref__out_context'); break; 
-            case 'attachments__list document_card__version_list' : Context.menu = $('#document_card__version_out_context'); break;
+            case 'attachments__list' : Context.menu = $('#document_card__version_out_context'); break;
             case 'organization_ref__container' : Context.menu = $('#organization_ref__out_context'); break;
             default: return false;
         }

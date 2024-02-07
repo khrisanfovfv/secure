@@ -1,4 +1,5 @@
 var document_icons = JSON.parse(MainData.document_icons);
+var byteArray = [];
 
 /** 
  * ====================== ОДИНОЧНЫЙ КЛИК НА СТРОКУ ТАБЛИЦЫ =======================
@@ -40,9 +41,29 @@ function document__chose_tab(e) {
     $(tab).removeClass('hide');
 }
 
+
+async function getAsByteArray(file) {
+    return new Uint8Array(await readFile(file))
+}
+
+function readFile(file) {
+    return new Promise((resolve, reject) => {
+      // Create file reader
+      let reader = new FileReader()
+  
+      // Register event listeners
+      reader.addEventListener("loadend", e => resolve(e.target.result))
+      reader.addEventListener("error", reject)
+  
+      // Read file
+      reader.readAsArrayBuffer(file)
+    })
+  }
+
 /**
  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ДОКУМЕНТА =========================
  */
+
 function document_card_press_OK(sender) {
     if (document_card__check_fields()) {
         
@@ -50,16 +71,23 @@ function document_card_press_OK(sender) {
         var rows = $('#document_card__version_list li');
         var document_versions = [];
         var document_version = {};
+       
         rows.each(function(ind, element){
+
             document_version.id = $(element).children('.id').text();
             document_version.version_number = $(element).children('.version_number').text();
             document_version.versiondate = $(element).children('.versiondate').text();
             document_version.version_title = $(element).children('.attachments__name_item').text();
             document_version.type = $(element).children('.type').text();
             document_version.is_deleted = $(element).children('.is_deleted').text();
+            getAsByteArray($(element).children('.file').prop('files')[0])
+                .then((dv) => {
+                    document_version.files = JSON.stringify(dv);
+                })
             // Копируем обьект в массив
             document_versions[ind] = JSON.parse(JSON.stringify(document_version));
         })
+
 
         // Формируем запись для запроса
         record = {
@@ -82,6 +110,11 @@ function document_card_press_OK(sender) {
             // ДОБАВЛЯЕМ значение в базу
             var data = {
                 action: 'add_document',
+                cache: false,
+			    //contentType: false,
+                processData: false,
+                contentType: 'application/octet-stream', // set Content-Type header
+			    //processData: false,
                 record: record
             };
 
@@ -96,6 +129,9 @@ function document_card_press_OK(sender) {
             // ОБНОВЛЯЕМ значение в базе данных
             var data = {
                 action: 'update_document',
+                processData: false,
+                contentType: 'application/octet-stream', // set Content-Type header
+                cache: false,
                 record: record
             };
 
@@ -130,9 +166,6 @@ function document_card__check_fields() {
         reference.show_notification('#document_ref', 'Предупреждение', size, message);
         return false;
     }
-    
-
-
 }
 
 /**
@@ -465,11 +498,11 @@ function document_card_binging_events() {
     })
 
 
+    /** ================================ ВЫБОР ФАЙЛА ============================== */
     $('#document_card__file').on('change', function (e) {
-        var files = $(e.target).prop('files');
-        var file = files[0];
-        var document_icons = JSON.parse(MainData.document_icons);
-
+        var file = $(e.target).prop('files')[0];
+        
+        //console.log(fileByteArray);
         // Находим масимальный номер версии
         var version_numbers = [];
         var versions = $('#document_card__version_list .version__item .version_number');
@@ -490,11 +523,52 @@ function document_card_binging_events() {
         document_version['type'] = file.type;
         document_version['version_title'] = 'Версия ' + version_number;
         document_version['is_deleted'] = 0;
+        document_version['file'] = $(e.target).clone();
         $('#document_card__version_list').prepend(
             document_card_draw_version(document_version)
         );
     })
+}
 
+/**
+ * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ВЕРСИИ ДОКУМЕНТА ============ 
+ */
+function document_version_card_binding_events(){
+    /** ================  НАЖАТИЕ КНОПКИ ОК ================ */
+    $('#document_version_card__OK').on('click', function(e){
+        $(e.target).parents('.appdialog:first').css('display', 'none');
+    })
+
+    $('#document_version_card__Cancel').on('click', function(e){
+        $(e.target).parents('.appdialog:first').css('display', 'none');
+    })
+
+}
+
+/*function resolve(ByteArray){
+    bytes = ByteArray
+}*/
+
+// function getByteArray(file) {
+//     return new Promise(function(resolve, reject) {
+//         fileReader.readAsArrayBuffer(file);
+//         fileReader.onload = function(ev) {
+//             const array = new Uint8Array(ev.target.result);
+//             const fileByteArray = [];
+//             for (let i = 0; i < array.length; i++) {
+//                 fileByteArray.push(array[i]);
+//             }
+//             resolve(array);  // successful
+//         }
+//         fileReader.onerror = reject; // call reject if error
+//     })
+//  }
+
+
+/** ================== СОЗДАНИЕ КАРТОЧКИ ВЕРСИИ ДОКУМЕНТА ==================== */
+function document_card_create_version() {
+   size = { width: 500, height: 250 };
+    reference.open_card('#document_card', 'Карточка версии документа',size,OpenMode.Create,0,'#document_version_list');
 }
 
 /**
@@ -510,6 +584,8 @@ function document_card_draw_version(document_version) {
             icon = document_icons.ms_excel; break;
         case 'application/pdf': icon = document_icons.pdf; break;
     }
+    
+   
     var content_html = $("<li class='attachments__item version__item'>")
         .append($("<p class='id hide'>").text(document_version['id']))
         .append($("<p class='version_number hide'>").text(document_version['version_number']))
@@ -517,7 +593,10 @@ function document_card_draw_version(document_version) {
         .append($("<p class='type hide'>").text(document_version['type']))
         .append($("<img class='attachments__ico'>").attr('src', icon))
         .append($("<p class='attachments__name_item'>").text(document_version['version_title']))
-        .append($("<p class='is_deleted hide'>").text(document_version['is_deleted']))
+        .append($("<p class='is_deleted hide'>").text(document_version['is_deleted']));
+    if (document_version['file'] != undefined){
+        content_html.append($("<input class='file hide' type='file'>").prop('files', document_version['file'].prop('files')))
+    }
     return content_html;
 }
 

@@ -59,20 +59,25 @@ var reference = {
      * @param {boolean} openMode
      * @param {number} id 
      */
-    open_card(prefix, title, size, openMode, id) {
+    open_card(prefix, title, size, openMode, id, detail = '') {
         // Показываем диалоговое окно
         reference.show_dialog(prefix,size,title);
         //1.  Загружаем карточку
+        if (detail == ''){
+            card = reference.get_card_name(prefix);
+        } else{
+            card = reference.get_card_name(detail);
+        }
         var data = {
                 action: 'load_card',
                 cache: false,
-                card: reference.get_card_name(prefix)
+                card: card
             };
         jQuery.post(MainData.ajaxurl, data, function (textStatus) {
             $(prefix + '__dialog_content').empty();
             $(prefix + '__dialog_content').html(textStatus);
             // Привязываем события к элементам карточки
-            reference.binding_event_card(prefix);
+            reference.binding_event_card(prefix, detail);
             switch (openMode){
                 // Режим редактирования
                 case OpenMode.Edit : reference.load_card_data(prefix,id,OpenMode.Edit); break;
@@ -102,6 +107,7 @@ var reference = {
             case '#information_system_ref': card = 'information_system_card'; break;
             case '#administrator_ref' : card = 'administrator_card'; break;
             case '#organization_ref' : card = 'organization_card' ; break;
+            case '#document_version_list' : card = 'document_version_card'; break;
 
             // КАРТОЧКИ ПОИСКА
             case '#document_kind_ref_search' : card = 'document_kind_search'; break;
@@ -115,14 +121,20 @@ var reference = {
      * ========================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ==========================
      * @param {string} prefix 
      */
-    binding_event_card(prefix){
-        switch (prefix){
-            case '#information_system_ref' : information_system_card_binging_events(); break;
-            case '#department_ref' : department_card_binging_events(); break;
-            case '#administrator_ref' : adminisrator_card_binding_events(); break;
-            case '#organization_ref' : organization_card_binding_events(); break
-            case '#document_ref' : document_card_binging_events(); break;
-            case '#document_kind_ref' : document_kind_card_binging_events(); break;
+    binding_event_card(prefix, detail = ''){
+        if (detail == ''){
+            switch (prefix){
+                case '#information_system_ref' : information_system_card_binging_events(); break;
+                case '#department_ref' : department_card_binging_events(); break;
+                case '#administrator_ref' : adminisrator_card_binding_events(); break;
+                case '#organization_ref' : organization_card_binding_events(); break
+                case '#document_ref' : document_card_binging_events(); break;
+                case '#document_kind_ref' : document_kind_card_binging_events(); break;
+            }
+        } else {
+            switch(detail){
+                case '#document_version_list' : document_version_card_binding_events();
+            }
         }
     },
 

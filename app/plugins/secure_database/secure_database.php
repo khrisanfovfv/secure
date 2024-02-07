@@ -47,7 +47,6 @@ class SecDb
         
         //add_action( 'plugins_loaded', array($this, 'myplugin_update_db_check'));
     }
-
     public function secure_init_plugin(){
         // ОБЩИЕ
         add_action('wp_ajax_load_card_data', array($this,'secure_load_card_data'));
