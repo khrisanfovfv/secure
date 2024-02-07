@@ -144,28 +144,28 @@ function organization_extended_search() {
     });
 }
 
-/**
- * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
-*/
-$('#organization_search__button_OK').on('click', function () {
-    var data = {
-        action: 'search_organization_extended',
-        name: $('#organization__search_name').val(),
-        state: $('#organization__search_state').val()
-    };
+// /**
+//  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
+// */
+// $('#organization_search__button_OK').on('click', function () {
+//     var data = {
+//         action: 'search_organization_extended',
+//         name: $('#organization__search_name').val(),
+//         state: $('#organization__search_state').val()
+//     };
 
-    jQuery.post(MainData.ajaxurl, data, function (result) {
-        var records = JSON.parse(result);
-        var ind = 1;
-        organization_update_reference(records);
+//     jQuery.post(MainData.ajaxurl, data, function (result) {
+//         var records = JSON.parse(result);
+//         var ind = 1;
+//         organization_update_reference(records);
 
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        var size = { width: 500, height: 200 };
-        message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
-        reference.show_notification('#organization_ref', 'Ошибка', size, message);
-    });
+//     }).fail(function (jqXHR, textStatus, errorThrown) {
+//         var size = { width: 500, height: 200 };
+//         message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
+//         reference.show_notification('#organization_ref', 'Ошибка', size, message);
+//     });
 
-})
+// })
 
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена =============
@@ -605,28 +605,7 @@ function organization_extended_search() {
     });
 }
 
-/**
- * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
-*/
-$('#organization_search__button_OK').on('click', function () {
-    var data = {
-        action: 'search_organization_extended',
-        number: $('#organization__search_name').val(),
-        state: $('#organization__search_state').val()
-    };
 
-    jQuery.post(MainData.ajaxurl, data, function (result) {
-        var records = JSON.parse(result);
-        var ind = 1;
-        organization_update_reference(records);
-
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        var size = { width: 500, height: 200 };
-        message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
-        reference.show_notification('#document_kind_ref', 'Ошибка', size, message);
-    });
-
-})
 
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена =============
@@ -634,6 +613,31 @@ $('#organization_search__button_OK').on('click', function () {
 $('#organization_search__button_Cancel').on('click', function () {
     $(this).parents('.appdialog').css('display', 'none');
 });
+
+/**
+ * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
+*/
+function organization_extended_search_OK (e){
+    var data = {
+        action: 'search_organization_extended',
+        fullname: $('#organization__search_fullname').val(),
+        briefname: $('#organization__search_briefname').val(),
+        boss: $('#organization__search_briefname').val(),
+        state: $('#organization__search_state').val()
+    };
+
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var records = JSON.parse(result);
+        var ind = 1;
+        organization_update_reference(records);
+        $(e.target).parents('.appdialog').css('display', 'none');
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#document_kind_ref', 'Ошибка', size, message);
+    });
+}
 
 
 

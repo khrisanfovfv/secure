@@ -260,25 +260,29 @@ class Organization
     {
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $name = $_POST['name'];
+        $fullname = $_POST['fullname'];
+        $briefname = $_POST['briefname'];
+        $boss = $_POST['boss'];
         $state = $_POST['state'];
         $wild = '%';
-        $like_name = $wild . $wpdb->esc_like($name);
+        $like_fullname = $wild . $wpdb->esc_like($fullname);
+        $like_briefname = $wild . $wpdb->esc_like($briefname);
+        $like_boss = $wild . $wpdb->esc_like($boss);
+        $state_query = $state != '' ? " AND organization.state = '$state'" : '';  
         $results = $wpdb->get_results(
-            $wpdb->prepare("SELECT * FROM {$prefix}organization 
-           WHERE fullname LIKE %s 
-            or briefname LIKE %s
-            or boss LIKE %s
-            or email LIKE %s 
-            or inn LIKE %s
-            or okpo LIKE %s
-            or kpp LIKE %s
-            or ogrn LIKE %s
-            or postAddress LIKE %s
-            or LegalAddress LIKE %s", array($like, $like, $like, $like, $like, $like, $like, $like, $like, $like)),
-            ARRAY_A
-        );
+            $wpdb->prepare("SELECT * FROM {$prefix}organization  WHERE fullname LIKE %s", array($like_fullname)), ARRAY_A);
         echo json_encode($results);
         wp_die();
     }
 }
+// --    WHERE fullname LIKE %s 
+// -- or briefname LIKE %s
+// -- or boss LIKE %s $state_query
+// -- or email LIKE %s 
+// -- or inn LIKE %s
+// -- or okpo LIKE %s
+// -- or kpp LIKE %s
+// -- or ogrn LIKE %s
+// -- or postAddress LIKE %s
+// -- or LegalAddress LIKE %s
+// --, array($like_fullname $like_briefname, $like_boss )),
