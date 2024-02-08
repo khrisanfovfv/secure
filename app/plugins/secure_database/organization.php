@@ -265,12 +265,13 @@ class Organization
         $boss = $_POST['boss'];
         $state = $_POST['state'];
         $wild = '%';
-        $like_fullname = $wild . $wpdb->esc_like($fullname);
-        $like_briefname = $wild . $wpdb->esc_like($briefname);
-        $like_boss = $wild . $wpdb->esc_like($boss);
-        $state_query = $state != '' ? " AND organization.state = '$state'" : '';  
+        $like_fullname = $wild . $wpdb->esc_like($fullname) . $wild;
+        $like_briefname = $wild . $wpdb->esc_like($briefname) . $wild;
+        $like_boss = $wild . $wpdb->esc_like($boss) . $wild;
+        $state_query = $state != '' ? " AND state = '$state'" : '';  
         $results = $wpdb->get_results(
-            $wpdb->prepare("SELECT * FROM {$prefix}organization  WHERE fullname LIKE %s", array($like_fullname)), ARRAY_A);
+            $wpdb->prepare("SELECT * FROM {$prefix}organization  
+            WHERE fullname LIKE %s and briefname LIKE %s and boss LIKE %s $state_query",  array($like_fullname, $like_briefname, $like_boss)), ARRAY_A);
         echo json_encode($results);
         wp_die();
     }

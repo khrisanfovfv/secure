@@ -622,7 +622,7 @@ function organization_extended_search_OK (e){
         action: 'search_organization_extended',
         fullname: $('#organization__search_fullname').val(),
         briefname: $('#organization__search_briefname').val(),
-        boss: $('#organization__search_briefname').val(),
+        boss: $('#organization__search_boss').val(),
         state: $('#organization__search_state').val()
     };
 
