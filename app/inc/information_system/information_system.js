@@ -390,9 +390,20 @@ function card_information_system_load_data(data, openMode) {
     $('#information_system_card__commissioningDate').val(cardData[0].commissioningdate);
     $('#information_system_card__state').val(cardData[0].state);
 
+    // Заполняем таблицу Разработчики
+    let developpers = cardData['developpers'];
+    ind = 1;
+    $('#information_system_card__developpers_table tbody tr').remove();
+    developpers.forEach(developper => {
+        developper[ind] = ind++;
+        $('#information_system_card__developpers_table tbody').append(
+            information_system_card__draw_developper_row(developper)
+        )
+    })
+
     // Заполняем таблицу Замечания по аттестации
     remarks = cardData['remarks'];
-    var ind = 1;
+    ind = 1;
     $('#information_system_card__remarks_table tbody tr').remove();
     remarks.forEach(remark => {
         remark['ind'] = ind++;
@@ -709,6 +720,27 @@ function information_system_remark_delete_record() {
 /** ============================================================================
  * ========================= ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===========================
    ============================================================================*/
+
+
+/** ================== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ РАЗРАБОТЧИКИ ================= */
+function information_system_card__draw_developper_row(developper){
+    var content_html = 
+    $("<tr>")
+        .append($("<td class='id hide'>").text(developper['id']))
+        .append($("<td class='information_system_card__developpers_table_num'>").text(developper['ind']))
+        .append($("<td>")
+            .append($("<div class='ref_record'>")
+                .append($("<p class='hide name_reference'>").text("organization"))
+                .append($("<p class='id hide'>").text(developper['developper_id']))
+                .append($("<input class='fullname'>").val(developper['developper_name']))
+                .append($("<div class='ref_record__button'>").text("..."))
+                .on('click', function (e) {
+                    reference.open_reference(e, '#information_system_card', 'Справочник Организации');
+                })
+            )
+        )
+        return content_html;
+}
 
 /**
  * =========== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ ================

@@ -31,6 +31,20 @@ class InformationSystem{
             PRIMARY KEY  (id)
         ) $charset_collate;";
 
+        $table_name = $wpdb->prefix . 'developpers';
+
+        // Запрос на создание таблицы разработчики
+        $developpers_sql = "CREATE TABLE $table_name (
+            id mediumint(9) NOT NULL AUTO_INCREMENT,
+            information_system mediumint(9) NOT NULL,
+            organization mediumint(9) NOT NULL,
+            PRIMARY KEY  (id),
+            FOREIGN KEY (information_system) REFERENCES {$wpdb->prefix}information_system(id),
+            FOREIGN KEY (organization) REFERENCES {$wpdb->prefix}organization(id)
+        ) $charset_collate;";
+
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        
         $table_name = $wpdb->prefix . 'remarks';
 
         // Запрос на создание таблицы Замечания по аттестации
@@ -49,7 +63,9 @@ class InformationSystem{
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($information_system_sql);
+        dbDelta($developpers_sql);
         dbDelta($remarks_sql);
+
         add_option('sec_db_version', $sec_db_version);
     }
 
@@ -89,6 +105,20 @@ class InformationSystem{
                 '%s'  // state
             )
 
+        );
+
+        // Заполняем данными таблицу Разработчики
+        $table_name = $wpdb->prefix . 'developpers';
+        $wpdb->insert(
+            $table_name,
+            array(
+                'information_system' => 1,
+                'organization' => 1
+            ),
+            array(
+                '%d', // information_system
+                '%d' // organization
+            )
         );
 
         // Заполняем данными таблицу Замечания по аттестации
@@ -144,6 +174,11 @@ class InformationSystem{
             JOIN {$prefix}administrator administrator on inf_sys_adm.administrator_id = administrator.id            
             WHERE inf_sys_adm.information_system_id = $id"), OBJECT);
             $results = (object) array_merge( (array)$results, array( 'administrators' => $administrators ));
+        $developpers = $wpdb->get_results(
+            $wpdb->prepare("SELECT developpers.id, organization.id as developper_id, organization.fullname as developper_name FROM {$prefix}developpers developpers 
+            LEFT JOIN {$prefix}organization organization ON developpers.organization = organization.id 
+            WHERE developpers.information_system = $id"), OBJECT) or wp_die($wpdb->last_error);
+            $results = (object) array_merge( (array)$results, array( 'developpers' => $developpers ));
         $remarks = $wpdb->get_results(
             $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE information_system_id = $id"), OBJECT);
             $results = (object) array_merge( (array)$results, array( 'remarks' => $remarks ));

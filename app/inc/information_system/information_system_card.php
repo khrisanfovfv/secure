@@ -112,17 +112,17 @@ $document_icons = $resources->get_document_icons();
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="information_system_card__developpers_table_row">
+                                <!--tr class="information_system_card__developpers_table_row">
                                     <td class="id hide">1</td>
                                     <td>1</td>
                                     <td>
-                                        <div class="ref_record">
+                                        <!div class="ref_record">
                                             <input type="text" value="Общество с ограниченной ответственноостью &laquo;Директум&raquo;">
                                             <div class="ref_record__button">&#183;&#183;&#183;</div>
-                                        </div>
+                                        </div
                                     </td>
 
-                                </tr>
+                                </tr-->
 
                             </tbody>
                         </table>

@@ -13,8 +13,19 @@ $document_icons = $resources->get_document_icons();
                 <!-- ИД -->
                 <p class="hide" id="document_version_card__id"></p>
                 <!-- НАИМЕНОВАНИЕ -->
-                <label for="document_version_card__title">Наименование</label>
+                <label for="document_version_card__title">Наименование<span class="required">*</span></label>
                 <input type="text" id="document_version_card__title">
+                <!-- ФАЙЛ -->
+                <label>Файл<span class="required"></label>
+                <div class="attachment__file" id="document_version_card__file">
+                    <img class="attachments__ico">
+                    <p class="attachments__name_item"></p>
+                    <input type="file" id="document_version_card__browse">
+                </div>
+                
+                
+
+
             </div>
 
         </div>

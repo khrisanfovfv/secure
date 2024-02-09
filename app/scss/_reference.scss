@@ -82,8 +82,15 @@
         border: 2px solid gray;
     }
 
+    &__table tbody td ref_record{
+        width: 100%;
+    }
+
+    
+    
     &__table td input{
         border: none;
+        width: 100%;
     }
 
     &__table td select{
