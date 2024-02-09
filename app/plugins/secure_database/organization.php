@@ -263,15 +263,32 @@ class Organization
         $fullname = $_POST['fullname'];
         $briefname = $_POST['briefname'];
         $boss = $_POST['boss'];
-        $state = $_POST['state'];
+        $email = $_POST['email'];
+        $inn = $_POST['inn'];
+        $okpo = $_POST['okpo'];
+        $kpp = $_POST['kpp'];
+        $ogrn = $_POST['ogrn'];
+        $postAddress = $_POST['postAddress'];
+        $LegalAddress = $_POST['LegalAddress'];
+        $state = $_POST['state'];        
         $wild = '%';
         $like_fullname = $wild . $wpdb->esc_like($fullname) . $wild;
         $like_briefname = $wild . $wpdb->esc_like($briefname) . $wild;
         $like_boss = $wild . $wpdb->esc_like($boss) . $wild;
+        $like_email = $wild . $wpdb->esc_like($email) . $wild;
+        $like_inn = $wild . $wpdb->esc_like($inn) . $wild;
+        $like_okpo = $wild . $wpdb->esc_like($okpo) . $wild;
+        $like_kpp = $wild . $wpdb->esc_like($kpp) . $wild;
+        $like_ogrn = $wild . $wpdb->esc_like($ogrn) . $wild;
+        $like_postAddress = $wild . $wpdb->esc_like($postAddress) . $wild;
+        $like_LegalAddress = $wild . $wpdb->esc_like($LegalAddress) . $wild;
         $state_query = $state != '' ? " AND state = '$state'" : '';  
         $results = $wpdb->get_results(
             $wpdb->prepare("SELECT * FROM {$prefix}organization  
-            WHERE fullname LIKE %s and briefname LIKE %s and boss LIKE %s $state_query",  array($like_fullname, $like_briefname, $like_boss)), ARRAY_A);
+            WHERE fullname LIKE %s and briefname LIKE %s and boss LIKE %s 
+            and email LIKE %s and inn LIKE %s and okpo LIKE %s and kpp LIKE %s
+            and ogrn LIKE %s and postAddress LIKE %s and LegalAddress LIKE %s $state_query",  
+            array($like_fullname, $like_briefname, $like_boss, $like_email, $like_inn, $like_okpo, $like_kpp, $like_ogrn, $like_postAddress, $like_LegalAddress)), ARRAY_A);
         echo json_encode($results);
         wp_die();
     }

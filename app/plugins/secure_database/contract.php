@@ -1,56 +1,36 @@
 <?php 
 
-class InformationSystem{
+class Contract{
     protected $table_name;
     public function __construct() {
-        $this->table_name = 'information_system';
+        $this->table_name = 'contract';
     }
 
     /**
-     * ========= СОЗДАНИЕ ТАБЛИЦЫ ИНФОРМАЦИОННЫЕ СИСТЕМЫ И ЗАМЕЧАНИЯ ПО АТТЕСТАЦИ ========
+     * ========= СОЗДАНИЕ ТАБЛИЦЫ КОНТРАКТЫ ========
      */
     public function table_install()
     {
         global $wpdb;
         global $sec_db_version;
-        $table_name = $wpdb->prefix . 'information_system';
+        $table_name = $wpdb->prefix . 'contract';
         $charset_collate = $wpdb->get_charset_collate();
 
-        // Запрос на создание таблицы информационные системы
-        $information_system_sql = "CREATE TABLE $table_name (
+        // Запрос на создание таблицы контракты
+        $contract_sql = "CREATE TABLE $table_name (
             id mediumint(9) NOT NULL AUTO_INCREMENT,
-            fullname text NOT NULL,
-            briefname tinytext,
-            certified boolean,
-            certifydate date NULL,
-            scope varchar(13),
-            significancelevel varchar(2),
-            commissioningdate date NULL,
-            hasremark boolean,
-            state varchar(14) DEFAULT 'Active' NOT NULL,
+            contract_number text NOT NULL,
+            conclusionDate date NULL,
+            contract_type tinytext,
+            link text,
+            contract_state varchar(14) DEFAULT 'Active' NOT NULL,
             PRIMARY KEY  (id)
         ) $charset_collate;";
 
-        $table_name = $wpdb->prefix . 'remarks';
-
-        // Запрос на создание таблицы Замечания по аттестации
-        $remarks_sql = "CREATE TABLE $table_name (
-            id mediumint(9) NOT NULL AUTO_INCREMENT,
-            information_system_id mediumint(9) NOT NULL,
-            remarkdate date NULL,
-            author text NOT NULL,
-            content text NOT NULL,
-            eliminated boolean,
-            eliminatedate date NULL,
-            performer text,
-            PRIMARY KEY  (id),
-            FOREIGN KEY (information_system_id) REFERENCES {$wpdb->prefix}information_system(id)
-        ) $charset_collate;";
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($information_system_sql);
-        dbDelta($remarks_sql);
-        add_option('sec_db_version', $sec_db_version);
+        dbDelta($contract_sql);
+        // add_option('sec_db_version', $sec_db_version);
     }
 
     /**
@@ -63,7 +43,7 @@ class InformationSystem{
         global $wpdb;
 
 
-        $table_name = $wpdb->prefix . 'information_system';
+        $table_name = $wpdb->prefix . 'contract';
         $wpdb->insert(
             $table_name,
             array(
@@ -96,7 +76,7 @@ class InformationSystem{
         $wpdb->insert(
             $table_name,
             array(
-                'information_system_id' => 1,
+                'contract_id' => 1,
                 'remarkdate' =>'2022-01-01',
                 'author' => 'Смирнов А.В.',
                 'content' => 'Нет антивируса',
@@ -105,7 +85,7 @@ class InformationSystem{
                 'performer' => 'Петров А.Г.'
             ),
             array(
-                '%d', // information_system_id
+                '%d', // contract_id
                 '%s', // remarkdate
                 '%s', // author
                 '%s', // content
@@ -120,11 +100,11 @@ class InformationSystem{
     /**
      * ================ ПОЛУЧЕНИЕ ЗАПИСИ ТАБЛИЦЫ ИНФОРМАЦИОННЫЕ СИСТЕМЫ =================
      */
-    public function secure_load_information_system(){
+    public function secure_load_contract(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM sec_information_system"), ARRAY_A );
+            $wpdb->prepare("SELECT * FROM sec_contract"), ARRAY_A );
         echo json_encode($results);
         wp_die();
     }
@@ -137,15 +117,15 @@ class InformationSystem{
         global $wpdb;
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM sec_information_system WHERE id = $id"), OBJECT );
+            $wpdb->prepare("SELECT * FROM sec_contract WHERE id = $id"), OBJECT );
         $administrators = $wpdb->get_results(
             $wpdb->prepare("SELECT inf_sys_adm.id,inf_sys_adm.administrator_id, administrator.fullname as administrator_name , inf_sys_adm.appointdate, inf_sys_adm.terminatedate, inf_sys_adm.type 
-            FROM {$prefix}information_system_administrator inf_sys_adm 
+            FROM {$prefix}contract_administrator inf_sys_adm 
             JOIN {$prefix}administrator administrator on inf_sys_adm.administrator_id = administrator.id            
-            WHERE inf_sys_adm.information_system_id = $id"), OBJECT);
+            WHERE inf_sys_adm.contract_id = $id"), OBJECT);
             $results = (object) array_merge( (array)$results, array( 'administrators' => $administrators ));
         $remarks = $wpdb->get_results(
-            $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE information_system_id = $id"), OBJECT);
+            $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE contract_id = $id"), OBJECT);
             $results = (object) array_merge( (array)$results, array( 'remarks' => $remarks ));
         return $results;
         wp_die();
@@ -154,14 +134,14 @@ class InformationSystem{
     /**
      * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ======================
      */
-    function secure_add_information_system(){
+    function secure_add_contract(){
 
         global $wpdb;
         $prefix = $wpdb->prefix;
         $record = $_POST['record'];
         
         $wpdb->insert(
-            $prefix.'information_system',
+            $prefix.'contract',
             array(
                 'fullname' => $record['fullname'],
                 'briefname' => $record['briefname'],
@@ -211,13 +191,13 @@ class InformationSystem{
     /** 
      * ====================== ОБНОВЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ==========================
      */
-    function secure_update_information_system(){
+    function secure_update_contract(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $record = $_POST['record'];
 
         $wpdb->update(
-            $prefix.'information_system',
+            $prefix.'contract',
             array(
                 'fullname' => $record['fullname'],
                 'briefname' => $record['briefname'],
@@ -283,26 +263,26 @@ class InformationSystem{
     /**
      * ============== УДАЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ===============
      */
-    public function secure_delete_information_system(){
+    public function secure_delete_contract(){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $information_system_id = $_POST['id'];
+        $contract_id = $_POST['id'];
         // Удаляем связанные записи из таблицы remarks
         $remarks = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE information_system_id = %d", Array($information_system_id)), OBJECT );
+            $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE contract_id = %d", Array($contract_id)), OBJECT );
         foreach($remarks as $remark){
             InformationSystem::secure_delete_remark($remark);
         }
 
-        // Удаляем связанные записи из таблицы information_system_administrator
+        // Удаляем связанные записи из таблицы contract_administrator
         $administrators = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}information_system_administrator WHERE information_system_id = %d", Array($information_system_id)), OBJECT );
+            $wpdb->prepare("SELECT * FROM {$prefix}contract_administrator WHERE contract_id = %d", Array($contract_id)), OBJECT );
         foreach($administrators as $administrator){
             InformationSystem::secure_delete_administrator($administrator);
         }
 
         // Удаляем запись информационная система
-        $wpdb->delete( $prefix.'information_system', array( 'ID' => $information_system_id ), array( '%d' ));
+        $wpdb->delete( $prefix.'contract', array( 'ID' => $contract_id ), array( '%d' ));
         echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
         wp_die();
 
@@ -311,13 +291,13 @@ class InformationSystem{
     /**
      * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. СОЗДАНИЕ ЗАПИСИ ==============
      */
-    protected function secure_create_remark($information_system_id, $remark){
+    protected function secure_create_remark($contract_id, $remark){
         global $wpdb;
         $table_name = $wpdb->prefix . 'remarks';
         $wpdb->insert(
             $table_name,
             array(
-                'information_system_id' => $information_system_id,
+                'contract_id' => $contract_id,
                 'remarkdate' =>$remark->remarkdate,
                 'author' => $remark->author,
                 'content' => $remark->content,
@@ -326,7 +306,7 @@ class InformationSystem{
                 'performer' => $remark->performer
             ),
             array(
-                '%d', // information_system_id
+                '%d', // contract_id
                 '%s', // remarkdate
                 '%s', // author
                 '%s', // content
@@ -382,12 +362,12 @@ class InformationSystem{
     /**
      * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. ЗАГРУЗКА ЗАПИСЕЙ ==============
      */
-    public function secure_load_information_system_remarks(){
+    public function secure_load_contract_remarks(){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $information_system_id = $_POST['information_system_id'];
+        $contract_id = $_POST['contract_id'];
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE information_system_id = $information_system_id"), ARRAY_A );
+            $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE contract_id = $contract_id"), ARRAY_A );
         echo json_encode($results);
         wp_die();
     }
@@ -395,15 +375,15 @@ class InformationSystem{
     /**
      * ======================== АДМИНИСТРАТОРЫ. ЗАГРУЗКА ЗАПИСЕЙ ===============
      */
-    public function secure_load_information_system_administrators(){
+    public function secure_load_contract_administrators(){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $information_system_id = $_POST['information_system_id'];
+        $contract_id = $_POST['contract_id'];
         $results = $wpdb->get_results(
                 $wpdb->prepare("SELECT inf_sys_adm.id,inf_sys_adm.administrator_id, administrator.fullname as administrator_name , inf_sys_adm.appointdate, inf_sys_adm.terminatedate, inf_sys_adm.type 
-            FROM {$prefix}information_system_administrator inf_sys_adm 
+            FROM {$prefix}contract_administrator inf_sys_adm 
             JOIN {$prefix}administrator administrator on inf_sys_adm.administrator_id = administrator.id            
-            WHERE inf_sys_adm.information_system_id = $information_system_id"), OBJECT);
+            WHERE inf_sys_adm.contract_id = $contract_id"), OBJECT);
          echo json_encode($results);
         wp_die();
     }
@@ -411,20 +391,20 @@ class InformationSystem{
     /**
      * ============== АДМИНИСТРАТОРЫ. СОЗДАНИЕ ЗАПИСИ ==============
      */
-    protected function secure_create_administrator($information_system_id, $administrator){
+    protected function secure_create_administrator($contract_id, $administrator){
         global $wpdb;
-        $table_name = $wpdb->prefix . 'information_system_administrator';
+        $table_name = $wpdb->prefix . 'contract_administrator';
         $wpdb->insert(
             $table_name,
             array(
-                'information_system_id' => $information_system_id,
+                'contract_id' => $contract_id,
                 'administrator_id' => $administrator->administrator_id,
                 'appointdate' => $administrator->appointdate,
                 'terminatedate' => $administrator->terminatedate,
                 'type' => $administrator->type
             ),
             array(
-                '%d', // information_system_id
+                '%d', // contract_id
                 '%d', // administrator_id
                 '%s', // appointdate
                 '%s', // terminatedate
@@ -439,7 +419,7 @@ class InformationSystem{
         $wpdb->update(
             $prefix.'administrators',
             array(
-                'information_system_id' => $administrator->information_system_id,
+                'contract_id' => $administrator->contract_id,
                 'administrator_id' => $administrator->administrator_id,
                 'appointdate' => $administrator->appointdate,
                 'terminatedate' => $administrator->terminatedate,
@@ -447,7 +427,7 @@ class InformationSystem{
             ),
             array( 'ID' => $administrator->id ),
             array(
-                '%d', // information_system_id
+                '%d', // contract_id
                 '%d', // administrator_id
                 '%s', // appointdate
                 '%s', // terminatedate
@@ -463,7 +443,7 @@ class InformationSystem{
     protected function secure_delete_administrator($administrator){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $wpdb->delete( $prefix . 'information_system_administrator', array( 'ID' => $administrator->id ), array( '%d' ));
+        $wpdb->delete( $prefix . 'contract_administrator', array( 'ID' => $administrator->id ), array( '%d' ));
         echo 'Запись ид = ' . $administrator->id . ' успешно удалена';
         wp_die();
     }
@@ -473,12 +453,12 @@ class InformationSystem{
     /**
      * ================ ИНФОРМАЦИОННЫЕ СИСТЕМЫ. ОБЩИЙ ПОИСК =================
      */
-    function secure_search_information_system(){
+    function secure_search_contract(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $value = $_POST['value'];
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}information_system 
+            $wpdb->prepare("SELECT * FROM {$prefix}contract 
             WHERE fullname LIKE '%$value%'
             OR briefname LIKE '%$value%'
             OR certifydate LIKE '%$value%'
@@ -491,7 +471,7 @@ class InformationSystem{
     /**
      * ================= ИНФОРМАЦИОННЫЕ СИСТЕМЫ. РАСШИРЕННЫЙ ПОИСК =================
      */
-    function secure_search_information_system_extended(){
+    function secure_search_contract_extended(){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $fullname = $_POST['fullname'];
@@ -552,7 +532,7 @@ class InformationSystem{
         }
 
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}information_system 
+            $wpdb->prepare("SELECT * FROM {$prefix}contract 
             WHERE fullname LIKE '%$fullname%'
             AND briefname LIKE '%$briefname%'" . $scope_query .
             $significancelevel_query .

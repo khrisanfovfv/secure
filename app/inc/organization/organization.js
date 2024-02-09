@@ -623,6 +623,14 @@ function organization_extended_search_OK (e){
         fullname: $('#organization__search_fullname').val(),
         briefname: $('#organization__search_briefname').val(),
         boss: $('#organization__search_boss').val(),
+        email: $('#organization__search_email').val(),
+        inn: $('#organization__search_inn').val(), 
+        okpo: $('#organization__search_okpo').val(),
+        kpp: $('#organization__search_kpp').val(), 
+        kpp: $('#organization__search_kpp').val(),
+        ogrn: $('#organization__search_ogrn').val(), 
+        postAddress: $('#organization__search_postAddress').val(),
+        LegalAddress: $('#organization__search_LegalAddress').val(),
         state: $('#organization__search_state').val()
     };
 

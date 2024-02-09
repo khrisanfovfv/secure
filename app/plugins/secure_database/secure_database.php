@@ -17,6 +17,7 @@ require_once('document_kind.php');
 require_once('department.php');
 require_once('administrator.php');
 require_once('information_system.php');
+require_once('contract.php');
 require_once('organization.php');
 require_once('document.php');
 
@@ -29,6 +30,7 @@ class SecDb
     protected $document_kind;
     protected $department;
     protected $information_system;
+    protected $contract;
     protected $administrator;
     protected $organization;
     protected $document;
@@ -41,6 +43,7 @@ class SecDb
         $this->document_kind = new DocumentKind();
         $this->department = new Department();
         $this->information_system = new InformationSystem();
+        $this->contract = new Contract();
         $this->administrator = new Administrator();
         $this->organization = new Organization();
         $this->document = new Document();
@@ -169,6 +172,7 @@ class SecDb
         $this->information_system->install_data();
         $this->administrator->install_data();
         $this->document->install_data();
+        $this->contract->install_data();
     }
 
     /**
