@@ -160,6 +160,7 @@ class SecDb
         $this->information_system->table_install();
         $this->administrator->table_install();  
         $this->document->table_install(); 
+        $this->contract->table_install();
     }
 
     /**
@@ -172,7 +173,7 @@ class SecDb
         $this->information_system->install_data();
         $this->administrator->install_data();
         $this->document->install_data();
-        $this->contract->install_data();
+        //$this->contract->install_data();
     }
 
     /**

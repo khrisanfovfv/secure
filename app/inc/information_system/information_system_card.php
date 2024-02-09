@@ -112,18 +112,6 @@ $document_icons = $resources->get_document_icons();
                                 </tr>
                             </thead>
                             <tbody>
-                                <!--tr class="information_system_card__developpers_table_row">
-                                    <td class="id hide">1</td>
-                                    <td>1</td>
-                                    <td>
-                                        <!div class="ref_record">
-                                            <input type="text" value="Общество с ограниченной ответственноостью &laquo;Директум&raquo;">
-                                            <div class="ref_record__button">&#183;&#183;&#183;</div>
-                                        </div
-                                    </td>
-
-                                </tr-->
-
                             </tbody>
                         </table>
                     </section>
@@ -521,10 +509,10 @@ $document_icons = $resources->get_document_icons();
                 <!-- P - Для диалогоых окон -->
                 <p class="appdialog__content_text"></p>
             </div>
-            <div class="appdialog__finish_buttons">
+            <!-- <div class="appdialog__finish_buttons">
                 <button class="appdialog__finish_button">OK</button>
                 <button class="appdialog__finish_button">Cancel</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
