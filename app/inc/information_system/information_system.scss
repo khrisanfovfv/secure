@@ -46,6 +46,7 @@
     &__general{
         margin-top: -1px;
         display: flex;
+        height: 100%;
         flex-direction: column;
         /*border: thin solid black;*/
         padding: 5px;
@@ -88,6 +89,16 @@
 
     &__general_fields input[type=checkbox]{
         grid-column: 2;
+    }
+    &__developpers{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    &__developpers_container{
+        height: 100%;
     }
 
     &__developpers_table_row{

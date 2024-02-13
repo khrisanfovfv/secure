@@ -78,42 +78,41 @@ $document_icons = $resources->get_document_icons();
 
                         </div>
 
-
                         <!-- ТАБЛИЦА С РАЗРАБОТЧИКАМИ -->
-                        <p class="reference__title">Разработчик</p>
-                        <div class="reference__buttons">
-                            <button class="reference__button" id="information_system_card__developper_create">
-                                <img src="<?php echo $button_icons->create ?>" alt="Создать">
-                                <p>Создать</p>
-                            </button>
-                            <button class="reference__button" id="information_system_card__developper_edit">
-                                <img src="<?php echo $button_icons->edit ?>" alt="Редактировать">
-                                <p>Редактировать</p>
-                            </button>
-                            <button class="reference__button" id="information_system_card__developper_copy">
-                                <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
-                                <p>Копировать</p>
-                            </button>
-                            <button class="reference__button" id="information_system_card__developper_delete">
-                                <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
-                                <p>Удалить</p>
-                            </button>
-                            <button class="reference__button" id="information_system_card__developper_excel">
-                                <img src="<?php echo $button_icons->excel ?>" alt="Эл. таб.">
-                                <p>Эл. таб</p>
-                            </button>
+                        <div class="information_system_card__developpers" id="information_system_card__developpers">
+                            <p class="reference__title">Разработчик</p>
+                            <div class="reference__buttons">
+                                <button class="reference__button" id="information_system_card__developpers_create">
+                                    <img src="<?php echo $button_icons->create ?>" alt="Создать">
+                                    <p>Создать</p>
+                                </button>
+                                <button class="reference__button" id="information_system_card__developpers_copy">
+                                    <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
+                                    <p>Копировать</p>
+                                </button>
+                                <button class="reference__button" id="information_system_card__developpers_delete">
+                                    <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
+                                    <p>Удалить</p>
+                                </button>
+                                <button class="reference__button" id="information_system_card__developpers_excel">
+                                    <img src="<?php echo $button_icons->excel ?>" alt="Эл. таб.">
+                                    <p>Эл. таб</p>
+                                </button>
+                            </div>
+                            <div class="information_system_card__developpers_container">
+                                <table class="reference__table" id="information_system_card__developpers_table">
+                                    <thead>
+                                        <tr>
+                                            <th class="hide">Ид</th>
+                                            <th style="width: 35px;">№</th>
+                                            <th>Полное наименование</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <table class="reference__table" id="information_system_card__developpers_table">
-                            <thead>
-                                <tr>
-                                    <th class="hide">Ид</th>
-                                    <th style="width: 35px;">№</th>
-                                    <th>Полное наименование</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
                     </section>
 
                     <!-- ВКЛАДКА АДМИНИСТРАТОРЫ -->
@@ -402,6 +401,20 @@ $document_icons = $resources->get_document_icons();
         <li class="context-menu__item" id="information_system_card__remarks_context_delete">
             <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
             <p>Удалить</p>
+        </li>
+    </ul>
+</div>
+
+<!-- КОНТЕКСТНОЕ МЕНЮ ЭЛЕМЕНТА information_system_card__developpers_container -->
+<div class="context-menu" id="information_system_card_developpers__out_context">
+    <ul class="context-menu__list">
+        <li class="context-menu__item" id="information_system_card_remarks__out_context_create">
+            <img src="<?php echo $button_icons->create ?>">
+            <p>Создать</p>
+        </li>
+        <li class="context-menu__item" id="information_system_card_remarks__out_context_update">
+            <img src="<?php echo $button_icons->update ?>">
+            <p>Обновить</p>
         </li>
     </ul>
 </div>

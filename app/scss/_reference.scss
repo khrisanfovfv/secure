@@ -69,6 +69,7 @@
     }
     &__table th,
     &__table td{
+        background-color: inherit;
         border: 1px solid black;
         
     }
@@ -91,6 +92,7 @@
     &__table td input{
         border: none;
         width: 100%;
+        background-color: inherit;
     }
 
     &__table td select{

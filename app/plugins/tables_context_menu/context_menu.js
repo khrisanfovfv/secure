@@ -9,6 +9,7 @@ var Context = {
     menus: ['#information_system_card__general_admins_context',
         '#information_system_card__general_developpers_context',
         '#information_system_card__remarks_context',
+        '#information_system_card_developpers__out_context',
         '#information_system_card_remarks__out_context',
         '#information_system_card_administrators__out_context',
         '#information_system_card__contracts_context',
@@ -156,7 +157,7 @@ var Context = {
         const classNames = [
             'information_system_table_row',
             'information_system_card__administrators_table_row',
-            'information_system_card__developpers_table_row',
+            'information_system_card__developpers_table_num',
             'information_system_card__contracts_table_row',
             'information_system_card__remarks_table_num',
             'information_system_card__administrators_table_num',
@@ -193,6 +194,7 @@ var Context = {
         // Если найденный элемент - строка таблицы выделяем ее
         if (result.nodeName != null) {
             if ((result.nodeName === 'TR') ||
+                (result.classList.contains('information_system_card__developpers_table_num'))||
                 (result.classList.contains('information_system_card__remarks_table_num'))||
                 (result.classList.contains('administrator_card__information_systems_table_num'))||
                 (result.classList.contains('information_system_card__administrators_table_num'))){
@@ -216,7 +218,7 @@ var Context = {
         switch (className) {
             case 'information_system_table_row': Context.menu = $('#information_system_ref__context'); break;
             case 'information_system_card__administrators_table_row': Context.menu = $('#information_system_card__general_admins_context'); break;
-            case 'information_system_card__developpers_table_row': Context.menu = $('#information_system_card__general_developpers_context'); break;
+            case 'information_system_card__developpers_table_num': Context.menu = $('#information_system_card__general_developpers_context'); break;
             case 'information_system_card__contracts_table_row': Context.menu = $('#information_system_card__contracts_context'); break;
             case 'information_system_card__remarks_table_num': Context.menu = $('#information_system_card__remarks_context'); break;
             case 'administrator_ref__table_row': Context.menu = $('#administrator_ref__context'); break;
@@ -323,6 +325,7 @@ var Context = {
         switch (src_el.className) {
             case 'information_system__reference_container': Context.menu = $('#information_system_ref__out_context'); break;
             case 'information_system_card__remarks_container' : Context.menu = $('#information_system_card_remarks__out_context'); break;
+            case 'information_system_card__developpers_container' : Context.menu = $('#information_system_card_developpers__out_context'); break;
             case 'information_system_card__administrators_container' : Context.menu = $('#information_system_card_administrators__out_context'); break;
             case 'administrator_ref__container': Context.menu = $('#administrator_ref__out_context'); break;
             case 'department_ref__container' : Context.menu = $('#department_ref__out_context'); break;

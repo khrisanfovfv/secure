@@ -1,7 +1,7 @@
 /**
  * ================================ ВЫБОР ВКЛАДКИ ================================
  */
-function information_system_select_tab(src){
+function information_system_select_tab(src) {
     // Список имеющихся вкладок
     var card_tabs = ['general', 'remarks', 'administrators', 'contracts', 'archive'];
 
@@ -38,7 +38,7 @@ $('#information_system_table tbody tr').on('dblclick', function () {
 /**
  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ИНФОРМАЦИОНОЙ СИСТЕМЫ =========================
  */
-function information_system_card_press_OK(src){
+function information_system_card_press_OK(src) {
     if (information_system_card__check_fields()) {
         // Формируем запись для запроса
 
@@ -364,6 +364,7 @@ $('#information_system_update').on('click', function () {
 })
 
 
+
 /**
  * ======================== ЗАГРУЗКА ДАННЫХ В КАРТОЧКУ =======================
  * @param {Object} data 
@@ -395,7 +396,7 @@ function card_information_system_load_data(data, openMode) {
     ind = 1;
     $('#information_system_card__developpers_table tbody tr').remove();
     developpers.forEach(developper => {
-        developper[ind] = ind++;
+        developper['ind'] = ind++;
         $('#information_system_card__developpers_table tbody').append(
             information_system_card__draw_developper_row(developper)
         )
@@ -524,6 +525,39 @@ function information_system_delete_record() {
 }
 
 /**
+ * ============================== РАЗРАБОТЧИКИ. СОЗДАТЬ ==============================
+ */
+
+function information_system_card__developpers_create_record() {
+    var ind = $('#information_system_card__developpers_table tbody tr').length + 1;
+    developper = [];
+    developper['id'] = '';
+    developper['ind'] = ind;
+    developper['developper_id'] = '';
+    developper['developper_name'] = '';
+
+    $('#information_system_card__developpers_table tbody').append(
+        information_system_card__draw_developper_row(developper)
+    )
+
+}
+
+/**
+ * ========================= РАЗРАБОТЧИКИ. УДАЛИТЬ ===========================
+ * Нам нельзя сразу удалять строку из формы, мы должны сообщить базе что эту строку 
+ * требуется удалить. Поэтому мы ее просто скрываем, а не удаляем. 
+ */
+function information_system_card_developpers_delete_record() {
+    var rows = $('#information_system_card__developpers_table>tbody>tr.highlight')
+    if (rows.length > 0) {
+        var id = rows[0].children.item(0).textContent;
+        rows[0].children.item(3).textContent = 1;
+        rows[0].classList.add('hide');
+    }
+}
+
+
+/**
  * ============================== АДМИНИСТРАТОРЫ. СОЗДАТЬ ==============================
  */
 function information_system_card__administrator_create_record() {
@@ -545,14 +579,14 @@ function information_system_card__administrator_create_record() {
 /**
  * =========================== АДМИНИСТРАТОРЫ. КОПИРОВАТЬ ===========================
  */
-function information_system_card__administrator_copy_record(){
+function information_system_card__administrator_copy_record() {
     var rows = $('#information_system_card__administrators_table>tbody>tr.highlight')
     var ind = $('#information_system_card__administrators_table tbody tr').length + 1;
     if (rows.length > 0) {
         var row = rows[0];
         var administrator = [];
         administrator['id'] = '',
-        administrator['ind'] = ind;
+            administrator['ind'] = ind;
         alert($(row.cells[2]).find('.fullname').val());
         administrator['information_system_id'] = $('#information_system_card__id').text();
         administrator['administrator_id'] = $(row.cells[2]).find('.id').text();
@@ -571,7 +605,7 @@ function information_system_card__administrator_copy_record(){
 /**
  * =========================== АДМИНИСТРАТОРЫ. ОБНОВИТЬ ===========================
  */
-function information_system_card__administrator_update_record(){
+function information_system_card__administrator_update_record() {
     var information_system_id = $('#information_system_card__id').text();
     // Загружаем детальный раздел Администраторы
     var data = {
@@ -723,23 +757,24 @@ function information_system_remark_delete_record() {
 
 
 /** ================== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ РАЗРАБОТЧИКИ ================= */
-function information_system_card__draw_developper_row(developper){
-    var content_html = 
-    $("<tr>")
-        .append($("<td class='id hide'>").text(developper['id']))
-        .append($("<td class='information_system_card__developpers_table_num'>").text(developper['ind']))
-        .append($("<td>")
-            .append($("<div class='ref_record'>")
-                .append($("<p class='hide name_reference'>").text("organization"))
-                .append($("<p class='id hide'>").text(developper['developper_id']))
-                .append($("<input class='fullname'>").val(developper['developper_name']))
-                .append($("<div class='ref_record__button'>").text("..."))
-                .on('click', function (e) {
-                    reference.open_reference(e, '#information_system_card', 'Справочник Организации');
-                })
+function information_system_card__draw_developper_row(developper) {
+    var content_html =
+        $("<tr>")
+            .append($("<td class='id hide'>").text(developper['id']))
+            .append($("<td class='information_system_card__developpers_table_num'>").text(developper['ind']))
+            .append($("<td>")
+                .append($("<div class='ref_record'>")
+                    .append($("<p class='hide name_reference'>").text("organization"))
+                    .append($("<p class='id hide'>").text(developper['developper_id']))
+                    .append($("<input class='fullname'>").val(developper['developper_name']))
+                    .append($("<div class='ref_record__button'>").text("..."))
+                    .on('click', function (e) {
+                        reference.open_reference(e, '#information_system_card', 'Справочник Организации');
+                    })
+                )
             )
-        )
-        return content_html;
+            .append($("<td class='is_deleted hide'>").text(0))
+    return content_html;
 }
 
 /**
@@ -833,6 +868,17 @@ function information_system_card_binging_events() {
         $(this).parents('.appdialog').css('display', 'none');
     });
 
+    /** ============================= РАЗРАБОТЧИКИ. КНОПКА СОЗДАТЬ ============================== */
+    $('#information_system_card__developpers_create').on('click', function () {
+        information_system_card__developpers_create_record();
+    })
+
+    /** ============================= РАЗРАБОТЧИКИ. КНОПКА УДАЛИТЬ ============================== */
+    $('#information_system_card__developpers_delete').on('click', function () {
+        information_system_card_developpers_delete_record();
+    })
+    
+
     /** =========================== АДМИНИСТРАТОРЫ. КНОПКА СОЗДАТЬ ========================== */
     $('#information_system_card__administrators_create').on('click', function () {
         information_system_card__administrator_create_record();
@@ -852,7 +898,7 @@ function information_system_card_binging_events() {
     $('#information_system_card__administrators_delete').on('click', function () {
         information_system_card_administrator_delete_record();
     })
-    
+
 
     /** ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА СОЗДАТЬ ======================= */
     $('#information_system_card__remarks_create').on('click', function (e) {
