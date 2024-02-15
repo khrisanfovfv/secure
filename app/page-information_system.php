@@ -73,8 +73,8 @@ $prefix = $wpdb->prefix;
                             <tr class="information_system_table_row">
                                 <td class="id hide"><?php echo $row["id"] ?></td>
                                 <td><?php echo $i + 1 ?></td>
-                                <td><?php echo $row["briefname"] ?></td>
-                                <td style="text-align: left;"><?php echo $row["fullname"] ?></td>
+                                <td><?php echo stripslashes($row["briefname"]) ?></td>
+                                <td style="text-align: left;"><?php echo stripslashes($row["fullname"]) ?></td>
                                 <td><?php echo get_boolean_value($row["certified"]) ?></td>
                                 <td><?php echo get_data_value($row["certifydate"]) ?></td>
                                 <td><?php echo get_data_value($row["commissioningdate"]) ?></td>

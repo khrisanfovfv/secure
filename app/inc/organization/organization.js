@@ -279,39 +279,39 @@ async function card_organization_load_data(data, openMode) {
         $('#organization_card__fullName').val(cardData[0].fullname + ' - Копия');
     }
     else {
-        $('#organization_card__fullName').val(cardData[0].fullname);
+        $('#organization_card__fullName').val(cardData[0].fullname.replace(/\\"/g, '"'));
     }
-    $('#organization_card__briefName').val(cardData[0].briefname);
+    $('#organization_card__briefName').val(cardData[0].briefname.replace(/\\"/g, '"'));
     $('#organization_card__boss').val(cardData[0].boss);
     $('#organization_card__inn').val(cardData[0].inn);
     $('#organization_card__kpp').val(cardData[0].kpp);
     $('#organization_card__ogrn').val(cardData[0].ogrn);
     $('#organization_card__okpo').val(cardData[0].okpo);
-    $('#organization_card__postAddress').val(cardData[0].postAddress);
-    $('#organization_card__legalAddress').val(cardData[0].legalAddress);
+    $('#organization_card__postAddress').val(cardData[0].postAddress.replace(/\\"/g, '"'));
+    $('#organization_card__legalAddress').val(cardData[0].legalAddress.replace(/\\"/g, '"'));
     $('#organization_card__email').val(cardData[0].email);
     $('#organization_card__state').val(cardData[0].state);
 }
 
-/**
- *  ========================= ОБНОВЛЕНИЕ СПРАВОЧНИКА ===========================
- * @param {Object} records 
- */
-function organization_update_reference(records) {
-    var ind = 1;
-    $('#organization_ref__table tbody tr').remove();
-    records.forEach(record => {
-        $('#organization_table tbody').append(
-            $("<tr class='organization_table_row'>")
-                .append($("<td class='id hide'>").text(record["id"]))
-                .append($("<td>").text(ind++))
-                .append($("<td>").text(record["name"]))
-                .append($("<td>").text(reference.get_state(record["state"])))
-        ).on('click', function (e) {
-            reference.highlight(e);
-        })
-    });
-}
+// /**
+//  *  ========================= ОБНОВЛЕНИЕ СПРАВОЧНИКА 1===========================
+//  * @param {Object} records 
+//  */
+// function organization_update_reference(records) {
+//     var ind = 1;
+//     $('#organization_ref__table tbody tr').remove();
+//     records.forEach(record => {
+//         $('#organization_table tbody').append(
+//             $("<tr class='organization_table_row'>")
+//                 .append($("<td class='id hide'>").text(record["id"]))
+//                 .append($("<td>").text(ind++))
+//                 .append($("<td>").text(record["name"].replace("\\","")))
+//                 .append($("<td>").text(reference.get_state(record["state"])))
+//         ).on('click', function (e) {
+//             reference.highlight(e);
+//         })
+//     });
+// }
 
 
 // /** 
@@ -537,8 +537,8 @@ function organization_update_reference(records) {
             $("<tr class='organization_ref__table_row'>")
                 .append($("<td class='id hide'>").text(record["id"]))
                 .append($("<td>").text(ind++))
-                .append($("<td>").text(record["briefname"]))
-                .append($("<td style='text-align: left'>").text(record["fullname"]))
+                .append($("<td>").text(record["briefname"].replace(/\\"/g, '"')))
+                .append($("<td style='text-align: left'>").text(record["fullname"].replace(/\\"/g, '"')))
                 .append($("<td>").text(record["boss"]))
                 .append($("<td>").text(record["email"]))
                 .append($("<td>").text(reference.get_state(record["state"])))

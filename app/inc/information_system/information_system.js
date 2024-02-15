@@ -42,6 +42,18 @@ function information_system_card_press_OK(src) {
     if (information_system_card__check_fields()) {
         // Формируем запись для запроса
 
+        // Таблица Разработчики
+        var rows = $('#information_system_card__developpers_table tbody tr');
+        var developper = {}
+        var developpers = []
+        rows.each(function(ind,row){
+            developper.id = $(row.cells[0]).text();
+            developper.developper_id = $(row.cells[2]).find('.ref_record>.id').text();
+            developper.is_deleted = $(row.cells[3]).text();
+            developpers[ind] = JSON.parse(JSON.stringify(developper));
+        })
+
+
         // Вкладка Замечания по аттестации
         var rows = $('#information_system_card__remarks_table tbody tr');
 
@@ -59,7 +71,6 @@ function information_system_card_press_OK(src) {
             remark.is_deleted = $(row.cells[8]).text();
             // Копируем обьект в массив
             remarks[ind] = JSON.parse(JSON.stringify(remark));
-            console.log(remarks[ind])
         })
 
         // Вкладка Администраторы
@@ -88,6 +99,7 @@ function information_system_card_press_OK(src) {
             hasremark: $('#information_system_card__has_remark').is(':checked') ? 1 : 0,
             commissioningdate: $('#information_system_card__commissioningDate').val(),
             state: $('#information_system_card__state').val(),
+            developpers: JSON.stringify(developpers),
             remarks: JSON.stringify(remarks),
             administrators: JSON.stringify(administrators)
         }
@@ -381,8 +393,8 @@ function card_information_system_load_data(data, openMode) {
         case OpenMode.Edit: $('#information_system_card__id').text(cardData[0].id); break;
         case OpenMode.Copy: $('#information_system_card__id').text(''); break;
     }
-    $('#information_system_card__fullName').val(cardData[0].fullname);
-    $('#information_system_card__briefName').val(cardData[0].briefname);
+    $('#information_system_card__fullName').val(cardData[0].fullname.replace(/\\"/g, '"'));
+    $('#information_system_card__briefName').val(cardData[0].briefname.replace(/\\"/g, '"'));
     $('#information_system_card__significance_level').val(cardData[0].significancelevel);
     $('#information_system_card__scope').val(cardData[0].scope);
     $('#information_system_card__certified').prop('checked', cardData[0].certified);
@@ -438,8 +450,8 @@ function information_system_update_reference(records) {
             "<tr class='information_system_table_row'>" +
             "<td class='id hide'>" + record["id"] + "</td>" +
             "<td>" + (ind++) + "</td>" +
-            "<td>" + record["briefname"] + "</td>" +
-            "<td style='text-align: left'>" + record["fullname"] + "</td>" +
+            "<td>" + record["briefname"].replace(/\\"/g, '"') + "</td>" +
+            "<td style='text-align: left'>" + record["fullname"].replace(/\\"/g, '"') + "</td>" +
             "<td>" + reference.get_boolean_value(record["certified"]) + "</td>" +
             "<td>" + reference.get_date_value(record["certifydate"]) + "</td>" +
             "<td>" + reference.get_date_value(record["commissioningdate"]) + "</td>" +
@@ -543,11 +555,34 @@ function information_system_card__developpers_create_record() {
 }
 
 /**
+ * ============================== РАЗРАБОТЧИКИ. КОПИРОВАТЬ ==============================
+ */
+
+function information_system_card__developpers_copy_record() {
+    var ind = $('#information_system_card__developpers_table tbody tr').length + 1;
+    var rows = $('#information_system_card__developpers_table>tbody>tr.highlight')
+    if (rows.length > 0) {
+        developper = [];
+        developper['id'] = $(rows[0]).children('.id').text();
+        developper['ind'] = ind;
+        developper['developper_id'] = $(rows[0]).find('.ref_record>.id').text();
+        developper['developper_name'] = $(rows[0]).find('.ref_record>.fullname').val();
+    }
+    
+    $('#information_system_card__developpers_table tbody').append(
+        information_system_card__draw_developper_row(developper)
+    )
+
+}
+
+
+
+/**
  * ========================= РАЗРАБОТЧИКИ. УДАЛИТЬ ===========================
  * Нам нельзя сразу удалять строку из формы, мы должны сообщить базе что эту строку 
  * требуется удалить. Поэтому мы ее просто скрываем, а не удаляем. 
  */
-function information_system_card_developpers_delete_record() {
+function information_system_card__developpers_delete_record() {
     var rows = $('#information_system_card__developpers_table>tbody>tr.highlight')
     if (rows.length > 0) {
         var id = rows[0].children.item(0).textContent;
@@ -564,7 +599,7 @@ function information_system_card__administrator_create_record() {
     var ind = $('#information_system_card__administrators_table tbody tr').length + 1;
     administrator = [];
     administrator['id'] = '',
-        administrator['ind'] = ind;
+    administrator['ind'] = ind;
     administrator['information_system_id'] = $('information_system_card__id').text();
     administrator['administrator_id'] = ''
     administrator['administrator_name'] = ''
@@ -586,8 +621,7 @@ function information_system_card__administrator_copy_record() {
         var row = rows[0];
         var administrator = [];
         administrator['id'] = '',
-            administrator['ind'] = ind;
-        alert($(row.cells[2]).find('.fullname').val());
+        administrator['ind'] = ind;
         administrator['information_system_id'] = $('#information_system_card__id').text();
         administrator['administrator_id'] = $(row.cells[2]).find('.id').text();
         administrator['administrator_name'] = $(row.cells[2]).find('.fullname').val();
@@ -766,7 +800,7 @@ function information_system_card__draw_developper_row(developper) {
                 .append($("<div class='ref_record'>")
                     .append($("<p class='hide name_reference'>").text("organization"))
                     .append($("<p class='id hide'>").text(developper['developper_id']))
-                    .append($("<input class='fullname'>").val(developper['developper_name']))
+                    .append($("<input class='fullname'>").val(developper['developper_name'].replace(/\\"/g, '"')))
                     .append($("<div class='ref_record__button'>").text("..."))
                     .on('click', function (e) {
                         reference.open_reference(e, '#information_system_card', 'Справочник Организации');
@@ -873,9 +907,14 @@ function information_system_card_binging_events() {
         information_system_card__developpers_create_record();
     })
 
+    /** ===================== РАЗРАБОТЧИКИ. КНОПКА КОПИРОВАТЬ ==================== */
+    $('#information_system_card__developpers_copy').on('click', function () {
+        information_system_card__developpers_copy_record();
+    })
+
     /** ============================= РАЗРАБОТЧИКИ. КНОПКА УДАЛИТЬ ============================== */
     $('#information_system_card__developpers_delete').on('click', function () {
-        information_system_card_developpers_delete_record();
+        information_system_card__developpers_delete_record();
     })
     
 

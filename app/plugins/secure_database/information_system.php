@@ -278,6 +278,22 @@ class InformationSystem{
             ),
             array( '%d' )
         );
+
+        // Обновляем записив детальном разделе Разработчики
+        $developpers_json = stripcslashes($record['developpers']);
+        $developpers = json_decode($developpers_json);
+        foreach ($developpers as $developper){
+            if ($developper->id ==''){
+                if ($developper->is_deleted == 0){
+                    InformationSystem::secure_create_developper($record['id'], $developper);
+                }
+            }elseif ($developper->is_deleted ==='1'){
+                InformationSystem::secure_delete_developper($developper);
+            } else {
+                InformationSystem::secure_update_developper($developper);
+            }
+        }
+
         // Обновляем записи в детальном разделе Замечания по аттестации
         // Убираем символы экранирования '/'
         $remarks_json = stripcslashes($record['remarks']);
@@ -344,6 +360,61 @@ class InformationSystem{
     }
 
     /**
+     * ==================== РАЗРАБОТЧИКИ. СОЗДАНИЕ ЗАПИСИ ==================
+     */
+    protected function secure_create_developper($information_system_id, $developper){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $table_name = $wpdb->prefix . 'developpers';
+        $wpdb->insert(
+            $table_name,
+            array(
+                'information_system' => $information_system_id,
+                'organization' => $developper->developper_id
+            ),
+            array(
+                '%d', // information_system
+                '%d' // organization
+            )
+        );
+    }
+
+    /**
+     * ============== РАЗРАБОТЧИКИ. РЕДАКТИРОВАНИЕ ЗАПИСИ ==============
+     */
+    protected function secure_update_developper($developper){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $wpdb->update(
+            $prefix.'developpers',
+            array(
+                'organization' => $developper->developper_id
+            ),
+            array( 'ID' => $developper->id ),
+            array(
+                '%d', // organization
+            ),
+            array( '%d' )
+        );
+    }
+
+    /**
+     * ============== РАЗРАБОТЧИКИ. УДАЛЕНИЕ ЗАПИСИ ==============
+     */
+    protected function secure_delete_developper($developper){
+        print_r('Мы зашли в функцию');
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $wpdb->delete( $prefix . 'developpers', array( 'ID' => $developper->id ), array( '%d' ));
+        echo 'Запись ид = ' . $developper->id . ' успешно удалена';
+        wp_die();
+    }
+
+
+
+
+
+    /**
      * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. СОЗДАНИЕ ЗАПИСИ ==============
      */
     protected function secure_create_remark($information_system_id, $remark){
@@ -378,7 +449,6 @@ class InformationSystem{
     protected function secure_update_remark($remark){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        print_r($remark->eliminated);
         $wpdb->update(
             $prefix.'remarks',
             array(
