@@ -47,25 +47,17 @@ class Contract{
         $wpdb->insert(
             $table_name,
             array(
-                'fullname' => 'Автоматизированная система электронного документооборота органов исполнительной государственной власти',
-                'briefname' => 'АСЭД ОИГВО',
-                'certified' => true,
-                'certifydate' => '2022-01-02',
-                'scope' => 'corporate',
-                'significancelevel' => 'k1',
-                'commissioningdate' => '2023-02-03',
-                'hasremark' => true,
-                'state' => 'Active',
+                'contract_number' => '234',
+                'conclusionDate' => '2022-01-02',
+                'contract_type' => 'Support',
+                'link' => 'ssilka',
+                'contract_state' => 'Active',
             ),
             array(
-                '%s', // fullname
-                '%s', // briefname
-                '%d', // certified
-                '%s', // certifydate
-                '%s', // scope
-                '%s', // significancelevel
-                '%s', // commissioningdate
-                '%d', // hasremark
+                '%s', // contract_number
+                '%s', // conclusionDate
+                '%s', // contract_type
+                '%s',  // link
                 '%s'  // state
             )
 
