@@ -11,55 +11,70 @@
     flex-direction: column;
     align-items: stretch;
     /*margin-right: 10px;*/
-    background-color: rgb(235, 235, 235);
+    /*background-color: rgb(235, 235, 235);*/
     height: 100%;
     &__frame{
+        padding: 5px;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+        align-items: stretch;
         height: 100%;
     }
-    &__layer_1{
+    &__frame-top{
         display: flex;
         width: 100%;
-        flex-direction: column;
-        background-color: white;
-    }
-    &__layer_2{
-        display: flex;
-        align-items: stretch;
         height: 100%;
         flex-direction: row;
+        align-items: stretch;
         border-bottom: 2px solid rgb(212, 212, 212);
     }
-    &__content{
-        background-color: white;
+    &__frame-top-left{
         display: flex;
         flex-direction: column;
-        align-items: stretch;
-        height: 100%;
-        margin-right: 5px;
-        flex: 5;
+        flex: 4;
         border-right: 2px solid rgb(212, 212, 212);
     }
-    
+    &__frame-top-right{
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        /*align-items: stretch;*/
+        height: 100%;
+        flex: 1;
+    }    
+    &__content{
+        display: flex;
+        flex-direction: column;
+    }
     /* Вкладка - Общая */
-    &__general{
+    /* &__general{
         margin-top: -1px;
         display: flex;
         height: 100%;
         flex-direction: column;
-        /*border: thin solid black;*/
+        /*border: thin solid black;
         padding: 5px;
+    } */
+
+    &__general{
+        display: flex;
+        row-gap: 10px;
+        font-size: 18px;
+        grid-template-columns: repeat(24,1fr);
+        padding-right: 5px;
+        padding-bottom: 15px;
+        flex-direction: column;
     }
+
     &__general_top{
         display: flex;
     }
-    &__general_admins{
-        margin-left: 20px;
-        margin-right: 15px;
-        width: 100%;
-        flex: 1;
-    }
+    // &__general_admins{
+    //     margin-left: 20px;
+    //     margin-right: 15px;
+    //     width: 100%;
+    //     flex: 1;
+    // }
     /* Основные поля общей вкладки */
     &__general_fields{
         flex: 1;

@@ -18,6 +18,7 @@ $document_icons = $resources->get_document_icons();
                 </ul>
 
                 <div class="document_card__content">
+                    <!-- ВКЛАДКА ОБЩАЯ -->
                     <div class="document_card__general">
                         <!-- ИД -->
                         <p class="hide" id="document_card__id"></p>
@@ -74,6 +75,7 @@ $document_icons = $resources->get_document_icons();
                         <label for="document_card__file">Файл</label>
                         <input type="file" id="document_card__file">
                     </div>
+                    <!-- ВКЛАДКА СПИСОК РАССЫЛКИ -->
                     <div class="document_card__send_list hide">
                     <div class="reference__buttons">
                             <button class="reference__button" id="document_card__send_list_create">
