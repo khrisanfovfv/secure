@@ -81,13 +81,18 @@
      * =========================== ЗАГРУЗКА СПРАВОЧНИКА ============================
      */
     function secure_load_reference(){
-        switch($_POST['reference']){
-            case 'information_system' : get_template_part('inc/information_system/information_system_ref'); break;
-            case 'administrator' : get_template_part('inc/administrator/administrator_ref'); break;
-            case 'organization' : get_template_part('inc/organization/organization_ref'); break;
-            case 'department' : get_template_part('inc/department/department_ref'); break;
-            case 'document_kind' : get_template_part('inc/document_kind/document_kind_ref'); break;
+        try{
+            switch($_POST['reference']){
+                case 'information_system' : get_template_part('inc/information_system/information_system_ref'); break;
+                case 'administrator' : get_template_part('inc/administrator/administrator_ref'); break;
+                case 'organization' : get_template_part('inc/organization/organization_ref'); break;
+                case 'department' : get_template_part('inc/department/department_ref'); break;
+                case 'document_kind' : get_template_part('inc/document_kind/document_kind_ref'); break;
+            }
+        } catch(Exception $ex){
+            wp_die($ex->getMessage(),['response' => 501]);
         }
+        
         wp_die();
     }
 
