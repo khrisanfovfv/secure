@@ -77,7 +77,7 @@ $document_icons = $resources->get_document_icons();
                     </div>
                     <!-- ВКЛАДКА СПИСОК РАССЫЛКИ -->
                     <div class="document_card__send_list hide">
-                    <div class="reference__buttons">
+                        <div class="reference__buttons">
                             <button class="reference__button" id="document_card__send_list_create">
                                 <img src="<?php echo $button_icons->create ?>" alt="">
                                 <p>Создать</p>
@@ -108,6 +108,20 @@ $document_icons = $resources->get_document_icons();
                                     <th style="width: 150px;">Дата направления</th>
                                 </thead>
                                 <tbody>
+                                    <td class="id hide">1</td>
+                                    <td class="document_card__send_list_table_num">1</td>
+                                    <td>
+                                        <div class='ref_record'>
+                                            <p class='hide name_reference'>organization</p>
+                                            <p class='id hide'>1</p>
+                                            <input class='fullname' value="Старков Групп">
+                                            <div class='ref_record__button'>...</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type='date' value="2022-01-02">
+                                    </td>
+                                    <td class='is_deleted hide'>0</td>
                                 </tbody>
                             </table>
                         </div>
