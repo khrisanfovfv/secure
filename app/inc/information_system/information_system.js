@@ -563,7 +563,7 @@ function information_system_card__developpers_copy_record() {
     var rows = $('#information_system_card__developpers_table>tbody>tr.highlight')
     if (rows.length > 0) {
         developper = [];
-        developper['id'] = $(rows[0]).children('.id').text();
+        developper['id'] = ''
         developper['ind'] = ind;
         developper['developper_id'] = $(rows[0]).find('.ref_record>.id').text();
         developper['developper_name'] = $(rows[0]).find('.ref_record>.fullname').val();

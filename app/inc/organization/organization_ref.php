@@ -77,8 +77,8 @@ $prefix = $wpdb->prefix;
                             <tr class="organization_ref__table_row">
                                 <td class="id hide"><?php echo $row["id"] ?></td>
                                 <td><?php echo $i + 1 ?></td>
-                                <td><?php echo $row["briefname"] ?></td>
-                                <td style="text-align: left;"><?php echo $row["fullname"] ?></td>
+                                <td><?php echo str_replace("\\","", $row["briefname"]) ?></td>
+                                <td style="text-align: left;"><?php echo str_replace("\\","", $row["fullname"]) ?></td>
                                 <td><?php echo $row["boss"] ?></td>
                                 <td><?php echo $row['email'] ?></td>
                                 <td><?php echo secure_get_state($row["state"]) ?></td>

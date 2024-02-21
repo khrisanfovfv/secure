@@ -7,11 +7,10 @@ $document_icons = $resources->get_document_icons();
 ?>
 <div class="information_system_card">
     <div class="information_system_card__frame">
-        <div class="information_system_card__layer_1">
-            <div class="information_system_card__layer_2">
-                <!-- Содержимое основной карточки -->
-                <div class="information_system_card__content">
-                    <!-- Группа вкладок -->
+        <div class="information_system_card__frame-top">
+            <!-- Левая сторона -->
+            <div class="information_system_card__frame-top-left">
+                <!-- Группа вкладок -->
                     <ul class="tabs">
                         <li class="tabs__item information_system_card__tabs_item tabs__highlighted"><a href="#information_system_card__general">Общая</a> </li>
                         <li class="tabs__item information_system_card__tabs_item"><a href="#information_system_card__remarks">Замечания по
@@ -21,7 +20,9 @@ $document_icons = $resources->get_document_icons();
                         <li class="tabs__item information_system_card__tabs_item"><a href="#information_system_card__contracts">Контракты</a> </li>
                         <li class="tabs__item information_system_card__tabs_item"><a href="#information_system_card__archive">Архив</a> </li>
                     </ul>
-
+                <!-- Содержимое основной карточки -->
+                <div class="information_system_card__content">
+                 
                     <!-- ВКЛАДКА ОБЩАЯ -->
                     <section class="information_system_card__general" id="information_system_card__general">
                         <!-- Объединяет поля карточки и Таблицу с администраторами-->
@@ -316,6 +317,10 @@ $document_icons = $resources->get_document_icons();
 
                 </div> <!-- information_system_card__content -->
                 <!-- ПАНЕЛЬ ДОКУМЕНТЫ -->
+                
+            </div>
+             <!-- Правая сторона -->
+             <div class="information_system_card__frame-top-right">
                 <div class="attachments">
                     <p class="attachments__title">Документы</p>
                     <ul class="attachments__list">
@@ -333,11 +338,11 @@ $document_icons = $resources->get_document_icons();
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="finish_buttons">
-                <button class="finish_button" id="information_system_card__OK">OK</button>
-                <button class="finish_button" id="information_system_card__Cancel">Отмена</button>
-            </div>
+             </div>
+        </div>
+        <div class="finish_buttons">
+            <button class="finish_button" id="information_system_card__OK">OK</button>
+            <button class="finish_button" id="information_system_card__Cancel">Отмена</button>
         </div>
     </div>
 

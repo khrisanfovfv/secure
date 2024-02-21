@@ -297,6 +297,9 @@ var reference = {
         $(prefix + '__dialog_window').css('width', size.width + 'px');
         $(prefix + '__dialog_window').css('height', size.height + 'px');
         $(prefix + '__dialog_title').text(title );
+        $('.appdialog__header_close').on('click', function(e){
+            $(e.target).parents('.appdialog:first').css('display', 'none');
+        })
     },
 
     /**

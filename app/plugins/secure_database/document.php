@@ -42,7 +42,7 @@ class Document
 
         // Запрос на создание таблицы Версии документов
         $table_name = $wpdb->prefix . 'document_version';
-        $document_sql = "CREATE TABLE $table_name (
+        $document_version_sql = "CREATE TABLE $table_name (
             id mediumint(9) NOT NULL AUTO_INCREMENT,
             document mediumint(9),
             versiondate date,
@@ -56,7 +56,22 @@ class Document
         ) $charset_collate;";
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($document_sql) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
+        dbDelta($document_version_sql) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
+
+        // Запрос на создание таблицы Список рассылки
+        $table_name = $wpdb->prefix . 'document_send_list';
+        $send_list_sql = "CREATE TABLE $table_name (
+            id mediumint(9) NOT NULL AUTO_INCREMENT,
+            document mediumint(9),
+            correspondent mediumint(9),
+            send_date date,
+            PRIMARY KEY  (id),
+            FOREIGN KEY (document) REFERENCES {$wpdb->prefix}document(id),
+            FOREIGN KEY (correspondent) REFERENCES {$wpdb->prefix}organization(id)
+        ) $charset_collate;";
+
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta($send_list_sql) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
     }
 
     /**
@@ -131,6 +146,9 @@ class Document
                 '%s', // state
             )
         ) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
+
+        
+
         // Заполняем таблицу Версии документов
         $table_name = $wpdb->prefix . 'document_version';
         $wpdb->insert(
@@ -150,6 +168,23 @@ class Document
                 '%s', // version_title
                 '%s', // type
                 '%s'  // filename
+            )
+        ) or  wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
+
+        // Заполняем таблицу список рассылки
+        $table_name = $wpdb->prefix . 'document_send_list';
+        $wpdb->insert(
+            $table_name,
+            array(
+                'document' => 1,
+                'correspondent' => 1,
+                'send_date' => '2022-01-02'
+            ),
+            array(
+                '%d', // document
+                '%d', // correspondent
+                '%s', // send_date
+                
             )
         ) or  wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
     }
