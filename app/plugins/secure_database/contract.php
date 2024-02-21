@@ -30,11 +30,41 @@ class Contract{
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($contract_sql);
+
+        //Запрос на создание таблицы для связи с таблицей "Контракт.Документы"
+        $table_name = $wpdb->prefix . 'contract_document';
+        $contract_document_sql = "CREATE TABLE $table_name (
+            id mediumint(9) NOT NULL AUTO_INCREMENT,
+            contract_id mediumint(9) NOT NULL,
+            document_id mediumint(9) NOT NULL,
+            FOREIGN KEY (contract_id) REFERENCES {$wpdb->prefix}contract(id),
+            FOREIGN KEY (document_id) REFERENCES {$wpdb->prefix}document(id),
+            PRIMARY KEY  (id)
+        ) $charset_collate;";
+
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta($contract_document_sql);
         // add_option('sec_db_version', $sec_db_version);
+
+        //Запрос на создание таблицы для связи с таблицей "Контракт.Исполнитель"
+        $table_name = $wpdb->prefix . 'contract_сustomer';
+        $contract_customer_sql = "CREATE TABLE $table_name (
+            id mediumint(9) NOT NULL AUTO_INCREMENT,
+            contract_id mediumint(9) NOT NULL,
+            organization_id mediumint(9) NOT NULL,
+            FOREIGN KEY (contract_id) REFERENCES {$wpdb->prefix}contract(id),
+            FOREIGN KEY (organization_id) REFERENCES {$wpdb->prefix}document(id),
+            PRIMARY KEY  (id)
+        ) $charset_collate;";
+
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta($contract_customer_sql);
     }
 
+     
+
     /**
-     * ===== ЗАПОЛНЕНИЕ ДАННЫМИ ТАБЛИЦЫ ИНФОРМАЦИОННЫЕ СИСТЕМЫ =====
+     * ===== ЗАПОЛНЕНИЕ ДАННЫМИ ТАБЛИЦЫ Контракты =====
      *
      * @return void
      */
@@ -63,30 +93,37 @@ class Contract{
 
         );
 
-        // Заполняем данными таблицу Замечания по аттестации
-        $table_name = $wpdb->prefix . 'remarks';
+        
+     
+
+        // Заполняем данными таблицу Контракт.Документы
+        $table_name = $wpdb->prefix . 'contract_document';
         $wpdb->insert(
             $table_name,
             array(
                 'contract_id' => 1,
-                'remarkdate' =>'2022-01-01',
-                'author' => 'Смирнов А.В.',
-                'content' => 'Нет антивируса',
-                'eliminated' => 0,
-                'eliminatedate' => NULL,
-                'performer' => 'Петров А.Г.'
+                'document_id' => 2,
             ),
             array(
                 '%d', // contract_id
-                '%s', // remarkdate
-                '%s', // author
-                '%s', // content
-                '%d', // eliminated
-                '%s', // eliminatedate
-                '%s' // performer
+                '%d', // document_id
             )
         );
-    }
+
+        // Заполняем данными таблицу Контракт.Исполнитель
+        $table_name = $wpdb->prefix . 'contract_сustomer';
+        $wpdb->insert(
+            $table_name,
+            array(
+                'contract_id' => 1,
+                'organization_id' => 2,
+            ),
+            array(
+                '%d', // contract_id
+                '%d', // organization_id
+            )
+        );
+        }
 
 
     /**

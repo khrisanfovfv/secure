@@ -78,7 +78,66 @@ class Organization
                 '%s', // boss
                 '%s'  // state
             )
-        );
+            ) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
+        $wpdb->insert(
+            $table_name,
+            array(
+                'fullname' => 'БУ ВО "Электронный регион"',
+                'briefname' => 'БУ ВО "ЭР"',
+                'inn' => '3525249142',
+                'okpo' => '66755432',
+                'ogrn' => '654389411',
+                'kpp' => '352502134',
+                'postAddress' => '160000, Вологодская область, город Вологда, ул. Чехова, д.27',
+                'legalAddress' => '160000, Вологодская область, город Вологда, ул. Чехова, д.27',
+                'email' => 'er@er.gov35.ru',
+                'boss' => 'Пшеннова Жанна Владимировна',
+                'state' => 'Active',
+            ),
+            array(
+                '%s', // fullname
+                '%s', // briefname
+                '%s', // inn
+                '%s', // okpo
+                '%s', // kpp  
+                '%s', // ogrn             
+                '%s', // postAddress
+                '%s', // legalAddress
+                '%s', // email
+                '%s', // boss
+                '%s'  // state
+            )
+        )  or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
+        $wpdb->insert(
+            $table_name,
+            array(
+                'fullname' => 'БУ ВО "Многофункциональный центр"',
+                'briefname' => 'БУ ВО "МФЦ"',
+                'inn' => '3525249222',
+                'okpo' => '66755111',
+                'ogrn' => '654389888',
+                'kpp' => '352502000',
+                'postAddress' => '160000, Вологодская область, город Вологда, ул. Мира, д.1',
+                'legalAddress' => '160000, Вологодская область, город Вологда, ул. Мира, д.1',
+                'email' => 'mfc@mfc.gov35.ru',
+                'boss' => 'Бусарина Ирина Владимировна',
+                'state' => 'Active',
+            ),
+            array(
+                '%s', // fullname
+                '%s', // briefname
+                '%s', // inn
+                '%s', // okpo
+                '%s', // kpp  
+                '%s', // ogrn             
+                '%s', // postAddress
+                '%s', // legalAddress
+                '%s', // email
+                '%s', // boss
+                '%s'  // state
+            )
+            );
+
     }
 
 
