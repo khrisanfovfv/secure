@@ -437,6 +437,17 @@ async function card_document_load_data(data, openMode) {
             document_card_draw_version(document_version)
         );
     });
+
+    // Список рассылки
+    var send_list = cardData['document_send_list'];
+    var ind =1 ;
+    send_list.forEach(organization =>{
+        organization['ind'] = ind++;
+        organization['is_deleted'] = 0;
+        $('#document_card__send_list_table tbody').append(
+            document_card_draw_send_list(organization)
+        );
+    })
 }
 
 /**
@@ -597,6 +608,25 @@ function document_card_draw_version(document_version) {
     if (document_version['file'] != undefined){
         content_html.append($("<input class='file hide' type='file'>").prop('files', document_version['file'].prop('files')))
     }
+    return content_html;
+}
+
+function document_card_draw_send_list(organization){
+    var content_html = $("<tr class = 'document_card__send_list_table_row'>")
+        .append($("<td class='id hide'>").text(organization['id']))
+        .append($("<td class='document_card__send_list_table_num'>").text(organization['ind']))
+        .append($("<td>")
+            .append($("<div class='ref_record'>")
+                .append($("<p class='hide name_reference'>").text('organization'))
+                .append($("<p class='id hide'>").text(organization['organization_id']))
+                .append($("<input class='fullname'>").val(organization['organization_name']))
+                .append($("<div class='ref_record__button'>").text("..."))
+            )
+        )
+        .append($("<td>")
+            .append($("<input type='date'>").val(organization['send_date']))
+        )
+        .append($("<td class = 'is_deleted hide'>").text(0))
     return content_html;
 }
 

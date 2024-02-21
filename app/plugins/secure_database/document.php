@@ -226,9 +226,18 @@ class Document
             WHERE document.id = $document_id"),
             OBJECT
         );
+        // Загрузка таблицы Версии докумиентов
         $document_versions = $wpdb->get_results(
             $wpdb->prepare("SELECT * FROM {$prefix}document_version WHERE document = $document_id"), OBJECT);
         $results = (object) array_merge( (array)$results, array( 'document_versions' => $document_versions ));
+
+        // Загрузка таблицы Списки рассылки
+        $send_list = $wpdb->get_results(
+            $wpdb->prepare("SELECT send_list.id, organization.id as organization_id, organization.fullname as organization_name, send_list.send_date  
+            FROM {$prefix}document_send_list send_list 
+            JOIN {$prefix}organization organization on send_list.correspondent = organization.id
+            WHERE send_list.document = $document_id"), OBJECT);
+         $results = (object) array_merge( (array)$results, array( 'document_send_list' => $send_list ));
         return $results;
         wp_die();
     }
