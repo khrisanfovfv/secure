@@ -451,6 +451,22 @@ class Document
         wp_die();
     }
 
+    /**
+     * ============== СПИСОК РАССЫЛКИ. ЗАГРУЗКА  ЗАПИСЕЙ =============
+     */
+    function secure_load_document_send_list(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $document_id = $_POST['document_id'];
+        $send_list = $wpdb->get_results(
+            $wpdb->prepare("SELECT send_list.id, organization.id as organization_id, organization.fullname as organization_name, send_list.send_date  
+            FROM {$prefix}document_send_list send_list 
+            JOIN {$prefix}organization organization on send_list.correspondent = organization.id
+            WHERE send_list.document = $document_id"), OBJECT);
+        echo json_encode($send_list);
+        wp_die();
+    }
+
     
 
     /**

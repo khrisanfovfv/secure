@@ -163,3 +163,31 @@ $document_icons = $resources->get_document_icons();
 
     </ul>
 </div>
+
+<!-- КОНТЕКСТНОЕ МЕНЮ СПИСОК РАССЫЛКИ -->
+<div class="context-menu" id="document_card__send_list_context">
+    <ul class="context-menu__list">
+        <li class="context-menu__item" id="document_card__send_list_context_copy">
+            <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
+            <p>Копировать</p>
+        </li>
+        <li class="context-menu__item" id="document_card__send_list_context_delete">
+            <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
+            <p>Удалить</p>
+        </li>
+    </ul>
+</div>
+
+<!-- КОНТЕКСТНОЕ МЕНЮ ЭЛЕМЕНТА document_card__send_list_container -->
+<div class="context-menu" id="document_card_send_list__out_context">
+    <ul class="context-menu__list">
+        <li class="context-menu__item" id="document_card_send_list__out_context_create">
+            <img src="<?php echo $button_icons->create ?>">
+            <p>Создать</p>
+        </li>
+        <li class="context-menu__item" id="document_card_send_list__out_context_update">
+            <img src="<?php echo $button_icons->update ?>">
+            <p>Обновить</p>
+        </li>
+    </ul>
+</div>

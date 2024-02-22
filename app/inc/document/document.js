@@ -279,6 +279,8 @@ $('#document_ref__update').on('click', function () {
     document_load_records();
 })
 
+
+
 /** 
  * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ =================================
  */
@@ -357,6 +359,34 @@ function document_copy_record() {
 function document_delete_record() {
     rows = $('.document_ref__table_row.highlight');
     reference.delete_record('#document_ref', rows, 'delete_document');
+}
+
+/**
+ * ========================= СПИСОК РАССЫЛКИ. ОБНОВИТЬ ===========================
+ */
+function document_card_send_list_load_records() {
+    var document_id = $('#document_card__id').text();
+    // Загружаем детальный раздел Замечания по аттестации
+    var data = {
+        action: 'load_document_send_list',
+        document_id: document_id
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var rows = JSON.parse(result);
+        $('#document_card__send_list_table tbody tr').remove();
+        var ind = 1;
+
+        rows.forEach(document => {
+            document['ind'] = ind++;
+            $('#document_card__send_list_table tbody').append(
+                document_card_draw_send_list_row(document)
+            );
+        });
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки детального раздела Замечания по аттестации произощла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#information_system_ref', 'Ошибка', size, message);
+    });
 }
 
 
@@ -445,7 +475,7 @@ async function card_document_load_data(data, openMode) {
         organization['ind'] = ind++;
         organization['is_deleted'] = 0;
         $('#document_card__send_list_table tbody').append(
-            document_card_draw_send_list(organization)
+            document_card_draw_send_list_row(organization)
         );
     })
 }
@@ -506,6 +536,11 @@ function document_card_binging_events() {
     /** ===================== ВЫБОР ВКЛАДКИ НА КАРТОЧКЕ ДОКУМЕНТА ================ */
     $('.document__tabs_item').on('click', function (e) {
         document__chose_tab(e);
+    })
+
+    /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ ===================*/
+    $('#document_card__send_list_update').on('click', function () {
+        document_card_send_list_load_records()
     })
 
 
@@ -611,7 +646,7 @@ function document_card_draw_version(document_version) {
     return content_html;
 }
 
-function document_card_draw_send_list(organization){
+function document_card_draw_send_list_row(organization){
     var content_html = $("<tr class = 'document_card__send_list_table_row'>")
         .append($("<td class='id hide'>").text(organization['id']))
         .append($("<td class='document_card__send_list_table_num'>").text(organization['ind']))
@@ -638,11 +673,12 @@ function document_ref_binding_events() {
         document_select_record(e)
     })
 
-    
     $('#department_ref__table tbody tr').on('dblclick', function (e) {
         document_edit_record();
     })
 }
+
+
 
 /**
  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ПОИСКА ===============================

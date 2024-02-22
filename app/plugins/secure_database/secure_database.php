@@ -146,7 +146,9 @@ class SecDb
         add_action('wp_ajax_nopriv_load_information_system_remarks', array('InformationSystem', 'secure_load_information_system_remarks'));
         add_action('wp_ajax_load_information_system_administrators', array('InformationSystem', 'secure_load_information_system_administrators'));
         add_action('wp_ajax_nopriv_load_information_system_administrators', array('InformationSystem', 'secure_load_information_system_administrators'));
-        
+
+        add_action('wp_ajax_load_document_send_list', array('Document', 'secure_load_document_send_list'));
+        add_action('wp_ajax_nopriv_load_document_send_list', array('Document', 'secure_load_document_send_list'));
     }
 
     /**

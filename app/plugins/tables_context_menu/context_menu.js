@@ -29,6 +29,8 @@ var Context = {
         '#document_ref__context',
         '#document_ref__out_context',
         '#document_card__version_out_context',
+        '#document_card__send_list_context',
+        '#document_card_send_list__out_context',
         '#sm_references',
         '#sm_help',
         '#user__context'
@@ -92,6 +94,7 @@ var Context = {
 
                 case 'document_ref__out_context_update' : document_load_records(); break; 
                 case 'documents_card__version_out_context-create' : document_card_create_version(); break; 
+                case 'document_card_send_list__out_context_update' : document_card_send_list_load_records();
 
                 case 'organization_ref__context_edit': organization_edit_record(); break;
                 case 'organization_ref__context_delete' : organization_delete_record(); break;
@@ -163,6 +166,7 @@ var Context = {
             'information_system_card__administrators_table_num',
             'administrator_ref__table_row',
             'administrator_card__information_systems_table_num',
+            'document_card__send_list_table_num',
             'organization_ref__table_row',
             'department_ref__table_row',
             'document_kind_ref__table_row',
@@ -197,7 +201,8 @@ var Context = {
                 (result.classList.contains('information_system_card__developpers_table_num'))||
                 (result.classList.contains('information_system_card__remarks_table_num'))||
                 (result.classList.contains('administrator_card__information_systems_table_num'))||
-                (result.classList.contains('information_system_card__administrators_table_num'))){
+                (result.classList.contains('information_system_card__administrators_table_num'))||
+                (result.classList.contains('document_card__send_list_table_num'))){
                     reference.highlight(e);
             }
         }
@@ -229,6 +234,7 @@ var Context = {
             case 'contract_ref_table_row': Context.menu = $('#contract_ref__context'); break;
             case 'employeer_ref_table_row': Context.menu = $('#employeer_ref__context'); break;
             case 'document_ref__table_row': Context.menu = $('#document_ref__context'); break;
+            case 'document_card__send_list_table_num': Context.menu = $('#document_card__send_list_context'); break;
             case 'user': Context.menu = $('#user__context'); break;
             case 'document__item': Context.menu = $('#is_card__document_context'); break;
             default: Context.menu = '';
@@ -329,7 +335,8 @@ var Context = {
             case 'information_system_card__administrators_container' : Context.menu = $('#information_system_card_administrators__out_context'); break;
             case 'administrator_ref__container': Context.menu = $('#administrator_ref__out_context'); break;
             case 'department_ref__container' : Context.menu = $('#department_ref__out_context'); break;
-            case 'document_ref__container' : Context.menu = $('#document_ref__out_context'); break; 
+            case 'document_ref__container' : Context.menu = $('#document_ref__out_context'); break;
+            case 'document_card__send_list_container' : Context.menu = $('#document_card_send_list__out_context'); break;
             case 'attachments__list' : Context.menu = $('#document_card__version_out_context'); break;
             case 'organization_ref__container' : Context.menu = $('#organization_ref__out_context'); break;
             default: return false;
