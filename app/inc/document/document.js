@@ -362,6 +362,24 @@ function document_delete_record() {
 }
 
 /**
+ * ========================= СПИСОК РАССЫЛКИ. СОЗДАТЬ ===========================
+ */
+function document_card__send_list_create_record(){
+    var ind = $('#document_card__send_list_table tbody tr').length + 1;
+    var organization =[];
+    organization['id'] = '';
+    organization['ind'] = ind;
+    organization['organization_id'] = '';
+    organization['organization_name'] = ''
+    organization['send_date']='';
+    organization['is_deleted'] = 0;
+    $('#document_card__send_list_table tbody').append(
+        document_card_draw_send_list_row(organization)
+    );
+}
+
+
+/**
  * ========================= СПИСОК РАССЫЛКИ. ОБНОВИТЬ ===========================
  */
 function document_card_send_list_load_records() {
@@ -537,7 +555,11 @@ function document_card_binging_events() {
     $('.document__tabs_item').on('click', function (e) {
         document__chose_tab(e);
     })
-
+    /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ===================*/
+    $('#document_card__send_list_create').on('click', function(){
+        document_card__send_list_create_record()
+    })
+    
     /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ ===================*/
     $('#document_card__send_list_update').on('click', function () {
         document_card_send_list_load_records()
