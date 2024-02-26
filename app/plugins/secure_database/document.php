@@ -342,20 +342,41 @@ class Document
         // Убираем символы экранирования '/'
         $document_versions_json = stripcslashes($record['document_versions']);
         $document_versions = json_decode($document_versions_json);
-            foreach ($document_versions as $document_version){
-                if ($document_version->id ==''){
-                    if ($document_version->is_deleted == 0){
-                        Document::secure_create_document_version($record['id'], $document_version);
-                    }
-                }elseif ($document_version->is_deleted == 1){
-                    Document::secure_delete_document_version($document_version);
-                } else {
-                    Document::secure_update_document_version($document_version);
+        foreach ($document_versions as $document_version){
+            if ($document_version->id ==''){
+                if ($document_version->is_deleted == 0){
+                    Document::secure_create_document_version($record['id'], $document_version);
                 }
+            }elseif ($document_version->is_deleted == 1){
+                Document::secure_delete_document_version($document_version);
+            } else {
+                Document::secure_update_document_version($document_version);
             }
-    
-        echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
-        wp_die();
+        }
+
+        // Обновляем записи в детальном разделе Список рассылки
+        // Убираем символы экранирования '/'
+        $send_list_json = stripcslashes($record['send_list']);
+        $send_list = json_decode($send_list_json);
+        foreach ($send_list as $correspondent){
+            if ($correspondent->id ==''){
+                if ($correspondent->is_deleted == 0){
+                    Document::secure_create_send_list($record['id'], $correspondent);
+                }
+            }elseif ($send_list->is_deleted ==='1'){
+                Document::secure_delete_send_list($correspondent);
+            } else {
+                Document::secure_update_send_list($correspondent);
+            }
+        }
+
+        if ($wpdb->last_error){
+            wp_die(wp_die($wpdb->last_error, 'Ошибка при обновлении Карточки документа', ['response' => 500]));
+        } else{
+            echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
+            wp_die();
+        }
+        
         
     }
     /** 
@@ -435,7 +456,7 @@ class Document
                 '%s'  // filename
             ),
             array( '%d' )
-        ) or  wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
+        );
 
     }
 
@@ -464,6 +485,59 @@ class Document
             JOIN {$prefix}organization organization on send_list.correspondent = organization.id
             WHERE send_list.document = $document_id"), OBJECT);
         echo json_encode($send_list);
+        wp_die();
+    }
+
+    /**
+     * ============== СПИСОК РАССЫЛКИ. СОЗДАНИЕ  ЗАПИСИ =============
+     */
+    protected function secure_create_send_list($document_id, $correspondent){
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'document_send_list';
+        $wpdb->insert(
+            $table_name,
+            array(
+                'document' => $document_id,
+                'correspondent' =>$correspondent->correspondent_id,
+                'send_date' => $correspondent->send_date
+            ),
+            array(
+                '%d', // document_id
+                '%d', // correspondent 
+                '%s' // send_date
+            )
+        );
+    }
+
+    /**
+     * ============== СПИСОК РАССЫЛКИ. РЕДАКТИРОВАНИЕ  ЗАПИСИ =============
+     */
+    protected function secure_update_send_list($correspondent){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $wpdb->update(
+            $prefix.'document_send_list',
+            array(
+                'correspondent' =>$correspondent->correspondent_id,
+                'send_date' => $correspondent->send_date,
+            ),
+            array( 'ID' => $correspondent->id ),
+            array(
+                '%d', // correspondent
+                '%s', // send_date
+            ),
+            array( '%d' )
+        );
+    }
+
+    /**
+     * ============== СПИСОК РАССЫЛКИ. УДАЛЕНИЕ  ЗАПИСИ =============
+     */
+    protected function secure_delete_send_list($correspondent){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $wpdb->delete( $prefix . 'document_send_list', array( 'ID' => $correspondent->id ), array( '%d' ));
+        echo 'Запись ид = ' . $correspondent->id . ' успешно удалена';
         wp_die();
     }
 

@@ -476,7 +476,6 @@ class InformationSystem{
      * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. УДАЛЕНИЕ ЗАПИСИ ==============
      */
     protected function secure_delete_remark($remark){
-        print_r('Мы зашли в функцию');
         global $wpdb;
         $prefix = $wpdb->prefix;
         $wpdb->delete( $prefix . 'remarks', array( 'ID' => $remark->id ), array( '%d' ));

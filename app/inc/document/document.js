@@ -80,14 +80,26 @@ function document_card_press_OK(sender) {
             document_version.version_title = $(element).children('.attachments__name_item').text();
             document_version.type = $(element).children('.type').text();
             document_version.is_deleted = $(element).children('.is_deleted').text();
-            getAsByteArray($(element).children('.file').prop('files')[0])
+            /*getAsByteArray($(element).children('.file').prop('files')[0])
                 .then((dv) => {
                     document_version.files = JSON.stringify(dv);
-                })
+                })*/
             // Копируем обьект в массив
             document_versions[ind] = JSON.parse(JSON.stringify(document_version));
         })
 
+        var rows = $('#document_card__send_list_table tbody tr');
+        var correspondent = {}
+        var send_list = []
+
+        rows.each(function(ind, row){
+            correspondent.id = $(row.cells[0]).text();
+            correspondent.correspondent_id = $(row.cells[2]).find('.id').text();
+            correspondent.send_date = $(row.cells[3]).children().val();
+            correspondent.is_deleted = $(row.cells[4]).text();
+            // Копируем обьект в массив
+            send_list[ind] = JSON.parse(JSON.stringify(correspondent));
+        })
 
         // Формируем запись для запроса
         record = {
@@ -103,6 +115,7 @@ function document_card_press_OK(sender) {
             signed: $('#document_card__signed').attr('checked'),
             signer: $('#document_card__signer').val(),
             document_versions : JSON.stringify(document_versions),
+            send_list : JSON.stringify(send_list),
             state: $('#document_card__state').val()
         }
         if ($('#document_card__id').text() == '') {
@@ -560,10 +573,12 @@ function document_card_binging_events() {
         document_card__send_list_create_record()
     })
     
+    
     /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ ===================*/
     $('#document_card__send_list_update').on('click', function () {
         document_card_send_list_load_records()
     })
+
 
 
     /** ================================ ВЫБОР ФАЙЛА ============================== */
@@ -678,6 +693,9 @@ function document_card_draw_send_list_row(organization){
                 .append($("<p class='id hide'>").text(organization['organization_id']))
                 .append($("<input class='fullname'>").val(organization['organization_name']))
                 .append($("<div class='ref_record__button'>").text("..."))
+                .on('click', function (e) {
+                    reference.open_reference(e, '#document_card', 'Справочник Оргнизации');
+                })
             )
         )
         .append($("<td>")
