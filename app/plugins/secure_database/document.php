@@ -363,7 +363,7 @@ class Document
                 if ($correspondent->is_deleted == 0){
                     Document::secure_create_send_list($record['id'], $correspondent);
                 }
-            }elseif ($send_list->is_deleted ==='1'){
+            }elseif ($correspondent->is_deleted == 1){
                 Document::secure_delete_send_list($correspondent);
             } else {
                 Document::secure_update_send_list($correspondent);

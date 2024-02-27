@@ -416,8 +416,43 @@ function document_card_send_list_load_records() {
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
         message = 'Во время загрузки детального раздела Замечания по аттестации произощла ошибка' + textStatus + ' ' + errorThrown;
-        reference.show_notification('#information_system_ref', 'Ошибка', size, message);
+        reference.show_notification('#document_ref', 'Ошибка', size, message);
     });
+}
+
+/**
+ * ================== СПИСОК РАССЫЛКИ. КОПИРОВАТЬ =======================
+ */
+function document_card_send_list_copy_record(){
+    var rows = $('#document_card__send_list_table>tbody>tr.highlight')
+    var ind = $('#document_card__send_list_table tbody tr').length + 1;
+    if (rows.length > 0) {
+        var row = rows[0];
+        var correspondent = []
+        correspondent['id'] = '',
+        correspondent['ind'] = ind++,
+        correspondent['organization_id'] = $(row.cells[2]).find('.id').text(),
+        correspondent['organization_name'] = $(row.cells[2]).find('.fullname').val(),
+        correspondent['send_date'] = $(row.cells[3]).children().val(),
+        correspondent['is_deleted'] = $(row.cells[4]).children().text()
+        $('#document_card__send_list_table tbody').append(
+            document_card_draw_send_list_row(correspondent)
+        );
+    }
+}
+
+/**
+ * ================== СПИСОК РАССЫЛКИ. УДАЛИТЬ =======================
+ * Нам нельзя сразу удалять строку из формы, мы должны сообщить базе что эту строку 
+ * требуется удалить. Поэтому мы ее просто скрываем, а не удаляем. 
+ */
+function document_card_send_list_delete_record() {
+    var rows = $('#document_card__send_list_table>tbody>tr.highlight')
+    if (rows.length > 0) {
+        var id = rows[0].children.item(0).textContent;
+        rows[0].children.item(4).textContent = 1;
+        rows[0].classList.add('hide');
+    }
 }
 
 
@@ -570,14 +605,25 @@ function document_card_binging_events() {
     })
     /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ===================*/
     $('#document_card__send_list_create').on('click', function(){
-        document_card__send_list_create_record()
+        document_card__send_list_create_record();
     })
     
     
     /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ ===================*/
     $('#document_card__send_list_update').on('click', function () {
-        document_card_send_list_load_records()
+        document_card_send_list_load_records();
     })
+
+    /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ==================*/
+    $('#document_card__send_list_copy').on('click', function () {
+        document_card_send_list_copy_record();
+    })
+
+    /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ УДАЛИТЬ ==================*/
+    $('#document_card__send_list_delete').on('click', function () {
+        document_card_send_list_delete_record();
+    })
+
 
 
 
@@ -683,6 +729,9 @@ function document_card_draw_version(document_version) {
     return content_html;
 }
 
+/**
+ * ================== ОТОБРАЖАЕМ КОРРЕСПОНДЕНТА В СПИСКЕ РАССЫЛКИ ===================
+ */
 function document_card_draw_send_list_row(organization){
     var content_html = $("<tr class = 'document_card__send_list_table_row'>")
         .append($("<td class='id hide'>").text(organization['id']))
