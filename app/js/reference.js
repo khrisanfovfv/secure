@@ -108,6 +108,7 @@ var reference = {
             case '#administrator_ref' : card = 'administrator_card'; break;
             case '#organization_ref' : card = 'organization_card' ; break;
             case '#document_version_list' : card = 'document_version_card'; break;
+            case '#contract_ref' : card = 'contract_card'; break;
 
             // КАРТОЧКИ ПОИСКА
             case '#document_kind_ref_search' : card = 'document_kind_search'; break;
