@@ -95,7 +95,9 @@ var Context = {
                 case 'document_ref__out_context_update' : document_load_records(); break; 
                 case 'documents_card__version_out_context-create' : document_card_create_version(); break; 
                 case 'document_card_send_list__out_context_create' : document_card__send_list_create_record(); break
-                case 'document_card_send_list__out_context_update' : document_card_send_list_load_records();
+                case 'document_card_send_list__out_context_update' : document_card_send_list_load_records(); break;
+                case 'document_card__send_list_context_copy' : document_card_send_list_copy_record(); break;
+                case 'document_card__send_list_context_delete' : document_card_send_list_delete_record(); break;
 
                 case 'organization_ref__context_edit': organization_edit_record(); break;
                 case 'organization_ref__context_delete' : organization_delete_record(); break;

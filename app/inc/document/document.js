@@ -80,14 +80,26 @@ function document_card_press_OK(sender) {
             document_version.version_title = $(element).children('.attachments__name_item').text();
             document_version.type = $(element).children('.type').text();
             document_version.is_deleted = $(element).children('.is_deleted').text();
-            getAsByteArray($(element).children('.file').prop('files')[0])
+            /*getAsByteArray($(element).children('.file').prop('files')[0])
                 .then((dv) => {
                     document_version.files = JSON.stringify(dv);
-                })
+                })*/
             // Копируем обьект в массив
             document_versions[ind] = JSON.parse(JSON.stringify(document_version));
         })
 
+        var rows = $('#document_card__send_list_table tbody tr');
+        var correspondent = {}
+        var send_list = []
+
+        rows.each(function(ind, row){
+            correspondent.id = $(row.cells[0]).text();
+            correspondent.correspondent_id = $(row.cells[2]).find('.id').text();
+            correspondent.send_date = $(row.cells[3]).children().val();
+            correspondent.is_deleted = $(row.cells[4]).text();
+            // Копируем обьект в массив
+            send_list[ind] = JSON.parse(JSON.stringify(correspondent));
+        })
 
         // Формируем запись для запроса
         record = {
@@ -103,6 +115,7 @@ function document_card_press_OK(sender) {
             signed: $('#document_card__signed').attr('checked'),
             signer: $('#document_card__signer').val(),
             document_versions : JSON.stringify(document_versions),
+            send_list : JSON.stringify(send_list),
             state: $('#document_card__state').val()
         }
         if ($('#document_card__id').text() == '') {
@@ -403,8 +416,43 @@ function document_card_send_list_load_records() {
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
         message = 'Во время загрузки детального раздела Замечания по аттестации произощла ошибка' + textStatus + ' ' + errorThrown;
-        reference.show_notification('#information_system_ref', 'Ошибка', size, message);
+        reference.show_notification('#document_ref', 'Ошибка', size, message);
     });
+}
+
+/**
+ * ================== СПИСОК РАССЫЛКИ. КОПИРОВАТЬ =======================
+ */
+function document_card_send_list_copy_record(){
+    var rows = $('#document_card__send_list_table>tbody>tr.highlight')
+    var ind = $('#document_card__send_list_table tbody tr').length + 1;
+    if (rows.length > 0) {
+        var row = rows[0];
+        var correspondent = []
+        correspondent['id'] = '',
+        correspondent['ind'] = ind++,
+        correspondent['organization_id'] = $(row.cells[2]).find('.id').text(),
+        correspondent['organization_name'] = $(row.cells[2]).find('.fullname').val(),
+        correspondent['send_date'] = $(row.cells[3]).children().val(),
+        correspondent['is_deleted'] = $(row.cells[4]).children().text()
+        $('#document_card__send_list_table tbody').append(
+            document_card_draw_send_list_row(correspondent)
+        );
+    }
+}
+
+/**
+ * ================== СПИСОК РАССЫЛКИ. УДАЛИТЬ =======================
+ * Нам нельзя сразу удалять строку из формы, мы должны сообщить базе что эту строку 
+ * требуется удалить. Поэтому мы ее просто скрываем, а не удаляем. 
+ */
+function document_card_send_list_delete_record() {
+    var rows = $('#document_card__send_list_table>tbody>tr.highlight')
+    if (rows.length > 0) {
+        var id = rows[0].children.item(0).textContent;
+        rows[0].children.item(4).textContent = 1;
+        rows[0].classList.add('hide');
+    }
 }
 
 
@@ -557,13 +605,26 @@ function document_card_binging_events() {
     })
     /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ===================*/
     $('#document_card__send_list_create').on('click', function(){
-        document_card__send_list_create_record()
+        document_card__send_list_create_record();
     })
+    
     
     /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ ===================*/
     $('#document_card__send_list_update').on('click', function () {
-        document_card_send_list_load_records()
+        document_card_send_list_load_records();
     })
+
+    /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ==================*/
+    $('#document_card__send_list_copy').on('click', function () {
+        document_card_send_list_copy_record();
+    })
+
+    /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ УДАЛИТЬ ==================*/
+    $('#document_card__send_list_delete').on('click', function () {
+        document_card_send_list_delete_record();
+    })
+
+
 
 
     /** ================================ ВЫБОР ФАЙЛА ============================== */
@@ -668,6 +729,9 @@ function document_card_draw_version(document_version) {
     return content_html;
 }
 
+/**
+ * ================== ОТОБРАЖАЕМ КОРРЕСПОНДЕНТА В СПИСКЕ РАССЫЛКИ ===================
+ */
 function document_card_draw_send_list_row(organization){
     var content_html = $("<tr class = 'document_card__send_list_table_row'>")
         .append($("<td class='id hide'>").text(organization['id']))
@@ -678,6 +742,9 @@ function document_card_draw_send_list_row(organization){
                 .append($("<p class='id hide'>").text(organization['organization_id']))
                 .append($("<input class='fullname'>").val(organization['organization_name']))
                 .append($("<div class='ref_record__button'>").text("..."))
+                .on('click', function (e) {
+                    reference.open_reference(e, '#document_card', 'Справочник Оргнизации');
+                })
             )
         )
         .append($("<td>")
