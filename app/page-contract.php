@@ -19,7 +19,7 @@ $prefix = $wpdb->prefix;
 <main class="main">
     <div class="content">
         <div class="reference">
-            <p class="reference__title">Справочник Организации</p>
+            <p class="reference__title">Контракты</p>
             <div class="reference__buttons">
                 <button class="reference__button" id="contract_ref__create">
                     <img src="<?php echo $button_icons->create ?>" alt="Создать">
@@ -51,11 +51,11 @@ $prefix = $wpdb->prefix;
                     <thead>
                         <tr>
                             <th style="width: 35px;">№</th>
-                            <th style="width: 200px;">Краткое наименование</th>
-                            <th>Полн. наименование</th>
-                            <th style="width: 260px;">Руководитель</th>
-                            <th style="width: 130px;">e-mail</th>
-                            <th style="width: 130px;">Состояние</th>
+                            <th style="width: 100px;">Номер</th>
+                            <th>Дата заключения</th>
+                            <th style="width: 130px;">Предмет контракта</th>
+                            <th style="width: 130px;">Тип контракта</th>
+                            <th style="width: 130px;">Ссылка на сайт закупок</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,11 +71,12 @@ $prefix = $wpdb->prefix;
                             <tr class="contract_ref__table_row">
                                 <td class="id hide"><?php echo $row["id"] ?></td>
                                 <td><?php echo $i + 1 ?></td>
-                                <td><?php echo str_replace("\\","", $row["briefname"]) ?></td>
-                                <td style="text-align: left;"><?php echo str_replace("\\","", $row["fullname"]) ?></td>
-                                <td><?php echo $row["boss"] ?></td>
-                                <td><?php echo $row['email'] ?></td>
-                                <td><?php echo secure_get_state($row["state"]) ?></td>
+                                <td><?php echo str_replace("\\","", $row["contract_number"]) ?></td>
+                                <td style="text-align: left;"><?php echo str_replace("\\","", $row["conclusionDate"]) ?></td>
+                                <td><?php echo $row["contract_subject"] ?></td>
+                                <td><?php echo $row["contract_type"] ?></td>
+                                <td><?php echo $row["link "] ?></td>
+
                             </tr>
                         <?php
                         }

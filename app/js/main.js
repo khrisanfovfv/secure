@@ -40,12 +40,7 @@ $(function () {
             case 'sm_references__organizations': open_page('organization'); break;
             case 'sm_references__departments' : open_page('department'); break;
             case 'sm_references__document_kind': open_page('document_kind'); break;
-            case 'sm_references__contract':{
-                $("<a>").prop({
-                    target: "_blank",
-                    href:host + "inc/contract/contract_ref.html"
-                })[0].click();
-            }; break;
+            case 'sm_references__contract': open_page('contract'); break;
             case 'sm_references__employeers':{
                 $("<a>").prop({
                     target: "_blank",

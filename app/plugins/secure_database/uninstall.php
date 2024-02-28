@@ -18,6 +18,8 @@ $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}developpers");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}administrator");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}department");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}contract_document");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}contract_developper");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}contract_customer");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}contract");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}document_version");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}document_send_list");
