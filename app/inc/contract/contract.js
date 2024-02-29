@@ -148,7 +148,7 @@ $('#contract_delete').on('click', function () {
  * @param {Object} data 
  * @param {boolean} openMode
  */
-async function card_contract_load_data(data, openMode) {
+function card_contract_load_data(data, openMode) {
     var cardData = JSON.parse(data);
     /** 
      * Для того чтоб создалась новая карточка при режимах создания и копирования 

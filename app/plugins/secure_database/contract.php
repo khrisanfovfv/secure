@@ -175,27 +175,30 @@ class Contract{
 //         wp_die();
 //     }
 
-//     /**
-//      * ============================ ЗАГРУЗКА ДАННЫХ КАРТОЧКИ ===============================
-//      */
+    /**
+     * ============================ ЗАГРУЗКА ДАННЫХ КАРТОЧКИ ===============================
+     */
 
-//      public function secure_load_card_data($id){
-//         global $wpdb;
-//         $prefix = $wpdb->prefix;
-//         $results = $wpdb->get_results( 
-//             $wpdb->prepare("SELECT * FROM sec_contract WHERE id = $id"), OBJECT );
-//         $administrators = $wpdb->get_results(
-//             $wpdb->prepare("SELECT inf_sys_adm.id,inf_sys_adm.administrator_id, administrator.fullname as administrator_name , inf_sys_adm.appointdate, inf_sys_adm.terminatedate, inf_sys_adm.type 
-//             FROM {$prefix}contract_administrator inf_sys_adm 
-//             JOIN {$prefix}administrator administrator on inf_sys_adm.administrator_id = administrator.id            
-//             WHERE inf_sys_adm.contract_id = $id"), OBJECT);
-//             $results = (object) array_merge( (array)$results, array( 'administrators' => $administrators ));
-//         $remarks = $wpdb->get_results(
-//             $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE contract_id = $id"), OBJECT);
-//             $results = (object) array_merge( (array)$results, array( 'remarks' => $remarks ));
-//         return $results;
-//         wp_die();
-//      }
+     public function secure_load_card_data($id){
+        // global $wpdb;
+        // $prefix = $wpdb->prefix;
+        // $results = $wpdb->get_results( 
+        //     $wpdb->prepare("SELECT contract.id, contract.contract_number, contract.conclusionDate, contract.contract_type, 
+        //     contract.contract_subject, contract.contract_state
+        //     FROM {$prefix}contract contract         
+        //     WHERE contract.id = $id"), OBJECT);
+        //     if ($wpdb->last_error){
+        //         wp_die($wpdb->last_error, 'Ошибка при загрузке карточки', array('response'=>500));
+        //     }
+        //     else{
+        //         return $results;
+        //         wp_die();
+        //     }   
+        //     $results = (object) array_merge( (array)$results, array( 'administrators' => $administrators ));
+        // $remarks = $wpdb->get_results(
+        //     $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE contract_id = $id"), OBJECT);
+        //     $results = (object) array_merge( (array)$results, array( 'remarks' => $remarks ));
+     }
 
 //     /**
 //      * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ======================

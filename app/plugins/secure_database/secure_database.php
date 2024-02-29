@@ -108,6 +108,8 @@ class SecDb
          add_action('wp_ajax_nopriv_search_organization', array('Organization','secure_search_organization'));
          add_action('wp_ajax_search_organization_extended', array('Organization','secure_search_organization_extended'));
          add_action('wp_ajax_nopriv_search_organization_extended', array('Organization','secure_search_organization_extended'));
+         //Контракты
+         
         // ИНФОРМАЦИОННЫЕ СИСТЕМЫ
         add_action('wp_ajax_load_information_system', array('InformationSystem', 'secure_load_information_system'));
         add_action('wp_ajax_nopriv_load_information_system', array('InformationSystem', 'secure_load_information_system'));
@@ -191,6 +193,7 @@ class SecDb
             case 'information_system_card':{ $results = $this->information_system->secure_load_card_data($id);}; break;
             case 'administrator_card' : { $results = $this->administrator->secure_load_card_data($id);}; break;
             case 'organization_card' : { $results = $this->organization->secure_load_card_data($id);}; break;
+            case 'сontract_card' : { $results = $this->contract->secure_load_card_data($id);}; break;
         }
         echo json_encode($results);
         wp_die();
