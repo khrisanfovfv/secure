@@ -6,6 +6,7 @@ const browserSync = require('browser-sync').create();
 const autoprefixer = require('gulp-autoprefixer');
 const clean = require('gulp-clean');
 const imagemin = require('gulp-imagemin');
+var XLSX = require("xlsx");
 
 const destFolder = 'C:/OSPanel/domains/secure/wp-content/themes/cit_secure/';
 const pluginFolder = 'C:/OSPanel/domains/secure/wp-content/plugins/';
@@ -57,6 +58,7 @@ function jquery_style(){
 
 function scripts(){
     return src([
+        'node_modules/xlsx/xlsx.js',
         'app/plugins/jquery-ui-1.13.2/external/jquery/jquery.js',
         'app/plugins/jquery-ui-1.13.2/jquery-ui.js',
         'app/plugins/tables_context_menu/context_menu.js',
