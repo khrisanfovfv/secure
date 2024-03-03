@@ -176,6 +176,7 @@ var reference = {
                     case '#information_system_ref': card_information_system_load_data(result, openMode); break;
                     case '#administrator_ref': card_administrator_load_data(result, openMode); break;
                     case '#organization_ref': card_organization_load_data(result, openMode); break;
+                    case '#contract_ref': card_contract_load_data(result, openMode); break;
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 var size = { width: 500, height: 200 };
