@@ -1,6 +1,8 @@
 
 
 
+
+
 /** 
  * ====================== ОДИНОЧНЫЙ КЛИК НА СТРОКУ ТАБЛИЦЫ =======================
 */
@@ -216,30 +218,20 @@ $('#organization_ref__copy').on('click', function () {
  * ========================= НАЖАТИЕ КНОПКИ ЭЛ. ТАБ. ===========================
  */
 $('#organization_excel').on('click', function(){
-    var workbook = XLSX.utils.book_new();
     // Выводим данные из базы данных
     var data = {
         action: 'load_organization'
     };
     jQuery.post(MainData.ajaxurl, data, function (result) {
+       var workbook = XLSX.utils.book_new();
         var records = JSON.parse(result);
         var organization_list = [
             [{t:'s', v:"№"},"Краткое наименование", "Полное наименование", "Руководитель", "email", "Состояние"]
         ]
+        var workbook = new XLSX.Workbook();
         records.forEach((record,ind) => {
             organization_list[ind+1] = [];
-            organization_list[ind+1][0] = 
-            {
-                t: 's',
-                v: ind +1,
-                s:{
-                    font: {
-                        name: 'IMPACT',
-                        sz: 32,
-                        color: { rgb: 'FFE609EA' },	// ARGB Hex Value
-                    },    
-                }
-            }
+            organization_list[ind+1][0] = ind+1;
             organization_list[ind+1][1] = record['briefname'];
             organization_list[ind+1][2] = record['fullname'];
             organization_list[ind+1][3] = record['boss'];
@@ -247,8 +239,18 @@ $('#organization_excel').on('click', function(){
             organization_list[ind+1][5] = record['state'];
         })
         var worksheet = XLSX.utils.aoa_to_sheet(organization_list);
+        worksheet["A1"].s ={
+            font: {
+                name: 'Arial',
+                sz: 24,
+                bold: true,
+                color : {rgb: "FFAA00"}
+            }
+        }
+            
         XLSX.utils.book_append_sheet(workbook, worksheet,"Организации");
-        XLSX.writeFileXLSX(workbook,"Организации.xlsx"); 
+        XLSX.writeFileXLSX(workbook,"Организации.xlsx");
+
     });
     
     
