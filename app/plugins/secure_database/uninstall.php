@@ -21,6 +21,7 @@ $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}contract_document");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}contract_developper");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}contract_сustomer");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}contract");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}information_system_documents");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}document_version");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}document_send_list");
 $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}document");

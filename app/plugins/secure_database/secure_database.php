@@ -161,9 +161,9 @@ class SecDb
         $this->department->table_install();
         $this->document_kind->table_install();
         $this->organization->table_install();
+        $this->document->table_install(); 
         $this->information_system->table_install();
         $this->administrator->table_install();  
-        $this->document->table_install(); 
         $this->contract->table_install();
     }
 
@@ -174,9 +174,9 @@ class SecDb
         $this->organization->install_data();
         $this->department->install_data();
         $this->document_kind->install_data();
-        $this->information_system->install_data();
-        $this->administrator->install_data();
         $this->document->install_data();
+        $this->information_system->install_data();
+        $this->administrator->install_data(); 
         $this->contract->install_data();
     }
 

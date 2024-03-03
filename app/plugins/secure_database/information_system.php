@@ -61,10 +61,24 @@ class InformationSystem{
             FOREIGN KEY (information_system_id) REFERENCES {$wpdb->prefix}information_system(id)
         ) $charset_collate;";
 
+$table_name = $wpdb->prefix . 'information_system_documents';
+
+// Запрос на создание таблицы Документы
+$information_system_documents_sql = "CREATE TABLE $table_name (
+    id mediumint(9) NOT NULL AUTO_INCREMENT,
+            information_system mediumint(9) NOT NULL,
+            document mediumint(9) NOT NULL,
+            PRIMARY KEY  (id),
+            FOREIGN KEY (information_system) REFERENCES {$wpdb->prefix}information_system(id),
+            FOREIGN KEY (document) REFERENCES {$wpdb->prefix}document(id)
+) $charset_collate;";
+
+
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($information_system_sql);
         dbDelta($developpers_sql);
         dbDelta($remarks_sql);
+        dbDelta($information_system_documents_sql);
 
         add_option('sec_db_version', $sec_db_version);
     }
@@ -144,6 +158,20 @@ class InformationSystem{
                 '%s' // performer
             )
         );
+
+        // Заполняем данными таблицу Документы
+        $table_name = $wpdb->prefix . 'information_system_documents';
+        $wpdb->insert(
+            $table_name,
+            array(
+                'information_system' => 1,
+                'document' => 1
+            ),
+            array(
+                '%d', // information_system
+                '%d' // document
+            )
+        ) or wp_die($wpdb->last_error,"Информационные системы - документы", array("response"=>500));
     }
 
 
