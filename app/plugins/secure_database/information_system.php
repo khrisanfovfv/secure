@@ -202,16 +202,38 @@ $information_system_documents_sql = "CREATE TABLE $table_name (
             JOIN {$prefix}administrator administrator on inf_sys_adm.administrator_id = administrator.id            
             WHERE inf_sys_adm.information_system_id = $id"), OBJECT);
             $results = (object) array_merge( (array)$results, array( 'administrators' => $administrators ));
+        
+        // Детальный раздел Разработчики
         $developpers = $wpdb->get_results(
             $wpdb->prepare("SELECT developpers.id, organization.id as developper_id, organization.fullname as developper_name FROM {$prefix}developpers developpers 
             LEFT JOIN {$prefix}organization organization ON developpers.organization = organization.id 
             WHERE developpers.information_system = $id"), OBJECT) or wp_die($wpdb->last_error);
             $results = (object) array_merge( (array)$results, array( 'developpers' => $developpers ));
+        
+            // Детальный раздел Замечания по аттестации
         $remarks = $wpdb->get_results(
             $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE information_system_id = $id"), OBJECT);
             $results = (object) array_merge( (array)$results, array( 'remarks' => $remarks ));
-        return $results;
+        
+
+        // Область с документами
+        $documents = $wpdb->get_results(
+            $wpdb->prepare("SELECT document.id, document.name, document_version.type 
+            FROM {$wpdb->prefix}information_system_documents inf_sys_doc
+            JOIN {$wpdb->prefix}document document on inf_sys_doc.document = document.id
+            JOIN (SELECT * 
+                FROM {$wpdb->prefix}document_version document_version
+                WHERE document_version.state = 'Active'
+                LIMIT 1) document_version
+            WHERE inf_sys_doc.information_system = $id"), OBJECT);
+             $results = (object) array_merge( (array)$results, array( 'documents' => $documents ));
+            if ($wpdb->last_error){
+                wp_die($wpdb->last_error, "Ошибка при загрузке карточки документы",array("response"=>500));
+            }
+             return $results;
         wp_die();
+
+
      }
 
     /**

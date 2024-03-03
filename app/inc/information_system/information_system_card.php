@@ -323,19 +323,7 @@ $document_icons = $resources->get_document_icons();
              <div class="information_system_card__frame-top-right">
                 <div class="attachments">
                     <p class="attachments__title">Документы</p>
-                    <ul class="attachments__list">
-                        <li class="attachments__item document__item">
-                            <a class="attachments__link" href="">
-                                <img class="attachments__ico" src="<?php echo $document_icons->pdf ?>" alt="">
-                                <p class="attachments__name_item">Аттестат соответствия</p>
-                            </a>
-                        </li>
-                        <li class="attachments__item document__item">
-                            <a class="attachments__link" href="">
-                                <img class="attachments__ico" src="<?php echo $document_icons->ms_word ?>" alt="">
-                                <p class="attachments__name_item">Технический паспорт</p>
-                            </a>
-                        </li>
+                    <ul class="attachments__list" id = "information_system_card__documents">
                     </ul>
                 </div>
              </div>
@@ -488,28 +476,16 @@ $document_icons = $resources->get_document_icons();
 <div class="context-menu" id="information_system_card__document_context">
     <ul class="context-menu__list">
         <li class="context-menu__item">
-            <img src="<?php echo $button_icons->edit ?>" alt=Редактировать">
-            <p>Редактировать</p>
-        </li>
-        <li class="context-menu__item">
-            <img src="<?php echo $button_icons->edit ?>" alt="Читать">
-            <p>Читать</p>
+            <img src="<?php echo $button_icons->read ?>" alt=Открыть">
+            <p><b>Открыть</b></p>
         </li>
         <li class="context-menu__item" id="information_system_card__documents_open_card">
-            <img src="<?php echo $button_icons->edit ?>" alt="Открыть карточку">
+            <img src="<?php echo $button_icons->open_card ?>" alt="Открыть карточку">
             <p>Открыть карточку</p>
         </li>
-        <li class="context-menu__item" id="information_system_card__documents_create_version">
-            <img src="<?php echo $button_icons->edit ?>" alt="Создать версию">
-            <p>Создать версию</p>
-        </li>
         <li class="context-menu__item">
-            <img src="<?php echo $button_icons->edit ?>" alt="Удалить">
+            <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
             <p>Удалить</p>
-        </li>
-        <li class="context-menu__item">
-            <img src="<?php echo $button_icons->edit ?>" alt="История">
-            <p>История</p>
         </li>
     </ul>
 </div>

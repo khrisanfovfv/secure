@@ -414,6 +414,17 @@ function card_information_system_load_data(data, openMode) {
         )
     })
 
+    // Заполняем область с документами
+    let documents = cardData['documents'];
+    ind = 1;
+    $('#information_system_card__documents li').remove();
+    documents.forEach(document => {
+        $('#information_system_card__documents').append(
+            information_system_card__draw_document(document)
+        )
+        
+    })
+
     // Заполняем таблицу Замечания по аттестации
     remarks = cardData['remarks'];
     ind = 1;
@@ -808,6 +819,28 @@ function information_system_card__draw_developper_row(developper) {
                 )
             )
             .append($("<td class='is_deleted hide'>").text(0))
+    return content_html;
+}
+/**
+ * ================ ОТРИСОВКА ДОКУМЕНТА В ОБЛАСТИ ВЛОЖЕНИЙ ======================
+ * @param {object} document
+ */
+function information_system_card__draw_document(document){
+    var icon = document_icons.other
+    switch (document['type']) {
+        case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+            icon = document_icons.ms_word; break;
+        case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+            icon = document_icons.ms_excel; break;
+        case 'application/pdf': icon = document_icons.pdf; break;
+    }
+    var content_html = 
+    $("<li class='attachments__item document__item'>")
+        .append($("<a class='attachments__link' href = '#'>")
+            .append($("<p class='id hide'>").text(document.id))
+            .append($("<img class='attachments__ico'>").attr('src', icon))
+            .append($("<p class='attachments__name_item'>").text(document.name))
+        )
     return content_html;
 }
 

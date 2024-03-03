@@ -167,6 +167,7 @@ var Context = {
             'information_system_card__contracts_table_row',
             'information_system_card__remarks_table_num',
             'information_system_card__administrators_table_num',
+            'document__item',
             'administrator_ref__table_row',
             'administrator_card__information_systems_table_num',
             'document_card__send_list_table_num',
@@ -229,6 +230,7 @@ var Context = {
             case 'information_system_card__developpers_table_num': Context.menu = $('#information_system_card__general_developpers_context'); break;
             case 'information_system_card__contracts_table_row': Context.menu = $('#information_system_card__contracts_context'); break;
             case 'information_system_card__remarks_table_num': Context.menu = $('#information_system_card__remarks_context'); break;
+            case 'document__item': Context.menu = $('#information_system_card__document_context'); break;
             case 'administrator_ref__table_row': Context.menu = $('#administrator_ref__context'); break;
             case 'administrator_card__information_systems_table_num' : Context.menu = $('#administrator_card__remarks_context'); break;
             case 'organization_ref__table_row': Context.menu = $('#organization_ref__context'); break;

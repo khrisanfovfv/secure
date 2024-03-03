@@ -9,7 +9,9 @@
         "excel" : "excel.svg", 
         "update" : "update.svg",
         "profile" :  "profile.svg",
-        "exit" : "exit.svg"
+        "exit" : "exit.svg",
+        "open_card": "open-card.svg",
+        "read" : "read.svg"
     },
     "document_icons":{
         "ms_word":"ms-word.svg",
