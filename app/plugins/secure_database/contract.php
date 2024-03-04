@@ -179,27 +179,26 @@ class Contract{
      * ============================ ЗАГРУЗКА ДАННЫХ КАРТОЧКИ ===============================
      */
 
-     public function secure_load_card_data($id){
+    function secure_load_card_data($id){
         global $wpdb;
         $prefix = $wpdb->prefix;
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}contract WHERE id = %s", $id),
+            $wpdb->prepare("SELECT *  
+            FROM {$prefix}contract contract  
+            WHERE id = %d", $id),
             OBJECT
         );
-            // if ($wpdb->last_error){
-            //     wp_die($wpdb->last_error, 'Ошибка при загрузке карточки', array('response'=>500));
-            // }
-            // else{
-            //     echo $results;
-            //     wp_die();
-            // }   
+
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, "Ошиббка при загрузке карточки \"Контракты\"", array('response'=> 500));
+        }  
         //     $results = (object) array_merge( (array)$results, array( 'administrators' => $administrators ));
         // $remarks = $wpdb->get_results(
         //     $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE contract_id = $id"), OBJECT);
         //     $results = (object) array_merge( (array)$results, array( 'remarks' => $remarks )); 
         //contract.id, contract.contract_number, contract.conclusionDate, contract.contract_type, 
             //contract.contract_subject, contract.contract_state
-    echo $results;
+        return $results;
      }
 
 //     /**
