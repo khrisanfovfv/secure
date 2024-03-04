@@ -6,7 +6,7 @@ const browserSync = require('browser-sync').create();
 const autoprefixer = require('gulp-autoprefixer');
 const clean = require('gulp-clean');
 const imagemin = require('gulp-imagemin');
-const XLSX = require('xlsx-style');
+//const XLSX = require('xlsx-style');
 
 const destFolder = 'C:/OSPanel/domains/secure/wp-content/themes/cit_secure/';
 const pluginFolder = 'C:/OSPanel/domains/secure/wp-content/plugins/';

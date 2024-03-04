@@ -180,24 +180,26 @@ class Contract{
      */
 
      public function secure_load_card_data($id){
-        // global $wpdb;
-        // $prefix = $wpdb->prefix;
-        // $results = $wpdb->get_results( 
-        //     $wpdb->prepare("SELECT contract.id, contract.contract_number, contract.conclusionDate, contract.contract_type, 
-        //     contract.contract_subject, contract.contract_state
-        //     FROM {$prefix}contract contract         
-        //     WHERE contract.id = $id"), OBJECT);
-        //     if ($wpdb->last_error){
-        //         wp_die($wpdb->last_error, 'Ошибка при загрузке карточки', array('response'=>500));
-        //     }
-        //     else{
-        //         return $results;
-        //         wp_die();
-        //     }   
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}contract WHERE id = %s", $id),
+            OBJECT
+        );
+            // if ($wpdb->last_error){
+            //     wp_die($wpdb->last_error, 'Ошибка при загрузке карточки', array('response'=>500));
+            // }
+            // else{
+            //     echo $results;
+            //     wp_die();
+            // }   
         //     $results = (object) array_merge( (array)$results, array( 'administrators' => $administrators ));
         // $remarks = $wpdb->get_results(
         //     $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE contract_id = $id"), OBJECT);
-        //     $results = (object) array_merge( (array)$results, array( 'remarks' => $remarks ));
+        //     $results = (object) array_merge( (array)$results, array( 'remarks' => $remarks )); 
+        //contract.id, contract.contract_number, contract.conclusionDate, contract.contract_type, 
+            //contract.contract_subject, contract.contract_state
+    echo $results;
      }
 
 //     /**
