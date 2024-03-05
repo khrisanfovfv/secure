@@ -190,7 +190,7 @@ class Contract{
         );
 
         if ($wpdb->last_error){
-            wp_die($wpdb->last_error, "Ошиббка при загрузке карточки \"Контракты\"", array('response'=> 500));
+            wp_die($wpdb->last_error, "Ошибка при загрузке карточки \"Контракты\"", array('response'=> 500));
         }  
         //     $results = (object) array_merge( (array)$results, array( 'administrators' => $administrators ));
         // $remarks = $wpdb->get_results(

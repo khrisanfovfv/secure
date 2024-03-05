@@ -11,23 +11,23 @@ $document_icons = $resources->get_document_icons();
             <!-- Левая сторона -->
             <div class="contract_card__frame-top-left">
                 <!-- Группа вкладок -->
-                    <ul class="tabs">
-                        <li class="tabs__item contract_card__tabs_item tabs__highlighted"><a href="#contract_card__general">Общая</a> </li>
-                        <li class="tabs__item contract_card__tabs_item"><a href="#contract_card__customers">Заказчики</a> </li>
-                        <li class="tabs__item contract_card__tabs_item"><a href="#contract_card__developpers">Исполнители</a></li>
-                    </ul>
+                <ul class="tabs">
+                    <li class="tabs__item contract_card__tabs_item tabs__highlighted"><a href="#contract_card__general">Общая</a> </li>
+                    <li class="tabs__item contract_card__tabs_item"><a href="#contract_card__customers">Заказчики</a> </li>
+                    <li class="tabs__item contract_card__tabs_item"><a href="#contract_card__developpers">Исполнители</a></li>
+                </ul>
                 <!-- Содержимое основной карточки -->
                 <div class="contract_card__content">
-                 
+
                     <!-- ВКЛАДКА ОБЩАЯ -->
                     <section class="contract_card__general" id="contract_card__general">
                         <!-- Объединяет поля карточки и Таблицу с администраторами-->
-                        <div class="contract_card__general_top">
+                       
                             <!-- ПОЛЯ КАРТОЧКИ-->
                             <div class="contract_card__general_fields">
                                 <!-- ИД -->
                                 <p class="hide" id="contract_card__id"></p>
-                                
+
                                 <!-- Состояние -->
                                 <label id="contract_card__state_title" for="contract_card__state">Состояние</label>
                                 <select id="contract_card__state">
@@ -37,13 +37,13 @@ $document_icons = $resources->get_document_icons();
                             </div>
 
 
-                        </div>
-
+                    </section>
+                </div>
                 <!-- ПАНЕЛЬ ДОКУМЕНТЫ -->
-                
+
             </div>
-             <!-- Правая сторона -->
-             <div class="contract_card__frame-top-right">
+            <!-- Правая сторона -->
+            <div class="contract_card__frame-top-right">
                 <div class="attachments">
                     <p class="attachments__title">Документы</p>
                     <ul class="attachments__list">
@@ -61,7 +61,7 @@ $document_icons = $resources->get_document_icons();
                         </li>
                     </ul>
                 </div>
-             </div>
+            </div>
         </div>
         <div class="finish_buttons">
             <button class="finish_button" id="contract_card__OK">OK</button>
