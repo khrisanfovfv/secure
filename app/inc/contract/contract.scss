@@ -7,6 +7,7 @@
     align-items: stretch;
     &__frame{
         display: flex;
+        flex-direction: column;
         height: 100%;
         width: 100%;
     }
@@ -28,48 +29,34 @@
         padding: 20px;
         display: flex;
         height: 100%;
+        align-items: stretch;
     }
-    &__fields{
+    &__general{
+        display: flex;
+        height: 100%;
+        width: 100%;
+    }
+    &__general_fields{
         display: grid;
         grid-template-columns: repeat(24, 1fr);
         gap: 15px;
     }
-    &__fields label{
-        grid-column: 1/7;
+    &__general_fields label{
+        grid-column: 1;
     }
-    &__fields input{
-        grid-column: 7/25;
-        outline: none;
-    }
-    &__fields textarea,
-    &__fields .card__record{
-        grid-column: 7/25;
-    }
-    &__fields select{
-        grid-column: 7/14;
+    &__general_fields select{
+        height: 25px;
+        grid-column: 2;
         background-color: white;
         border: thin solid gray;
     }
-}
-
-#contract_ref{
-    &__dialog_content{
-        height: 100%;
-        width: 100%;
+    &__general_fields textarea{
+        grid-column: 2;
     }
+
+    
 }
 
-#contract_card__number{
-    grid-column: 7/14;
-}
-
-#contract_card__conclusion_date_title{
-    grid-column: 15/19;
-}
-
-#contract_card__conclusion_date{
-    grid-column: 19/25;
-}
 
 
 

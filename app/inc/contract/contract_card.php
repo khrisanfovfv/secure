@@ -27,9 +27,29 @@ $document_icons = $resources->get_document_icons();
                             <div class="contract_card__general_fields">
                                 <!-- ИД -->
                                 <p class="hide" id="contract_card__id"></p>
+                                <!-- Предмет Контракта-->
+                                <label for="contract_subject">Предмет Контракта</label>
+                                <textarea id="contract_subject" size="80" rows="3" cols="33"></textarea>
+                                <!-- Номер контракта-->
+                                <label for="contract_number">Номер контракта</label>
+                                <input id="contract_number" type="text">
+                                <!--Дата заключения-->
+                                <label for="conclusionDate">Дата заключения</label>
+                                <input type="date" id="conclusionDate" size="40">
+                                <!--Тип контракта-->
+                                <label for="contract_type">Тип контракта</label>
+                                <select id="contract_type">
+                                    <option value="single">Поддержка</option>
+                                    <option value="group">Развитие</option>
+                                    <option value="corporate">Аттестация</option>
+                                </select>
+                                 <!-- Номер контракта-->
+                                 <label for="link">Ссылка на сайт закупок</label>
+                                <input id="link" type="text">
+                                 
 
                                 <!-- Состояние -->
-                                <label id="contract_card__state_title" for="contract_card__state">Состояние</label>
+                                <label for="contract_card__state">Состояние</label>
                                 <select id="contract_card__state">
                                     <option value="Active">Действующая</option>
                                     <option value="Inactive">Не действующая</option>
