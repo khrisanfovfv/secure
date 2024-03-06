@@ -603,6 +603,8 @@ function document_card_binging_events() {
     $('.document__tabs_item').on('click', function (e) {
         document__chose_tab(e);
     })
+
+
     /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ===================*/
     $('#document_card__send_list_create').on('click', function(){
         document_card__send_list_create_record();

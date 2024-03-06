@@ -602,6 +602,11 @@ function information_system_card__developpers_delete_record() {
     }
 }
 
+/**
+ * ================================= ДОКУМЕНТЫ. УДАЛИТЬ ================================
+ */
+
+
 
 /**
  * ============================== АДМИНИСТРАТОРЫ. СОЗДАТЬ ==============================
@@ -915,8 +920,9 @@ function information_system_card__draw_administrator_row(administrator) {
     return content_html;
 }
 
+
 /**
- * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ИНФОРМАЦИОННОЙ СИСТЕМЕ ========== 
+ * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ИНФОРМАЦИОННОЙ СИСТЕМЫ ========== 
  */
 function information_system_card_binging_events() {
 
@@ -948,6 +954,17 @@ function information_system_card_binging_events() {
     /** ============================= РАЗРАБОТЧИКИ. КНОПКА УДАЛИТЬ ============================== */
     $('#information_system_card__developpers_delete').on('click', function () {
         information_system_card__developpers_delete_record();
+    })
+
+    /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. ВыЫДЕЛИТЬ ДОКУМЕНТ ====================*/
+    $('.attachments__item.document__item').on('click', function(e){
+        alert('Работает!');
+        $(e.target).addClass('highlight');
+    })
+
+    /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ УДАЛИТЬ ================*/
+    $('#information_system_card__documents_delete_record').on('click', function(e){
+        information_system_card__documents_delete_record(e);
     })
     
 

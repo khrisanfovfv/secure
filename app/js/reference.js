@@ -80,9 +80,9 @@ var reference = {
             reference.binding_event_card(prefix, detail);
             switch (openMode){
                 // Режим редактирования
-                case OpenMode.Edit : reference.load_card_data(prefix,id,OpenMode.Edit); break;
+                case OpenMode.Edit : reference.load_card_data(prefix,id,OpenMode.Edit, detail); break;
                 // Режим копирования
-                case OpenMode.Copy : reference.load_card_data(prefix,id,OpenMode.Copy); break;
+                case OpenMode.Copy : reference.load_card_data(prefix,id,OpenMode.Copy, detail); break;
                 // При режиме создания не делаем ничего
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -108,6 +108,7 @@ var reference = {
             case '#administrator_ref' : card = 'administrator_card'; break;
             case '#organization_ref' : card = 'organization_card' ; break;
             case '#document_version_list' : card = 'document_version_card'; break;
+            case '#information_system_card__documents' : card = 'document_card'; break;
             case '#contract_ref' : card = 'contract_card'; break;
 
             // КАРТОЧКИ ПОИСКА
@@ -134,7 +135,8 @@ var reference = {
             }
         } else {
             switch(detail){
-                case '#document_version_list' : document_version_card_binding_events();
+                case '#document_version_list' : document_version_card_binding_events();break;
+                case '#information_system_card__documents' : document_card_binging_events(); break;
             }
         }
     },
@@ -160,16 +162,22 @@ var reference = {
      * @param {number} id 
      * @param {Object} openMode 
      */
-    load_card_data(prefix, id, openMode){
+    load_card_data(prefix, id, openMode, detail = ''){
+        // Загружаем запись справочника или запись детального раздела 
+        let section = prefix;
+        if (detail !=''){
+            section = detail;
+        } 
         var data = {
             action: 'load_card_data',
-            card: reference.get_card_name(prefix),
+            card: reference.get_card_name(section),
             id: id
         }
         
         jQuery.post(MainData.ajaxurl, data, function (result) {
                 // Вызываем функцию для соответствующего вида справочника
-                switch (prefix) {
+
+                switch (section) {
                     case '#document_kind_ref': card_document_kind_load_data(result, openMode); break;
                     case '#document_ref': card_document_load_data(result, openMode); break;
                     case '#department_ref': card_department_load_data(result, openMode); break;
@@ -177,6 +185,8 @@ var reference = {
                     case '#administrator_ref': card_administrator_load_data(result, openMode); break;
                     case '#organization_ref': card_organization_load_data(result, openMode); break;
                     case '#contract_ref': card_contract_load_data(result, openMode); break;
+                    // Детальные разделы
+                    case '#information_system_card__documents' : card_document_load_data(result, openMode); break; 
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 var size = { width: 500, height: 200 };

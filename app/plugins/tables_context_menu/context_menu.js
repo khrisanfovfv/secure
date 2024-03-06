@@ -320,10 +320,13 @@ var Context = {
     },
     /** ФУНКЦИИ ДЛЯ РАБОТЫ С ПУНКТАМИ КОНТЕКСТНОГО МЕНЮ ДОКУМЕНТА */
     document_open_card: function () {
-        $('#information_system_card__dialog').css('display', 'flex');
-        $('#information_system_card__dialog').css('z-index', z_index);
-        //$('#information_system_card__dialog_content').load(host + 'inc/document/document_card.html');
+        var id = $("#information_system_card__id").text();
+        var size = { width: 1000, height: 600 };
+        reference.open_card('#information_system_card', 'Карточка Документа', size, 
+            OpenMode.Edit, id,'#information_system_card__documents');
     },
+
+
 
     document_open_version_card: function () {
         $('#information_system_card__dialog').css('display', 'flex');

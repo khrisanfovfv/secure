@@ -483,7 +483,7 @@ $document_icons = $resources->get_document_icons();
             <img src="<?php echo $button_icons->open_card ?>" alt="Открыть карточку">
             <p>Открыть карточку</p>
         </li>
-        <li class="context-menu__item">
+        <li class="context-menu__item" id ="information_system_card__documents_delete_record" >
             <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
             <p>Удалить</p>
         </li>

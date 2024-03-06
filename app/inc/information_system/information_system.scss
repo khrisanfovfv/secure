@@ -252,6 +252,12 @@
     justify-self: end;
 }
 
+#information_system_card{
+    &__dialog_content{
+        width: 100%;
+    }
+}
+
 #information_system_card__scope{
     grid-column: 2/9;
 }
