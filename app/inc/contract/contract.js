@@ -159,22 +159,22 @@ function card_contract_load_data(data, openMode) {
         case OpenMode.Edit: $('#contract_card__id').text(cardData[0].id); break;
         case OpenMode.Copy: $('#contract_card__id').text(''); break;
     }
-    if (openMode == OpenMode.Copy) {
-        $('#contract_card__fullName').val(cardData[0].fullname + ' - Копия');
-    }
-    else {
-        $('#contract_card__fullName').val(cardData[0].fullname.replace(/\\"/g, '"'));
-    }
-    $('#contract_card__briefName').val(cardData[0].briefname.replace(/\\"/g, '"'));
-    $('#contract_card__boss').val(cardData[0].boss);
-    $('#contract_card__inn').val(cardData[0].inn);
-    $('#contract_card__kpp').val(cardData[0].kpp);
-    $('#contract_card__ogrn').val(cardData[0].ogrn);
-    $('#contract_card__okpo').val(cardData[0].okpo);
-    $('#contract_card__postAddress').val(cardData[0].postAddress.replace(/\\"/g, '"'));
-    $('#contract_card__legalAddress').val(cardData[0].legalAddress.replace(/\\"/g, '"'));
-    $('#contract_card__email').val(cardData[0].email);
-    $('#contract_card__state').val(cardData[0].state);
+    // if (openMode == OpenMode.Copy) {
+    //     $('#contract_card__fullName').val(cardData[0].fullname + ' - Копия');
+    // }
+    // else {
+    //     $('#contract_card__fullName').val(cardData[0].fullname.replace(/\\"/g, '"'));
+    // }
+    // $('#contract_card__briefName').val(cardData[0].briefname.replace(/\\"/g, '"'));
+    // $('#contract_card__boss').val(cardData[0].boss);
+    // $('#contract_card__inn').val(cardData[0].inn);
+    // $('#contract_card__kpp').val(cardData[0].kpp);
+    // $('#contract_card__ogrn').val(cardData[0].ogrn);
+    // $('#contract_card__okpo').val(cardData[0].okpo);
+    // $('#contract_card__postAddress').val(cardData[0].postAddress.replace(/\\"/g, '"'));
+    // $('#contract_card__legalAddress').val(cardData[0].legalAddress.replace(/\\"/g, '"'));
+    // $('#contract_card__email').val(cardData[0].email);
+    // $('#contract_card__state').val(cardData[0].state);
 }
 
 
@@ -185,7 +185,7 @@ function contract_edit_record() {
     rows = $('.contract_ref__table_row.highlight')
     if (rows.length > 0) {
         var id = rows[0].children.item(0).textContent;
-        var size = { width: 1000, height: 800 };
+        var size = { width: 1000, height: 500 };
         reference.open_card('#contract_ref', 'Карточка Контракта', size, OpenMode.Edit, id);
     }
     $('#contract_ref__context').css('display', 'none');
@@ -235,6 +235,12 @@ function contract_ref_binding_events() {
  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ КОНТРАКТА ===============================
  */
 function contract_card_binding_events() {
+     
+    /** ===================== ВЫБОР ВКЛАДКИ НА КАРТОЧКЕ КОНТРАКТА ================ */
+    $('.contract__tabs_item').on('click', function (e) {
+        contract__chose_tab(e);
+    })
+
     /** ==============Карточка Организации: НАЖАТИЕ КНОПКИ OK ============= */
     $('#contract_card__OK ').on('click', function (e) {
         contract_card_press_OK(e.target);
@@ -245,6 +251,32 @@ function contract_card_binding_events() {
         $(e.target).parents('.appdialog').css('display', 'none');
     });
 
+}
+
+/**
+ * =========== ВЫБОР ВКЛАДОК НА КАРТОЧКЕ КОНТРАКТА =====================
+ * */
+function contract__chose_tab(e) {
+    e.preventDefault();
+    var el = $(e.target)
+    // Если щелкнули на элементе внутри .tabs__item
+    if (!el.hasClass('tabs__item')) {
+        el = el.parents('.tabs__item');
+    }
+    // Список имеющихся вкладок
+    var card_tabs = ['general', 'customers', 'developpers'];
+
+    // Устанавливаем класс tabs__highlighted у выбранной вкладки
+    $('.tabs__item').removeClass('tabs__highlighted');
+    $(el).addClass('tabs__highlighted');
+
+    /* Скрываем все вкладки */
+    card_tabs.forEach(item => {
+        $('.contract_card__' + item).addClass('hide');
+    });
+    /* Показываем выбранную */
+    tab = $(el).children().attr('href');
+    $(tab).removeClass('hide');
 }
 
 /**

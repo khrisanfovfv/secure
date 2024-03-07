@@ -29,35 +29,40 @@ $document_icons = $resources->get_document_icons();
                                 <p class="hide" id="contract_card__id"></p>
                                 <!-- Предмет Контракта-->
                                 <label for="contract_subject">Предмет Контракта</label>
-                                <textarea id="contract_subject" size="80" rows="3" cols="33"></textarea>
+                                <textarea id="contract_subject" size="80" rows="3"></textarea>
                                 <!-- Номер контракта-->
                                 <label for="contract_number">Номер контракта</label>
-                                <input id="contract_number" type="text">
+                                <input id="contract_card__contract_number" type="text" >
                                 <!--Дата заключения-->
-                                <label for="conclusionDate">Дата заключения</label>
-                                <input type="date" id="conclusionDate" size="40">
+                                <label for="conclusionDate" id="contract_card__conclusionDate_title">Дата заключения</label>
+                                <input type="date" id="contract_card__conclusionDate">
                                 <!--Тип контракта-->
                                 <label for="contract_type">Тип контракта</label>
-                                <select id="contract_type">
+                                <select id="contract_card__contract_type">
                                     <option value="single">Поддержка</option>
                                     <option value="group">Развитие</option>
                                     <option value="corporate">Аттестация</option>
                                 </select>
-                                 <!-- Номер контракта-->
-                                 <label for="link">Ссылка на сайт закупок</label>
-                                <input id="link" type="text">
-                                 
-
                                 <!-- Состояние -->
-                                <label for="contract_card__state">Состояние</label>
+                                <label for="contract_card__state" id="contract_card__state_title">Состояние</label>
                                 <select id="contract_card__state">
                                     <option value="Active">Действующая</option>
                                     <option value="Inactive">Не действующая</option>
                                 </select>
+                                 <!-- Ссылка-->
+                                 <label for="link" id="contract_card__link_title">Ссылка на сайт закупок</label>
+                                <input id="contract_card__link" type="text">
+                                 
+
+                                
                             </div>
 
 
                     </section>
+                    <!-- ВКЛАДКА ЗАКАЗЧИКИ -->
+                    <section class="contract_card__customers" id="contract_card__customers"></section>
+                    <!-- ВКЛАДКА ИСПОЛНИТЕЛИ -->
+                    <section class="contract_card__developpers" id="contract_card__developpers"></section>
                 </div>
                 <!-- ПАНЕЛЬ ДОКУМЕНТЫ -->
 
