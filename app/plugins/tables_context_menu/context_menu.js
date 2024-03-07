@@ -14,6 +14,7 @@ var Context = {
         '#information_system_card_administrators__out_context',
         '#information_system_card__contracts_context',
         '#information_system_card__document_context',
+        '#information_system_card__documents_out_context',
         '#information_system_ref__context',
         '#information_system_ref__out_context',
         '#administrator_ref__context',
@@ -338,6 +339,7 @@ var Context = {
     createContext: function (src_el) {
         switch (src_el.className) {
             case 'information_system__reference_container': Context.menu = $('#information_system_ref__out_context'); break;
+            case 'attachments__list information_system_card__documents' : Context.menu = $('#information_system_card__documents_out_context'); break;
             case 'information_system_card__remarks_container' : Context.menu = $('#information_system_card_remarks__out_context'); break;
             case 'information_system_card__developpers_container' : Context.menu = $('#information_system_card_developpers__out_context'); break;
             case 'information_system_card__administrators_container' : Context.menu = $('#information_system_card_administrators__out_context'); break;

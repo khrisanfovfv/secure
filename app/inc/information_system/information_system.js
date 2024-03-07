@@ -585,6 +585,33 @@ function information_system_card__developpers_copy_record() {
     )
 
 }
+/**
+ * ============================== РАЗРАБОТЧИКИ. ОБНОВИТЬ ==============================
+ */
+function information_system_card__developpers_update_records(){
+    var information_system_id = $('#information_system_card__id').text();
+    // Загружаем детальный раздел Разработчики
+    var data = {
+        action: 'load_information_system_developpers',
+        information_system_id: information_system_id
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var rows = JSON.parse(result);
+        $('#information_system_card__developpers_table tbody tr').remove();
+        var ind = 1;
+
+        rows.forEach(developper => {
+            developper['ind'] = ind++;
+            $('#information_system_card__developpers_table tbody').append(
+                information_system_card__draw_developper_row(developper)
+            );
+        });
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки детального раздела Замечания по аттестации произощла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#information_system_ref', 'Ошибка', size, message);
+    });
+}
 
 
 
@@ -841,11 +868,9 @@ function information_system_card__draw_document(document){
     }
     var content_html = 
     $("<li class='attachments__item document__item'>")
-        .append($("<a class='attachments__link' href = '#'>")
-            .append($("<p class='id hide'>").text(document.id))
-            .append($("<img class='attachments__ico'>").attr('src', icon))
-            .append($("<p class='attachments__name_item'>").text(document.name))
-        )
+        .append($("<p class='id hide'>").text(document.id))
+        .append($("<img class='attachments__ico'>").attr('src', icon))
+        .append($("<p class='attachments__name_item'>").text(document.name))
     return content_html;
 }
 
@@ -950,14 +975,31 @@ function information_system_card_binging_events() {
     $('#information_system_card__developpers_copy').on('click', function () {
         information_system_card__developpers_copy_record();
     })
+    /** ===================== РАЗРАБОТЧИКИ. КНОПКА ОБНОВИТЬ ===================== */
+    $('#information_system_card__developpers_update').on('click', function () {
+        information_system_card__developpers_update_records();
+    })
 
     /** ============================= РАЗРАБОТЧИКИ. КНОПКА УДАЛИТЬ ============================== */
     $('#information_system_card__developpers_delete').on('click', function () {
         information_system_card__developpers_delete_record();
     })
+    
+    /** =================== КОНТЕКСТНОЕ МЕНЮ. РАЗРАБОТЧИКИ. КНОПКА СОЗДАТЬ ====================== */
+    $('#information_system_card_developpers__out_context_create').on('click', function () {
+        information_system_card__developpers_create_record();
+    })
+
+    /** =================== КОНТЕКСТНОЕ МЕНЮ. РАЗРАБОТЧИКИ. КНОПКА ОБНОВИТЬ ====================== */
+    $('#information_system_card_developpers__out_context_update').on('click', function () {
+        information_system_card__developpers_update_records();
+    })
+
+    
+
 
     /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. ВыЫДЕЛИТЬ ДОКУМЕНТ ====================*/
-    $('.attachments__item.document__item').on('click', function(e){
+    $('.document__item').on('click', function(e){
         alert('Работает!');
         $(e.target).addClass('highlight');
     })

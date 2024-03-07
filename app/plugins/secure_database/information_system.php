@@ -460,6 +460,25 @@ $information_system_documents_sql = "CREATE TABLE $table_name (
         wp_die();
     }
 
+    /**
+     * ============== РАЗРАБОТЧИКИ. ЗАГРУЗКА ЗАПИСЕЙ ==============
+     */
+    function secure_load_information_system_developpers(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $information_system_id = $_POST['information_system_id'];
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT developpers.id, organization.id as developper_id, organization.fullname as developper_name 
+            FROM {$prefix}developpers developpers
+            JOIN {$prefix}organization organization ON developpers.organization = organization.id  
+            WHERE information_system = $information_system_id"), ARRAY_A );
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error,"Ошибкам при загрузке таблицы Разработчики", array("response" => 500));
+        }
+        echo json_encode($results);
+        wp_die();
+    }
+
 
 
 

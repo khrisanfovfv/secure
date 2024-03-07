@@ -91,6 +91,11 @@ $document_icons = $resources->get_document_icons();
                                     <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
                                     <p>Копировать</p>
                                 </button>
+                                <button class="reference__button" id="information_system_card__developpers_update">
+                                    <img src="<?php echo $button_icons->update ?>" alt="Обновить">
+                                    <p>Обновить</p>
+                                </button>
+                                
                                 <button class="reference__button" id="information_system_card__developpers_delete">
                                     <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
                                     <p>Удалить</p>
@@ -323,7 +328,7 @@ $document_icons = $resources->get_document_icons();
              <div class="information_system_card__frame-top-right">
                 <div class="attachments">
                     <p class="attachments__title">Документы</p>
-                    <ul class="attachments__list" id = "information_system_card__documents">
+                    <ul class="attachments__list information_system_card__documents" id = "information_system_card__documents">
                     </ul>
                 </div>
              </div>
@@ -398,14 +403,28 @@ $document_icons = $resources->get_document_icons();
     </ul>
 </div>
 
-<!-- КОНТЕКСТНОЕ МЕНЮ ЭЛЕМЕНТА information_system_card__developpers_container -->
-<div class="context-menu" id="information_system_card_developpers__out_context">
+<!-- КОНТЕКСТНОЕ МЕНЮ ЭЛЕМЕНТА information_system_card__documents -->
+<div class="context-menu" id="information_system_card__documents_out_context">
     <ul class="context-menu__list">
-        <li class="context-menu__item" id="information_system_card_remarks__out_context_create">
+        <li class="context-menu__item" id="information_system_card__documents__out_context_create">
             <img src="<?php echo $button_icons->create ?>">
             <p>Создать</p>
         </li>
-        <li class="context-menu__item" id="information_system_card_remarks__out_context_update">
+        <li class="context-menu__item" id="information_system_card__documents__out_context_update">
+            <img src="<?php echo $button_icons->update ?>">
+            <p>Обновить</p>
+        </li>
+    </ul>
+</div>
+
+<!-- КОНТЕКСТНОЕ МЕНЮ ЭЛЕМЕНТА information_system_card__developpers_container -->
+<div class="context-menu" id="information_system_card_developpers__out_context">
+    <ul class="context-menu__list">
+        <li class="context-menu__item" id="information_system_card_developpers__out_context_create">
+            <img src="<?php echo $button_icons->create ?>">
+            <p>Создать</p>
+        </li>
+        <li class="context-menu__item" id="information_system_card_developpers__out_context_update">
             <img src="<?php echo $button_icons->update ?>">
             <p>Обновить</p>
         </li>

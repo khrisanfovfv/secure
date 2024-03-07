@@ -141,6 +141,9 @@ class SecDb
         add_action('wp_ajax_nopriv_search_document_extended', array('Document','secure_search_document_extended'));
 
         // ДЕТАЛЬНЫЕ РАЗДЕЛЫ
+        add_action('wp_ajax_load_information_system_developpers', array('InformationSystem', 'secure_load_information_system_developpers'));
+        add_action('wp_ajax_nopriv_load_information_system_developpers', array('InformationSystem', 'secure_load_information_system_developpers'));
+
         add_action('wp_ajax_load_administrator_information_systems', array('Administrator', 'secure_load_administrator_information_systems'));
         add_action('wp_ajax_nopriv_load_administrator_information_systems', array('Administrator', 'secure_load_administrator_information_systems'));
 
