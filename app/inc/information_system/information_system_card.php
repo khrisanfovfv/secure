@@ -324,8 +324,8 @@ $document_icons = $resources->get_document_icons();
                 <!-- ПАНЕЛЬ ДОКУМЕНТЫ -->
                 
             </div>
-             <!-- Правая сторона -->
-             <div class="information_system_card__frame-top-right">
+            <!-- Правая сторона -->
+            <div class="information_system_card__frame-top-right">
                 <div class="attachments">
                     <p class="attachments__title">Документы</p>
                     <ul class="attachments__list information_system_card__documents" id = "information_system_card__documents">
