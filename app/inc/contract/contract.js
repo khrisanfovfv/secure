@@ -234,10 +234,9 @@ function contract_ref_binding_events() {
 /**
  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ КОНТРАКТА ===============================
  */
-function contract_card_binding_events() {
-     
+function contract_card_binding_events() { 
     /** ===================== ВЫБОР ВКЛАДКИ НА КАРТОЧКЕ КОНТРАКТА ================ */
-    $('.contract__tabs_item').on('click', function (e) {
+    $('.contract_card__tabs_item').on('click', function (e) {
         contract__chose_tab(e);
     })
 

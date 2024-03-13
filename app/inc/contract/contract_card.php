@@ -60,9 +60,79 @@ $document_icons = $resources->get_document_icons();
 
                     </section>
                     <!-- ВКЛАДКА ЗАКАЗЧИКИ -->
-                    <section class="contract_card__customers" id="contract_card__customers"></section>
+                    <section class="contract_card__customers hide" id="contract_card__customers">
+                        <div class="reference__buttons">
+                            <button class="reference__button" id="contract_card__customers_create">
+                                <img src="<?php echo $button_icons->create ?>" alt="">
+                                <p>Создать</p>
+                            </button>
+                            <button class="reference__button" id="contract_card__customers_copy">
+                                <img src="<?php echo $button_icons->copy ?>" alt="">
+                                <p>Копировать</p>
+                            </button>
+                            <button class="reference__button" id="contract_card__customers_update">
+                                <img src="<?php echo $button_icons->update ?>" alt="Обновить">
+                                <p>Обновить</p>
+                            </button>
+                            <button class="reference__button" id="contract_card__customers_delete">
+                                <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
+                                <p>Удалить</p>
+                            </button>
+                            <button class="reference__button" id="contract_card__customers_excel">
+                                <img src="<?php echo $button_icons->excel ?>" alt="Excel">
+                                <p>Эл. таб</p>
+                            </button>
+                        </div>
+                        <div class="contract_card__customers_container">
+                            <table class="reference__table" id="contract_card__customers_table">
+                                <thead>
+                                    <th class="hide">Ид</th>
+                                    <th style="width: 35px;">№</th>
+                                    <th>Заказчик</th>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
                     <!-- ВКЛАДКА ИСПОЛНИТЕЛИ -->
-                    <section class="contract_card__developpers" id="contract_card__developpers"></section>
+                    <section class="contract_card__developpers hide" id="contract_card__developpers">
+                        <div class="reference__buttons">
+                            <button class="reference__button" id="contract_card__developpers_create">
+                                <img src="<?php echo $button_icons->create ?>" alt="">
+                                <p>Создать</p>
+                            </button>
+                            <button class="reference__button" id="contract_card__developpers_copy">
+                                <img src="<?php echo $button_icons->copy ?>" alt="">
+                                <p>Копировать</p>
+                            </button>
+                            <button class="reference__button" id="contract_card__developpers_update">
+                                <img src="<?php echo $button_icons->update ?>" alt="Обновить">
+                                <p>Обновить</p>
+                            </button>
+                            <button class="reference__button" id="contract_card__developpers_delete">
+                                <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
+                                <p>Удалить</p>
+                            </button>
+                            <button class="reference__button" id="contract_card__developpers_excel">
+                                <img src="<?php echo $button_icons->excel ?>" alt="Excel">
+                                <p>Эл. таб</p>
+                            </button>
+                        </div>
+                        <div class="contract_card__developpers_container">
+                            <table class="reference__table" id="contract_card__developpers_table">
+                                <thead>
+                                    <th class="hide">Ид</th>
+                                    <th style="width: 35px;">№</th>
+                                    <th>Исполнитель</th>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                    
+
                 </div>
                 <!-- ПАНЕЛЬ ДОКУМЕНТЫ -->
 

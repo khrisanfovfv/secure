@@ -132,6 +132,7 @@ var reference = {
                 case '#organization_ref' : organization_card_binding_events(); break
                 case '#document_ref' : document_card_binging_events(); break;
                 case '#document_kind_ref' : document_kind_card_binging_events(); break;
+                case '#contract_ref' : contract_card_binding_events(); break;
             }
         } else {
             switch(detail){

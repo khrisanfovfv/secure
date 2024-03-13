@@ -79,10 +79,23 @@
         &__link{
             grid-column: 5/25;
         }
+        &__customers{
+            height: 100%;
+            width: 100%;
+        }
+        &__developpers{
+            height: 100%;
+            width: 100%;
+        }
        
         
     }
     
+    
+}
+#contract_ref__dialog_content{
+    height: 100%;
+    width: 100%;
 }
 
 
