@@ -28,7 +28,7 @@ function php(){
 }
 
 function references_php(){
-    var references = ['document_kind','document','department' ,'administrator', 'information_system', 'organization', 'contract'];
+    var references = ['document_kind','document','department' ,'administrator', 'information_system', 'organization', 'contract', 'login', 'employee'];
     references.forEach(reference => {
         return src([
             'app/inc/'+ reference + '/*.php'
@@ -62,13 +62,14 @@ function scripts(){
         'app/plugins/jquery-ui-1.13.2/jquery-ui.js',
         'app/plugins/tables_context_menu/context_menu.js',
         'app/js/reference.js',
+        'app/inc/login/login.js',
         'app/inc/information_system/information_system.js',
         'app/inc/document_kind/document_kind.js',
         'app/inc/administrator/administrator.js',
         'app/inc/organization/organization.js',
         'app/inc/department/department.js',
         'app/inc/contract/contract.js',
-        'app/inc/employeer/employeer.js',
+        'app/inc/employee/employee.js',
         'app/inc/document/document.js',
         'app/js/main.js'
     ])

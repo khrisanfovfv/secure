@@ -11,6 +11,16 @@ class Resources{
             echo $ex->getMessage();
         }
     }
+
+    /**
+     * ============================= ВОЗВРАЩАЕМ ЭМБЛЕМУ =============================== 
+     */
+
+     public function get_emblem_icon(){
+        $icon = $this->resources->emblem;
+        $icon = get_template_directory_uri() .'/'. $this->resources->directory .'/'. $icon;
+        return $icon;
+     }
     /**
      * ======================= ВОЗВРАЩАЕМ ИКОНКИ ДЛЯ КНОПОК ===========================
      */

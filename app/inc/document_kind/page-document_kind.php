@@ -3,6 +3,12 @@
 /**
  * Post Template: Documents Kind
  */
+
+// Если пользователь не зашел в систему то перекидываем его на страницу авторизации
+if (!is_user_logged_in()){
+    header("Location: http://secure/login");
+    die();
+}
 get_header();
 
 global $wpdb;

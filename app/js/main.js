@@ -41,12 +41,7 @@ $(function () {
             case 'sm_references__departments' : open_page('department'); break;
             case 'sm_references__document_kind': open_page('document_kind'); break;
             case 'sm_references__contract': open_page('contract'); break;
-            case 'sm_references__employeers':{
-                $("<a>").prop({
-                    target: "_blank",
-                    href:host + "inc/employeer/employeer_ref.html"
-                })[0].click();
-            }; break;
+            case 'sm_references__employees': open_page('employee'); break;
             case 'sm_references__documents' : open_page('document'); break;
             case 'sm_help__about' : {
                 $('#is_card__notif').css('display','flex');
@@ -288,8 +283,28 @@ $(function () {
         $(this).parents('.appdialog').css('display', 'none');
     });
 
-    
+    /**
+     * ================== ВЫХОД ИЗ АККАУНТА =====================
+     */
+    $('#user__context_exit').on('click', function(){
+        ;var data = {
+            action: 'exit'
+        };
+        
+        jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+            window.location.replace(textStatus);
+        }).fail(function(jqXHR, textStatus, errorThrown){
+            alert('Во время выхода из профиля произошла ошибка ' + errorThrown)
+                
+        });
+    })
 
+    /** 
+     * ================ ПОКАЗЫВАЕМ ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ ================
+    */
+    $('#user__context_profile').on('click', function(){
+        let size = {width:800, height:600}; 
+        reference.open_card('#footer_ref', 'Профиль пользователя', size, OpenMode.Create, 0);
+    })
 
-    
-})
+});

@@ -1,5 +1,6 @@
 {
     "directory":"images",
+    "emblem" : "emblem.png",
     "button_icons":{
         "create" : "create-record.svg",
         "select" : "select.svg",

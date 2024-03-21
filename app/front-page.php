@@ -5,6 +5,6 @@
  * 
  * @package Secure 
  * */
-    header("Location: http://secure/information_system");
+    header("Location: http://secure/login");
     die();
  ?>

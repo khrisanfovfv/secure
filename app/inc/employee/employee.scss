@@ -1,0 +1,231 @@
+/* Справочник */
+.employee_ref{
+    &__container{
+        height: 100%;
+    }
+}
+
+/* Карточка документа */
+.employee_card{   
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    /*margin-right: 10px;*/
+    height: 100%;
+    &__frame{
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        align-items: stretch;
+    }
+    &__frame-top{
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        height: 100%;
+        width: 100%;
+        border-bottom: 2px solid rgb(212, 212, 212);
+    };
+    &__frame-top-left{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        flex: 4;
+        border-right: 2px solid rgb(212, 212, 212);
+    }
+    &__frame-top-right{
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        /*align-items: stretch;*/
+        height: 100%;
+        flex: 1;
+    }
+
+    &__content{
+        display: flex;
+        height: 100%;
+        align-items: stretch;
+        flex-direction: column;
+    }
+    &__general{
+        display: grid;
+        row-gap: 10px;
+        font-size: 18px;
+        grid-template-columns: repeat(24,1fr);
+        padding-right: 5px;
+        padding-bottom: 15px;
+    }
+    &__send_list{
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+    }
+    &__send_list_container{
+        height: 100%;
+    }
+
+    &__content label{
+        grid-column: 1;
+        align-self: center;
+    };
+
+    &__content input{
+        grid-column: 3/25;
+        align-self: center;
+    }
+
+    &__content textarea{
+        grid-column: 3/25;
+        align-self: center;
+    }
+    &__content .card__record{
+        grid-column: 3/25;
+        align-self: center;
+    }
+    &__content select{
+        grid-column: 3/10;
+        background-color: white;
+        align-self: center;
+    }
+    &__content input[type="file"]{
+        border: none;
+    }
+
+
+
+}
+
+#employee_card{
+    &__number{
+        grid-column: 3/10;
+    }
+    &__employeedate_label{
+        grid-column: 11/17;
+    }
+    &__employeedate{
+        grid-column: 18/25;
+    }
+    &__sendreceive{
+        grid-column: 3/10; 
+    }
+    &__signed{
+        grid-column: 11;
+    }
+    &__signed_label{
+        grid-column: 13/25;
+    }
+    
+
+}
+
+#employee_ref{
+    &__dialog_content{
+        height: 100%;
+    }
+}
+    
+
+.employee_search{
+    &__content{
+        padding:20px 10px 10px 10px;
+        font-size: 18px;
+        display: flex;
+        flex-direction: column;
+    }
+    &__fields{
+        display: grid;
+        grid-template-columns: repeat(24,1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    &__fields label{
+        grid-column: 1;
+        font-weight: bold;
+    }
+
+    &__fields input{
+        grid-column: 3/24;
+    }
+
+    &__fields input[type="date"]{
+        grid-column: 3/16;
+    }
+    &__fields .card__record{
+        grid-column: 3/24;
+    }
+
+    &__fields select{
+        grid-column: 3/16;
+        background-color: white;
+    }
+}
+
+/* Панель вкладок */
+.employee_tabs{
+    display: flex;
+    /* Отдельная вкладка*/
+    &__item{
+        margin-bottom: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        z-index: 2;
+    }
+
+    &__item a{
+        color: black;
+    }
+
+    &__item::after{
+        content: '';
+        border-bottom: 2px solid #13406d;
+    }
+    /* Класс для обозначения выделенной вкладки*/
+    &__highlighted{
+        border-bottom: thin solid white;
+        background-color: $main_tabs_hilighted_tabs;
+        position: relative;
+    }
+
+    &__highlighted::after{
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 40px;
+        border-bottom:2px solid  #13406d;
+        width: 100%;
+    }
+}
+
+.employee_version_card{
+    display: flex;
+    &__general{
+        display: grid;
+        grid-template-columns: repeat(24,1fr);
+        row-gap: 10px;
+    }
+
+    &__general input[type=text]{
+        grid-column: 3/24;
+        width: 100%;
+    }
+
+    &__general label{
+        grid-column: 1;
+    }
+
+}
+
+#employee_version_card{
+    &__browse{
+        border-bottom: none;
+    }
+}
+
+
+
+
+
+

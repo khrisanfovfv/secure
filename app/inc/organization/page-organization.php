@@ -5,8 +5,13 @@ $button_icons = $resources->get_button_icons();
 
 
 /**
- * Post Template: Information system
+ * Post Template: Organization
  */
+// Если пользователь не зашел в систему то перекидываем его на страницу авторизации
+if (!is_user_logged_in()){
+    header("Location: http://secure/login");
+    die();
+}
 get_header();
 
 global $wpdb;

@@ -6,8 +6,39 @@
      * @package Secure
      * */
     require_once('common.php');
+    $user = wp_get_current_user();
     
+    /**
+     * ПРИВЯЗЫВАЕМ ШАБЛОНЫ К СТРАНИЦАМ
+     */
+    add_filter( 'template_include', 'tie_template' );
+
+    /**
+     * ============ ДОБАВЛЕНИЕ ПОЛЕЙ К НАСТРОЙКАМ ПОЛЬЗОВАТЕЛЯ ==============
+     */
+    add_action('admin_init','user_additional_fields');
+
+    function user_additional_fields(){
+        
+    }
     
+    function tie_template( $template ) {
+        global $post;
+        $slug = $post->post_name;
+        switch ($slug){
+            case 'login' : $new_template = locate_template(array('inc/login/page-login.php' )); break;
+            case 'information_system' : $new_template = locate_template(array('inc/information_system/page-information_system.php')); break;
+            case 'department' : $new_template = locate_template(array('inc/department/page-department.php')); break;
+            case 'document' : $new_template = locate_template(array('inc/document/page-document.php')); break;
+            case 'document_kind' : $new_template = locate_template(array('inc/document_kind/page-document_kind.php')); break;
+            case 'organization' : $new_template = locate_template(array('inc/organization/page-organization.php')); break;
+            case 'administrator' : $new_template = locate_template(array('inc/administrator/page-administrator.php' )); break;
+            case 'employee' : $new_template = locate_template(array('inc/employee/page-employee.php')); break; 
+            default : $new_template = $template;
+        }
+        return $new_template;
+    }
+
     /**
      * ПРИВЯЗЫВАЕТ ФАЙЛЫ СКРИПТОВ И СТИЛЕЙ К WORPRESS
      */
@@ -33,6 +64,9 @@
     // Добавляем действия для ajax-запросов 
     add_action('wp_ajax_get_site_url', 'get_url_site');
     add_action('wp_ajax_nopriv_get_site_url', 'get_url_site');
+    add_action('wp_ajax_login', 'secure_login');
+    add_action('wp_ajax_exit', 'secure_exit');
+    add_action('wp_ajax_nopriv_login', 'secure_login');
     add_action('wp_ajax_load_card', 'secure_load_card');
     add_action('wp_ajax_nopriv_load_card', 'secure_load_card');
     add_action('wp_ajax_load_reference', 'secure_load_reference');
@@ -51,6 +85,52 @@
         echo home_url();
         wp_die();
     }
+    /**
+     * ====================== АВТОРИЗАЦИЯ ПОЛЬЗОВАТЕЛЯ ========================
+     */
+    function secure_login(){
+        $record =  $_POST['record'];
+        $creds = array();
+        $creds['user_login'] = $record['username'];
+        $creds['user_password'] = $record['password'];
+        $creds['remember'] = $record['remember'];
+
+        $user = wp_signon( $creds, false );
+        // Выводим адрес главной страницы сайта
+        echo 'http://secure/information_system';
+
+        // авторизация не удалась
+        if ( is_wp_error($user) ) {
+	        echo $user->get_error_message();
+        } else{
+            echo $user->name;
+        }
+        wp_die();
+    }
+
+    /**
+     * ====================== ВЫХОД ИЗ ПРОФИЛЯ =======================
+     */
+    function secure_exit(){
+        $user_id = get_current_user_id();
+	    wp_destroy_current_session();
+	    wp_clear_auth_cookie();
+	    wp_set_current_user( 0 );
+
+	    /**
+	    * Fires after a user is logged out.
+	    *
+	    * @since 1.5.0
+	    * @since 5.5.0 Added the `$user_id` parameter.
+	    *
+	    * @param int $user_id ID of the user that was logged out.
+	    */
+	    do_action( 'wp_logout', $user_id );
+        echo 'http://secure/login';
+        wp_die();
+    }
+
+    
 
     /**
      * =========================== ЗАГРУЗКА КАРТОЧКИ ============================
@@ -66,6 +146,7 @@
             case 'organization_card' : get_template_part('inc/organization/organization_card'); break;
             case 'contract_card' : get_template_part('inc/contract/contract_card'); break;
             case 'information_system_ref' : get_template_part('inc/information_system/information_system_ref'); break;
+            case 'profile_card' : get_template_part('inc/login/profile'); break;
             
             case 'document_kind_search' : get_template_part('inc/document_kind/document_kind_search_form');break;
             case 'document_search' : get_template_part('inc/document/document_search_form'); break;
@@ -156,6 +237,8 @@
         $icons = new Resources();
         return json_encode($icons->get_document_icons());
     }
+
+
 
 
    

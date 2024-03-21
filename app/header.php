@@ -6,6 +6,20 @@
  * package Secure
  */
 
+$user = wp_get_current_user();
+$last_name = $user->last_name;
+$firstname = $user->first_name;
+
+if (($last_name == '') && $firstname == ''){
+    $display_name = $user->display_name;
+} else{
+    $nameParts = explode(' ', $firstname);
+    $firstLetters = '';
+    foreach($nameParts as $part){
+        $firstLetters .= mb_substr($part, 0, 1) . '.';
+    }
+    $display_name = $last_name . ' ' . $firstLetters;
+}
 
 ?>
 
@@ -50,7 +64,7 @@
                                 документов</a></li>
                         <li class="submenu__item"><a class="submenu__link" href="sm_references__contract">Контракты</a>
                         </li>
-                        <li class="submenu__item"><a class="submenu__link" href="sm_references__employeers">Сотрудники</a>
+                        <li class="submenu__item"><a class="submenu__link" href="sm_references__employees">Сотрудники</a>
                         </li>
                         <li class="submenu__item"><a class="submenu__link" href="sm_references__documents">Документы</a>
                         </li>
@@ -73,6 +87,6 @@
             <!-- Пользователь -->
             <div class="user">
                 <img class="user__img" src="<?php echo get_template_directory_uri() . '/images/user.png' ?>" alt="Пользователь">
-                <p class="user__text">Иванова И.И.</p>
+                <p class="user__text"><?php echo  $display_name ?></p>
             </div>
         </header>

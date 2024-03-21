@@ -110,6 +110,7 @@ var reference = {
             case '#document_version_list' : card = 'document_version_card'; break;
             case '#information_system_card__documents' : card = 'document_card'; break;
             case '#contract_ref' : card = 'contract_card'; break;
+            case '#footer_ref' : card = 'profile_card'; break;
 
             // КАРТОЧКИ ПОИСКА
             case '#document_kind_ref_search' : card = 'document_kind_search'; break;

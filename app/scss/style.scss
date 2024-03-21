@@ -4,6 +4,7 @@
 @import 'fonts';
 @import 'reference';
 @import 'dialog.scss';
+@import '../inc/login/login.scss';
 @import '../plugins/tables_context_menu/context_menu.scss';
 @import '../inc/information_system/information_system.scss';
 @import '../inc/document_kind/document_kind.scss';
@@ -11,7 +12,7 @@
 @import '../inc/organization/organization.scss';
 @import '../inc/department/department.scss';
 @import '../inc/contract/contract.scss';
-@import '../inc/employeer/employeer.scss';
+@import '../inc/employee/employee.scss';
 @import '../inc/about/about.scss';
 @import '../inc/version/version.scss';
 @import '../inc/document/document';
@@ -374,5 +375,36 @@ select:focus{
     font-size: 18px;
     width: 100px;
     margin: 0 auto;
+}
+
+.check-div{
+    display: flex;
+    padding-left: 25px;
+    align-items: center;
+}
+
+.check-box{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+.check-style{
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #0EA36E;
+    margin-left: -25px;
+}
+
+.check-box:checked + .check-style{
+    background-image: url(../images/check.svg);
+}
+
+
+.check-box:focus + .check-style{
+    box-shadow: 0 0 0 2px #000;
 }
 
