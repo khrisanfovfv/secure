@@ -9,18 +9,17 @@
     $user = wp_get_current_user();
     
     /**
-     * ПРИВЯЗЫВАЕМ ШАБЛОНЫ К СТРАНИЦАМ
-     */
-    add_filter( 'template_include', 'tie_template' );
-
-    /**
      * ============ ДОБАВЛЕНИЕ ПОЛЕЙ К НАСТРОЙКАМ ПОЛЬЗОВАТЕЛЯ ==============
      */
     add_action('admin_init','user_additional_fields');
 
     function user_additional_fields(){
-        
     }
+
+    /**
+     * ПРИВЯЗЫВАЕМ ШАБЛОНЫ К СТРАНИЦАМ
+     */
+    add_filter( 'template_include', 'tie_template' );
     
     function tie_template( $template ) {
         global $post;

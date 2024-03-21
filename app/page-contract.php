@@ -52,8 +52,8 @@ $prefix = $wpdb->prefix;
                         <tr>
                             <th style="width: 35px;">№</th>
                             <th style="width: 100px;">Номер</th>
-                            <th>Дата заключения</th>
-                            <th style="width: 130px;">Предмет контракта</th>
+                            <th style="width: 130px;">Дата заключения</th>
+                            <th>Предмет контракта</th>
                             <th style="width: 130px;">Тип контракта</th>
                             <th style="width: 130px;">Ссылка на сайт закупок</th>
                         </tr>

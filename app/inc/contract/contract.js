@@ -159,17 +159,17 @@ function card_contract_load_data(data, openMode) {
         case OpenMode.Edit: $('#contract_card__id').text(cardData[0].id); break;
         case OpenMode.Copy: $('#contract_card__id').text(''); break;
     }
-    // if (openMode == OpenMode.Copy) {
-    //     $('#contract_card__fullName').val(cardData[0].fullname + ' - Копия');
-    // }
-    // else {
-    //     $('#contract_card__fullName').val(cardData[0].fullname.replace(/\\"/g, '"'));
-    // }
-    // $('#contract_card__briefName').val(cardData[0].briefname.replace(/\\"/g, '"'));
-    // $('#contract_card__boss').val(cardData[0].boss);
-    // $('#contract_card__inn').val(cardData[0].inn);
-    // $('#contract_card__kpp').val(cardData[0].kpp);
-    // $('#contract_card__ogrn').val(cardData[0].ogrn);
+    if (openMode == OpenMode.Copy) {
+        $('#contract_card__subject').val(cardData[0].contract_subject + ' - Копия');
+    }
+    else {
+        $('#contract_card__subject').val(cardData[0].contract_subject.replace(/\\"/g, '"'));
+    }
+    $('#contract_card__number').val(cardData[0].contract_number);
+    $('#contract_card__conclusionDate').val(cardData[0].conclusionDate);
+    $('#contract_card__type').val(cardData[0].contract_type);
+    $('#contract_card__link').val(cardData[0].link);
+    $('#contract_card__state').val(cardData[0].contract_state);
     // $('#contract_card__okpo').val(cardData[0].okpo);
     // $('#contract_card__postAddress').val(cardData[0].postAddress.replace(/\\"/g, '"'));
     // $('#contract_card__legalAddress').val(cardData[0].legalAddress.replace(/\\"/g, '"'));
@@ -240,7 +240,7 @@ function contract_card_binding_events() {
         contract__chose_tab(e);
     })
 
-    /** ==============Карточка Организации: НАЖАТИЕ КНОПКИ OK ============= */
+    /** ==============Карточка КОНТРАКТА: НАЖАТИЕ КНОПКИ OK ============= */
     $('#contract_card__OK ').on('click', function (e) {
         contract_card_press_OK(e.target);
         //$(e.target).parents('.appdialog').css('display', 'none');
@@ -303,17 +303,12 @@ function contract_card_press_OK(sender) {
         //alert($('#contract_card__fullName').val())
         record = {
             id: $('#contract_card__id').text(),
-            fullname: $('#contract_card__fullName').val(),
-            briefname: $('#contract_card__briefName').val(),
-            boss: $('#contract_card__boss').val(),
-            inn: $('#contract_card__inn').val(),
-            kpp: $('#contract_card__kpp').val(),
-            ogrn: $('#contract_card__ogrn').val(),
-            okpo: $('#contract_card__okpo').val(),
-            postAddress: $('#contract_card__postAddress').val(),
-            legalAddress: $('#contract_card__legalAddress').val(),
-            email: $('#contract_card__email').val(),
-            state: $('#contract_card__state').val(),
+            contract_subject: $('contract_card__contract_subject').val(),
+            contract_number: $('contract_card__contract_number').val(),
+            conclusionDate: $('contract_card__conclusionDate').val(),
+            contract_type: $('contract_card__type').val(),
+            link: $('contract_card__link').val(),
+            contract_state: $('#contract_card__state').val(),
         }
         if ($('#contract_card__id').text() == '') {
             // ДОБАВЛЯЕМ значение в базу
