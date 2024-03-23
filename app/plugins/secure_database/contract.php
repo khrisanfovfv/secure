@@ -99,7 +99,7 @@ class Contract{
                 'contract_number' => '234',
                 'conclusionDate' => '2022-01-02',
                 'contract_subject' => 'Сопровождение АСЭД в 2024 г.',
-                'contract_type' => 'Поддержка',
+                'contract_type' => 'Support',
                 'link' => 'https://ya.ru/',
                 'contract_state' => 'Active',
             ),
