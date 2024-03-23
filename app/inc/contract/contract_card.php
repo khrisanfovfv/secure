@@ -39,9 +39,9 @@ $document_icons = $resources->get_document_icons();
                                 <!--Тип контракта-->
                                 <label for="contract_card__type">Тип контракта</label>
                                 <select id="contract_card__type">
-                                    <option value="single">Поддержка</option>
-                                    <option value="group">Развитие</option>
-                                    <option value="corporate">Аттестация</option>
+                                    <option value="Support">Поддержка</option>
+                                    <option value="Develop">Развитие</option>
+                                    <option value="Certification">Аттестация</option>
                                 </select>
                                 <!-- Состояние -->
                                 <label for="contract_card__state" id="contract_card__state_title">Состояние</label>

@@ -54,6 +54,9 @@
         /*border: thin solid gray;*/
 
     }
+    &__general_fields input{
+        height: 25px;
+    }
     &__general_fields textarea{
         grid-column: 2/25;
     }
@@ -62,7 +65,7 @@
             grid-column:2/12;
         }
         &__conclusionDate_title{
-            grid-column:13/14;
+            grid-column:10/14;
         }
         &__conclusionDate{
             grid-column:15/25;
@@ -71,7 +74,7 @@
             grid-column: 2/12;
         }
         &__state_title{
-            grid-column: 13/14;
+            grid-column: 10/14;
         }
         &__state{
             grid-column: 15/25;
