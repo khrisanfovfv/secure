@@ -10,16 +10,13 @@ $('#login__submit').on('click', function(){
         record: record
     };
 
-    jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-        window.location.replace(textStatus);
-        //open_page('information_system');
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        window.location.replace(result)
     }).fail(function(jqXHR, textStatus, errorThrown){
-        alert('Авторизация не удалась ' + errorThrown)
-        /*var size = { width: 500, height: 200 };
-                var message = 'Во время авторизации произощла ошибка';
-                reference.show_notification('login', 'Ошибка', size, message);
-    */
-        });
+        var size = { width: 500, height: 200 };
+        var message = 'Во время авторизации произощла ошибка: <br>' + jqXHR.status + ' Не верные учетные данные';
+        reference.show_notification('#login_ref', 'Ошибка', size, message);
+    });
 
 });
 

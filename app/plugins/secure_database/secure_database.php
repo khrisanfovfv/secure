@@ -13,6 +13,12 @@ Author: Naimova D.A
 License: GPLv2 or later
 Text Domain: secure_database
 */
+
+
+if (!function_exists('add_action')) {
+    exit;
+}
+
 require_once('document_kind.php');
 require_once('department.php');
 require_once('administrator.php');
@@ -20,10 +26,6 @@ require_once('information_system.php');
 require_once('contract.php');
 require_once('organization.php');
 require_once('document.php');
-
-if (!function_exists('add_action')) {
-    exit;
-}
 
 class SecDb
 {
@@ -39,6 +41,7 @@ class SecDb
         
         register_activation_hook(__FILE__, array($this, 'secure_install_tables'));
         register_activation_hook(__FILE__, array($this, 'secure_install_data_tables'));
+        register_deactivation_hook(__FILE__, array($this, 'secure_deactivation'));
         add_action('init', array($this, 'secure_init_plugin'));
         $this->document_kind = new DocumentKind();
         $this->department = new Department();
@@ -160,6 +163,7 @@ class SecDb
      * ======================= СОЗДАНИЕ ТАБЛИЦ ==========================
      */
     public function secure_install_tables(){
+        flush_rewrite_rules();
         $this->organization->table_install();
         $this->department->table_install();
         $this->document_kind->table_install();
@@ -181,6 +185,13 @@ class SecDb
         $this->information_system->install_data();
         $this->administrator->install_data(); 
         $this->contract->install_data();
+    }
+
+    /**
+     * ========================== ДЕАКТИВАЦИЯ ПЛАГИНА =========================
+     */
+    function secure_deactivation(){
+        flush_rewrite_rules();
     }
 
     /**

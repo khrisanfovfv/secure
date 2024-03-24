@@ -16,12 +16,59 @@
     /**
      * ============ ДОБАВЛЕНИЕ ПОЛЕЙ К НАСТРОЙКАМ ПОЛЬЗОВАТЕЛЯ ==============
      */
-    add_action('admin_init','user_additional_fields');
+    add_action( 'show_user_profile', 'extra_user_profile_fields' );
+    add_action( 'edit_user_profile', 'extra_user_profile_fields' );
 
-    function user_additional_fields(){
-        
+    function extra_user_profile_fields( $user ) { ?>
+        <h3><?php _e("Extra profile information", "blank"); ?></h3>
+        <table class="form-table">
+            <tr>
+                <th><label for="middle_name"><?php _e("Middlename"); ?></label></th>
+                <td>
+                    <input type="text" name="middle_name" id="middle_name"
+                        value="<?php echo esc_attr( get_the_author_meta( 'middle_name', $user->ID ) ); ?>"
+                        class="regular-text" /><br />
+                    <span class="description"><?php _e("Please enter your middle_name."); ?></span>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="organization"><?php _e("Organization"); ?></label></th>
+                <td>
+                    <input type="text" name="organization" id="organization"
+                        value="<?php echo esc_attr( get_the_author_meta( 'organization', $user->ID ) ); ?>"
+                        class="regular-text" /><br />
+                    <span class="description"><?php _e("Please enter your organization."); ?></span>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="department"><?php _e("Department"); ?></label></th>
+                <td>
+                    <input type="text" name="department" id="department"
+                        value="<?php echo esc_attr( get_the_author_meta( 'department', $user->ID ) ); ?>"
+                        class="regular-text" /><br />
+                    <span class="description"><?php _e("Please enter your department."); ?></span>
+                </td>
+            </tr>
+        </table>
+
+<?php }
+
+    add_action( 'personal_options_update', 'save_extra_user_profile_fields' );
+    add_action( 'edit_user_profile_update', 'save_extra_user_profile_fields' );
+
+    function save_extra_user_profile_fields( $user_id ) {
+
+    if ( !current_user_can( 'edit_user', $user_id ) ) { return false; }
+
+    update_user_meta( $user_id, 'middle_name', $_POST['middle_name'] );
+    update_user_meta( $user_id, 'organization', $_POST['organization'] );
+    update_user_meta( $user_id, 'department', $_POST['department'] );
     }
-    
+
+
+    /**
+     * ================================ ПРИВЯЗКА ШАБЛОНОВ К СТРАНИЦАМ ===============================
+     */
     function tie_template( $template ) {
         global $post;
         $slug = $post->post_name;
@@ -73,8 +120,6 @@
     add_action('wp_ajax_nopriv_load_reference', 'secure_load_reference');
     add_action('wp_ajax_load_document_icons', 'secure_load_document_icons');
     add_action('wp_ajax_nopriv_load_document_icons', 'secure_load_document_icons');
-    // add_action('wp_ajax_load_card_data', 'secure_load_card_data');
-    // add_action('wp_ajax_nopriv_load_card_data', 'secure_load_card_data');
     
     
     
@@ -88,6 +133,9 @@
     /**
      * ====================== АВТОРИЗАЦИЯ ПОЛЬЗОВАТЕЛЯ ========================
      */
+    
+    // Оставляем пользователя на той же станице при ошибке 
+    add_action( 'wp_login_failed', 'my_front_end_login_fail' );
     function secure_login(){
         $record =  $_POST['record'];
         $creds = array();
@@ -95,16 +143,16 @@
         $creds['user_password'] = $record['password'];
         $creds['remember'] = $record['remember'];
 
+        
         $user = wp_signon( $creds, false );
-        // Выводим адрес главной страницы сайта
-        echo 'http://secure/information_system';
+        
 
         // авторизация не удалась
         if ( is_wp_error($user) ) {
-	        echo $user->get_error_message();
-        } else{
-            echo $user->name;
+            wp_die($user->get_error_message(),'Ошибка авторизации', ['response' => 401 ]);
         }
+        
+        echo 'http://secure/information_system';
         wp_die();
     }
 

@@ -31,4 +31,21 @@ $emblem_ico = $resources->get_emblem_icon();
     </div>
 </div>
 
+<!-- ОКНО УВЕДОМЛЕНИЯ -->
+<div class="appdialog" id="login_ref__notif">
+    <div class="appdialog__window" id="login_ref__notif_window">
+        <div class="appdialog__header">
+            <h3 class="appdialog__header_title" id="login_ref__notif__header_title">Уведомление</h3>
+            <a class="appdialog__header_close" href="#">
+                <span>&#10006;</span> </a>
+        </div>
+        <div class="appdialog__content">
+            <div class="appdialog__notif_content" id="login_ref__notif_content"></div>
+            <div class="appdialog__finish_buttons">
+                <button class="appdialog__notify_button">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php wp_footer();?>

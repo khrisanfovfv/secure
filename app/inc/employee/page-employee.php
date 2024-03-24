@@ -72,25 +72,24 @@ $prefix = $wpdb->prefix;
                     </thead>
                     <tbody>
                         <!-- Выводим строки таблицы -->
+        
                         <?php
-                        $rows = $wpdb->get_results(
-                            $wpdb->prepare("SELECT employee.id, employee.user_login, employee.user_email FROM {$prefix}users employee"),
-                            ARRAY_A
-                        );
-                        for ($i = 0; $i < count($rows); $i++) {
-                            $row = $rows[$i];
+                        $users = get_users();
+                        $ind = 1;
+                        foreach ($users as $user) {
+                        
                         ?>
                             <tr class="employee_ref__table_row">
-                                <td class="id hide"><?php echo $row["id"] ?></td>
-                                <td><?php echo $i + 1 ?></td>
-                                <td><?php echo $row["user_login"] ?></td>
+                                <td class="id hide"><?php echo $user->id ?></td>
+                                <td><?php echo $ind + 1 ?></td>
+                                <td><?php echo $user->user_login ?></td>
+                                <td><?php echo $user->first_name ?></td>
+                                <td><?php echo $user->last_name ?></td>
+                                <td><?php echo $user->middle_name ?></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td><?php echo $row["user_email"] ?></td>
-                                <td></td>
+                                <td><?php echo $user->user_email ?></td>
+                                <td><?php echo $user->state ?></td>
                             </tr>
 
                         <?php
