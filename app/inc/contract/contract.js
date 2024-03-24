@@ -159,22 +159,18 @@ function card_contract_load_data(data, openMode) {
         case OpenMode.Edit: $('#contract_card__id').text(cardData[0].id); break;
         case OpenMode.Copy: $('#contract_card__id').text(''); break;
     }
-    // if (openMode == OpenMode.Copy) {
-    //     $('#contract_card__fullName').val(cardData[0].fullname + ' - Копия');
-    // }
-    // else {
-    //     $('#contract_card__fullName').val(cardData[0].fullname.replace(/\\"/g, '"'));
-    // }
-    // $('#contract_card__briefName').val(cardData[0].briefname.replace(/\\"/g, '"'));
-    // $('#contract_card__boss').val(cardData[0].boss);
-    // $('#contract_card__inn').val(cardData[0].inn);
-    // $('#contract_card__kpp').val(cardData[0].kpp);
-    // $('#contract_card__ogrn').val(cardData[0].ogrn);
-    // $('#contract_card__okpo').val(cardData[0].okpo);
-    // $('#contract_card__postAddress').val(cardData[0].postAddress.replace(/\\"/g, '"'));
-    // $('#contract_card__legalAddress').val(cardData[0].legalAddress.replace(/\\"/g, '"'));
-    // $('#contract_card__email').val(cardData[0].email);
-    // $('#contract_card__state').val(cardData[0].state);
+    if (openMode == OpenMode.Copy) {
+        $('#contract_card__subject').val(cardData[0].contract_subject + ' - Копия');
+    }
+    else {
+        $('#contract_card__subject').val(cardData[0].contract_subject.replace(/\\"/g, '"'));
+    }
+    $('#contract_card__number').val(cardData[0].contract_number);
+    $('#contract_card__conclusionDate').val(cardData[0].conclusionDate);
+    $('#contract_card__type').val(cardData[0].contract_type);
+    $('#contract_card__link').val(cardData[0].link);
+    $('#contract_card__state').val(cardData[0].contract_state);
+   
 }
 
 
@@ -240,7 +236,7 @@ function contract_card_binding_events() {
         contract__chose_tab(e);
     })
 
-    /** ==============Карточка Организации: НАЖАТИЕ КНОПКИ OK ============= */
+    /** ==============Карточка КОНТРАКТА: НАЖАТИЕ КНОПКИ OK ============= */
     $('#contract_card__OK ').on('click', function (e) {
         contract_card_press_OK(e.target);
         //$(e.target).parents('.appdialog').css('display', 'none');
@@ -303,17 +299,12 @@ function contract_card_press_OK(sender) {
         //alert($('#contract_card__fullName').val())
         record = {
             id: $('#contract_card__id').text(),
-            fullname: $('#contract_card__fullName').val(),
-            briefname: $('#contract_card__briefName').val(),
-            boss: $('#contract_card__boss').val(),
-            inn: $('#contract_card__inn').val(),
-            kpp: $('#contract_card__kpp').val(),
-            ogrn: $('#contract_card__ogrn').val(),
-            okpo: $('#contract_card__okpo').val(),
-            postAddress: $('#contract_card__postAddress').val(),
-            legalAddress: $('#contract_card__legalAddress').val(),
-            email: $('#contract_card__email').val(),
-            state: $('#contract_card__state').val(),
+            contract_subject: $('#contract_card__subject').val(),
+            contract_number: $('#contract_card__number').val(),
+            conclusionDate: $('#contract_card__conclusionDate').val(),
+            contract_type: $('#contract_card__type').val(),
+            link: $('#contract_card__link').val(),
+            contract_state: $('#contract_card__state').val(),
         }
         if ($('#contract_card__id').text() == '') {
             // ДОБАВЛЯЕМ значение в базу
@@ -334,7 +325,7 @@ function contract_card_press_OK(sender) {
                 action: 'update_contract',
                 record: record
             };
-
+            
             jQuery.post(MainData.ajaxurl, data, function (textStatus) {
                 contract_load_records();
             }).fail(function () {
@@ -348,28 +339,31 @@ function contract_card_press_OK(sender) {
 }
 
 function contract_card__check_fields() {
+    alert('Работае')
     var message = '';
-    // // Карточка Организации. Поле Полное наименование
-    if ($('#contract_card__fullName').val().trim() == '') {
-        $('#contract_card__fullName').addClass('red_border');
-        message += "Не заполнено обязательное поле: Полное наименование <br \/>";
+    // Карточка Контракта. Поле Предмет контракта
+    if ($('#contract_card__subject').val().trim() == '') {
+        $('#contract_card__subject').addClass('red_border');
+        message += "Не заполнено обязательное поле: Предмет контракта <br \/>";
     }
     else {
-        $('#contract_card__fullName').removeClass('red_border');
+        $('#contract_card__subject').removeClass('red_border');
     }
-    if ($('#contract_card__briefName').val().trim() == '') {
-        $('#contract_card__briefName').addClass('red_border');
-        message += "Не заполнено обязательное поле: Краткое наименование  <br \/>";
-    }
-    else {
-        $('#contract_card__briefName').removeClass('red_border');
-    }
-    if ($('#contract_card__email').val().trim() == '') {
-        $('#contract_card__email').addClass('red_border');
-        message += " Не заполнено обязательное поле: email <br \/>";
+    // Карточка Контракта. Поле Номер контракта
+    if ($('#contract_card__number').val().trim() == '') {
+        $('#contract_card__number').addClass('red_border');
+        message += "Не заполнено обязательное поле: Номер контракта  <br \/>";
     }
     else {
-        $('#contract_card__email').removeClass('red_border');
+        $('#contract_card__number').removeClass('red_border');
+    }
+    // Карточка Контракта. Поле Дата заключения контракта
+    if ($('#contract_card__conclusionDate').val().trim() == '') {
+        $('#contract_card__conclusionDate').addClass('red_border');
+        message += " Не заполнено обязательное поле: Дата заключения контракта <br \/>";
+    }
+    else {
+        $('#contract_card__conclusionDate').removeClass('red_border');
     }
 
     if (message == '') {
@@ -384,6 +378,11 @@ function contract_card__check_fields() {
         return false;
     }
 }
+
+/**
+ * ====================== КОНТРАКТЫ.ЗАГРУЗКА ЗАПИСЕЙ  ===================
+ * @param {string} textStatus 
+ */
 function contract_load_records(textStatus = '') {
     var data = {
         action: 'load_contract',

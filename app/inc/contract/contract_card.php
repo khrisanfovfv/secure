@@ -28,20 +28,20 @@ $document_icons = $resources->get_document_icons();
                                 <!-- ИД -->
                                 <p class="hide" id="contract_card__id"></p>
                                 <!-- Предмет Контракта-->
-                                <label for="contract_subject">Предмет Контракта</label>
-                                <textarea id="contract_subject" size="80" rows="3"></textarea>
+                                <label for="contract_card__subject">Предмет Контракта</label>
+                                <textarea id="contract_card__subject" size="80" rows="3"></textarea>
                                 <!-- Номер контракта-->
-                                <label for="contract_number">Номер контракта</label>
-                                <input id="contract_card__contract_number" type="text" >
+                                <label for="contract_card__number">Номер контракта</label>
+                                <input id="contract_card__number" type="text" >
                                 <!--Дата заключения-->
-                                <label for="conclusionDate" id="contract_card__conclusionDate_title">Дата заключения</label>
+                                <label for="contract_card__conclusionDate" id="contract_card__conclusionDate_title">Дата заключения</label>
                                 <input type="date" id="contract_card__conclusionDate">
                                 <!--Тип контракта-->
-                                <label for="contract_type">Тип контракта</label>
-                                <select id="contract_card__contract_type">
-                                    <option value="single">Поддержка</option>
-                                    <option value="group">Развитие</option>
-                                    <option value="corporate">Аттестация</option>
+                                <label for="contract_card__type">Тип контракта</label>
+                                <select id="contract_card__type">
+                                    <option value="Support">Поддержка</option>
+                                    <option value="Develop">Развитие</option>
+                                    <option value="Certification">Аттестация</option>
                                 </select>
                                 <!-- Состояние -->
                                 <label for="contract_card__state" id="contract_card__state_title">Состояние</label>

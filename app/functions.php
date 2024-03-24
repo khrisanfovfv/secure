@@ -9,11 +9,6 @@
     $user = wp_get_current_user();
     
     /**
-     * ПРИВЯЗЫВАЕМ ШАБЛОНЫ К СТРАНИЦАМ
-     */
-    add_filter( 'template_include', 'tie_template' );
-
-    /**
      * ============ ДОБАВЛЕНИЕ ПОЛЕЙ К НАСТРОЙКАМ ПОЛЬЗОВАТЕЛЯ ==============
      */
     add_action( 'show_user_profile', 'extra_user_profile_fields' );

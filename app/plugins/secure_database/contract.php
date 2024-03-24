@@ -100,7 +100,7 @@ class Contract{
                 'conclusionDate' => '2022-01-02',
                 'contract_subject' => 'Сопровождение АСЭД в 2024 г.',
                 'contract_type' => 'Support',
-                'link' => 'ssilka',
+                'link' => 'https://ya.ru/',
                 'contract_state' => 'Active',
             ),
             array(

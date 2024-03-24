@@ -112,7 +112,18 @@ class SecDb
          add_action('wp_ajax_search_organization_extended', array('Organization','secure_search_organization_extended'));
          add_action('wp_ajax_nopriv_search_organization_extended', array('Organization','secure_search_organization_extended'));
          //Контракты
-         
+         add_action('wp_ajax_load_contract', array('Contract', 'secure_load_contract'));
+         add_action('wp_ajax_nopriv_load_contract', array('Contract', 'secure_load_contract'));
+         add_action('wp_ajax_add_contract', array('Contract', 'secure_add_contract'));
+         add_action('wp_ajax_nopriv_add_contract', array('Contract', 'secure_add_contract'));
+         add_action('wp_ajax_update_contract', array('Contract','secure_update_contract'));
+         add_action('wp_ajax_nopriv_update_contract', array('Contract','secure_update_contract'));
+         add_action('wp_ajax_delete_contract', array('Contract', 'secure_delete_contract'));
+         add_action('wp_ajax_nopriv_delete_contract', array('Contract', 'secure_delete_contract'));
+         add_action('wp_ajax_search_contract', array('Contract','secure_search_contract'));
+         add_action('wp_ajax_nopriv_search_contract', array('Contract','secure_search_contract'));
+         add_action('wp_ajax_search_contract_extended', array('Contract','secure_search_contract_extended'));
+         add_action('wp_ajax_nopriv_search_contract_extended', array('Contract','secure_search_contract_extended'));
         // ИНФОРМАЦИОННЫЕ СИСТЕМЫ
         add_action('wp_ajax_load_information_system', array('InformationSystem', 'secure_load_information_system'));
         add_action('wp_ajax_nopriv_load_information_system', array('InformationSystem', 'secure_load_information_system'));
