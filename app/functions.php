@@ -64,11 +64,13 @@
     /**
      * ================================ ПРИВЯЗКА ШАБЛОНОВ К СТРАНИЦАМ ===============================
      */
+    add_filter('template_include', 'tie_template'); 
+     
     function tie_template( $template ) {
         global $post;
         $slug = $post->post_name;
         switch ($slug){
-            case 'login' : $new_template = locate_template(array('inc/login/page-login.php' )); break;
+            case 'login' : $new_template = locate_template(array('inc/login/page-login.php')); break;
             case 'information_system' : $new_template = locate_template(array('inc/information_system/page-information_system.php')); break;
             case 'department' : $new_template = locate_template(array('inc/department/page-department.php')); break;
             case 'document' : $new_template = locate_template(array('inc/document/page-document.php')); break;

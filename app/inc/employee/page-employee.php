@@ -74,20 +74,27 @@ $prefix = $wpdb->prefix;
                         <!-- Выводим строки таблицы -->
         
                         <?php
+                        // sec_user и sec_usermeta - системные таблицы, на случай если что поменяется в структуре 
+                        // напрямую запрос к этим таблицам не делаем
+                        // используем системную функцию get_users
                         $users = get_users();
                         $ind = 1;
-                        foreach ($users as $user) {
                         
+                        foreach ($users as $user) {
+                            // Подставляем значение поля Организация
+                            $organization = $wpdb->get_var( $wpdb->prepare("SELECT fullname FROM {$prefix}organization WHERE id = %d", $user->organization));
+                            // Подставляем значение поля Отдел
+                            $department = $wpdb->get_var( $wpdb->prepare("SELECT name FROM {$prefix}department WHERE id = %d", $user->department));
                         ?>
                             <tr class="employee_ref__table_row">
                                 <td class="id hide"><?php echo $user->id ?></td>
-                                <td><?php echo $ind + 1 ?></td>
+                                <td><?php echo $ind++ ?></td>
                                 <td><?php echo $user->user_login ?></td>
                                 <td><?php echo $user->first_name ?></td>
                                 <td><?php echo $user->last_name ?></td>
                                 <td><?php echo $user->middle_name ?></td>
-                                <td></td>
-                                <td></td>
+                                <td><?php echo $organization ?></td>
+                                <td><?php echo $department ?></td>
                                 <td><?php echo $user->user_email ?></td>
                                 <td><?php echo $user->state ?></td>
                             </tr>
