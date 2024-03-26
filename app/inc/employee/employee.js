@@ -1,12 +1,12 @@
 // var employee_icons = JSON.parse(MainData.employee_icons);
 // var byteArray = [];
 
-// /** 
-//  * ====================== ОДИНОЧНЫЙ КЛИК НА СТРОКУ ТАБЛИЦЫ =======================
-// */
-// $('#employee_ref__table tbody tr').on('click', function (e) {
-//     reference.highlight(e);
-// })
+/** 
+ * ====================== ОДИНОЧНЫЙ КЛИК НА СТРОКУ ТАБЛИЦЫ =======================
+*/
+$('#employee_ref__table tbody tr').on('click', function (e) {
+    reference.highlight(e);
+})
 
 // /** 
 //  * ======================== ДВОЙНОЙ КЛИК НА СТРОКУ ТАБЛИЦЫ ======================= 
@@ -181,24 +181,24 @@
 //     }
 // }
 
-// /**
-//  * =========================== ЗАГРУЗКА ЗАПИСЕЙ СПРАВОЧНИКА ===========================
-//  */
-// function employee_load_records() {
-//     var data = {
-//         action: 'load_employee',
-//     };
+/**
+ * =========================== ЗАГРУЗКА ЗАПИСЕЙ СПРАВОЧНИКА ===========================
+ */
+function employee_load_records() {
+    var data = {
+        action: 'load_employee',
+    };
 
-//     jQuery.post(MainData.ajaxurl, data, function (result) {
-//         var records = JSON.parse(result);
-//         employee_update_reference(records);
-//     }).fail(function (jqXHR, textStatus, errorThrown) {
-//         var size = { width: 500, height: 200 };
-//         var message = 'Во время удаления записи произошла ошибка ' + textStatus + ' ' + errorThrown;
-//         reference.show_notification('#employee_ref', 'Ошибка', size, message);
-//     });
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var records = JSON.parse(result);
+        employee_update_reference(records);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        var message = 'Во время удаления записи произошла ошибка ' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#employee_ref', 'Ошибка', size, message);
+    });
 
-// }
+}
 
 // /**
 //  *  ================================== ОБЩИЙ ПОИСК =======================================
@@ -285,12 +285,12 @@
 //     employee_delete_record();
 // });
 
-// /** 
-//  * ========================= НАЖАТИЕ КНОПКИ ОБНОВИТЬ ===============================
-//  */
-// $('#employee_ref__update').on('click', function () {
-//     employee_load_records();
-// })
+/** 
+ * ========================= НАЖАТИЕ КНОПКИ ОБНОВИТЬ ===============================
+ */
+$('#employee_ref__update').on('click', function () {
+    employee_load_records();
+})
 
 
 
@@ -546,28 +546,31 @@
 //     })
 // }
 
-// /**
-//  *  ========================= ОБНОВЛЕНИЕ СПРАВОЧНИКА ===========================
-//  * @param {Object} records 
-//  */
-// function employee_update_reference(records) {
-//     var ind = 1;
-//     $('#employee_ref__table tbody tr').remove();
-//     records.forEach(record => {
-//         $('#employee_ref__table tbody').append(
-//             $("<tr class='employee_ref__table_row'>")
-//                 .append($("<td class='id hide'>").text(record["id"]))
-//                 .append($("<td>").text(ind++))
-//                 .append($("<td>").text(record["number"]))
-//                 .append($("<td>").text(record["employeedate"]))
-//                 .append($("<td style='text-align: left;'>").text(record["name"]))
-//                 .append($("<td>").text(record["employee_kind"]))
-//                 .append($("<td>").text(reference.get_state(record["state"])))
-//         ).on('click', function (e) {
-//             reference.highlight(e);
-//         })
-//     });
-// }
+/**
+ *  ========================= ОБНОВЛЕНИЕ СПРАВОЧНИКА ===========================
+ * @param {Object} records 
+ */
+function employee_update_reference(records) {
+    var ind = 1;
+    $('#employee_ref__table tbody tr').remove();
+    records.forEach(record => {
+        $('#employee_ref__table tbody').append(
+            $("<tr class='employee_ref__table_row'>")
+                .append($("<td class='id hide'>").text(record["id"]))
+                .append($("<td>").text(ind++))
+                .append($("<td>").text(record["login"]))
+                .append($("<td>").text(record["last_name"]))
+                .append($("<td>").text(record["first_name"]))
+                .append($("<td>").text(record["middle_name"]))
+                .append($("<td>").text(record["organization_name"]))
+                .append($("<td>").text(record["department_name"]))
+                .append($("<td>").text(record["email"]))
+                .append($("<td>"))
+        ).on('click', function (e) {
+            reference.highlight(e);
+        })
+    });
+}
 
 // /**
 //  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ДОКУМЕНТА ============ 

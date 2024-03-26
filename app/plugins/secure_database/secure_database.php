@@ -26,6 +26,7 @@ require_once('information_system.php');
 require_once('contract.php');
 require_once('organization.php');
 require_once('document.php');
+require_once('employee.php');
 
 class SecDb
 {
@@ -36,6 +37,7 @@ class SecDb
     protected $administrator;
     protected $organization;
     protected $document;
+    protected $employee;
     function __construct()
     {
         
@@ -50,6 +52,7 @@ class SecDb
         $this->administrator = new Administrator();
         $this->organization = new Organization();
         $this->document = new Document();
+        $this->employee = new Employee();
         
         //add_action( 'plugins_loaded', array($this, 'myplugin_update_db_check'));
     }
@@ -153,7 +156,19 @@ class SecDb
         add_action('wp_ajax_nopriv_search_document', array('Document','secure_search_document'));
         add_action('wp_ajax_search_document_extended', array('Document','secure_search_document_extended'));
         add_action('wp_ajax_nopriv_search_document_extended', array('Document','secure_search_document_extended'));
-
+        // СОТРУДНИКИ
+        add_action('wp_ajax_load_employee', array('Employee', 'secure_load_employee'));
+        add_action('wp_ajax_nopriv_load_employee', array('Employee', 'secure_load_employee'));
+        add_action('wp_ajax_add_employee', array('Employee', 'secure_add_employee'));
+        add_action('wp_ajax_nopriv_add_employee', array('Employee', 'secure_add_employee'));
+        add_action('wp_ajax_update_employee', array('Employee','secure_update_employee'));
+        add_action('wp_ajax_nopriv_update_employee', array('Employee','secure_update_employee'));
+        add_action('wp_ajax_delete_employee', array('Employee', 'secure_delete_employee'));
+        add_action('wp_ajax_nopriv_delete_employee', array('Employee', 'secure_delete_employee'));
+        add_action('wp_ajax_search_employee', array('Employee','secure_search_employee'));
+        add_action('wp_ajax_nopriv_search_employee', array('Employee','secure_search_employee'));
+        add_action('wp_ajax_search_employee_extended', array('Employee','secure_search_employee_extended'));
+        add_action('wp_ajax_nopriv_search_employee_extended', array('Employee','secure_search_employee_extended'));
         // ДЕТАЛЬНЫЕ РАЗДЕЛЫ
         add_action('wp_ajax_load_information_system_developpers', array('InformationSystem', 'secure_load_information_system_developpers'));
         add_action('wp_ajax_nopriv_load_information_system_developpers', array('InformationSystem', 'secure_load_information_system_developpers'));
