@@ -308,9 +308,8 @@ $('#administrator_ref__update').on('click', function () {
 /**
  * ТАБЛИЦА ИНФОРМАЦИОННЫЕ СИСТЕМЫ. НАЖАТИЕ КНОПКИ СОЗДАТЬ
  */
-$('#administrator_card__information_systems_create').on('click', function (e) {
+$('#administrator_card__information_systems_create').on('click', function () {
     administrator_information_systems_create();
-    console.log(dubl++)
 });
 
 /**
@@ -537,10 +536,6 @@ function administrator_information_systems_update() {
                 administrator_card__draw_information_system_row(information_system)
             );
         });
-        // Привязываем событи выделения строки к столюбцу №
-        /*$('.information_system_card__remarks_table_num').on('click', function(e){
-            reference.highlight(e)
-        })*/
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
@@ -556,7 +551,11 @@ function administrator_information_systems_update() {
  * ========================= ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===========================
    ============================================================================*/
 
-
+/**
+ * ============== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ ИНФОРМАЦИОННЫЕ СИСТЕМЫ ==============
+ * @param {Object} information_system 
+ * @returns  html строки
+ */
 function administrator_card__draw_information_system_row(information_system) {
     var type = [];
     type['base'] = '';
@@ -628,7 +627,7 @@ function adminisrator_card_binding_events() {
         administrator_information_systems_create();
     })
 
-    /** ============== ИНФОРМАЦИОННЫЕ СИСТЕМЫ. КНОПКА СОЗДАТЬ ============== */
+    /** ============== ИНФОРМАЦИОННЫЕ СИСТЕМЫ. КНОПКА КОПИРОВАТЬ ============== */
     $('#administrator_card__information_systems_copy').on('click', function () {
         administrator_information_systems_copy();
     })
@@ -637,7 +636,7 @@ function adminisrator_card_binding_events() {
     $('#administrator_card__information_systems_delete').on('click', function () {
         administrator_information_systems_delete();
     })
-
+    /** ============== ИНФОРМАЦИОННЫЕ СИСТЕМЫ. КНОПКА ОБНОВИТЬ ============== */
     $('#administrator_card__information_systems_update').on('click', function () {
         administrator_information_systems_update();
     })

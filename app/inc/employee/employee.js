@@ -200,27 +200,28 @@ function employee_load_records() {
 
 }
 
-// /**
-//  *  ================================== ОБЩИЙ ПОИСК =======================================
-//  * @param {string} value 
-//  */
-// function employee_common_search(value) {
-//     // Делаем ajax - запрос
-//     var data = {
-//         action: 'search_employee',
-//         value: value
-//     };
+/**
+ *  ================================== ОБЩИЙ ПОИСК =======================================
+ * @param {string} value 
+ */
+function employee_common_search(value) {
+    // Делаем ajax - запрос
+    var data = {
+        action: 'search_employee',
+        value: value
+    };
 
-//     jQuery.post(MainData.ajaxurl, data, function (result) {
-//         var records = JSON.parse(result);
-//         employee_update_reference(records);
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var records = JSON.parse(result);
+        employee_update_reference(records);
 
-//     }).fail(function (jqXHR, textStatus, errorThrown) {
-//         var size = { width: 500, height: 200 };
-//         message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
-//         reference.show_notification('#employee_ref', 'Ошибка', size, message);
-//     });
-// }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#employee_ref', 'Ошибка', size, message);
+    });
+    
+}
 
 // /**
 //  * ============================ ОТКРЫТИЕ КАРТОЧКИ РАСШИРЕННЫЙ ПОИСК =============================

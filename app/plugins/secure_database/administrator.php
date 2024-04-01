@@ -120,11 +120,13 @@ class Administrator{
      public function secure_load_card_data($id){
         global $wpdb;
         $prefix = $wpdb->prefix;
+        // Подготавливаем данные карточки
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT administrator.id, administrator.fullname,organization.id as organization_id, organization.fullname as organization_name, department.id as department_id, department.name as department_name, administrator.state FROM {$prefix}administrator administrator 
             JOIN {$prefix}organization organization on administrator.organization = organization.id 
             JOIN {$prefix}department department on administrator.department = department.id 
             WHERE administrator.id = $id"), OBJECT );
+        // Подготавливаем данные таблицы Информационные системы
         $information_system_administrator = $wpdb->get_results(
             $wpdb->prepare("SELECT inf_sys_adm.id,inf_sys_adm.information_system_id, inf_sys.fullname as information_system_name , inf_sys_adm.appointdate, inf_sys_adm.terminatedate, inf_sys_adm.type 
             FROM {$prefix}information_system_administrator inf_sys_adm 

@@ -134,20 +134,45 @@ class Employee{
     }
 
     /**
-     * ================ ОТДЕЛЫ. ОБЩИЙ ПОИСК =================
+     * ================ СОТРУДНИКИ. ОБЩИЙ ПОИСК =================
      */
     function secure_search_employee(){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $value = $_POST['value'];
-        $wild = '%';
-        $like = $wild . $wpdb->esc_like($value) .$wild;
-        $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT employee.id, employee.name, organization.fullname as organization_name, employee.boss, employee.state FROM {$prefix}employee employee JOIN {$prefix}organization organization on employee.organization_id = organization.id 
-            WHERE employee.name LIKE %s 
-            OR organization.fullname LIKE %s
-            OR employee.boss LIKE %s
-            ", array($like, $like, $like)), ARRAY_A);
+        $value = mb_strtolower($_POST['value']);
+        $results = array();
+        // Преобразуем массив объектов в двумерный массив
+        $users = get_users();
+        foreach($users as $user){
+            $exist = false;
+            // Значение поля Организация
+            $organization_name = $wpdb->get_var( $wpdb->prepare("SELECT fullname FROM {$prefix}organization WHERE id = %d", $user->organization));
+            // Значение поля Отдел
+            $department_name = $wpdb->get_var( $wpdb->prepare("SELECT name FROM {$prefix}department WHERE id = %d", $user->department));
+            // Проверяем есть ли совпадения
+            // здесь именно !==, т.к. 0 интерпретируется как false
+            if (strpos(mb_strtolower($user->user_login),$value)!==false){ $exist = true;};
+            if (strpos(mb_strtolower($user->last_name),$value)!==false){ $exist = true;};
+            if (strpos(mb_strtolower($user->first_name),$value)!==false){ $exist = true;};
+            if (strpos(mb_strtolower($user->middle_name),$value)!==false){ $exist = true;};
+            if (strpos(mb_strtolower($organization_name),$value)!==false){ $exist = true;};
+            if (strpos(mb_strtolower($department_name),$value)!==false){ $exist = true;};
+            if (strpos(mb_strtolower($user->user_email),$value)!==false){ $exist = true;};
+            
+            // Если совпадение есть выводим данные о пользователе
+            if ($exist == true){
+                $employee = array();
+                $employee['login'] = $user->user_login;
+                $employee['first_name'] = $user->first_name;
+                $employee['middle_name'] = $user->middle_name;
+                $employee['last_name'] = $user->last_name;
+                $employee['organization_name'] = $organization_name;
+                $employee['department_name'] = $department_name;
+                $employee['email'] = $user->user_email;
+                array_push($results, $employee);
+            }
+        }
+        
         echo json_encode($results);
         wp_die();
     }

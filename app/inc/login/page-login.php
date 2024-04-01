@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Мой шаблон страницы
+Template Name: Шаблон формы логина
 */
 
 // Если пользователь зашел в систему то перекидываем его на главную страницу
@@ -9,6 +9,7 @@ if (is_user_logged_in()){
     die();
 }
 wp_head();
+// Выводим адрес эмблемы формы
 require_once(wp_normalize_path(get_template_directory()) . '/common.php');
 $resources = new Resources();
 $emblem_ico = $resources->get_emblem_icon();

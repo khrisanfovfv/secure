@@ -4,6 +4,12 @@
  * Post Template: Administrator
  */
 
+ // Если пользователь не зашел в систему то перекидываем его на страницу авторизации
+if (!is_user_logged_in()){
+    header("Location: http://secure/login");
+    die();
+}
+
 
 require_once(wp_normalize_path(get_template_directory()) . '/common.php');
 $resources = new Resources();
@@ -158,7 +164,6 @@ $prefix = $wpdb->prefix;
 <script>
     // Стек для передачи данных между окнами
     stack = [];
-    dubl = 0;
 </script>
 
 <?php get_footer() ?>

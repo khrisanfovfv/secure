@@ -427,6 +427,7 @@ function organization_ref_binding_events() {
         reference.highlight(e);
     });
 
+    /** ===================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ====================== */
     $('#organization_ref__select').on('click', function (e) {
         organization_select_record(e);
     })

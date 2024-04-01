@@ -130,9 +130,6 @@
     /**
      * ====================== АВТОРИЗАЦИЯ ПОЛЬЗОВАТЕЛЯ ========================
      */
-    
-    // Оставляем пользователя на той же станице при ошибке 
-    add_action( 'wp_login_failed', 'my_front_end_login_fail' );
     function secure_login(){
         $record =  $_POST['record'];
         $creds = array();

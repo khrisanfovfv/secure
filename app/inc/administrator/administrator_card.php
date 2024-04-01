@@ -55,7 +55,7 @@ $button_icons = $resources->get_button_icons();
                     <p>Удалить</p>
                 </button>
                 <button class="reference__button" id="administrator_card__information_systems_excel">
-                    <img src="<?php echo $button_icons->excel ?>" alt="Удалить">
+                    <img src="<?php echo $button_icons->excel ?>" alt="Excel">
                     <p>Эл. таб</p>
                 </button>
             </div>

@@ -78,6 +78,7 @@ $(function () {
                 case 'administrator' : administrator_common_search(value); break;
                 case 'organization' : organization_common_search(value); break;
                 case 'information_system' : information_system_common_search(value); break;
+                case 'employee' : employee_common_search(value); break;
             }
             
         }
