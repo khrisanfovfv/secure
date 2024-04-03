@@ -339,7 +339,7 @@ function contract_card_press_OK(sender) {
 }
 
 function contract_card__check_fields() {
-    alert('Работае')
+
     var message = '';
     // Карточка Контракта. Поле Предмет контракта
     if ($('#contract_card__subject').val().trim() == '') {
@@ -414,11 +414,12 @@ function contract_update_reference(records) {
             $("<tr class='contract_ref__table_row'>")
                 .append($("<td class='id hide'>").text(record["id"]))
                 .append($("<td>").text(ind++))
-                .append($("<td>").text(record["briefname"].replace(/\\"/g, '"')))
-                .append($("<td style='text-align: left'>").text(record["fullname"].replace(/\\"/g, '"')))
-                .append($("<td>").text(record["boss"]))
-                .append($("<td>").text(record["email"]))
-                .append($("<td>").text(reference.get_state(record["state"])))
+                .append($("<td>").text(record["contract_number"]))
+                .append($("<td>").text(record["conclusionDate"]))
+                .append($("<td style='text-align: left'>").text(record["contract_subject"].replace(/\\"/g, '"')))
+                .append($("<td>").text(record["contract_type"]))	
+                .append($("<td>").text(record["link"]))
+                .append($("<td>").text(reference.get_state(record["contract_state"])))
         ).on('click', function (e) {
             reference.highlight(e);
         }).on('dblclick', function () {

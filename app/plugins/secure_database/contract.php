@@ -163,17 +163,17 @@ class Contract{
         }
 
 
-//     /**
-//      * ================ ПОЛУЧЕНИЕ ЗАПИСИ ТАБЛИЦЫ ИНФОРМАЦИОННЫЕ СИСТЕМЫ =================
-//      */
-//     public function secure_load_contract(){
-//         global $wpdb;
-//         $prefix = $wpdb->prefix;
-//         $results = $wpdb->get_results( 
-//             $wpdb->prepare("SELECT * FROM sec_contract"), ARRAY_A );
-//         echo json_encode($results);
-//         wp_die();
-//     }
+    /**
+     * ================ ПОЛУЧЕНИЕ ЗАПИСИ ТАБЛИЦЫ КОНТРАКТЫ =================
+     */
+    public function secure_load_contract(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}contract"), ARRAY_A );
+        echo json_encode($results);
+        wp_die();
+    }
 
     /**
      * ============================ ЗАГРУЗКА ДАННЫХ КАРТОЧКИ ===============================
@@ -258,41 +258,35 @@ class Contract{
 //         ;
 //     }
 
-//     /** 
-//      * ====================== ОБНОВЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ==========================
-//      */
-//     function secure_update_contract(){
-//         global $wpdb;
-//         $prefix = $wpdb->prefix;
-//         $record = $_POST['record'];
+    /** 
+     * ====================== ОБНОВЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ==========================
+     */
+    function secure_update_contract(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $record = $_POST['record'];
 
-//         $wpdb->update(
-//             $prefix.'contract',
-//             array(
-//                 'fullname' => $record['fullname'],
-//                 'briefname' => $record['briefname'],
-//                 'significancelevel' => $record['significancelevel'],
-//                 'scope' => $record['scope'],
-//                 'certified' => $record['certified'],
-//                 'certifydate' => $record['certifydate'],
-//                 'hasremark' => $record['hasremark'],
-//                 'commissioningdate' => $record['commissioningdate'],
-//                 'state' => $record['state']
-//             ),
-//             array( 'ID' => $record['id'] ),
-//             array(
-//                 '%s', // fullname
-//                 '%s', // briefname
-//                 '%s', // significancelevel
-//                 '%s', // scope
-//                 '%d', // certified
-//                 '%s', // certifydate
-//                 '%d', // hasremark
-//                 '%s', // commissioningdate
-//                 '%s'  // state
-//             ),
-//             array( '%d' )
-//         );
+        $wpdb->update(
+            $prefix.'contract',
+            array(
+                'contract_subject' => $record['contract_subject'],
+                'contract_number' => $record['contract_number'],
+                'conclusionDate' => $record['conclusionDate'],
+                'contract_type' => $record['contract_type'],
+                'link' => $record['link'],
+                'contract_state' => $record['contract_state'],
+            ),
+            array( 'ID' => $record['id'] ),
+            array(
+                '%s', // contract_subject
+                '%s', // contract_number
+                '%s', // conclusionDate
+                '%s', // contract_type
+                '%s', // link
+                '%s' // contract_state
+            ),
+            array( '%d' )
+        );
 //         // Обновляем записи в детальном разделе Замечания по аттестации
 //         // Убираем символы экранирования '/'
 //         $remarks_json = stripcslashes($record['remarks']);
@@ -325,10 +319,12 @@ class Contract{
 //                 InformationSystem::secure_update_administrator($administrator);
 //             }
 //         }
-        
-//         echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
-//         wp_die();
-//     }
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка при обновлении записи', array('responce'=>500));
+        } 
+        echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
+        wp_die();
+    }
 
 //     /**
 //      * ============== УДАЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ===============
