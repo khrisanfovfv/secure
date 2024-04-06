@@ -110,7 +110,8 @@ var reference = {
             case '#document_version_list' : card = 'document_version_card'; break;
             case '#information_system_card__documents' : card = 'document_card'; break;
             case '#contract_ref' : card = 'contract_card'; break;
-            case '#footer_ref' : card = 'profile_card'; break;
+            case '#footer_ref' : card = 'employee_card'; break;
+            case '#employee_ref' : card = 'employee_card' ; break;
 
             // КАРТОЧКИ ПОИСКА
             case '#document_kind_ref_search' : card = 'document_kind_search'; break;
@@ -134,6 +135,7 @@ var reference = {
                 case '#document_ref' : document_card_binging_events(); break;
                 case '#document_kind_ref' : document_kind_card_binging_events(); break;
                 case '#contract_ref' : contract_card_binding_events(); break;
+                case '#employee_ref' : employee_card_binging_events(); break;
             }
         } else {
             switch(detail){
@@ -187,6 +189,7 @@ var reference = {
                     case '#administrator_ref': card_administrator_load_data(result, openMode); break;
                     case '#organization_ref': card_organization_load_data(result, openMode); break;
                     case '#contract_ref': card_contract_load_data(result, openMode); break;
+                    case '#employee_ref' : card_employee_load_data(result, openMode); break;
                     // Детальные разделы
                     case '#information_system_card__documents' : card_document_load_data(result, openMode); break; 
                 }
@@ -328,6 +331,16 @@ var reference = {
             }
         }
     },
+    // Проверяем не является ли поле пустым
+    check_empty_field(field_id, field_name, message ){
+        if ($('#'+ field_id).val().trim() == '') {
+            $('#'+ field_id).addClass('red_border');
+            message += 'Не заполнено обязательное поле '+ field_name + '<br \/>';
+        } else {
+            $('#'+field_id).removeClass('red_border');
+        }
+        return message
+    }
 
 
 }    

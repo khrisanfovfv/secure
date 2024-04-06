@@ -8,38 +8,13 @@ $('#employee_ref__table tbody tr').on('click', function (e) {
     reference.highlight(e);
 })
 
-// /** 
-//  * ======================== ДВОЙНОЙ КЛИК НА СТРОКУ ТАБЛИЦЫ ======================= 
-// */
-// $('#employee_ref__table tbody tr').on('dblclick', function () {
-//     employee_edit_record();
-// })
+/** 
+ * ======================== ДВОЙНОЙ КЛИК НА СТРОКУ ТАБЛИЦЫ ======================= 
+*/
+$('#employee_ref__table tbody tr').on('dblclick', function () {
+    employee_edit_record();
+})
 
-// /**
-//  * =========== ВЫБОР ВКЛАДОК НА КАРТОЧКЕ ДОКУМЕНТ =====================
-//  * */
-// function employee__chose_tab(e) {
-//     e.preventDefault();
-//     var el = $(e.target)
-//     // Если щелкнули на элементе внутри .tabs__item
-//     if (!el.hasClass('tabs__item')) {
-//         el = el.parents('.tabs__item');
-//     }
-//     // Список имеющихся вкладок
-//     var card_tabs = ['general', 'send_list'];
-
-//     // Устанавливаем класс tabs__highlighted у выбранной вкладки
-//     $('.tabs__item').removeClass('tabs__highlighted');
-//     $(el).addClass('tabs__highlighted');
-
-//     /* Скрываем все вкладки */
-//     card_tabs.forEach(item => {
-//         $('.employee_card__' + item).addClass('hide');
-//     });
-//     /* Показываем выбранную */
-//     tab = $(el).children().attr('href');
-//     $(tab).removeClass('hide');
-// }
 
 
 // async function getAsByteArray(file) {
@@ -64,8 +39,9 @@ $('#employee_ref__table tbody tr').on('click', function (e) {
 //  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ДОКУМЕНТА =========================
 //  */
 
-// function employee_card_press_OK(sender) {
-//     if (employee_card__check_fields()) {
+function employee_card_press_OK(sender) {
+    if (employee_card__check_fields()) {
+        alert('Проверка прошла!')
         
 //         // Детальный раздел версии
 //         var rows = $('#employee_card__version_list li');
@@ -156,30 +132,27 @@ $('#employee_ref__table tbody tr').on('click', function (e) {
 //                 reference.show_notification('employee_ref', 'Ошибка', size, message);
 //             })
 //         }
-//         $(sender).parents('.appdialog').css('display', 'none');
-//     }
-// }
+        $(sender).parents('.appdialog').css('display', 'none');
+    }
+}
 
-// /**
-//  * ===================== ПРОВЕРЯЕМ ЗАПОЛНЕННОСТЬ ОБЯЗАТЕЛЬНЫХ ПОЛЕЙ КАРТОЧКИ =======================
-//  */
-// function employee_card__check_fields() {
-//     var message = ''
-//     if ($('#employee_card__name').val().trim() == '') {
-//         $('#employee_card__name').addClass('red_border');
-//         message += 'Не заполнено обязательное поле Наименование <br \/>';
-//     } else {
-//         $('#employee_card__name').removeClass('red_border');
-//     }
-//     if (message == ''){
-//         return true;
-//     }else{
-//         // Отправляем уведомление
-//         var size = { width: 400, height: 200 };
-//         reference.show_notification('#employee_ref', 'Предупреждение', size, message);
-//         return false;
-//     }
-// }
+/**
+ * ===================== ПРОВЕРЯЕМ ЗАПОЛНЕННОСТЬ ОБЯЗАТЕЛЬНЫХ ПОЛЕЙ КАРТОЧКИ =======================
+ */
+function employee_card__check_fields() {
+    var message = ''
+    message = reference.check_empty_field('employee_card__login','Логин', message);
+    message = reference.check_empty_field('employee_card__lastname','Фамилия', message);
+    message = reference.check_empty_field('employee_card__firstname','Имя', message);
+    if (message == ''){
+        return true;
+    }else{
+        // Отправляем уведомление
+        var size = { width: 400, height: 200 };
+        reference.show_notification('#employee_ref', 'Предупреждение', size, message);
+        return false;
+    }
+}
 
 /**
  * =========================== ЗАГРУЗКА ЗАПИСЕЙ СПРАВОЧНИКА ===========================
@@ -223,38 +196,38 @@ function employee_common_search(value) {
     
 }
 
-// /**
-//  * ============================ ОТКРЫТИЕ КАРТОЧКИ РАСШИРЕННЫЙ ПОИСК =============================
-//  */
-// function employee_extended_search() {
-//     size = { width: 600, height: 500 };
-//     prefix = '#employee_ref';
-//     title = 'Расширенный поиск';
-//     // Загружаем карточку
-//     var data = {
-//         action: 'load_card',
-//         card: 'employee_search'
-//     };
-//     reference.show_dialog(prefix, size, title);
-//     jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-//         $(prefix + '__dialog_content').html(textStatus);
-//         employee_search_binding_events();
+/**
+ * ============================ ОТКРЫТИЕ КАРТОЧКИ РАСШИРЕННЫЙ ПОИСК =============================
+ */
+function employee_extended_search() {
+    size = { width: 600, height: 500 };
+    prefix = '#employee_ref';
+    title = 'Расширенный поиск';
+    // Загружаем карточку
+    var data = {
+        action: 'load_card',
+        card: 'employee_search'
+    };
+    reference.show_dialog(prefix, size, title);
+    jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+        $(prefix + '__dialog_content').html(textStatus);
+        employee_search_binding_events();
 
-//     }).fail(function (jqXHR, textStatus, errorThrown) {
-//         var size = { width: 500, height: 200 };
-//         message = 'Во время загрузки карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
-//         reference.show_notification('#employee_ref', 'Ошибка', size, message);
-//     });
-// }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#employee_ref', 'Ошибка', size, message);
+    });
+}
 
 // /** КНОПКИ НА ПАНЕЛИ ДЕЙСТВИЙ */
 
-// /** 
-//  * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
-//  * */
-// $('#employee_ref__create').on('click', function () {
-//     employee_create_record();
-// });
+/** 
+ * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
+ * */
+$('#employee_ref__create').on('click', function () {
+    employee_create_record();
+});
 
 // /**
 //  * =========================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ==============================
@@ -263,12 +236,12 @@ function employee_common_search(value) {
 //     employee_select_record(e);
 // })
 
-// /**
-//  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ===========================
-//  */
-// $('#employee_ref__edit').on('click', function (e) {
-//     employee_edit_record(e);
-// })
+/**
+ * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ===========================
+ */
+$('#employee_ref__edit').on('click', function (e) {
+    employee_edit_record(e);
+})
 
 
 // /**
@@ -294,13 +267,19 @@ $('#employee_ref__update').on('click', function () {
 })
 
 
+/** 
+ * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ СОЗДАТЬ =================================
+ */
+$('#employee_ref__out_context_create').on('click', function(){
+    employee_create_record()
+})
 
-// /** 
-//  * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ =================================
-//  */
-// $('#employee_ref__context_edit').on('click', function () {
-//     employee_edit_record();
-// })
+/** 
+ * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ =================================
+ */
+$('#employee_ref__context_edit').on('click', function () {
+    employee_edit_record();
+})
 
 // /** 
 //  * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ КОПИРОВАТЬ =================================
@@ -316,17 +295,25 @@ $('#employee_ref__update').on('click', function () {
 //     employee_delete_record();
 // })
 
+/** 
+ * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ =================================
+ */
+$('#employee_ref__out_context_update').on('click', function () {
+    employee_load_records();
+})
+
+
 // /**================================================================================= 
 // * ==================================== ДЕЙСТВИЯ ==================================== 
 // * ==================================================================================*/
 
-// /**
-//  * ================================ ДОКУМЕНТ. СОЗДАТЬ =================================
-//  */
-// function employee_create_record() {
-//     var size = { width: 1000, height: 600 };
-//     reference.open_card('#employee_ref', 'Карточка Документа', size, OpenMode.Create, 0);
-// }
+/**
+ * ================================ ДОКУМЕНТ. СОЗДАТЬ =================================
+ */
+function employee_create_record() {
+    var size = { width: 800, height: 400 };
+    reference.open_card('#employee_ref', 'Карточка Сотрудника', size, OpenMode.Create, 0);
+}
 
 // /**
 //  * ======================= ДОКУМЕНТ. ВЫБРАТЬ ЗАПИСЬ =========================
@@ -346,15 +333,15 @@ $('#employee_ref__update').on('click', function () {
 //     }
 // }
 
-// /**
-//  * ================================ ДОКУМЕНТ. РЕДАКТИРОВАТЬ =================================
-//  */
-// function employee_edit_record() {
-//     rows = $('.employee_ref__table_row.highlight')
-//     var id = rows[0].children.item(0).textContent;
-//     var size = { width: 1000, height: 600 };
-//     reference.open_card('#employee_ref', 'Карточка Документа', size, OpenMode.Edit, id);
-// }
+/**
+ * ================================ СОТРУДНИКИ. РЕДАКТИРОВАТЬ =================================
+ */
+function employee_edit_record() {
+    rows = $('.employee_ref__table_row.highlight')
+    var id = rows[0].children.item(0).textContent;
+    var size = { width: 800, height: 400 };
+    reference.open_card('#employee_ref', 'Карточка Сотрудника', size, OpenMode.Edit, id);
+}
 
 // /**
 //  * ================================ ДОКУМЕНТ. КОПИРОВАТЬ =================================
@@ -375,177 +362,67 @@ $('#employee_ref__update').on('click', function () {
 //     reference.delete_record('#employee_ref', rows, 'delete_employee');
 // }
 
-// /**
-//  * ========================= СПИСОК РАССЫЛКИ. СОЗДАТЬ ===========================
-//  */
-// function employee_card__send_list_create_record(){
-//     var ind = $('#employee_card__send_list_table tbody tr').length + 1;
-//     var organization =[];
-//     organization['id'] = '';
-//     organization['ind'] = ind;
-//     organization['organization_id'] = '';
-//     organization['organization_name'] = ''
-//     organization['send_date']='';
-//     organization['is_deleted'] = 0;
-//     $('#employee_card__send_list_table tbody').append(
-//         employee_card_draw_send_list_row(organization)
-//     );
-// }
 
+/**
+ * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
+*/
+function employee_extended_search_OK() {
+    var data = {
+        action: 'search_employee_extended',
+        login: $('#employee_search__login').val(),
+        last_name: $('#employee_search__last_name').val(),
+        first_name: $('#employee_search__first_name').val(),
+        middle_name: $('#employee_search__middle_name').val(),
+        organization_id: $('#employee_search__organization').find('.id').text(),
+        department_id: $('#employee_search__department').find('.id').text(),
+        email: $('#employee_search__email').val(),
+        state: $('#employee_search__state').val()
+    };
 
-// /**
-//  * ========================= СПИСОК РАССЫЛКИ. ОБНОВИТЬ ===========================
-//  */
-// function employee_card_send_list_load_records() {
-//     var employee_id = $('#employee_card__id').text();
-//     // Загружаем детальный раздел Замечания по аттестации
-//     var data = {
-//         action: 'load_employee_send_list',
-//         employee_id: employee_id
-//     };
-//     jQuery.post(MainData.ajaxurl, data, function (result) {
-//         var rows = JSON.parse(result);
-//         $('#employee_card__send_list_table tbody tr').remove();
-//         var ind = 1;
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var records = JSON.parse(result);
+        var ind = 1;
+        employee_update_reference(records);
 
-//         rows.forEach(employee => {
-//             employee['ind'] = ind++;
-//             $('#employee_card__send_list_table tbody').append(
-//                 employee_card_draw_send_list_row(employee)
-//             );
-//         });
-//     }).fail(function (jqXHR, textStatus, errorThrown) {
-//         var size = { width: 500, height: 200 };
-//         message = 'Во время загрузки детального раздела Замечания по аттестации произощла ошибка' + textStatus + ' ' + errorThrown;
-//         reference.show_notification('#employee_ref', 'Ошибка', size, message);
-//     });
-// }
-
-// /**
-//  * ================== СПИСОК РАССЫЛКИ. КОПИРОВАТЬ =======================
-//  */
-// function employee_card_send_list_copy_record(){
-//     var rows = $('#employee_card__send_list_table>tbody>tr.highlight')
-//     var ind = $('#employee_card__send_list_table tbody tr').length + 1;
-//     if (rows.length > 0) {
-//         var row = rows[0];
-//         var correspondent = []
-//         correspondent['id'] = '',
-//         correspondent['ind'] = ind++,
-//         correspondent['organization_id'] = $(row.cells[2]).find('.id').text(),
-//         correspondent['organization_name'] = $(row.cells[2]).find('.fullname').val(),
-//         correspondent['send_date'] = $(row.cells[3]).children().val(),
-//         correspondent['is_deleted'] = $(row.cells[4]).children().text()
-//         $('#employee_card__send_list_table tbody').append(
-//             employee_card_draw_send_list_row(correspondent)
-//         );
-//     }
-// }
-
-// /**
-//  * ================== СПИСОК РАССЫЛКИ. УДАЛИТЬ =======================
-//  * Нам нельзя сразу удалять строку из формы, мы должны сообщить базе что эту строку 
-//  * требуется удалить. Поэтому мы ее просто скрываем, а не удаляем. 
-//  */
-// function employee_card_send_list_delete_record() {
-//     var rows = $('#employee_card__send_list_table>tbody>tr.highlight')
-//     if (rows.length > 0) {
-//         var id = rows[0].children.item(0).textContent;
-//         rows[0].children.item(4).textContent = 1;
-//         rows[0].classList.add('hide');
-//     }
-// }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#employee_ref', 'Ошибка', size, message);
+    });
+}
 
 
 
 
-// /**
-//  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
-// */
-// function employee_extended_search_OK() {
-//     var data = {
-//         action: 'search_employee_extended',
-//         number: $('#employee_search__number').val(),
-//         employeedate: $('#employee_search__employeedate').val(),
-//         name: $('#employee_search__name').val(),
+/**
+ * ======================== ЗАГРУЗКА ДАННЫХ В КАРТОЧКУ =======================
+ * @param {Object} data 
+ * @param {boolean} openMode
+ */
+async function card_employee_load_data(data, openMode) {
+    var cardData = JSON.parse(data);
+    /** 
+     * Для того чтоб создалась новая карточка при редимах создания и копирования 
+     * обнуляем поле id
+     */
+    switch (openMode) {
+        case OpenMode.Create: $('#employee_card__id').text(''); break;
+        case OpenMode.Edit: $('#employee_card__id').text(cardData.id); break;
+        case OpenMode.Copy: $('#employee_card__id').text(''); break;
+    }
+    $('#employee_card__login').val(cardData.login);
+    $('#employee_card__lastname').val(cardData.last_name);
+    $('#employee_card__firstname').val(cardData.first_name);
+    $('#employee_card__middlename').val(cardData.middle_name);
+    
+    $('#employee_card__organization').find('.id').text(cardData.organization_id);
+    $('#employee_card__organization').find('.fullname').val(cardData.organization_name);
+    $('#employee_card__department').find('.id').text(cardData.department_id);
+    $('#employee_card__department').find('.fullname').val(cardData.department_name);
+    $('#employee_card__email').val(cardData.email);
+    $('#employee_card__state').val(cardData.state);
 
-//         kind_id: $('#employee_search__kind').find('.id').text(),
-//         type: $('#employee_search__type').val(),
-//         sender_id: $('#employee_search__sender').find('.id').text(),
-//         sendreceive: $('#employee_search__sendreceive').val(),
-//         signer: $('#employee_search__signer').val(),
-//         signed: $('#employee_search__signed').val(),
-//         state: $('#employee_search__state').val()
-//     };
-
-//     jQuery.post(MainData.ajaxurl, data, function (result) {
-//         var records = JSON.parse(result);
-//         var ind = 1;
-//         employee_update_reference(records);
-
-//     }).fail(function (jqXHR, textStatus, errorThrown) {
-//         var size = { width: 500, height: 200 };
-//         message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
-//         reference.show_notification('#employee_ref', 'Ошибка', size, message);
-//     });
-// }
-
-
-
-
-// /**
-//  * ======================== ЗАГРУЗКА ДАННЫХ В КАРТОЧКУ =======================
-//  * @param {Object} data 
-//  * @param {boolean} openMode
-//  */
-// async function card_employee_load_data(data, openMode) {
-//     var cardData = JSON.parse(data);
-//     /** 
-//      * Для того чтоб создалась новая карточка при редимах создания и копирования 
-//      * обнуляем поле id
-//      */
-//     switch (openMode) {
-//         case OpenMode.Create: $('#employee_card__id').text(''); break;
-//         case OpenMode.Edit: $('#employee_card__id').text(cardData[0].id); break;
-//         case OpenMode.Copy: $('#employee_card__id').text(''); break;
-//     }
-//     $('#employee_card__number').val(cardData[0].number);
-//     $('#employee_card__employeedate').val(cardData[0].employeedate);
-//     $('#employee_card__name').val(cardData[0].name);
-//     $('#employee_card__kind').find('.id').text(cardData[0].employee_kind_id);
-//     $('#employee_card__kind').find('.fullname').val(cardData[0].employee_kind_name);
-//     $('#employee_card__type').val(cardData[0].type);
-//     $('#employee_card__sendreceive').val(cardData[0].sendreceive);
-//     $('#employee_card__signed').prop('checked', cardData[0].signed);
-//     $('#employee_card__signer').val(cardData[0].signer);
-//     $('#employee_card__sender').find('.id').text(cardData[0].sender_id);
-//     $('#employee_card__sender').find('.fullname').val(cardData[0].sender_name);
-//     $('#employee_card__correspondent').find('.id').text(cardData[0].correspondent_id);
-//     $('#employee_card__correspondent').find('.fullname').val(cardData[0].correspondent_name);
-//     $('#employee_card__state').val(cardData[0].state);
-
-//     // Версии документа
-//     var employee_versions = cardData['employee_versions']
-//     var ind = 1;
-//     employee_versions.forEach(employee_version => {
-//         employee_version['ind'] = ind++;
-//         employee_version['is_deleted'] = 0;
-//         $('#employee_card__version_list').prepend(
-//             employee_card_draw_version(employee_version)
-//         );
-//     });
-
-//     // Список рассылки
-//     var send_list = cardData['employee_send_list'];
-//     var ind =1 ;
-//     send_list.forEach(organization =>{
-//         organization['ind'] = ind++;
-//         organization['is_deleted'] = 0;
-//         $('#employee_card__send_list_table tbody').append(
-//             employee_card_draw_send_list_row(organization)
-//         );
-//     })
-// }
+}
 
 /**
  *  ========================= ОБНОВЛЕНИЕ СПРАВОЧНИКА ===========================
@@ -573,192 +450,36 @@ function employee_update_reference(records) {
     });
 }
 
-// /**
-//  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ДОКУМЕНТА ============ 
-//  */
-// function employee_card_binging_events() {
+/**
+ * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СОТРУДНИК ============ 
+ */
+function employee_card_binging_events() {
 
-//     $('#employee_card__OK').on('click', function () {
-//         employee_card_press_OK(this);
-//     });
+    //** ============= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ СОТРУДНИК ================== */
+    $('#employee_card__OK').on('click', function () {
+        employee_card_press_OK(this);
+    });
 
-//     /** ============ НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ВИД ДОКУМЕНТА ============= */
-//     $('#employee_card__Cancel').on('click', function (e) {
-//         $(e.target).parents('.appdialog').css('display', 'none');
-//     });
+    /** ============ НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ СОТРУДНИК ============= */
+    $('#employee_card__Cancel').on('click', function (e) {
+        $(e.target).parents('.appdialog').css('display', 'none');
+    });
 
-//     /** ======== НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА В ПОЛЕ ВИД ДОКУМЕНТА ======= */
-//     $('#employee_card__kind_btn').on('click', function (e) {
-//         reference.open_reference(e, '#employee_card', 'Справочник Виды докуиентов');
-//     })
+    /** ======== НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА В ПОЛЕ ОРГАНИЗАЦИЯ ========= */
+    $('#employee_card__organization_btn').on('click', function (e) {
+        reference.open_reference(e, '#employee_card', 'Справочник Организации');
+    })
 
-//     /** ======== НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА В ПОЛЕ ОТПРАВИТЕЛЬ ========= */
-//     $('#employee_card__sender_btn').on('click', function (e) {
-//         reference.open_reference(e, '#employee_card', 'Справочник Организации');
-//     })
-
-//     /** ======== НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА В ПОЛЕ КОРРЕСПОНДЕНТ ======== */
-//     $('#employee_card__correspondent_btn').on('click', function (e) {
-//         reference.open_reference(e, '#employee_card', 'Справочник Организации');
-//     })
-
+    /** ======== НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА В ПОЛЕ ОТДЕЛ ======== */
+    $('#employee_card__department_btn').on('click', function (e) {
+        reference.open_reference(e, '#employee_card', 'Справочник Отделы');
+    })
     
-//     /** ===================== ВЫБОР ВКЛАДКИ НА КАРТОЧКЕ ДОКУМЕНТА ================ */
-//     $('.employee__tabs_item').on('click', function (e) {
-//         employee__chose_tab(e);
-//     })
-
-
-//     /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ===================*/
-//     $('#employee_card__send_list_create').on('click', function(){
-//         employee_card__send_list_create_record();
-//     })
-    
-    
-//     /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ ===================*/
-//     $('#employee_card__send_list_update').on('click', function () {
-//         employee_card_send_list_load_records();
-//     })
-
-//     /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ==================*/
-//     $('#employee_card__send_list_copy').on('click', function () {
-//         employee_card_send_list_copy_record();
-//     })
-
-//     /** =============== СПИСОК РАССЫЛКИ. НАЖАТИЕ КНОПКИ УДАЛИТЬ ==================*/
-//     $('#employee_card__send_list_delete').on('click', function () {
-//         employee_card_send_list_delete_record();
-//     })
+}
 
 
 
 
-//     /** ================================ ВЫБОР ФАЙЛА ============================== */
-//     $('#employee_card__file').on('change', function (e) {
-//         var file = $(e.target).prop('files')[0];
-        
-//         //console.log(fileByteArray);
-//         // Находим масимальный номер версии
-//         var version_numbers = [];
-//         var versions = $('#employee_card__version_list .version__item .version_number');
-//         versions.each(function (index, element) {
-//             version_numbers[index] = Number($(element).text());
-//         })
-//         var max_version_number = 0;
-//         if (version_numbers.length > 0) {
-//             max_version_number = Math.max.apply(null, version_numbers);
-//         }
-//         var version_number = max_version_number + 1;
-
-
-//         // Отображаем созданную версию
-//         var employee_version = [];
-//         employee_version['version_number'] = version_number;
-//         employee_version['versiondate'] = file.lastModified;
-//         employee_version['type'] = file.type;
-//         employee_version['version_title'] = 'Версия ' + version_number;
-//         employee_version['is_deleted'] = 0;
-//         employee_version['file'] = $(e.target).clone();
-//         $('#employee_card__version_list').prepend(
-//             employee_card_draw_version(employee_version)
-//         );
-//     })
-// }
-
-// /**
-//  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ВЕРСИИ ДОКУМЕНТА ============ 
-//  */
-// function employee_version_card_binding_events(){
-//     /** ================  НАЖАТИЕ КНОПКИ ОК ================ */
-//     $('#employee_version_card__OK').on('click', function(e){
-//         $(e.target).parents('.appdialog:first').css('display', 'none');
-//     })
-
-//     $('#employee_version_card__Cancel').on('click', function(e){
-//         $(e.target).parents('.appdialog:first').css('display', 'none');
-//     })
-
-// }
-
-// /*function resolve(ByteArray){
-//     bytes = ByteArray
-// }*/
-
-// // function getByteArray(file) {
-// //     return new Promise(function(resolve, reject) {
-// //         fileReader.readAsArrayBuffer(file);
-// //         fileReader.onload = function(ev) {
-// //             const array = new Uint8Array(ev.target.result);
-// //             const fileByteArray = [];
-// //             for (let i = 0; i < array.length; i++) {
-// //                 fileByteArray.push(array[i]);
-// //             }
-// //             resolve(array);  // successful
-// //         }
-// //         fileReader.onerror = reject; // call reject if error
-// //     })
-// //  }
-
-
-// /** ================== СОЗДАНИЕ КАРТОЧКИ ВЕРСИИ ДОКУМЕНТА ==================== */
-// function employee_card_create_version() {
-//    size = { width: 500, height: 250 };
-//     reference.open_card('#employee_card', 'Карточка версии документа',size,OpenMode.Create,0,'#employee_version_list');
-// }
-
-// /**
-//  * ================== ОТОБРАЖАЕМ ВЕРСИЮ ДОКУМЕНТА ===================
-//  */
-// function employee_card_draw_version(employee_version) {
-//     // Подставляем подходящую иконку
-//     var icon = employee_icons.other
-//     switch (employee_version['type']) {
-//         case 'application/vnd.openxmlformats-officeemployee.wordprocessingml.employee':
-//             icon = employee_icons.ms_word; break;
-//         case 'application/vnd.openxmlformats-officeemployee.spreadsheetml.sheet':
-//             icon = employee_icons.ms_excel; break;
-//         case 'application/pdf': icon = employee_icons.pdf; break;
-//     }
-    
-   
-//     var content_html = $("<li class='attachments__item version__item'>")
-//         .append($("<p class='id hide'>").text(employee_version['id']))
-//         .append($("<p class='version_number hide'>").text(employee_version['version_number']))
-//         .append($("<p class='versiondate hide'>").text(employee_version['versiondate']))
-//         .append($("<p class='type hide'>").text(employee_version['type']))
-//         .append($("<img class='attachments__ico'>").attr('src', icon))
-//         .append($("<p class='attachments__name_item'>").text(employee_version['version_title']))
-//         .append($("<p class='is_deleted hide'>").text(employee_version['is_deleted']));
-//     if (employee_version['file'] != undefined){
-//         content_html.append($("<input class='file hide' type='file'>").prop('files', employee_version['file'].prop('files')))
-//     }
-//     return content_html;
-// }
-
-// /**
-//  * ================== ОТОБРАЖАЕМ КОРРЕСПОНДЕНТА В СПИСКЕ РАССЫЛКИ ===================
-//  */
-// function employee_card_draw_send_list_row(organization){
-//     var content_html = $("<tr class = 'employee_card__send_list_table_row'>")
-//         .append($("<td class='id hide'>").text(organization['id']))
-//         .append($("<td class='employee_card__send_list_table_num'>").text(organization['ind']))
-//         .append($("<td>")
-//             .append($("<div class='ref_record'>")
-//                 .append($("<p class='hide name_reference'>").text('organization'))
-//                 .append($("<p class='id hide'>").text(organization['organization_id']))
-//                 .append($("<input class='fullname'>").val(organization['organization_name']))
-//                 .append($("<div class='ref_record__button'>").text("..."))
-//                 .on('click', function (e) {
-//                     reference.open_reference(e, '#employee_card', 'Справочник Оргнизации');
-//                 })
-//             )
-//         )
-//         .append($("<td>")
-//             .append($("<input type='date'>").val(organization['send_date']))
-//         )
-//         .append($("<td class = 'is_deleted hide'>").text(0))
-//     return content_html;
-// }
 
 // /**
 //  * ================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СПРАВОЧНИКА ===================
@@ -775,31 +496,31 @@ function employee_update_reference(records) {
 
 
 
-// /**
-//  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ПОИСКА ===============================
-//  */
-// function employee_search_binding_events() {
+/**
+ * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ПОИСКА ===============================
+ */
+function employee_search_binding_events() {
 
-//     /** ============== ВЫБОР ИЗ СПРАВОЧНИКА ВИДЫ ДОКУМЕНТОВ ==================== */
-//     $('#employee_search__kind').on('click', function (e) {
-//         reference.open_reference(e, '#employee_search', 'Справочник Виды документов');
-//     })
+    /** ============== ВЫБОР ИЗ СПРАВОЧНИКА ВИДЫ ДОКУМЕНТОВ ==================== */
+    $('#employee_search__department').on('click', function (e) {
+        reference.open_reference(e, '#employee_search', 'Справочник Отделы');
+    })
 
-//     $('#employee_search__sender').on('click', function (e) {
-//         reference.open_reference(e, '#employee_search', 'Справочник Организации');
-//     })
+    $('#employee_search__organization').on('click', function (e) {
+        reference.open_reference(e, '#employee_search', 'Справочник Организации');
+    })
 
-//     /** ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОK ================= */
-//     $('#employee_search__button_OK').on('click', function (e) {
-//         employee_extended_search_OK();
-//     })
+    /** ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОK ================= */
+    $('#employee_search__button_OK').on('click', function (e) {
+        employee_extended_search_OK();
+    })
 
-//     /** ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена ============= */
-//     $('#employee_search__button_Cancel').on('click', function (e) {
-//         $(e.target).parents('.appdialog').css('display', 'none');
-//     });
+    /** ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена ============= */
+    $('#employee_search__button_Cancel').on('click', function (e) {
+        $(e.target).parents('.appdialog').css('display', 'none');
+    });
 
-// }
+}
 
 
 

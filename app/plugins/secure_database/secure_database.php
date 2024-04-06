@@ -234,6 +234,7 @@ class SecDb
             case 'administrator_card' : { $results = $this->administrator->secure_load_card_data($id);}; break;
             case 'organization_card' : { $results = $this->organization->secure_load_card_data($id);}; break;
             case 'contract_card' : { $results = $this->contract->secure_load_card_data($id);}; break;
+            case 'employee_card' : {$results = $this->employee->secure_load_card_data($id);}; break;
         }
         echo json_encode($results);
         wp_die();

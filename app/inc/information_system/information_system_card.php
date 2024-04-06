@@ -522,10 +522,6 @@ $document_icons = $resources->get_document_icons();
                 <!-- P - Для диалогоых окон -->
                 <p class="appdialog__content_text"></p>
             </div>
-            <!-- <div class="appdialog__finish_buttons">
-                <button class="appdialog__finish_button">OK</button>
-                <button class="appdialog__finish_button">Cancel</button>
-            </div> -->
         </div>
     </div>
 </div>

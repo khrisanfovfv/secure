@@ -112,7 +112,7 @@
     add_action('wp_ajax_exit', 'secure_exit');
     add_action('wp_ajax_nopriv_login', 'secure_login');
     add_action('wp_ajax_load_card', 'secure_load_card');
-    add_action('wp_ajax_nopriv_load_card', 'secure_load_card');
+    //add_action('wp_ajax_nopriv_load_card', 'secure_load_card');
     add_action('wp_ajax_load_reference', 'secure_load_reference');
     add_action('wp_ajax_nopriv_load_reference', 'secure_load_reference');
     add_action('wp_ajax_load_document_icons', 'secure_load_document_icons');
@@ -189,6 +189,7 @@
             case 'contract_card' : get_template_part('inc/contract/contract_card'); break;
             case 'information_system_ref' : get_template_part('inc/information_system/information_system_ref'); break;
             case 'profile_card' : get_template_part('inc/login/profile'); break;
+            case 'employee_card' : get_template_part('inc/employee/employee_card'); break;
             
             case 'document_kind_search' : get_template_part('inc/document_kind/document_kind_search_form');break;
             case 'document_search' : get_template_part('inc/document/document_search_form'); break;
@@ -196,6 +197,7 @@
             case 'information_system_search' : get_template_part('inc/information_system/information_system_search_form');break;
             case 'administrator_search' : get_template_part('inc/administrator/administrator_search_form');break;
             case 'organization_search' : get_template_part('inc/organization/organization_search_form');break;
+            case 'employee_search' : get_template_part('inc/employee/employee_search_form'); break;
         }
         wp_die();
     }
