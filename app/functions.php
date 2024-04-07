@@ -172,6 +172,8 @@
         wp_die();
     }
 
+
+
     
 
     /**
@@ -190,6 +192,7 @@
             case 'information_system_ref' : get_template_part('inc/information_system/information_system_ref'); break;
             case 'profile_card' : get_template_part('inc/login/profile'); break;
             case 'employee_card' : get_template_part('inc/employee/employee_card'); break;
+            case 'load_file_form' : get_template_part('load_file_form'); break;
             
             case 'document_kind_search' : get_template_part('inc/document_kind/document_kind_search_form');break;
             case 'document_search' : get_template_part('inc/document/document_search_form'); break;

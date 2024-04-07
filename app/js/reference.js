@@ -112,6 +112,7 @@ var reference = {
             case '#contract_ref' : card = 'contract_card'; break;
             case '#footer_ref' : card = 'employee_card'; break;
             case '#employee_ref' : card = 'employee_card' ; break;
+            case '#employee_card__photo' : card = 'load_file_form'; break;
 
             // КАРТОЧКИ ПОИСКА
             case '#document_kind_ref_search' : card = 'document_kind_search'; break;

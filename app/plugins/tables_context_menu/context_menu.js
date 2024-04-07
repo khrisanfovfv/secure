@@ -75,8 +75,6 @@ var Context = {
             Context.toggleMenuOff();
             // Открываем контекстное меню соответствующего элемента
             switch (el.id) {
-                case 'administrator_ref__out_context_create' : administrator_create_record(); break;
-                case 'administrator_ref__out_context_update' : administrator_load_records(); break;
 
                 case 'document_kind_ref__context_edit' : document_kind_edit_record(); break;
                 case 'document_kind_ref__context_copy' : document_kind_copy_record(); break;

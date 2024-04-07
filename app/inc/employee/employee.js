@@ -303,6 +303,8 @@ $('#employee_ref__out_context_update').on('click', function () {
 })
 
 
+
+
 // /**================================================================================= 
 // * ==================================== ДЕЙСТВИЯ ==================================== 
 // * ==================================================================================*/
@@ -410,10 +412,12 @@ async function card_employee_load_data(data, openMode) {
         case OpenMode.Edit: $('#employee_card__id').text(cardData.id); break;
         case OpenMode.Copy: $('#employee_card__id').text(''); break;
     }
+
     $('#employee_card__login').val(cardData.login);
     $('#employee_card__lastname').val(cardData.last_name);
     $('#employee_card__firstname').val(cardData.first_name);
     $('#employee_card__middlename').val(cardData.middle_name);
+    $('.employee_card__photo').attr('src',cardData.photo);
     
     $('#employee_card__organization').find('.id').text(cardData.organization_id);
     $('#employee_card__organization').find('.fullname').val(cardData.organization_name);
@@ -473,6 +477,28 @@ function employee_card_binging_events() {
     /** ======== НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА В ПОЛЕ ОТДЕЛ ======== */
     $('#employee_card__department_btn').on('click', function (e) {
         reference.open_reference(e, '#employee_card', 'Справочник Отделы');
+    })
+
+    /** ======== ФОТОГРАФИЯ. КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ ИЗМЕНИТЬ =========*/
+    $('#employee_card__photo_context_change').on('click', function(){
+        // создаем элемент input для выбора файла
+        var input = $('<input/>')
+            .attr('type', "file")
+            .attr('accept', '.jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff');
+        // Настраиваем событие onchange
+        input.on('change', function(e){
+            if (e.target.files && e.target.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    $('.employee_card__photo').attr('src', event.target.result);
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            } else{
+                alert('Файл не выбран');
+            }
+        })
+        // принудительно вызываем событие click.
+        input.trigger('click');
     })
     
 }

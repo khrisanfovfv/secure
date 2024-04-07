@@ -82,11 +82,11 @@
 <!-- КОНТЕКСТНОЕ МЕНЮ АВАТАРА -->
 <div class="context-menu" id="employee_card__photo_context">
 <ul class="context-menu__list">
-    <li class="context-menu__item" id="employee_ref__photo_context_change">
+    <li class="context-menu__item" id="employee_card__photo_context_change">
         <img src="<?php echo $button_icons->edit ?>">
         <p>Изменить</p>
     </li>
-    <li class="context-menu__item" id="employee_ref__out_context_delete">
+    <li class="context-menu__item" id="employee_card__out_context_delete">
         <img src="<?php echo $button_icons->delete ?>">
         <p>Удалить</p>
     </li>

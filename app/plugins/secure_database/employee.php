@@ -36,6 +36,20 @@ class Employee{
         wp_die();
     }
 
+    /** Преобразование изображения в кодирофку base64 */
+    function image_to_base64($path_to_image)
+    {
+        $path =  wp_normalize_path($path_to_image); 
+        $type = pathinfo($path_to_image, PATHINFO_EXTENSION);
+        $image = file_get_contents($path_to_image);
+        if ($image === false){
+            wp_die('Не удалось загрузить файл', 'Ошибка', array('response' => 500));
+        }
+        $type = pathinfo($path_to_image, PATHINFO_EXTENSION);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($image) ;
+        return $base64;
+    }
+
     /**
      * ============================ ЗАГРУЗКА ДАННЫХ КАРТОЧКИ ===============================
      */
@@ -46,6 +60,7 @@ class Employee{
         $user = get_user_by('id', $id);
         $result['id'] = $user->id;
         $result['login'] = $user->user_login;
+        $result['photo'] = Employee::image_to_base64(get_template_directory().'/storage/avatars/2_naimovada.jpg');
         $result['last_name'] = $user->last_name;
         $result['first_name'] = $user->first_name;
         $result['middle_name'] = $user->middle_name;

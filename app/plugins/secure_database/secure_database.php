@@ -169,6 +169,7 @@ class SecDb
         add_action('wp_ajax_nopriv_search_employee', array('Employee','secure_search_employee'));
         add_action('wp_ajax_search_employee_extended', array('Employee','secure_search_employee_extended'));
         add_action('wp_ajax_nopriv_search_employee_extended', array('Employee','secure_search_employee_extended'));
+        add_action('wp_ajax_get_avatar', array('Employee', 'secure_get_avatar'));
         // ДЕТАЛЬНЫЕ РАЗДЕЛЫ
         add_action('wp_ajax_load_information_system_developpers', array('InformationSystem', 'secure_load_information_system_developpers'));
         add_action('wp_ajax_nopriv_load_information_system_developpers', array('InformationSystem', 'secure_load_information_system_developpers'));
