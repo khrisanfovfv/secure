@@ -75,7 +75,7 @@ $('#contract_search__button_Cancel').on('click', function () {
  * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
  * */
 $('#contract_ref__create').on('click', function () {
-    oraganization_create_record();
+     contract_create_record();
 
 });
 
@@ -102,9 +102,9 @@ $('#contract_ref__update').on('click', function () {
     contract_load_records()
 })
 
-function oraganization_create_record() {
-    var size = { width: 700, height: 650 };
-    reference.open_card('#contract_ref', 'Карточка организации', size, OpenMode.Create, 0);
+function contract_create_record() {
+    var size = { width: 1000, height: 500 };
+    reference.open_card('#contract_ref', 'Карточка Контракта', size, OpenMode.Create, 0);
 }
 
 

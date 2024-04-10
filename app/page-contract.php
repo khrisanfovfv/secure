@@ -42,7 +42,7 @@ $prefix = $wpdb->prefix;
                     <p>Эл. таб</p>
                 </button>
                 <button class="reference__button" id="contract_ref__update">
-                    <img src="<?php echo $button_icons->update ?>" alt="Update">
+                    <img src="<?php echo $button_icons->update ?>" alt="Обновить">
                     <p>Обновить</p>
                 </button>
             </div>
@@ -56,6 +56,7 @@ $prefix = $wpdb->prefix;
                             <th>Предмет контракта</th>
                             <th style="width: 130px;">Тип контракта</th>
                             <th style="width: 130px;">Ссылка на сайт закупок</th>
+                            <th style="width: 130px;">Статус</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -75,8 +76,9 @@ $prefix = $wpdb->prefix;
                                 <td style="text-align: left;"><?php echo str_replace("\\","", $row["conclusionDate"]) ?></td>
                                 <td><?php echo $row["contract_subject"] ?></td>
                                 <td><?php echo $row["contract_type"] ?></td>
-                                <td><?php echo $row["link "] ?></td>
-
+                                <td><?php echo $row["link"] ?></td>
+                                <td><?php echo secure_get_state($row["contract_state"]) ?></td>
+                                <!--td><!?php echo secure_get_state($row["state"]) ?></td-->
                             </tr>
                         <?php
                         }

@@ -188,10 +188,17 @@ class Contract{
             WHERE id = %d", $id),
             OBJECT
         );
-
+        //ДЕТАЛЬНАЯ СТРАНИЦА ЗАКАЗЧИКИ
+        $customers = $wpdb->get_results(
+            $wpdb->prepare("SELECT organization.id as customer_id, organization.fullname as customer_name  FROM {$prefix}contract_сustomer customer
+            JOIN {$prefix}organization organization on organization.id = customer.organization_id 
+            WHERE customer.contract_id = %d", $id), OBJECT);
         if ($wpdb->last_error){
             wp_die($wpdb->last_error, "Ошибка при загрузке карточки \"Контракты\"", array('response'=> 500));
-        }  
+        } 
+
+        $results = (object) array_merge( (array)$results, array( 'customers' => $customers));
+
         //     $results = (object) array_merge( (array)$results, array( 'administrators' => $administrators ));
         // $remarks = $wpdb->get_results(
         //     $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE contract_id = $id"), OBJECT);
@@ -199,44 +206,40 @@ class Contract{
         //contract.id, contract.contract_number, contract.conclusionDate, contract.contract_type, 
             //contract.contract_subject, contract.contract_state
         return $results;
+        wp_die();
      }
 
-//     /**
-//      * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ======================
-//      */
-//     function secure_add_contract(){
+    /**
+     * ==================== ДОБАВЛЕНИЕ ЗАПИСИ Контракты ======================
+     */
+    function secure_add_contract(){
 
-//         global $wpdb;
-//         $prefix = $wpdb->prefix;
-//         $record = $_POST['record'];
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $record = $_POST['record'];
         
-//         $wpdb->insert(
-//             $prefix.'contract',
-//             array(
-//                 'fullname' => $record['fullname'],
-//                 'briefname' => $record['briefname'],
-//                 'significancelevel' => $record['significancelevel'],
-//                 'scope' => $record['scope'],
-//                 'certified' => $record['certified'],
-//                 'certifydate' => $record['certifydate'],
-//                 'hasremark' => $record['hasremark'],
-//                 'commissioningdate' => $record['commissioningdate'],
-//                 'state' => $record['state']
-//             ),
-//             array(
-//                 '%s', // fullname
-//                 '%s', // briefname
-//                 '%s', // significancelevel
-//                 '%s', // scope
-//                 '%d', // certified
-//                 '%s', // certifydate
-//                 '%d', // hasremark
-//                 '%s', // commissioningdate
-//                 '%s'  // state
-//             )
-//         );
+        $wpdb->insert(
+            $prefix.'contract',
+            array(
+                'contract_subject' => $record['contract_subject'],
+                'contract_number' => $record['contract_number'],
+                'conclusionDate' => $record['conclusionDate'],
+                'contract_type' => $record['contract_type'],
+                'link' => $record['link'],
+                'contract_state' => $record['contract_state']
+                
+            ),
+            array(
+                '%s', // contract_subject
+                '%s', // contract_number
+                '%s', // conclusionDate
+                '%s', // contract_type
+                '%s', // link
+                '%s' // contract_state                
+            )
+        );
 
-//         $id = $wpdb->insert_id;
+        $id = $wpdb->insert_id;
 //         // Создаем записи в детальном разделе Замечания по аттестации
 //         // Убираем символы экранирования '/'
 //         $remarks_json = stripcslashes($record['remarks']);
@@ -253,10 +256,10 @@ class Contract{
 //         }
         
 
-//         echo 'Запись добавлена ИД=' . $id ; 
-//         wp_die();
-//         ;
-//     }
+        echo 'Запись добавлена ИД=' . $id ; 
+        wp_die();
+        ;
+    }
 
     /** 
      * ====================== ОБНОВЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ==========================
