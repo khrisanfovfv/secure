@@ -190,8 +190,8 @@ class Contract{
         );
         //ДЕТАЛЬНАЯ СТРАНИЦА ЗАКАЗЧИКИ
         $customers = $wpdb->get_results(
-            $wpdb->prepare("SELECT organization.id as customer_id, organization.fullname as customer_name  FROM {$prefix}contract_сustomer customer
-            JOIN {$prefix}organization organization on organization.id = customer.organization_id 
+            $wpdb->prepare("SELECT *  FROM {$prefix}contract_customer customer
+            JOIN {$prefix}organization organization on organization.id = customer.organization_id
             WHERE customer.contract_id = %d", $id), OBJECT);
         if ($wpdb->last_error){
             wp_die($wpdb->last_error, "Ошибка при загрузке карточки \"Контракты\"", array('response'=> 500));
