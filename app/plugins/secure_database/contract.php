@@ -47,7 +47,7 @@ class Contract{
         dbDelta($contract_document_sql);
         // add_option('sec_db_version', $sec_db_version);
 
-        //Запрос на создание таблицы для связи с таблицей "Контракт.Исполнитель"
+        //Запрос на создание таблицы для связи с таблицей "Контракт.Заказчик"
         $table_name = $wpdb->prefix . 'contract_сustomer';
         $contract_customer_sql = "CREATE TABLE $table_name (
             id mediumint(9) NOT NULL AUTO_INCREMENT,
@@ -62,7 +62,7 @@ class Contract{
         dbDelta($contract_customer_sql);
         
    
-        //Запрос на создание таблицы для связи с таблицей "Контракт.Заказчик"
+        //Запрос на создание таблицы для связи с таблицей "Контракт.Исполнитель"
         $table_name = $wpdb->prefix . 'contract_developper';
         $contract_developper_sql = "CREATE TABLE $table_name (
             id mediumint(9) NOT NULL AUTO_INCREMENT,

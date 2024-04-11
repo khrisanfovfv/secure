@@ -5,7 +5,7 @@ Template Name: Шаблон формы логина
 
 // Если пользователь зашел в систему то перекидываем его на главную страницу
 if (is_user_logged_in()){
-    header("Location: http://secure/information_system");
+    header("Location: ". get_site_url(null, 'information_system', null));
     die();
 }
 wp_head();

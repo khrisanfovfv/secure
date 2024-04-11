@@ -87,28 +87,42 @@ class Employee{
 
 
     /**
-     * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ОТДЕЛА ======================
+     * ==================== ДОБАВЛЕНИЕ ЗАПИСИ СОТРУДНИК ======================
      */
     function secure_add_employee(){
+        check_ajax_referer( 'cit_secure', 'nonce' ); // защита
+        $id = $_POST['id'];
+        $login = $_POST['login'];
+        $path = wp_normalize_path(get_template_directory() .'/storage/avatars/');
+
+
+        if(empty( $_FILES )){
+		    wp_send_json_error( 'Файлов нет...' );
+        }
+            
+        
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $record = $_POST['record'];
-        $wpdb->insert(
-            $prefix . 'employee',
-            array(
-                'name' => $record['name'],
-                'organization_id' => $record['organization_id'],
-                'boss' => $record['boss'],
-                'state' => $record['state']
-            ),
-            array(
-                '%s', // name
-                '%d', // organization_id
-                '%s', // boss
-                '%s'  // state
-            )
-        );
-        wp_die();
+        $record = $_POST['first_name'];
+        // $wpdb->insert(
+        //     $prefix . 'employee',
+        //     array(
+        //         'name' => $record['name'],
+        //         'organization_id' => $record['organization_id'],
+        //         'boss' => $record['boss'],
+        //         'state' => $record['state']
+        //     ),
+        //     array(
+        //         '%s', // name
+        //         '%d', // organization_id
+        //         '%s', // boss
+        //         '%s'  // state
+        //     )
+        // );
+
+        wp_send_json_success( 'Сработало!' );
+
+        //wp_die();
     }
 
     /**

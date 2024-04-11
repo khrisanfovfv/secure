@@ -101,7 +101,8 @@
         wp_localize_script('main_script','MainData', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'document_icons' => secure_get_document_icons(),
-            'stack' => array()
+            'stack' => array(),
+            'nonce' => wp_create_nonce('cit_secure')
         ));
     }
 
@@ -138,7 +139,7 @@
         $creds['remember'] = $record['remember'];
 
         
-        $user = wp_signon( $creds, false );
+        $user = wp_signon($creds);
         
 
         // авторизация не удалась
@@ -146,7 +147,7 @@
             wp_die($user->get_error_message(),'Ошибка авторизации', ['response' => 401 ]);
         }
         
-        echo 'http://secure/information_system';
+        get_site_url(null, 'information_system', null);
         wp_die();
     }
 

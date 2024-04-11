@@ -39,99 +39,111 @@ $('#employee_ref__table tbody tr').on('dblclick', function () {
 //  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ДОКУМЕНТА =========================
 //  */
 
+
+
 function employee_card_press_OK(sender) {
     if (employee_card__check_fields()) {
-        alert('Проверка прошла!')
+        // Формируем запись для запроса
+        var input = $('<input>');
+
+        if ($('.employee_card__photo').attr('src')){
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                input.files[0] = event.target.result;
+            };
+            reader.readAsDataURL($('.employee_card__photo').attr('src'));
+        }
+
+
         
-//         // Детальный раздел версии
-//         var rows = $('#employee_card__version_list li');
-//         var employee_versions = [];
-//         var employee_version = {};
-       
-//         rows.each(function(ind, element){
+        // var reader = new FileReader();
+        // reader.onload = function (e) {
+        //     $('.employee_card__photo').attr('src', e.target.result);
+        // }
 
-//             employee_version.id = $(element).children('.id').text();
-//             employee_version.version_number = $(element).children('.version_number').text();
-//             employee_version.versiondate = $(element).children('.versiondate').text();
-//             employee_version.version_title = $(element).children('.attachments__name_item').text();
-//             employee_version.type = $(element).children('.type').text();
-//             employee_version.is_deleted = $(element).children('.is_deleted').text();
-//             /*getAsByteArray($(element).children('.file').prop('files')[0])
-//                 .then((dv) => {
-//                     employee_version.files = JSON.stringify(dv);
-//                 })*/
-//             // Копируем обьект в массив
-//             employee_versions[ind] = JSON.parse(JSON.stringify(employee_version));
-//         })
+        //     reader.readAsDataURL();
+        files = input.files;
 
-//         var rows = $('#employee_card__send_list_table tbody tr');
-//         var correspondent = {}
-//         var send_list = []
 
-//         rows.each(function(ind, row){
-//             correspondent.id = $(row.cells[0]).text();
-//             correspondent.correspondent_id = $(row.cells[2]).find('.id').text();
-//             correspondent.send_date = $(row.cells[3]).children().val();
-//             correspondent.is_deleted = $(row.cells[4]).text();
-//             // Копируем обьект в массив
-//             send_list[ind] = JSON.parse(JSON.stringify(correspondent));
-//         })
+        if ($('#employee_card__id').text() == '') {
 
-//         // Формируем запись для запроса
-//         record = {
-//             id: $('#employee_card__id').text(),
-//             number: $('#employee_card__number').val(),
-//             employeedate: $('#employee_card__employeedate').val(),
-//             name: $('#employee_card__name').val(),
-//             kind: $('#employee_card__kind').find('.id').text(),
-//             type: $('#employee_card__type').val(),
-//             sender: $('#employee_card__sender').find('.id').text(),
-//             correspondent: $('#employee_card__correspondent').find('.id').text(),
-//             sendreceive: $('#employee_card__sendreceive').val(),
-//             signed: $('#employee_card__signed').attr('checked'),
-//             signer: $('#employee_card__signer').val(),
-//             employee_versions : JSON.stringify(employee_versions),
-//             send_list : JSON.stringify(send_list),
-//             state: $('#employee_card__state').val()
-//         }
-//         if ($('#employee_card__id').text() == '') {
+            var data = new FormData();
+            $.each( files, function( key, value ){
+                data.append( key, value );
+                alert('Файл добавлен!');
+            });
 
-//             // ДОБАВЛЯЕМ значение в базу
-//             var data = {
-//                 action: 'add_employee',
-//                 cache: false,
-// 			    //contentType: false,
-//                 processData: false,
-//                 contentType: 'application/octet-stream', // set Content-Type header
-// 			    //processData: false,
-//                 record: record
-//             };
+            
 
-//             jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-//                 employee_load_records();
-//             }).fail(function () {
-//                 var size = { width: 500, height: 200 };
-//                 var message = 'Во время добавления записи произошла ошибка';
-//                 reference.show_notification('employee_ref', 'Ошибка', size, message);
-//             })
-//         } else {
-//             // ОБНОВЛЯЕМ значение в базе данных
-//             var data = {
-//                 action: 'update_employee',
-//                 processData: false,
-//                 contentType: 'application/octet-stream', // set Content-Type header
-//                 cache: false,
-//                 record: record
-//             };
 
-//             jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-//                 employee_load_records();
-//             }).fail(function () {
-//                 var size = { width: 500, height: 200 };
-//                 var message = 'Во время обновления записи произошла ошибка';
-//                 reference.show_notification('employee_ref', 'Ошибка', size, message);
-//             })
-//         }
+            data.append('action', 'add_employee' );
+            //data.append('photo', $('.employee_card__photo').attr('src')),
+            data.append('id', $('#employee_card__id').text());
+            data.append('login', $('#employee_card__login').val());
+            data.append('last_name', $('#employee_card__lastname').val());
+            data.append('first_name', $('#employee_card__firstname').val());
+            data.append('middle_name', $('#employee_card__middlename').val());
+            data.append('organization', $('#employee_card__organization').find('.id').text());
+            data.append('department', $('#employee_card__department').find('.id').text());
+            data.append('email', $('#employee_card__email').val());
+            data.append( 'nonce', MainData.nonce );
+            // ДОБАВЛЯЕМ значение в базу
+
+            $.ajax({
+                url: MainData.ajaxurl,
+                type: 'POST',
+                data: data,
+                cache: false,
+                dataType: 'json',
+                // отключаем обработку передаваемых данных, пусть передаются как есть
+		        processData : false,
+		        // отключаем установку заголовка типа запроса. Так jQuery скажет серверу что это строковой запрос
+		        contentType : false,
+		        // функция успешного ответа сервера
+		        success     : function( respond, status, jqXHR ){
+                    // ОК
+                    if( respond.success ){
+                        $.each( respond.data, function( key, val ){
+                            alert(respond.data)
+                        } );
+                    }
+                    // error
+                    else {
+                        alert( 'ОШИБКА: ' + respond.error );
+                    }
+                },
+                // функция ошибки ответа сервера
+                error: function( jqXHR, status, errorThrown ){
+                    alert( 'ОШИБКА AJAX запроса: ' + jqXHR.responseText );
+                }
+            })
+
+            // jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+            //     //employee_load_records();
+            // }).fail(function () {
+            //     var size = { width: 500, height: 200 };
+            //     var message = 'Во время добавления записи произошла ошибка';
+            //     reference.show_notification('employee_ref', 'Ошибка', size, message);
+            // })
+        } 
+        // else {
+        //     // ОБНОВЛЯЕМ значение в базе данных
+        //     var data = {
+        //         action: 'update_employee',
+        //         processData: false,
+        //         contentType: 'application/octet-stream', // set Content-Type header
+        //         cache: false,
+        //         record: record
+        //     };
+
+        //     jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+        //         employee_load_records();
+        //     }).fail(function () {
+        //         var size = { width: 500, height: 200 };
+        //         var message = 'Во время обновления записи произошла ошибка';
+        //         reference.show_notification('employee_ref', 'Ошибка', size, message);
+        //     })
+        // }
         $(sender).parents('.appdialog').css('display', 'none');
     }
 }
@@ -460,8 +472,8 @@ function employee_update_reference(records) {
 function employee_card_binging_events() {
 
     //** ============= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ СОТРУДНИК ================== */
-    $('#employee_card__OK').on('click', function () {
-        employee_card_press_OK(this);
+    $('#employee_card__OK').on('click', function (e) {
+        employee_card_press_OK(e.target);
     });
 
     /** ============ НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ СОТРУДНИК ============= */
@@ -493,12 +505,15 @@ function employee_card_binging_events() {
                     $('.employee_card__photo').attr('src', event.target.result);
                 };
                 reader.readAsDataURL(e.target.files[0]);
-            } else{
-                alert('Файл не выбран');
             }
         })
         // принудительно вызываем событие click.
         input.trigger('click');
+    })
+
+
+    $('#photo_e').on('change', function(e){
+        files = e.target.files;
     })
     
 }

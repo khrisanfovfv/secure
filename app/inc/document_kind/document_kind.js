@@ -146,17 +146,17 @@ function document_kind_extended_search(){
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
 */
-$('#document_kind_search__button_OK').on('click', function(){
+$('#document_kind_search__button_OK').on('click', function(e){
     var data = {
         action: 'search_document_kind_extended',
-        number : $('#document_kind__search_name').val(),
+        name : $('#document_kind__search_name').val(),
         state : $('#document_kind__search_state').val()
     };
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
         var records = JSON.parse(result);
-        var ind = 1;
         document_kind_update_reference(records);
+        $(e.target).parents('.appdialog').css('display', 'none');
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };

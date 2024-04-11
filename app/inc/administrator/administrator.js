@@ -435,7 +435,7 @@ function administrator_update_reference(records) {
  * АДМИНИСТРАТОР. СОЗДАНИЕ ЗАПИСИ
  */
 function administrator_create_record() {
-    var size = { width: 1000, height: 800 };
+    var size = { width: 1000, height: 600 };
     reference.open_card('#administrator_ref', 'Карточка Администратор', size, OpenMode.Create, 0);
 }
 
@@ -464,7 +464,7 @@ function administrator_edit_record() {
     rows = $('.administrator_ref__table_row.highlight')
     if (rows.length > 0) {
         var id = rows[0].children.item(0).textContent;
-        var size = { width: 1000, height: 800 };
+        var size = { width: 1000, height: 600 };
         reference.open_card('#administrator_ref', 'Карточка Администратор', size, OpenMode.Edit, id);
     }
     $('#administrator_ref__context').css('display', 'none');
@@ -478,7 +478,7 @@ function administrator_copy_record() {
     rows = $('.administrator_ref__table_row.highlight')
     if (rows.length > 0) {
         var id = rows[0].children.item(0).textContent;
-        var size = { width: 1400, height: 800 };
+        var size = { width: 1400, height: 600 };
         // Открываем карточку в режиме копирования записи
         reference.open_card('#administrator_ref', 'Карточка Информационной системы', size, OpenMode.Copy, id);
     }
@@ -526,7 +526,7 @@ function administrator_information_systems_copy() {
         var row = rows[0];
         var information_system = []
         information_system['id'] = '',
-            information_system['ind'] = ind++,
+            information_system['ind'] = ind,
             information_system['information_system_id'] = $(row.cells[2]).find('.id').text(),
             information_system['information_system_name'] = $(row.cells[2]).find('.fullname').val(),
             information_system['administrator_id'] = $('#administrator_card__id').text(),

@@ -14,16 +14,18 @@
         <div class="employee_card__top_right">
             <!-- Логин -->
             <label for="employee_card__login">Логин:</label>
-            <input id="employee_card__login">
+            <input id="employee_card__login" value="log">
             <!-- Фамилия -->
             <label for="employee_card__lastname">Фамилия:</label>
-            <input id="employee_card__lastname">
+            <input id="employee_card__lastname" value="last">
             <!-- Имя -->
             <label for="employee_card__firstname">Имя:</label>
-            <input id="employee_card__firstname">
+            <input id="employee_card__firstname" value="first">
             <!-- Отчество -->
             <label for="employee_card__firstname">Отчество:</label>
-            <input id="employee_card__middlename">
+            <input id="employee_card__middlename" value = "mid">
+            
+            <input id="photo_e" type="file">
             
         </div>
     </div>
@@ -47,7 +49,7 @@
             
             <!-- email -->
             <label for="employee_card__email">email:</label>
-            <input id="employee_card__email">
+            <input id="employee_card__email" value="email">
             <!-- Состояние -->
             <label for="employee_card__state" id="employee_card__state_label">Состояние:</label>
             <select id="employee_card__state" name="employee_card__state">
@@ -92,3 +94,6 @@
     </li>
 </ul>    
 </div>
+<script>
+    var files;
+</script>

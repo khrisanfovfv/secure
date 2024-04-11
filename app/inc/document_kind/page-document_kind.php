@@ -6,9 +6,14 @@
 
 // Если пользователь не зашел в систему то перекидываем его на страницу авторизации
 if (!is_user_logged_in()){
-    header("Location: http://secure/login");
+    header("Location:" . get_site_url(null, 'login', null));
     die();
 }
+
+require_once(wp_normalize_path(get_template_directory()) . '/common.php');
+$resources = new Resources();
+$button_icons = $resources->get_button_icons();
+
 get_header();
 
 global $wpdb;
@@ -25,23 +30,23 @@ $prefix = $wpdb->prefix;
             <p class="reference__title">Справочник Виды документов</p>
             <div class="reference__buttons">
                 <button class="reference__button" id="document_kind_ref__create">
-                    <img src="<?php echo get_template_directory_uri() . '/images/create-record.svg' ?>" alt="Создать">
+                    <img src="<?php echo $button_icons->create ?>" alt="Создать">
                     <p>Создать</p>
                 </button>
                 <button class="reference__button" id="document_kind_ref__edit" disabled>
-                    <img src="<?php echo get_template_directory_uri() . '/images/edit.svg' ?>" alt="Редактировать">
+                    <img src="<?php echo $button_icons->edit ?>" alt="Редактировать">
                     <p>Редактировать</p>
                 </button>
                 <button class="reference__button" id="document_kind_ref__copy" disabled>
-                    <img src="<?php echo get_template_directory_uri() . '/images/copy.svg' ?>" alt="Копировать">
+                    <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
                     <p>Копировать</p>
                 </button>
                 <button class="reference__button" id="document_kind_ref__delete" disabled>
-                    <img src="<?php echo get_template_directory_uri() . '/images/delete.svg' ?>" alt="Удалить">
+                    <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
                     <p>Удалить</p>
                 </button>
                 <button class="reference__button" id="document_kind_ref__excel">
-                    <img src="<?php echo get_template_directory_uri() . '/images/excel.svg' ?>" alt="Exel">
+                    <img src="<?php echo $button_icons->excel ?>" alt="Exel">
                     <p>Эл. таб</p>
                 </button>
             </div>

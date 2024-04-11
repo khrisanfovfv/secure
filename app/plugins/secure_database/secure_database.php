@@ -73,8 +73,8 @@ class SecDb
         add_action('wp_ajax_nopriv_delete_document_kind', array('DocumentKind', 'secure_delete_document_kind'));
         add_action('wp_ajax_search_document_kind', array('DocumentKind','secure_search_document_kind'));
         add_action('wp_ajax_nopriv_search_document_kind', array('DocumentKind','secure_search_document_kind'));
-        add_action('wp_ajax_search_search_document_kind_extended', array('DocumentKind','secure_search_document_kind_extended'));
-        add_action('wp_ajax_nopriv_search_document_kind_extended', array('DocumentKind','secure_search_document_kind_extended'));
+        add_action('wp_ajax_search_document_kind_extended', array('DocumentKind','secure_search_document_kind_extended'));
+        //add_action('wp_ajax_nopriv_search_document_kind_extended', array('DocumentKind','secure_search_document_kind_extended'));
         // ОТДЕЛЫ
         add_action('wp_ajax_load_department',array('Department','secure_load_department'));
         add_action('wp_ajax_nopriv_load_department', array('Department','secure_load_department'));
