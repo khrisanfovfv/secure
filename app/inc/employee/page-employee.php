@@ -140,7 +140,7 @@ $prefix = $wpdb->prefix;
     </div>
 </div>
 
-<!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ ИНФОРМАЦИОННЫЕ СИСТЕМЫ -->
+<!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ СОТРУДНИКИ -->
 <div class="context-menu" id="employee_ref__context">
     <ul class="context-menu__list">
         <li class="context-menu__item" id="employee_ref__context_edit">

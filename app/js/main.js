@@ -95,6 +95,7 @@ $(function () {
             case 'administrator' : administrator_extended_search(); break;
             case 'information_system' : information_system_extended_search();break;
             case 'organization' : organization_extended_search();break;
+            case 'employee' : employee_extended_search(); break;
         }
     })
 
@@ -304,7 +305,7 @@ $(function () {
      * ================ ПОКАЗЫВАЕМ ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ ================
     */
     $('#user__context_profile').on('click', function(){
-        let size = {width:800, height:600}; 
+        let size = {width:600, height:400}; 
         reference.open_card('#footer_ref', 'Профиль пользователя', size, OpenMode.Create, 0);
     })
 

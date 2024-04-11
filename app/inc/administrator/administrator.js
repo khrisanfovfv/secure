@@ -305,6 +305,42 @@ $('#administrator_ref__update').on('click', function () {
     administrator_load_records();
 })
 
+/** 
+ * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ СОЗДАТЬ =================================
+ */
+$('#administrator_ref__out_context_create').on('click', function(){
+    administrator_create_record();
+})
+
+/** 
+ * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ =================================
+ */
+$('#administrator_ref__context_edit').on('click', function(){
+    administrator_edit_record();
+})
+
+/** 
+ * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ КОПИРОВАТЬ =================================
+ */
+$('#administrator_ref__context_copy').on('click', function(){
+    administrator_copy_record();
+})
+
+/** 
+ * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ УДАЛИТЬ =================================
+ */
+$('#administrator_ref__context_delete').on('click', function(){
+    administrator_delete_record();
+})
+
+/** 
+ * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ =================================
+ */
+$('#administrator_ref__out_context_update').on('click', function(){
+    administrator_load_records();
+})
+
+
 /**
  * ТАБЛИЦА ИНФОРМАЦИОННЫЕ СИСТЕМЫ. НАЖАТИЕ КНОПКИ СОЗДАТЬ
  */

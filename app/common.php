@@ -21,6 +21,16 @@ class Resources{
         $icon = get_template_directory_uri() .'/'. $this->resources->directory .'/'. $icon;
         return $icon;
      }
+
+    /**
+     * ============================= ВОЗВРАЩАЕМ АВАТАР =============================== 
+     */
+    public function get_avatar_icon(){
+        $icon = $this->resources->avatar;
+        $icon = get_template_directory_uri() .'/'. $this->resources->directory .'/'. $icon;
+        return $icon;
+     } 
+
     /**
      * ======================= ВОЗВРАЩАЕМ ИКОНКИ ДЛЯ КНОПОК ===========================
      */
