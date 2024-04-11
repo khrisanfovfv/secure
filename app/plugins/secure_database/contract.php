@@ -48,7 +48,7 @@ class Contract{
         // add_option('sec_db_version', $sec_db_version);
 
         //Запрос на создание таблицы для связи с таблицей "Контракт.Заказчик"
-        $table_name = $wpdb->prefix . 'contract_сustomer';
+        $table_name = $wpdb->prefix . 'contract_customer';
         $contract_customer_sql = "CREATE TABLE $table_name (
             id mediumint(9) NOT NULL AUTO_INCREMENT,
             contract_id mediumint(9) NOT NULL,
@@ -131,7 +131,7 @@ class Contract{
             )
         );
 
-        // Заполняем данными таблицу Контракт.Исполнитель
+        // Заполняем данными таблицу Контракт. Заказчик
         $table_name = $wpdb->prefix . 'contract_сustomer';
         $wpdb->insert(
             $table_name,
