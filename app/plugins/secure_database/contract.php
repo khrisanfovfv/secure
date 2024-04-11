@@ -190,7 +190,7 @@ class Contract{
         );
         //ДЕТАЛЬНАЯ СТРАНИЦА ЗАКАЗЧИКИ
         $customers = $wpdb->get_results(
-            $wpdb->prepare("SELECT *  FROM {$prefix}contract_customer customer
+            $wpdb->prepare("SELECT organization.id as organization_id, organization.fullname as organization_name  FROM {$prefix}contract_customer customer
             JOIN {$prefix}organization organization on organization.id = customer.organization_id
             WHERE customer.contract_id = %d", $id), OBJECT);
         if ($wpdb->last_error){
