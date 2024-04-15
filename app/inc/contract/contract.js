@@ -160,7 +160,7 @@ function card_contract_load_data(data, openMode) {
         case OpenMode.Copy: $('#contract_card__id').text(''); break;
     }
     if (openMode == OpenMode.Copy) {
-        $('#contract_card__subject').val(cardData[0].contract_subject + ' - Копия');
+        $('#contract_card__subject').val(cardData[0].contract_subject.replace(/\\"/g, '"') + ' - Копия');
     }
     else {
         $('#contract_card__subject').val(cardData[0].contract_subject.replace(/\\"/g, '"'));
@@ -171,8 +171,41 @@ function card_contract_load_data(data, openMode) {
     $('#contract_card__link').val(cardData[0].link);
     $('#contract_card__state').val(cardData[0].contract_state);
    
+    //ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ
+    if (openMode == OpenMode.Edit) {
+        // Заполняем таблицу Разработчики
+        let customers = cardData['customers'];
+        ind = 1;
+        $('#contract_card__customers_table tbody tr').remove();
+        customers.forEach(customer => {
+            customer['ind'] = ind++;
+            $('#contract_card__customer_table tbody').append(
+                contract_card__draw_customer_row(customer)
+            )
+        })
+    }
 }
 
+/** ================== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ РАЗРАБОТЧИКИ ================= */
+function contract_card__draw_customer_row(customer) {
+    // var content_html =
+    //     $("<tr>")
+    //         .append($("<td class='id hide'>").text(developper['id']))
+    //         .append($("<td class='information_system_card__developpers_table_num'>").text(developper['ind']))
+    //         .append($("<td>")
+    //             .append($("<div class='ref_record'>")
+    //                 .append($("<p class='hide name_reference'>").text("organization"))
+    //                 .append($("<p class='id hide'>").text(developper['developper_id']))
+    //                 .append($("<input class='fullname'>").val(developper['developper_name'].replace(/\\"/g, '"')))
+    //                 .append($("<div class='ref_record__button'>").text("..."))
+    //                 .on('click', function (e) {
+    //                     reference.open_reference(e, '#information_system_card', 'Справочник Организации');
+    //                 })
+    //             )
+    //         )
+    //         .append($("<td class='is_deleted hide'>").text(0))
+    // return content_html;
+}
 
 /**
  * Контракты. Редактирование ЗАПИСИ

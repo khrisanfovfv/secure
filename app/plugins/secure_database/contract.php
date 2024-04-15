@@ -132,7 +132,7 @@ class Contract{
         );
 
         // Заполняем данными таблицу Контракт. Заказчик
-        $table_name = $wpdb->prefix . 'contract_сustomer';
+        $table_name = $wpdb->prefix . 'contract_customer';
         $wpdb->insert(
             $table_name,
             array(
