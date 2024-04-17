@@ -1,5 +1,5 @@
 // Режим редактирования карточки
-var OpenMode ={
+OpenMode ={
     Create : 0,
     Edit : 1,
     Copy : 2
@@ -62,6 +62,7 @@ var reference = {
     open_card(prefix, title, size, openMode, id, detail = '') {
         // Показываем диалоговое окно
         reference.show_dialog(prefix,size,title);
+        let card;
         //1.  Загружаем карточку
         if (detail == ''){
             card = reference.get_card_name(prefix);
@@ -107,7 +108,7 @@ var reference = {
             case '#information_system_ref': card = 'information_system_card'; break;
             case '#administrator_ref' : card = 'administrator_card'; break;
             case '#organization_ref' : card = 'organization_card' ; break;
-            case '#document_version_list' : card = 'document_version_card'; break;
+            case '#document_card__version_list' : card = 'document_version_card'; break;
             case '#information_system_card__documents' : card = 'document_card'; break;
             case '#contract_ref' : card = 'contract_card'; break;
             case '#footer_ref' : card = 'employee_card'; break;

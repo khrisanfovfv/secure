@@ -55,17 +55,25 @@
     }
 }
 
+.employee_card label{
+    color: #2778f1;
+}
+
 #employee_card{
-    &__email{
+    &__login, &__email, &__lastname, &__middlename{
         grid-column: 3/11;
     }
-    &__state_label{
+    &__role_label, &__state_label, &__firstname_label, &__password_label{
         grid-column: 12/15;
     }   
-    &__state{
+    &__role, &__state{
         grid-column: 16/25;
         background-color: white;
     } 
+
+    &__firstname, &__password{
+        grid-column: 16/25;
+    }
 } 
 
 #employee_ref{

@@ -143,13 +143,13 @@ $document_icons = $resources->get_document_icons();
                     <p class="attachments__title">Документы</p>
                     <ul class="attachments__list">
                         <li class="attachments__item document__item">
-                            <a class="attachments__link" href="">
+                            <a class="attachments__link" href="#">
                                 <img class="attachments__ico" src="<?php echo $document_icons->pdf ?>" alt="">
                                 <p class="attachments__name_item">Аттестат соответствия</p>
                             </a>
                         </li>
                         <li class="attachments__item document__item">
-                            <a class="attachments__link" href="">
+                            <a class="attachments__link" href="#">
                                 <img class="attachments__ico" src="<?php echo $document_icons->ms_word ?>" alt="">
                                 <p class="attachments__name_item">Технический паспорт</p>
                             </a>

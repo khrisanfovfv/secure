@@ -60,6 +60,7 @@ class Employee{
         $user = get_user_by('id', $id);
         $result['id'] = $user->id;
         $result['login'] = $user->user_login;
+        // ЗАГРУЖАЕМ аватар
         $result['photo'] = Employee::image_to_base64(get_template_directory().'/storage/avatars/2_naimovada.jpg');
         $result['last_name'] = $user->last_name;
         $result['first_name'] = $user->first_name;
@@ -91,38 +92,40 @@ class Employee{
      */
     function secure_add_employee(){
         check_ajax_referer( 'cit_secure', 'nonce' ); // защита
-        $id = $_POST['id'];
-        $login = $_POST['login'];
-        $path = wp_normalize_path(get_template_directory() .'/storage/avatars/');
+        $userdata = [
+            'user_login'            =>      $_POST['login'],
+            'user_pass'             =>      $_POST['password'],
+            'user_email'            =>      $_POST['email'],
+            'last_name'             =>      $_POST['last_name'],
+            'first_name'            =>      $_POST['first_name'],
+            'rich_editing'          =>     'false',
+            'show_admin_bar_front'  =>      $_POST['role'] == 'administrator' ? 'true' : 'false',
+            'role'                  =>      $_POST['role'],
+            'meta_input'            =>      [
+                'middle_name'       =>      $_POST['middle_name'],
+                'organization'      =>      $_POST['organization'],
+                'department'        =>      $_POST['department']
+            ]
+        ];
 
-
-        if(empty( $_FILES )){
-		    wp_send_json_error( 'Файлов нет...' );
-        }
-            
+        $id = wp_insert_user( $userdata );
         
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        $record = $_POST['first_name'];
-        // $wpdb->insert(
-        //     $prefix . 'employee',
-        //     array(
-        //         'name' => $record['name'],
-        //         'organization_id' => $record['organization_id'],
-        //         'boss' => $record['boss'],
-        //         'state' => $record['state']
-        //     ),
-        //     array(
-        //         '%s', // name
-        //         '%d', // organization_id
-        //         '%s', // boss
-        //         '%s'  // state
-        //     )
-        // );
+        // Загружаем аватар
+        if(!empty( $_FILES )){
+		    $files = $_FILES;
+            $file_name = $files[0]['name'];
+            $ext =  pathinfo($file_name, PATHINFO_EXTENSION);
+            // Путь к папке с аватарами
+            $path = wp_normalize_path(get_template_directory() .'/storage/avatars/');
+            $path_avatar = $path . $id . '_' . $login . '.' . $ext;
+            // Записываем файл на сервер
+            if (move_uploaded_file($_FILES[0]['tmp_name'], $path_avatar) === false){
+                wp_send_json_error( 'Ошибка загрузки файла');
+            }
+		}
 
-        wp_send_json_success( 'Сработало!' );
-
-        //wp_die();
+        wp_send_json_success( 'Запись ИД =' .  $id . 'Добавлена успешно!');
+        wp_die();
     }
 
     /**

@@ -29,6 +29,7 @@ var Context = {
         '#employeer_ref__context',
         '#document_ref__context',
         '#document_ref__out_context',
+        '#document_card__version_context',
         '#document_card__version_out_context',
         '#document_card__send_list_context',
         '#document_card_send_list__out_context',
@@ -59,11 +60,14 @@ var Context = {
     init() {
         /*=========== Привязка событий =============*/
         $("body").on("contextmenu", function (e) {
-            if (Context.clickInsideElement(e)) {
+            el = Context.clickInsideElement(e);
+            if (el) {
                 e.preventDefault();
                 Context.toggleMenuOff();
                 Context.toggleMenuOn();
                 Context.positionMenu(e);
+                // Выделяем вложение
+                Context.highlightAttachment(e,el);
             } else {
                 Context.toggleMenuOff();
             }
@@ -121,6 +125,9 @@ var Context = {
                     }
                 }
             }
+
+            // Выделяем версию документа
+            Context.highlightAttachment(e,el);
             el = null;
         });
         $("body").on("keyup", function (e) {
@@ -131,6 +138,17 @@ var Context = {
         $(window).on("resize", function () {
             Context.toggleMenuOff();
         })
+    },
+
+    // Выделяем документ/ версию документа
+    highlightAttachment(e, el){
+        if (el && el.classList){
+            if (el.classList.contains('attachments__item')){
+            $('.attachments__item').removeClass('highlight');
+            $(e.target).parents('.attachments__item').addClass('highlight');
+            } 
+        }
+        
     },
 
     /**
@@ -182,6 +200,7 @@ var Context = {
             'document_ref__table_row',
             'main_menu__item',
             'document__item',
+            'version__item',
             'context-menu__item',
             'user'
         ];
@@ -234,6 +253,7 @@ var Context = {
             case 'information_system_card__contracts_table_row': Context.menu = $('#information_system_card__contracts_context'); break;
             case 'information_system_card__remarks_table_num': Context.menu = $('#information_system_card__remarks_context'); break;
             case 'document__item': Context.menu = $('#information_system_card__document_context'); break;
+            case 'version__item' : Context.menu = $('#document_card__version_context'); break;
             case 'administrator_ref__table_row': Context.menu = $('#administrator_ref__context'); break;
             case 'administrator_card__information_systems_table_num' : Context.menu = $('#administrator_card__remarks_context'); break;
             case 'organization_ref__table_row': Context.menu = $('#organization_ref__context'); break;

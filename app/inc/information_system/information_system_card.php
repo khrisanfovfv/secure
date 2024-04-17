@@ -494,7 +494,7 @@ $document_icons = $resources->get_document_icons();
 <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ДОКУМЕНТА -->
 <div class="context-menu" id="information_system_card__document_context">
     <ul class="context-menu__list">
-        <li class="context-menu__item">
+        <li class="context-menu__item" id="information_system_card__documents_open">
             <img src="<?php echo $button_icons->read ?>" alt=Открыть">
             <p><b>Открыть</b></p>
         </li>

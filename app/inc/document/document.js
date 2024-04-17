@@ -315,6 +315,9 @@ $('#document_ref__context_delete').on('click', function () {
     document_delete_record();
 })
 
+
+
+
 /**================================================================================= 
 * ==================================== ДЕЙСТВИЯ ==================================== 
 * ==================================================================================*/
@@ -389,6 +392,60 @@ function document_card__send_list_create_record(){
     $('#document_card__send_list_table tbody').append(
         document_card_draw_send_list_row(organization)
     );
+}
+
+
+
+/**
+ * ========================= ЧИТАЕМ ВЕРСИЮ ДОКУМЕНТА ===========================
+ */
+function document_version_read(id){
+    let formData = new FormData();
+    formData.append('version_id', id);
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', MainData.ajaxurl + '?action=load_document_version', true); // URL обработчика
+    //xhr.open('GET', '/wp-admin/admin-ajax.php?action=load_document_version', true); // URL обработчика
+    xhr.responseType = 'blob';
+
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            var blob = xhr.response;
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'file.pdf'; // Имя файла, которое будет предложено пользователю
+            link.click();
+        } else {
+            console.error('Ошибка при загрузке файла.');
+        }
+    };
+     xhr.send(formData);
+}
+
+/**
+ * ========================= ОБНОВЛЯЕМ СПИСОК ВЕРСИЙ ДОКУМЕНТА ==================
+ */
+function document_version_list_update(document_id){
+    var data = {
+        action: 'load_document_version_list',
+        document_id: document_id
+    };
+
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        let versions = JSON.parse(result);
+        $('#document_card__version_list li').remove();
+
+        versions.forEach(version => {
+
+            $('#document_card__version_list').append(
+                document_card_draw_version(version)
+            );
+        });
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        let size = { width: 500, height: 200 };
+        message = 'Во время загрузки детального раздела Замечания по аттестации произощла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#document_ref', 'Ошибка', size, message);
+    });
 }
 
 
@@ -625,6 +682,28 @@ function document_card_binging_events() {
     $('#document_card__send_list_delete').on('click', function () {
         document_card_send_list_delete_record();
     })
+
+
+    /** ======= КОНТЕКСТНОЕ МЕНЮ ВЕРСИЯ ДОКУМЕНТА. НАЖАТИЕ КНОПКИ ЧИТАТЬ ======== */
+    $('#document_card__version_context_read').on('click', function(e){
+        version = $('.version__item.highlight');
+        let id = version.find('.id').text();
+        document_version_read(id);
+    });
+
+    /** == КОНТЕКСТНОЕ МЕНЮ ВЕРСИЯ ДОКУМЕНТА. НАЖАТИЕ КНОПКИ ОТКРЫТЬ КАРТОЧКУ ==== */
+    $('#document_card__version_context_open_card').on('click', function(){
+        
+        let version = $('.version__item.highlight');
+        let id = version.find('.id').text();
+        let size = {width:800, height:500};
+        reference.open_card('#document_card', 'Карточка версии документа',size,OpenMode.Edit, id, '#document_card__version_list'); 
+    })
+
+    $('#documents_card__version_out_context-update').on('click', function(){
+        let document_id = $('#document_card__id').text();
+        document_version_list_update(document_id);
+    });
 
 
 

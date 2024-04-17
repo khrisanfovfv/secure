@@ -44,6 +44,25 @@
                     <span class="description"><?php _e("Please enter your department."); ?></span>
                 </td>
             </tr>
+            <tr>
+                <th><label for="avatar_path"><?php _e("Avatar path"); ?></label></th>
+                <td>
+                    <input type="text" name="avatar_path" id="avatar_path"
+                        value="<?php echo esc_attr( get_the_author_meta( 'avatar_path', $user->ID ) ); ?>"
+                        class="regular-text" /><br />
+                    <span class="description"><?php _e("Please enter your avatar path."); ?></span>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="user_state"><?php _e("State"); ?></label></th>
+                <td>
+                    <select name="user_state" id="user_state">
+                        <option value="Active"><?php _e("Active") ?></option>
+                        <option value="Inactive"><?php _e("Inactive") ?></option>
+                    </select></br>
+                    <span class="description"><?php _e("Please select your state."); ?></span>
+                </td>
+            </tr>
         </table>
 
 <?php }
@@ -58,6 +77,8 @@
     update_user_meta( $user_id, 'middle_name', $_POST['middle_name'] );
     update_user_meta( $user_id, 'organization', $_POST['organization'] );
     update_user_meta( $user_id, 'department', $_POST['department'] );
+    update_user_meta( $user_id, 'user_state', $_POST['user_state'] );
+    update_user_meta( $user_id, 'avatar_path', $_POST['avatar_path']);
     }
 
 

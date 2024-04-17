@@ -74,6 +74,7 @@ $document_icons = $resources->get_document_icons();
                         <!-- Электронный документ -->
                         <label for="document_card__file">Файл</label>
                         <input type="file" id="document_card__file">
+
                     </div>
                     <!-- ВКЛАДКА СПИСОК РАССЫЛКИ -->
                     <div class="document_card__send_list hide">
@@ -147,6 +148,24 @@ $document_icons = $resources->get_document_icons();
             </div>
         </div>
     </div>
+</div>
+
+<!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ВЕРСИИ ДОКУМЕНТА -->
+<div class="context-menu" id="document_card__version_context">
+    <ul class="context-menu__list">
+        <li class="context-menu__item" id="document_card__version_context_read">
+            <img src="<?php echo $button_icons->read ?>" alt="Читать">
+            <p><b>Читать</b></p>
+        </li>
+        <li class="context-menu__item" id="document_card__version_context_open_card">
+            <img src="<?php echo $button_icons->open_card ?>" alt="Открыть карточку">
+            <p>Открыть карточку</p>
+        </li>
+        <li class="context-menu__item" id="document_card__version_context_delete">
+            <img src="<?php echo  $button_icons->delete ?>" alt="Удалить">
+            <p>Удалить</p>
+        </li>
+    </ul>
 </div>
 
 <!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ОБЛАСТИ С ВЕРСИЯМИ ДОКУМЕНТА -->

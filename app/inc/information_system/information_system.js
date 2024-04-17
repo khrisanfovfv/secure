@@ -637,6 +637,42 @@ function information_system_card__developpers_delete_record() {
  */
 
 
+/**
+ * ================================= ДОКУМЕНТЫ. ОТКРЫТЬ ================================
+ */
+function information_system_read_document(){
+    let document_id = $('.attachments__item').children('.id').text();
+    
+    let data = {
+        action: 'load_document_version_list',
+        document_id: document_id
+    }
+
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var rows = JSON.parse(result);
+        // Ищем действующие версии
+        let results = rows.filter(function(item){
+            return item.state === 'Active'
+        })
+        let version;
+        // Если нашли действующие версии выбираем максимальную
+        if (results.length > 0){
+            version =  results.reduce((max,current) => (max.version_number > current.version_number ? max : current), results[0]);
+        // Иначе ищем последнюю версию
+        } else{
+            version = rows.reduce((max, current) => (max.version_number > current.version_number ? max : current), rows[0]);
+        }
+        // Открываем версию документа
+        document_version_read(version.id);
+        
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки версий документов произощла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#information_system_card', 'Ошибка', size, message);
+    });
+
+}
+
 
 /**
  * ============================== АДМИНИСТРАТОРЫ. СОЗДАТЬ ==============================
@@ -999,12 +1035,9 @@ function information_system_card_binging_events() {
     })
 
 
-
-
-    /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. ВыЫДЕЛИТЬ ДОКУМЕНТ ====================*/
-    $('.document__item').on('click', function (e) {
-        alert('Работает!');
-        $(e.target).addClass('highlight');
+    /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. ОТКРЫТЬ ДОКУМЕНТ */
+    $('#information_system_card__documents_open').on('click', function(){
+        information_system_read_document();
     })
 
     /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ УДАЛИТЬ ================*/

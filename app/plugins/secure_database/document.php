@@ -615,4 +615,58 @@ class Document
         echo json_encode($results);
         wp_die();
     }
+
+    /**
+     * ========== ЧИТАЕМ ВЕРСИЮ ДОКУМЕНТА ===========
+     */
+    function secure_load_document_version(){
+        $file_path = 'C:/OSPanel/domains/secure/wp-content/themes/cit_secure/storage/documents/1.pdf'; // Путь к файлу на сервере
+        $version_id = $_POST['version_id'];
+        $file_path = wp_normalize_path(get_template_directory() . '/storage/documents/' . $version_id .'.pdf');
+
+        if (file_exists($file_path)) {
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
+            readfile($file_path);
+            exit;
+        }else {
+            echo "Файл" .  $file_path . "не найден.";
+        }
+        //wp_die();
+    }
+
+    /**
+     * ЗАГРУЗКА СПИСКА ВЕРСИЙ ДОКУМЕНТОВ
+     */
+    function secure_load_document_version_list(){
+        $document_id = $_POST['document_id'];
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+
+        $results = $wpdb->get_results(
+            $wpdb->prepare("SELECT * FROM ${prefix}document_version WHERE document = %d", $document_id), ARRAY_A);
+        
+        echo json_encode($results);
+        wp_die();
+    }
+
+
+    /** Преобразование документа в кодирофку base64 */
+    function document_to_base64($path_to_document)
+    {
+        try {
+            $path =  wp_normalize_path($path_to_document);
+            $type = pathinfo($path_to_document, PATHINFO_EXTENSION);
+            $document = file_get_contents($path_to_document);
+            if ($document === false){
+                wp_die('Не удалось загрузить файл', 'Ошибка', array('response' => 500));
+            }
+            $base64 = 'data:document/' . $type . ';base64,' . base64_encode($document) ;
+            return $base64;
+        } catch (\Throwable $th) {
+            wp_die($th.getMessage(), 'Ошибка', array('response' => 500));
+        }
+        
+        
+    }
 }

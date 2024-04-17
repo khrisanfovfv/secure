@@ -22,10 +22,11 @@ $document_icons = $resources->get_document_icons();
                     <p class="attachments__name_item"></p>
                     <input type="file" id="document_version_card__browse">
                 </div>
-                
-                
-
-
+                <label for="document_version_card__state">Состояние</label>
+                <select id ="document_version_card__state">
+                    <option value="Actve">Действующая</option>
+                    <option value="inactve">Не Действующая</option> 
+                </select>
             </div>
 
         </div>

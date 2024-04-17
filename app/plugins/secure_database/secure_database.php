@@ -156,6 +156,9 @@ class SecDb
         add_action('wp_ajax_nopriv_search_document', array('Document','secure_search_document'));
         add_action('wp_ajax_search_document_extended', array('Document','secure_search_document_extended'));
         add_action('wp_ajax_nopriv_search_document_extended', array('Document','secure_search_document_extended'));
+        add_action('wp_ajax_load_document_version', array('Document', 'secure_load_document_version'));
+        add_action('wp_ajax_load_document_version_list', array('Document', 'secure_load_document_version_list'));
+
         // СОТРУДНИКИ
         add_action('wp_ajax_load_employee', array('Employee', 'secure_load_employee'));
         add_action('wp_ajax_nopriv_load_employee', array('Employee', 'secure_load_employee'));
