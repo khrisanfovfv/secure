@@ -173,38 +173,73 @@ function card_contract_load_data(data, openMode) {
    
     //ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ
     if (openMode == OpenMode.Edit) {
-        // Заполняем таблицу Разработчики
-        let customers = cardData['customers'];
+        // Заполняем таблицу Заказчики
+        let customers = cardData.customers;
         ind = 1;
         $('#contract_card__customers_table tbody tr').remove();
         customers.forEach(customer => {
             customer['ind'] = ind++;
-            $('#contract_card__customer_table tbody').append(
-                contract_card__draw_customer_row(customer)
+            $('#contract_card__customers_table tbody').append(
+                contract_card__draw_customers_row(customer)
+            )
+        })
+    }
+    //ДЕТАЛЬНЫЙ РАЗДЕЛ Исполнители
+    if (openMode == OpenMode.Edit) {
+        // Заполняем таблицу Исполнители
+        let developpers = cardData.developpers;
+        ind = 1;
+        $('#contract_card__developpers_table tbody tr').remove();
+        developpers.forEach(developper => {
+            developper['ind'] = ind++;
+            $('#contract_card__developpers_table tbody').append(
+                contract_card__draw_developpers_row(developper)
             )
         })
     }
 }
 
 /** ================== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ РАЗРАБОТЧИКИ ================= */
-function contract_card__draw_customer_row(customer) {
-    // var content_html =
-    //     $("<tr>")
-    //         .append($("<td class='id hide'>").text(developper['id']))
-    //         .append($("<td class='information_system_card__developpers_table_num'>").text(developper['ind']))
-    //         .append($("<td>")
-    //             .append($("<div class='ref_record'>")
-    //                 .append($("<p class='hide name_reference'>").text("organization"))
-    //                 .append($("<p class='id hide'>").text(developper['developper_id']))
-    //                 .append($("<input class='fullname'>").val(developper['developper_name'].replace(/\\"/g, '"')))
-    //                 .append($("<div class='ref_record__button'>").text("..."))
-    //                 .on('click', function (e) {
-    //                     reference.open_reference(e, '#information_system_card', 'Справочник Организации');
-    //                 })
-    //             )
-    //         )
-    //         .append($("<td class='is_deleted hide'>").text(0))
-    // return content_html;
+function contract_card__draw_customers_row(customer) {
+    var content_html =
+        $("<tr>")
+            .append($("<td class='id hide'>").text(customer['id']))
+            .append($("<td class='contract_card__customers_table_num'>").text(customer['ind']))
+            .append($("<td>")
+                .append($("<div class='ref_record'>")
+                    .append($("<p class='hide name_reference'>").text("organization"))
+                    .append($("<p class='id hide'>").text(customer['organization_id']))
+                    .append($("<input class='fullname'>").val(customer['organization_name'].replace(/\\"/g, '"')))
+                    .append($("<div class='ref_record__button'>").text("..."))
+                    .on('click', function (e) {
+                        reference.open_reference(e, '#contract_card', 'Справочник Контракты');
+                    })
+                )
+            )
+            .append($("<td class='is_deleted hide'>").text(0))
+    return content_html;
+}
+
+/** ================== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ ИСПОЛНИТЕЛИ ================= */
+function contract_card__draw_developpers_row(developper) {
+    alert('rabotaet');
+    var content_html =
+        $("<tr>")
+            .append($("<td class='id hide'>").text(developper['id']))
+            .append($("<td class='contract_card__developpers_table_num'>").text(developper['ind']))
+            .append($("<td>")
+                .append($("<div class='ref_record'>")
+                    .append($("<p class='hide name_reference'>").text("organization"))
+                    .append($("<p class='id hide'>").text(customer['organization_id']))
+                    .append($("<input class='fullname'>").val(customer['organization_name'].replace(/\\"/g, '"')))
+                    .append($("<div class='ref_record__button'>").text("..."))
+                    .on('click', function (e) {
+                        reference.open_reference(e, '#contract_card', 'Справочник Контракты');
+                    })
+                )
+            )
+            .append($("<td class='is_deleted hide'>").text(0))
+    return content_html;
 }
 
 /**
@@ -278,6 +313,8 @@ function contract_card_binding_events() {
     $('#contract_card__Cancel').on('click', function (e) {
         $(e.target).parents('.appdialog').css('display', 'none');
     });
+
+
 
 }
 

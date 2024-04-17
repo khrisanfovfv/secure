@@ -152,5 +152,8 @@ $prefix = $wpdb->prefix;
     </li>
 </ul>    
 </div>
-
+<script>
+    // Стек для передачи данных между окнами
+    stack = [];
+</script>
 <?php get_footer() ?>
