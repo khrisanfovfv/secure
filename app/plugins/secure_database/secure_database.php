@@ -117,6 +117,7 @@ class SecDb
          //Контракты
          add_action('wp_ajax_load_contract', array('Contract', 'secure_load_contract'));
          //add_action('wp_ajax_nopriv_load_contract', array('Contract', 'secure_load_contract'));
+         add_action('wp_ajax_load_contract_customers', array('Contract', 'secure_load_contract_customers'));
          add_action('wp_ajax_add_contract', array('Contract', 'secure_add_contract'));
          //add_action('wp_ajax_nopriv_add_contract', array('Contract', 'secure_add_contract'));
          add_action('wp_ajax_update_contract', array('Contract','secure_update_contract'));

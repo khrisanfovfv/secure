@@ -438,18 +438,24 @@ class Contract{
 //         wp_die();
 //     }
 
-//     /**
-//      * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. ЗАГРУЗКА ЗАПИСЕЙ ==============
-//      */
-//     public function secure_load_contract_remarks(){
-//         global $wpdb;
-//         $prefix = $wpdb->prefix;
-//         $contract_id = $_POST['contract_id'];
-//         $results = $wpdb->get_results( 
-//             $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE contract_id = $contract_id"), ARRAY_A );
-//         echo json_encode($results);
-//         wp_die();
-//     }
+    /**
+     * ============== ВКЛАДКА ЗАКАЗЧИКИ. ЗАГРУЗКА ЗАПИСЕЙ ==============
+     */
+    public function secure_load_contract_customers(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $contract_id = $_POST['contract_id'];
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT customer.id, customer.organization_id, organization.fullname as organization_name   
+            FROM {$prefix}contract_customer customer
+            JOIN {$prefix}organization organization on customer.organization_id=organization.id
+            WHERE contract_id = %d", $contract_id), ARRAY_A );
+        echo json_encode($results);
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error,'Ошибка', array('response'=> 500));
+        }
+        wp_die();
+    }
 
 //     /**
 //      * ======================== АДМИНИСТРАТОРЫ. ЗАГРУЗКА ЗАПИСЕЙ ===============

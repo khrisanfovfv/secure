@@ -294,6 +294,35 @@ function contract_delete_record() {
     $('#contract_ref__context').css('display', 'none');
 }
 
+/** ВКЛАДКА ЗАКАЗЧИКИ. ДЕЙСТВИЕ ОБНОВЛЕНИЕ */
+function contract_card__customers_update(){
+alert('rabotaet');
+    var contract_id = $('#contract_card__id').text();
+    // Загружаем детальный раздел Замечания по аттестации
+    var data = {
+        action: 'load_contract_customers',
+        contract_id: contract_id
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var rows = JSON.parse(result);
+        $('#contract_card__customers_table tbody tr').remove();
+        var ind = 1;
+
+        rows.forEach(customer => {
+            customer['ind'] = ind++;
+            alert('risuy')
+            $('#contract_card__customers_table tbody').append(
+                contract_card__draw_customers_row(customer)
+            );
+        });
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки детального раздела Замечания по аттестации произошла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#customers_ref', 'Ошибка', size, message);
+    });   
+}
+
 /**
  * ============ ПРИВЯЗКА СОБЫТИЙ К СПРАВОЧНИКУ ОРГАНИЗАЦИИ ============ 
  */
@@ -320,6 +349,11 @@ function contract_card_binding_events() {
         $('#contract_card__customers_create').on('click', function(){   
      contract_card__customers_create();
     })
+    /** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ. НАЖАТИЕ КНОПКИ Обновить ================ */
+    
+        $('#contract_card__customers_update').on('click', function(){   
+            contract_card__customers_update();
+           })
 
     /** ==============Карточка КОНТРАКТА: НАЖАТИЕ КНОПКИ OK ============= */
     $('#contract_card__OK ').on('click', function (e) {
