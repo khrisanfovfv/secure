@@ -124,7 +124,20 @@ function contract_select_record(e) {
         // Закрываем окно выбора
         $(e.target).parents('.appdialog:first').css('display', 'none');
     }
+} 
+/**=====СОЗДАНИЕ ЗАПИСИ. ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ */
+function contract_card__customers_create(){
+    var ind = $('#contract_card__customers_table tbody tr').length + 1;
+    var customer = [];
+    customer['id'] = '';
+    customer['ind'] = ind;
+    customer['organization_id'] = '';
+    customer['organization_name'] = '';
+    $('#contract_card__customers_table tbody').append(
+        contract_card__draw_customers_row(customer)
+    );
 }
+
 
 /**
  * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
@@ -199,7 +212,7 @@ function card_contract_load_data(data, openMode) {
     }
 }
 
-/** ================== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ РАЗРАБОТЧИКИ ================= */
+/** ================== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ ЗАКАЗЧИКИ 1================= */
 function contract_card__draw_customers_row(customer) {
     var content_html =
         $("<tr>")
@@ -222,7 +235,6 @@ function contract_card__draw_customers_row(customer) {
 
 /** ================== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ ИСПОЛНИТЕЛИ ================= */
 function contract_card__draw_developpers_row(developper) {
-    alert('rabotaet');
     var content_html =
         $("<tr>")
             .append($("<td class='id hide'>").text(developper['id']))
@@ -230,8 +242,8 @@ function contract_card__draw_developpers_row(developper) {
             .append($("<td>")
                 .append($("<div class='ref_record'>")
                     .append($("<p class='hide name_reference'>").text("organization"))
-                    .append($("<p class='id hide'>").text(customer['organization_id']))
-                    .append($("<input class='fullname'>").val(customer['organization_name'].replace(/\\"/g, '"')))
+                    .append($("<p class='id hide'>").text(developper['organization_id']))
+                    .append($("<input class='fullname'>").val(developper['organization_name'].replace(/\\"/g, '"')))
                     .append($("<div class='ref_record__button'>").text("..."))
                     .on('click', function (e) {
                         reference.open_reference(e, '#contract_card', 'Справочник Контракты');
@@ -302,6 +314,11 @@ function contract_card_binding_events() {
     /** ===================== ВЫБОР ВКЛАДКИ НА КАРТОЧКЕ КОНТРАКТА ================ */
     $('.contract_card__tabs_item').on('click', function (e) {
         contract__chose_tab(e);
+    })
+/** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ================ */
+    //$('.contract_card__tabs_item').on('click', function (e) {
+        $('#contract_card__customers_create').on('click', function(){   
+     contract_card__customers_create();
     })
 
     /** ==============Карточка КОНТРАКТА: НАЖАТИЕ КНОПКИ OK ============= */

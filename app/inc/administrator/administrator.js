@@ -513,7 +513,7 @@ function administrator_information_systems_create() {
         administrator_card__draw_information_system_row(information_system)
     );
     // Удаляем переменную чтобы избежать дублей строк
-    information_system = undefined;
+    ///information_system = undefined;
 }
 
 /**

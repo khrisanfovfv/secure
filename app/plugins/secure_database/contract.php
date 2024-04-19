@@ -199,6 +199,16 @@ class Contract{
 
         $results = (object) array_merge( (array)$results, array( 'customers' => $customers));
 
+         //ДЕТАЛЬНАЯ СТРАНИЦА ИСПОЛНИТЕЛИ
+         $developpers = $wpdb->get_results(
+            $wpdb->prepare("SELECT organization.id as organization_id, organization.fullname as organization_name  FROM {$prefix}contract_developper developper
+            JOIN {$prefix}organization organization on organization.id = developper.organization_id
+            WHERE developper.contract_id = %d", $id), OBJECT);
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, "Ошибка при загрузке карточки \"Контракты\"", array('response'=> 500));
+        } 
+
+        $results = (object) array_merge( (array)$results, array( 'developpers' => $developpers));
         //     $results = (object) array_merge( (array)$results, array( 'administrators' => $administrators ));
         // $remarks = $wpdb->get_results(
         //     $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE contract_id = $id"), OBJECT);
