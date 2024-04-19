@@ -457,6 +457,25 @@ class Contract{
         wp_die();
     }
 
+     /**
+     * ============== ВКЛАДКА ИСПОЛНИТЕЛИ. ЗАГРУЗКА ЗАПИСЕЙ ==============
+     */
+    public function secure_load_contract_developpers(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $contract_id = $_POST['contract_id'];
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT developper.id, developper.organization_id, organization.fullname as organization_name   
+            FROM {$prefix}contract_developper developper
+            JOIN {$prefix}organization organization on developper.organization_id=organization.id
+            WHERE contract_id = %d", $contract_id), ARRAY_A );
+        echo json_encode($results);
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error,'Ошибка', array('response'=> 500));
+        }
+        wp_die();
+    }
+
 //     /**
 //      * ======================== АДМИНИСТРАТОРЫ. ЗАГРУЗКА ЗАПИСЕЙ ===============
 //      */

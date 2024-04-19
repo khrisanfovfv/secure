@@ -296,9 +296,8 @@ function contract_delete_record() {
 
 /** ВКЛАДКА ЗАКАЗЧИКИ. ДЕЙСТВИЕ ОБНОВЛЕНИЕ */
 function contract_card__customers_update(){
-alert('rabotaet');
     var contract_id = $('#contract_card__id').text();
-    // Загружаем детальный раздел Замечания по аттестации
+    // Загружаем детальный раздел ЗАКАЗЧИКИ
     var data = {
         action: 'load_contract_customers',
         contract_id: contract_id
@@ -310,9 +309,35 @@ alert('rabotaet');
 
         rows.forEach(customer => {
             customer['ind'] = ind++;
-            alert('risuy')
             $('#contract_card__customers_table tbody').append(
                 contract_card__draw_customers_row(customer)
+            );
+        });
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки детального раздела Замечания по аттестации произошла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#customers_ref', 'Ошибка', size, message);
+    });   
+}
+
+/** ВКЛАДКА ИСПОЛНИТЕЛИ. ДЕЙСТВИЕ ОБНОВЛЕНИЕ */
+function contract_card__developpers_update(){
+    var contract_id = $('#contract_card__id').text();
+    // Загружаем детальный раздел ИСПОЛНИТЕЛИ
+    var data = {
+        action: 'load_contract_developpers',
+        contract_id: contract_id
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var rows = JSON.parse(result);
+        $('#contract_card__developpers_table tbody tr').remove();
+        var ind = 1;
+
+        rows.forEach(developper => {
+            developper['ind'] = ind++;
+            $('#contract_card__developpers_table tbody').append(
+                contract_card__draw_developpers_row(developper)
             );
         });
 
