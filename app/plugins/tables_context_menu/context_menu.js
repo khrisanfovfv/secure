@@ -99,7 +99,6 @@ var Context = {
                 case 'department_ref__out_context_update' : department_load_records(); break;
 
                 case 'document_ref__out_context_update' : document_load_records(); break; 
-                case 'documents_card__version_out_context-create' : document_card_create_version(); break; 
                 case 'document_card_send_list__out_context_create' : document_card__send_list_create_record(); break
                 case 'document_card_send_list__out_context_update' : document_card_send_list_load_records(); break;
                 case 'document_card__send_list_context_copy' : document_card_send_list_copy_record(); break;
@@ -130,6 +129,7 @@ var Context = {
             Context.highlightAttachment(e,el);
             el = null;
         });
+
         $("body").on("keyup", function (e) {
             if (e.key === 'Escape') {
                 Context.toggleMenuOff();

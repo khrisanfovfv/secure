@@ -198,6 +198,9 @@
 
 .document_version_card{
     display: flex;
+    &__content{
+        padding: 5px;
+    }
     &__general{
         display: grid;
         grid-template-columns: repeat(24,1fr);
@@ -205,7 +208,7 @@
     }
 
     &__general input[type=text]{
-        grid-column: 3/24;
+        grid-column: 3/25;
         width: 100%;
     }
 
@@ -216,10 +219,11 @@
 
     &__general label{
         grid-column: 1;
+        color: #2778f1;
     }
 
     &__general select{
-        grid-column: 3/8;
+        grid-column: 3/11;
         background-color: white;
     }
 
@@ -227,8 +231,14 @@
 
 #document_version_card{
     &__browse{
-        grid-column: 3/24;
+        grid-column: 3/25;
         border-bottom: none;
+    }
+    &__number{
+        grid-column: 3;
+    }
+    &__file{
+        grid-column: 3/25;
     }
 }
 

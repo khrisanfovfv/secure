@@ -80,6 +80,8 @@ var reference = {
             // Привязываем события к элементам карточки
             reference.binding_event_card(prefix, detail);
             switch (openMode){
+                // Режим создания
+                case OpenMode.Create : reference.initialization_card(detail); break;
                 // Режим редактирования
                 case OpenMode.Edit : reference.load_card_data(prefix,id,OpenMode.Edit, detail); break;
                 // Режим копирования
@@ -141,7 +143,7 @@ var reference = {
             }
         } else {
             switch(detail){
-                case '#document_version_list' : document_version_card_binding_events();break;
+                case '#document_card__version_list' : document_version_card_binding_events();break;
                 case '#information_system_card__documents' : document_card_binging_events(); break;
             }
         }
@@ -159,6 +161,16 @@ var reference = {
             case 'document' : document_ref_binding_events();
         }
         
+    },
+
+    /**
+     * Инициализация карточки
+     * @param {string} prefix 
+     */
+    initialization_card(prefix){
+        switch (prefix){
+            case '#document_card__version_list' : document_version_initialize(); break;
+        }
     },
 
 

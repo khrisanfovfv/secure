@@ -1,3 +1,4 @@
+
 var document_icons = JSON.parse(MainData.document_icons);
 var byteArray = [];
 
@@ -66,102 +67,185 @@ function readFile(file) {
 
 function document_card_press_OK(sender) {
     if (document_card__check_fields()) {
-        
-        // Детальный раздел версии
-        var rows = $('#document_card__version_list li');
-        var document_versions = [];
-        var document_version = {};
-       
-        rows.each(function(ind, element){
-
-            document_version.id = $(element).children('.id').text();
-            document_version.version_number = $(element).children('.version_number').text();
-            document_version.versiondate = $(element).children('.versiondate').text();
-            document_version.version_title = $(element).children('.attachments__name_item').text();
-            document_version.type = $(element).children('.type').text();
-            document_version.is_deleted = $(element).children('.is_deleted').text();
-            /*getAsByteArray($(element).children('.file').prop('files')[0])
-                .then((dv) => {
-                    document_version.files = JSON.stringify(dv);
-                })*/
-            // Копируем обьект в массив
-            document_versions[ind] = JSON.parse(JSON.stringify(document_version));
-        })
-
-        var rows = $('#document_card__send_list_table tbody tr');
-        var correspondent = {}
-        var send_list = []
-
-        rows.each(function(ind, row){
-            correspondent.id = $(row.cells[0]).text();
-            correspondent.correspondent_id = $(row.cells[2]).find('.id').text();
-            correspondent.send_date = $(row.cells[3]).children().val();
-            correspondent.is_deleted = $(row.cells[4]).text();
-            // Копируем обьект в массив
-            send_list[ind] = JSON.parse(JSON.stringify(correspondent));
-        })
-
         // Формируем запись для запроса
-        record = {
-            id: $('#document_card__id').text(),
-            number: $('#document_card__number').val(),
-            documentdate: $('#document_card__documentdate').val(),
-            name: $('#document_card__name').val(),
-            kind: $('#document_card__kind').find('.id').text(),
-            type: $('#document_card__type').val(),
-            sender: $('#document_card__sender').find('.id').text(),
-            correspondent: $('#document_card__correspondent').find('.id').text(),
-            sendreceive: $('#document_card__sendreceive').val(),
-            signed: $('#document_card__signed').attr('checked'),
-            signer: $('#document_card__signer').val(),
-            document_versions : JSON.stringify(document_versions),
-            send_list : JSON.stringify(send_list),
-            state: $('#document_card__state').val()
-        }
+        var data = new FormData();
+        data.append('id', $('#document_card__id').text());
+        data.append('number', $('#document_card__number').val());
+        data.append('documentdate', $('#document_card__documentdate').val());
+        data.append('documentname', $('#document_card__name').val());
+        data.append('kind', $('#document_card__kind').find('.id').text());
+        data.append('type', $('#document_card__type').val());
+        data.append('sender', $('#document_card__sender').find('.id').text());
+        data.append('correspondent', $('#document_card__correspondent').find('.id').text());
+        data.append('sendreceive',  $('#document_card__sendreceive').val());
+        data.append('signed', $('#document_card__signed').attr('checked'));
+        data.append('signer', $('#document_card__signer').val());
+        data.append('state', $('#document_card__state').val());
+        
+
+        // Обрабатываем версии документа
+        let versions = $('.version__item');
+        let versions_info = [];
+        let files = [];
+        $.each(versions, function(index, element){
+            let info = {};
+            info.id = $(element).children('.id').text();
+            info.version_number = $(element).children('.version_number').text();
+            //info.version.versiondate = $(element).children('.versiondate').text();
+            info.version_title = $(element).children('.attachments__name_item').text();
+            info.version_type = $(element).children('.type').text();
+            info.is_deleted = $(element).children('.is_deleted').text();
+            if ($(element).find('.file').val()!=''){
+                info.file_index = index;
+                files[index] = $(element).find('.file').prop('files')[0];
+            }
+            versions_info[index] = info;
+        });
+
+        
+        data.append('versions_info',JSON.stringify(versions_info));
+        
+        $.each(files, function(key, value){
+            data.append(key, value);
+        })
+
+        // Выбираем действие создать/обновить
         if ($('#document_card__id').text() == '') {
-
-            // ДОБАВЛЯЕМ значение в базу
-            var data = {
-                action: 'add_document',
-                cache: false,
-			    //contentType: false,
-                processData: false,
-                contentType: 'application/octet-stream', // set Content-Type header
-			    //processData: false,
-                record: record
-            };
-
-            jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-                document_load_records();
-            }).fail(function () {
-                var size = { width: 500, height: 200 };
-                var message = 'Во время добавления записи произошла ошибка';
-                reference.show_notification('document_ref', 'Ошибка', size, message);
-            })
-        } else {
-            // ОБНОВЛЯЕМ значение в базе данных
-            var data = {
-                action: 'update_document',
-                processData: false,
-                contentType: 'application/octet-stream', // set Content-Type header
-                cache: false,
-                record: record
-            };
-
-            jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-                document_load_records();
-            }).fail(function () {
-                var size = { width: 500, height: 200 };
-                var message = 'Во время обновления записи произошла ошибка';
-                reference.show_notification('document_ref', 'Ошибка', size, message);
-            })
+            data.append('action', 'add_document');
+        } else{
+            data.append('action', 'update_document')
         }
+        // Выполняем запрос
+        $.ajax({
+            url: MainData.ajaxurl,
+            type: 'POST',
+            data: data,
+            cache: false,
+            dataType: 'json',
+            // отключаем обработку передаваемых данных, пусть передаются как есть
+            processData: false,
+            // отключаем установку заголовка типа запроса. Так jQuery скажет серверу что это строковой запрос
+            contentType: false,
+            // функция успешного ответа сервера
+            success: function (result) {
+                var size = { width: 500, height: 200 };
+                reference.show_notification('#employee_ref', 'Уведомление', size, result.data);
+                employee_load_records();
+            },
+            // функция ошибки ответа сервера
+            error: function (jqXHR, status, errorThrown) {
+                var size = { width: 500, height: 200 };
+                let message;
+                if ($('#document_card__id').text() == '')
+                    message = 'Во время добавления записи произошла ошибка';
+                else{
+                    message = 'Во время изменения записи произошла ошибка';
+                }
+                reference.show_notification('#employee_ref', 'Ошибка', size, message);
+            }
+        });
+
+        //     document_versions : JSON.stringify(document_versions),
+        //     send_list : JSON.stringify(send_list),
+        //     state: 
+
+        
+        
+        // // Детальный раздел версии
+        // var rows = $('#document_card__version_list li');
+        // var document_versions = [];
+        // var document_version = {};
+       
+        // rows.each(function(ind, element){
+
+        //     document_version.id = $(element).children('.id').text();
+        //     document_version.version_number = $(element).children('.version_number').text();
+        //     document_version.versiondate = $(element).children('.versiondate').text();
+        //     document_version.version_title = $(element).children('.attachments__name_item').text();
+        //     document_version.type = $(element).children('.type').text();
+        //     document_version.is_deleted = $(element).children('.is_deleted').text();
+        //     /*getAsByteArray($(element).children('.file').prop('files')[0])
+        //         .then((dv) => {
+        //             document_version.files = JSON.stringify(dv);
+        //         })*/
+        //     // Копируем обьект в массив
+        //     document_versions[ind] = JSON.parse(JSON.stringify(document_version));
+        // })
+
+        // var rows = $('#document_card__send_list_table tbody tr');
+        // var correspondent = {}
+        // var send_list = []
+
+        // rows.each(function(ind, row){
+        //     correspondent.id = $(row.cells[0]).text();
+        //     correspondent.correspondent_id = $(row.cells[2]).find('.id').text();
+        //     correspondent.send_date = $(row.cells[3]).children().val();
+        //     correspondent.is_deleted = $(row.cells[4]).text();
+        //     // Копируем обьект в массив
+        //     send_list[ind] = JSON.parse(JSON.stringify(correspondent));
+        // })
+
+        // // Формируем запись для запроса
+        // record = {
+        //     id: $('#document_card__id').text(),
+        //     number: $('#document_card__number').val(),
+        //     documentdate: $('#document_card__documentdate').val(),
+        //     name: $('#document_card__name').val(),
+        //     kind: $('#document_card__kind').find('.id').text(),
+        //     type: $('#document_card__type').val(),
+        //     sender: $('#document_card__sender').find('.id').text(),
+        //     correspondent: $('#document_card__correspondent').find('.id').text(),
+        //     sendreceive: $('#document_card__sendreceive').val(),
+        //     signed: $('#document_card__signed').attr('checked'),
+        //     signer: $('#document_card__signer').val(),
+        //     document_versions : JSON.stringify(document_versions),
+        //     send_list : JSON.stringify(send_list),
+        //     state: $('#document_card__state').val()
+        // }
+        // if ($('#document_card__id').text() == '') {
+
+        //     // ДОБАВЛЯЕМ значение в базу
+        //     var data = {
+        //         action: 'add_document',
+        //         cache: false,
+		// 	    //contentType: false,
+        //         processData: false,
+        //         contentType: 'application/octet-stream', // set Content-Type header
+		// 	    //processData: false,
+        //         record: record
+        //     };
+
+        //     jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+        //         document_load_records();
+        //     }).fail(function () {
+        //         var size = { width: 500, height: 200 };
+        //         var message = 'Во время добавления записи произошла ошибка';
+        //         reference.show_notification('document_ref', 'Ошибка', size, message);
+        //     })
+        // } else {
+        //     // ОБНОВЛЯЕМ значение в базе данных
+        //     var data = {
+        //         action: 'update_document',
+        //         processData: false,
+        //         contentType: 'application/octet-stream', // set Content-Type header
+        //         cache: false,
+        //         record: record
+        //     };
+
+        //     jQuery.post(MainData.ajaxurl, data, function (textStatus) {
+        //         document_load_records();
+        //     }).fail(function () {
+        //         var size = { width: 500, height: 200 };
+        //         var message = 'Во время обновления записи произошла ошибка';
+        //         reference.show_notification('document_ref', 'Ошибка', size, message);
+        //     })
+        // }
         $(sender).parents('.appdialog').css('display', 'none');
     }
 }
 
 /**
- * ===================== ПРОВЕРЯЕМ ЗАПОЛНЕННОСТЬ ОБЯЗАТЕЛЬНЫХ ПОЛЕЙ КАРТОЧКИ =======================
+ * ============== ПРОВЕРЯЕМ ЗАПОЛНЕННОСТЬ ОБЯЗАТЕЛЬНЫХ ПОЛЕЙ КАРТОЧКИ ДОКУМЕНТА ==================
  */
 function document_card__check_fields() {
     var message = ''
@@ -179,6 +263,52 @@ function document_card__check_fields() {
         reference.show_notification('#document_ref', 'Предупреждение', size, message);
         return false;
     }
+}
+
+/**
+ * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ВЕРСИЯ ДОКУМЕНТА =========================
+ */
+function document_version_card_press_OK(sender){
+    // Проверяем заполненность обязательных полей
+    if (document_version_card__check_fields()){
+        if ($('#document_version_card__id').text() === ''){
+            // Режим создания версии
+            let document_version = [];
+            let file_list = $('#document_version_card__browse').prop('files');
+            document_version['version_number'] = $('#document_version_card__number').val();
+            document_version['versiondate'] = file_list[0].lastModified;
+            document_version['type'] = file_list[0].type;
+            document_version['version_title'] = $('#document_version_card__title').val(); 
+            document_version['is_deleted'] = 0;
+            document_version['file_list'] = file_list;
+            $('#document_card__version_list').prepend(
+                document_card_draw_version(document_version)
+            );
+        }
+        $(sender).parents('.appdialog:first').css('display', 'none');
+        
+    }
+    
+}
+
+/**
+ * ============== ПРОВЕРЯЕМ ЗАПОЛНЕННОСТЬ ОБЯЗАТЕЛЬНЫХ ПОЛЕЙ КАРТОЧКИ ВЕРСИЯ ДОКУМЕНТА ==================
+ */
+function document_version_card__check_fields() {
+    message = '';
+    message = reference.check_empty_field('document_version_card__title','Наименование', message );
+    message = reference.check_empty_field('document_version_card__number','Номер версии', message );
+    message = reference.check_empty_field('document_version_card__browse','Файл', message );    
+    if (message == ''){
+        return true;
+    }else{
+        // Отправляем уведомление
+        var size = { width: 400, height: 200 };
+        reference.show_notification('#document_ref', 'Предупреждение', size, message);
+        return false;
+    }
+
+
 }
 
 /**
@@ -422,6 +552,24 @@ function document_version_read(id){
      xhr.send(formData);
 }
 
+/** ================== СОЗДАНИЕ ВЕРСИИ ДОКУМЕНТА ==================== */
+function document_card_create_version() {
+    size = { width: 600, height: 250 };
+    reference.open_card('#document_card', 'Карточка версии документа',size,OpenMode.Create, 0, '#document_card__version_list');
+ }
+
+ /** 
+  * ================= ИНИЦИАЛИЗАЦИЯ ВЕРСИИ ДОКУМЕНТА ================ 
+  * */
+ function document_version_initialize(){
+    // Номер следующей версии
+    let number = $('.version__item').length + 1;
+    // Выводим номер и название версии
+    $('#document_version_card__number').val(number);
+    $('#document_version_card__title').val('Версия ' + number);
+
+ }
+
 /**
  * ========================= ОБНОВЛЯЕМ СПИСОК ВЕРСИЙ ДОКУМЕНТА ==================
  */
@@ -477,6 +625,8 @@ function document_card_send_list_load_records() {
     });
 }
 
+ 
+
 /**
  * ================== СПИСОК РАССЫЛКИ. КОПИРОВАТЬ =======================
  */
@@ -506,9 +656,19 @@ function document_card_send_list_copy_record(){
 function document_card_send_list_delete_record() {
     var rows = $('#document_card__send_list_table>tbody>tr.highlight')
     if (rows.length > 0) {
-        var id = rows[0].children.item(0).textContent;
-        rows[0].children.item(4).textContent = 1;
-        rows[0].classList.add('hide');
+        $(rows[0]).children('.is_deleted').text(1);
+        $(rows[0]).addClass('hide');
+    }
+}
+
+/**
+ * ВЕРСИЯ ДОКУМЕНТОВ. УДАЛИТЬ
+ */
+function document_version_list_delete_record(){
+    var rows = $('.version__item.highlight')
+    if (rows.length > 0) {
+        $(rows[0]).children('.is_deleted').text(1);
+        $(rows[0]).addClass('hide');
     }
 }
 
@@ -635,7 +795,7 @@ function document_card_binging_events() {
         document_card_press_OK(this);
     });
 
-    /** ============ НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ВИД ДОКУМЕНТА ============= */
+    /** ============ НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ДОКУМЕНТА ============= */
     $('#document_card__Cancel').on('click', function (e) {
         $(e.target).parents('.appdialog').css('display', 'none');
     });
@@ -683,6 +843,11 @@ function document_card_binging_events() {
         document_card_send_list_delete_record();
     })
 
+     /** ======= КОНТЕКСТНОЕ МЕНЮ ВЕРСИЯ ДОКУМЕНТА. ДВОЙНОЕ НАЖАТИЕ КНОПКИ ======== */
+    $('.version__item').on('dblclick', function(e){
+        alert('работает!');
+    })
+
 
     /** ======= КОНТЕКСТНОЕ МЕНЮ ВЕРСИЯ ДОКУМЕНТА. НАЖАТИЕ КНОПКИ ЧИТАТЬ ======== */
     $('#document_card__version_context_read').on('click', function(e){
@@ -696,14 +861,26 @@ function document_card_binging_events() {
         
         let version = $('.version__item.highlight');
         let id = version.find('.id').text();
-        let size = {width:800, height:500};
+        let size = {width:600, height:250};
         reference.open_card('#document_card', 'Карточка версии документа',size,OpenMode.Edit, id, '#document_card__version_list'); 
     })
 
+    /** ==== КОНТЕКСТНОЕ МЕНЮ ВЕРСИЯ ДОКУМЕНТА. НАЖАТИЕ КНОПКИ СОЗДАТЬ ==== */
+    $('#documents_card__version_out_context-create').on('click', function(){
+        document_card_create_version();
+    }) 
+
+   
+     /** ==== КОНТЕКСТНОЕ МЕНЮ ВЕРСИЯ ДОКУМЕНТА. НАЖАТИЕ КНОПКИ ОБНОВИТЬ ==== */
     $('#documents_card__version_out_context-update').on('click', function(){
         let document_id = $('#document_card__id').text();
         document_version_list_update(document_id);
     });
+
+    /** ==== КОНТЕКСТНОЕ МЕНЮ ВЕРСИЯ ДОКУМЕНТА. НАЖАТИЕ КНОПКИ УДАЛИТЬ ==== */
+    $('#document_card__version_context_delete').on('click', function(){
+        document_version_list_delete_record();
+    })
 
 
 
@@ -746,7 +923,7 @@ function document_card_binging_events() {
 function document_version_card_binding_events(){
     /** ================  НАЖАТИЕ КНОПКИ ОК ================ */
     $('#document_version_card__OK').on('click', function(e){
-        $(e.target).parents('.appdialog:first').css('display', 'none');
+        document_version_card_press_OK(e.target);
     })
 
     $('#document_version_card__Cancel').on('click', function(e){
@@ -755,31 +932,9 @@ function document_version_card_binding_events(){
 
 }
 
-/*function resolve(ByteArray){
-    bytes = ByteArray
-}*/
-
-// function getByteArray(file) {
-//     return new Promise(function(resolve, reject) {
-//         fileReader.readAsArrayBuffer(file);
-//         fileReader.onload = function(ev) {
-//             const array = new Uint8Array(ev.target.result);
-//             const fileByteArray = [];
-//             for (let i = 0; i < array.length; i++) {
-//                 fileByteArray.push(array[i]);
-//             }
-//             resolve(array);  // successful
-//         }
-//         fileReader.onerror = reject; // call reject if error
-//     })
-//  }
 
 
-/** ================== СОЗДАНИЕ КАРТОЧКИ ВЕРСИИ ДОКУМЕНТА ==================== */
-function document_card_create_version() {
-   size = { width: 500, height: 250 };
-    reference.open_card('#document_card', 'Карточка версии документа',size,OpenMode.Create,0,'#document_version_list');
-}
+
 
 /**
  * ================== ОТОБРАЖАЕМ ВЕРСИЮ ДОКУМЕНТА ===================
@@ -794,8 +949,6 @@ function document_card_draw_version(document_version) {
             icon = document_icons.ms_excel; break;
         case 'application/pdf': icon = document_icons.pdf; break;
     }
-    
-   
     var content_html = $("<li class='attachments__item version__item'>")
         .append($("<p class='id hide'>").text(document_version['id']))
         .append($("<p class='version_number hide'>").text(document_version['version_number']))
@@ -804,8 +957,10 @@ function document_card_draw_version(document_version) {
         .append($("<img class='attachments__ico'>").attr('src', icon))
         .append($("<p class='attachments__name_item'>").text(document_version['version_title']))
         .append($("<p class='is_deleted hide'>").text(document_version['is_deleted']));
-    if (document_version['file'] != undefined){
-        content_html.append($("<input class='file hide' type='file'>").prop('files', document_version['file'].prop('files')))
+    if (document_version['file_list'] != undefined){
+        content_html.append($("<input class='file hide' type='file'>").prop('files', document_version['file_list']))
+    } else {
+        content_html.append($("<input class='file hide' type='file'>"))
     }
     return content_html;
 }
