@@ -66,10 +66,6 @@ $document_icons = $resources->get_document_icons();
                                 <img src="<?php echo $button_icons->create ?>" alt="">
                                 <p>Создать</p>
                             </button>
-                            <button class="reference__button" id="contract_card__customers_copy">
-                                <img src="<?php echo $button_icons->copy ?>" alt="">
-                                <p>Копировать</p>
-                            </button>
                             <button class="reference__button" id="contract_card__customers_update">
                                 <img src="<?php echo $button_icons->update ?>" alt="Обновить">
                                 <p>Обновить</p>
@@ -101,10 +97,6 @@ $document_icons = $resources->get_document_icons();
                             <button class="reference__button" id="contract_card__developpers_create">
                                 <img src="<?php echo $button_icons->create ?>" alt="">
                                 <p>Создать</p>
-                            </button>
-                            <button class="reference__button" id="contract_card__developpers_copy">
-                                <img src="<?php echo $button_icons->copy ?>" alt="">
-                                <p>Копировать</p>
                             </button>
                             <button class="reference__button" id="contract_card__developpers_update">
                                 <img src="<?php echo $button_icons->update ?>" alt="Обновить">
