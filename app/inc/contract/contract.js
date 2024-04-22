@@ -138,6 +138,19 @@ function contract_card__customers_create(){
     );
 }
 
+/**=====СОЗДАНИЕ ЗАПИСИ. ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ */
+function contract_card__developpers_create(){
+    var ind = $('#contract_card__developpers_table tbody tr').length + 1;
+    var developper = [];
+    developper['id'] = '';
+    developper['ind'] = ind;
+    developper['organization_id'] = '';
+    developper['organization_name'] = '';
+    $('#contract_card__developpers_table tbody').append(
+        contract_card__draw_developpers_row(developper)
+    );
+}
+
 
 /**
  * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
@@ -323,6 +336,7 @@ function contract_card__customers_update(){
 
 /** ВКЛАДКА ИСПОЛНИТЕЛИ. ДЕЙСТВИЕ ОБНОВЛЕНИЕ */
 function contract_card__developpers_update(){
+    alert('rabotaet')
     var contract_id = $('#contract_card__id').text();
     // Загружаем детальный раздел ИСПОЛНИТЕЛИ
     var data = {
@@ -380,6 +394,17 @@ function contract_card_binding_events() {
             contract_card__customers_update();
            })
 
+/** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ИСПОЛНИТЕЛИ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ================ */
+    //$('.contract_card__tabs_item').on('click', function (e) {
+        $('#contract_card__developpers_create').on('click', function(){   
+            contract_card__developpers_create();
+           })
+           /** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ИСПОЛНИТЕЛИ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ ================ */
+    //$('.contract_card__tabs_item').on('click', function (e) {
+        $('#contract_card__developpers_update').on('click', function(){   
+            contract_card__developpers_update();
+           })
+           
     /** ==============Карточка КОНТРАКТА: НАЖАТИЕ КНОПКИ OK ============= */
     $('#contract_card__OK ').on('click', function (e) {
         contract_card_press_OK(e.target);
@@ -442,7 +467,28 @@ function contract_search_binding_events() {
  */
 function contract_card_press_OK(sender) {
     if (contract_card__check_fields() == true) {
-        //alert($('#contract_card__fullName').val())
+        let customers = [];
+        let customer = {};
+        let customers_html = $('#contract_card__customers_table>tbody>tr');
+        $.each(customers_html,function(index, element){
+            customer.id = $(element).children('.id').text();
+            customer.organization_id = $(element).find('.ref_record').children('.id').text();
+            customer.organization_name = $(element).find('.ref_record').children('.fullname').val();
+            customer.is_deleted = $(element).children('.is_deleted');
+        })
+        customers.push(customer);
+
+        let developpers = [];
+        let developper = {};
+        let developpers_html = $('#contract_card__developpers_table>tbody>tr');
+        $.each(developpers_html,function(index, element){
+            developper.id = $(element).children('.id').text();
+            developper.organization_id = $(element).find('.ref_record').children('.id').text();
+            developper.organization_name = $(element).find('.ref_record').children('.fullname').val();
+            developper.is_deleted = $(element).children('.is_deleted');
+        })
+        developpers.push(developper);
+
         record = {
             id: $('#contract_card__id').text(),
             contract_subject: $('#contract_card__subject').val(),
@@ -451,7 +497,12 @@ function contract_card_press_OK(sender) {
             contract_type: $('#contract_card__type').val(),
             link: $('#contract_card__link').val(),
             contract_state: $('#contract_card__state').val(),
+            customers : JSON.stringify(customers)
         }
+        
+
+        
+
         if ($('#contract_card__id').text() == '') {
             // ДОБАВЛЯЕМ значение в базу
             var data = {
