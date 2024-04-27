@@ -26,6 +26,8 @@ var Context = {
         '#department_ref__out_context',
         '#document_kind_ref__context',
         '#contract_ref__context',
+        '#contract_card__customer_context',
+        '#contract_card_customers__out_context',
         '#employeer_ref__context',
         '#document_ref__context',
         '#document_ref__out_context',
@@ -195,6 +197,7 @@ var Context = {
             'department_ref__table_row',
             'document_kind_ref__table_row',
             'contract_ref_table_row',
+            'contract_card__customers_table_num',
             'employee_ref__table_row',
             'employee_card__photo',
             'document_ref__table_row',
@@ -228,6 +231,7 @@ var Context = {
                 (result.classList.contains('information_system_card__remarks_table_num'))||
                 (result.classList.contains('administrator_card__information_systems_table_num'))||
                 (result.classList.contains('information_system_card__administrators_table_num'))||
+                (result.classList.contains('contract_card__customers_table_num'))||
                 (result.classList.contains('document_card__send_list_table_num'))){
                     reference.highlight(e);
             }
@@ -260,6 +264,7 @@ var Context = {
             case 'department_ref__table_row': Context.menu = $('#department_ref__context'); break;
             case 'document_kind_ref__table_row': Context.menu = $('#document_kind_ref__context'); break;
             case 'contract_ref_table_row': Context.menu = $('#contract_ref__context'); break;
+            case 'contract_card__customers_table_num' : Context.menu = $('#contract_card__customer_context'); break;
             case 'employee_ref__table_row': Context.menu = $('#employee_ref__context'); break;
             case 'employee_card__photo' : Context.menu = $('#employee_card__photo_context'); break;
             case 'document_card__send_list_table_num': Context.menu = $('#document_card__send_list_context'); break;
@@ -372,6 +377,7 @@ var Context = {
             case 'attachments__list' : Context.menu = $('#document_card__version_out_context'); break;
             case 'organization_ref__container' : Context.menu = $('#organization_ref__out_context'); break;
             case 'employee_ref__container' : Context.menu = $('#employee_ref__out_context'); break;
+            case 'contract_card__customers_container': Context.menu = $('#contract_card_customers__out_context'); break;
             default: return false;
         }
         return src_el;

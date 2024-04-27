@@ -60,6 +60,12 @@
     &__general_fields textarea{
         grid-column: 2/25;
     }
+
+    &__customers_container{
+        width: 100%;
+        height: 100%;
+    }
+    
     #contract_card{
         &__contract_number{
             grid-column:2/12;
@@ -88,7 +94,9 @@
         &__customers{
             height: 100%;
             width: 100%;
+            align-items: stretch;
         }
+
         &__developpers{
             height: 100%;
             width: 100%;
@@ -99,6 +107,9 @@
     
     
 }
+
+
+
 #contract_ref__dialog_content{
     height: 100%;
     width: 100%;

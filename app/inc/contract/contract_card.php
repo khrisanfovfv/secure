@@ -170,8 +170,8 @@ $document_icons = $resources->get_document_icons();
     </ul>
 </div-->
 
-<!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ АДМИНИСТРАТОРЫ -->
-<div class="context-menu" id="contract_card__general_admins_context">
+<!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ ЗАКАЗЧИКИ -->
+<div class="context-menu" id="contract_card__customer_context">
     <ul class="context-menu__list">
         <li class="context-menu__item">
             <img src="<?php echo $button_icons->edit ?>" alt=Редактировать">
@@ -207,7 +207,7 @@ $document_icons = $resources->get_document_icons();
 </div>
 
 
-<!-- КОНТЕКСТНОЕ МЕНЮ ЭЛЕМЕНТА 
+<!-- КОНТЕКСТНОЕ МЕНЮ ЭЛЕМЕНТА -->
 
 
 <!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ОБЛАСТИ С ДОКУМЕНТАМИ -->
@@ -247,6 +247,20 @@ $document_icons = $resources->get_document_icons();
         <li class="context-menu__item">
             <img src="<?php echo $button_icons->edit ?>" alt="История">
             <p>История</p>
+        </li>
+    </ul>
+</div>
+
+<!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ОБЛАСТИ С ЗАКАЗЧИКАМИ -->
+<div class="context-menu" id="contract_card_customers__out_context">
+    <ul class="context-menu__list">
+        <li class="context-menu__item" id="contract_card_customers__out_context_create">
+            <img src="<?php echo $button_icons->create ?>">
+            <p>Создать</p>
+        </li>
+        <li class="context-menu__item" id="contract_card_customers__out_context_update">
+            <img src="<?php echo $button_icons->update ?>">
+            <p>Обновить</p>
         </li>
     </ul>
 </div>

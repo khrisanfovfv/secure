@@ -228,7 +228,7 @@ function card_contract_load_data(data, openMode) {
 /** ================== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ ЗАКАЗЧИКИ 1================= */
 function contract_card__draw_customers_row(customer) {
     var content_html =
-        $("<tr>")
+        $("<tr  class = 'contract_card__customers_table_row'>")
             .append($("<td class='id hide'>").text(customer['id']))
             .append($("<td class='contract_card__customers_table_num'>").text(customer['ind']))
             .append($("<td>")
@@ -474,7 +474,7 @@ function contract_card_press_OK(sender) {
             customer.id = $(element).children('.id').text();
             customer.organization_id = $(element).find('.ref_record').children('.id').text();
             customer.organization_name = $(element).find('.ref_record').children('.fullname').val();
-            customer.is_deleted = $(element).children('.is_deleted');
+            customer.is_deleted = $(element).children('.is_deleted').text();
         })
         customers.push(customer);
 
@@ -488,6 +488,7 @@ function contract_card_press_OK(sender) {
             developper.is_deleted = $(element).children('.is_deleted');
         })
         developpers.push(developper);
+        // alert(developper[0].organization_name);
 
         record = {
             id: $('#contract_card__id').text(),
@@ -497,7 +498,8 @@ function contract_card_press_OK(sender) {
             contract_type: $('#contract_card__type').val(),
             link: $('#contract_card__link').val(),
             contract_state: $('#contract_card__state').val(),
-            customers : JSON.stringify(customers)
+            customers : JSON.stringify(customers),
+            developpers : JSON.stringify(developpers)
         }
         
 
