@@ -61,17 +61,29 @@ class InformationSystem{
             FOREIGN KEY (information_system_id) REFERENCES {$wpdb->prefix}information_system(id)
         ) $charset_collate;";
 
-$table_name = $wpdb->prefix . 'information_system_documents';
+        $table_name = $wpdb->prefix . 'information_system_documents';
 
-// Запрос на создание таблицы Документы
-$information_system_documents_sql = "CREATE TABLE $table_name (
-    id mediumint(9) NOT NULL AUTO_INCREMENT,
+        // Запрос на создание таблицы Документы
+        $information_system_documents_sql = "CREATE TABLE $table_name (
+            id mediumint(9) NOT NULL AUTO_INCREMENT,
+                information_system mediumint(9) NOT NULL,
+                document mediumint(9) NOT NULL,
+                PRIMARY KEY  (id),
+                FOREIGN KEY (information_system) REFERENCES {$wpdb->prefix}information_system(id),
+                FOREIGN KEY (document) REFERENCES {$wpdb->prefix}document(id)
+        ) $charset_collate;";
+
+        // Запрос на создание таблицы Контракты
+        $table_name = $wpdb->prefix . 'information_system_contracts';
+        $information_system_contracts_sql = "CREATE TABLE $table_name (
+            id mediumint(9) NOT NULL AUTO_INCREMENT,
             information_system mediumint(9) NOT NULL,
-            document mediumint(9) NOT NULL,
+            contract mediumint(9) NOT NULL,
             PRIMARY KEY  (id),
             FOREIGN KEY (information_system) REFERENCES {$wpdb->prefix}information_system(id),
-            FOREIGN KEY (document) REFERENCES {$wpdb->prefix}document(id)
-) $charset_collate;";
+            FOREIGN KEY (contract) REFERENCES {$wpdb->prefix}contract(id)
+        ) $charset_collate;";
+
 
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -79,6 +91,7 @@ $information_system_documents_sql = "CREATE TABLE $table_name (
         dbDelta($developpers_sql);
         dbDelta($remarks_sql);
         dbDelta($information_system_documents_sql);
+        dbDelta($information_system_contracts_sql);
 
         add_option('sec_db_version', $sec_db_version);
     }
@@ -172,7 +185,23 @@ $information_system_documents_sql = "CREATE TABLE $table_name (
                 '%d' // document
             )
         ) or wp_die($wpdb->last_error,"Информационные системы - документы", array("response"=>500));
+
+        // Заполняем данными таблицу Контракты
+        $table_name = $wpdb->prefix . 'information_system_contracts';
+        $wpdb->insert(
+            $table_name,
+            array(
+                'information_system' => 1,
+                'contract' => 1
+            ),
+            array(
+                '%d', // information_system
+                '%d' // contract
+            )
+        ) or wp_die($wpdb->last_error,"Информационные системы - контракты", array("response"=>500));
     }
+
+
 
 
     /**
@@ -194,6 +223,7 @@ $information_system_documents_sql = "CREATE TABLE $table_name (
      public function secure_load_card_data($id){
         global $wpdb;
         $prefix = $wpdb->prefix;
+        // Детальный раздел администраторы
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT * FROM sec_information_system WHERE id = $id"), OBJECT );
         $administrators = $wpdb->get_results(
@@ -207,7 +237,8 @@ $information_system_documents_sql = "CREATE TABLE $table_name (
         $developpers = $wpdb->get_results(
             $wpdb->prepare("SELECT developpers.id, organization.id as developper_id, organization.fullname as developper_name FROM {$prefix}developpers developpers 
             LEFT JOIN {$prefix}organization organization ON developpers.organization = organization.id 
-            WHERE developpers.information_system = $id"), OBJECT) or wp_die($wpdb->last_error);
+            WHERE developpers.information_system = $id"), OBJECT);
+
             $results = (object) array_merge( (array)$results, array( 'developpers' => $developpers ));
         
             // Детальный раздел Замечания по аттестации
@@ -227,10 +258,24 @@ $information_system_documents_sql = "CREATE TABLE $table_name (
                 LIMIT 1) document_version
             WHERE inf_sys_doc.information_system = $id"), OBJECT);
              $results = (object) array_merge( (array)$results, array( 'documents' => $documents ));
+            
+
+        // Детальный раздел контракты
+        $contracts = $wpdb->get_results( 
+            $wpdb->prepare("SELECT inf_sys_contracts.id, contract.id as contract_id, contract.contract_subject, 
+            contract.contract_number, contract.conclusionDate, contract.contract_type, contract.link, 
+            contract.contract_state   
+            FROM {$prefix}information_system_contracts inf_sys_contracts 
+            JOIN {$prefix}contract contract on inf_sys_contracts.contract = contract.id  
+            WHERE inf_sys_contracts.information_system = %d", $id), OBJECT );
+        $results = (object) array_merge( (array)$results, array( 'contracts' => $contracts ));
+
+            // Проверяем запрос на ошибки
             if ($wpdb->last_error){
                 wp_die($wpdb->last_error, "Ошибка при загрузке карточки документы",array("response"=>500));
             }
-             return $results;
+           
+        return $results;
         wp_die();
 
 

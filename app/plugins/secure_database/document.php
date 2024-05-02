@@ -243,6 +243,18 @@ class Document
         wp_die();
     }
 
+    /** 
+     * ========== ЗАГРУЗКА ДАННЫХ КАРТОЧКИ ВЕРСИИ ДОКУМЕНТА =============== 
+     * */
+    // function secure_load_version_card_data($id){
+    //     global $wpdb;
+    //     $prefix = $wpdb->prefix;
+    //     $results = $wpdb->get_results(
+    //         $wpdb->prepare("SELECT * FROM {$prefix}document_version
+    //             WHERE id = %d", $id), OBJECT);
+    //     return $results;
+    // }
+
     /**
      * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ДОКУМЕНТА ======================
      */
@@ -331,7 +343,7 @@ class Document
                 'correspondent' => $_POST['correspondent']  == ''? null : $_POST['correspondent'],
                 'sendreceive' => $_POST['sendreceive'],
                 'signer' => $_POST['signer'],
-                'signed' => $_POST['signed'],
+                'signed' => $_POST['signed'] == true ? 1 : 0,
                 'state' => 'Active'
             ),
             array( 'ID' => $_POST['id'] ),
@@ -437,12 +449,14 @@ class Document
                 'version_number' => $document_version->version_number,
                 'version_title' => $document_version->version_title,
                 'type' => $document_version->version_type,
+                'state' => $document_version->state
             ),
             array(
                 '%d', // document
                 '%d', // version_number
                 '%s', // version_title
-                '%s'  // type
+                '%s', // type
+                '%s'  // state
             )
         );
 
@@ -501,23 +515,78 @@ class Document
     protected function secure_update_document_version($document_version){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $wpdb->update(
-            $prefix.'document_version',
-            array(
-                'version_number' => $document_version->version_number,
-                'version_title' => $document_version->version_title,
-                'type' => $document_version->version_type,
-                'filename' => $document_version->filename
-            ),
-            array( 'ID' => $document_version->id ),
-            array(
-                '%d', // version_number
-                '%s', // version_title
-                '%s', // type
-                '%s'  // filename
-            ),
-            array( '%d' )
-        );
+
+        $file_index = $document_version->file_index;
+        if (file_index >=0){
+            if(!empty($_FILES )){
+
+                // Удаляем старую версию
+                // Добавляем новую
+
+                $files = $_FILES;
+                $file_name = $files[$file_index]['name'];
+                $ext =  pathinfo($file_name, PATHINFO_EXTENSION);
+                // Путь к папке с документами
+                $path = wp_normalize_path(get_template_directory() .'/storage/documents/');
+                $version_name = $document_version->id . '.' .$ext; // будет сохранено в БД
+                $path_to_document = $path . $version_name;
+                // Записываем файл на сервер
+                if (move_uploaded_file($_FILES[$file_index]['tmp_name'], $path_to_document) === true){
+                    // Обновляем базу данных  и имя файла
+                    $wpdb->update(
+                        $prefix.'document_version',
+                        array(
+                            'version_number' => $document_version->version_number,
+                            'version_title' => $document_version->version_title,
+                            'type' => $document_version->version_type,
+                            'filename' => $version_name,
+                            'state' => $document_version->state
+                        ),
+                        array( 'ID' => $document_version->id ),
+                        array(
+                            '%d', // version_number
+                            '%s', // version_title
+                            '%s', // type
+                            '%s',  // filename
+                            '%s'  // state
+                        ),
+                        array( '%d' )
+                    );
+
+                    if ($wpdb->last_error){
+                        wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+                    }
+                    
+                } else{
+                    wp_send_json_error( "Ошибка загрузки файла $path_to_document", 500);
+                }
+            }
+        } else{
+            // Обновляем базу данных без колонки имя файла
+            $wpdb->update(
+                $prefix.'document_version',
+                array(
+                    'version_number' => $document_version->version_number,
+                    'version_title' => $document_version->version_title,
+                    'type' => $document_version->version_type,
+                    'state' => $document_version->state
+                ),
+                array( 'ID' => $document_version->id ),
+                array(
+                    '%d', // version_number
+                    '%s', // version_title
+                    '%s', // type
+                    '%s'  // state
+                ),
+                array( '%d' )
+            );
+
+            if ($wpdb->last_error){
+                wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+            }
+        }
+        
+        
 
     }
 
@@ -529,6 +598,7 @@ class Document
         $file_directory = wp_normalize_path(get_template_directory() . '/storage/documents/');
         $prefix = $wpdb->prefix;
         $table_name = $prefix . 'document_version';
+        $message = '';
         // Получаем имя файла версии документа
         $file_name = $wpdb->get_var(
             $wpdb->prepare("SELECT filename FROM $table_name WHERE id = %d", $document_version->id));
@@ -537,7 +607,7 @@ class Document
         }
         // Удаляем файл версии документа
         if (!unlink($file_directory . $file_name)){
-            wp_die('Не удалось удалить файл Версии документов ' . $file_name, 'Ошибка', array('response' => 500));
+            $message .="Не удалось удалить файл $file_name Версии документов"; 
         }
         // Удаляем запись из БД
         global $wpdb;
@@ -545,7 +615,7 @@ class Document
         $wpdb->delete( $prefix . 'document_version', array( 'ID' => $document_version->id ), array( '%d' )) 
         or  wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
 
-        echo 'Запись ид = ' . $document_version->id . ' успешно удалена';
+        echo 'Запись ид = ' . $document_version->id . ' успешно удалена ' . $message;
         wp_die();
     }
 

@@ -74,6 +74,10 @@ $document_icons = $resources->get_document_icons();
                         <!-- Электронный документ -->
                         <label for="document_card__file">Файл</label>
                         <input type="file" id="document_card__file">
+                        <select id="document_card__state">
+                            <option value="Active">Действующая</option>
+                            <option value="Inctive">Не действующая</option>
+                        </select>
 
                     </div>
                     <!-- ВКЛАДКА СПИСОК РАССЫЛКИ -->

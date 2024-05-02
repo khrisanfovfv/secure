@@ -78,7 +78,7 @@ function document_card_press_OK(sender) {
         data.append('sender', $('#document_card__sender').find('.id').text());
         data.append('correspondent', $('#document_card__correspondent').find('.id').text());
         data.append('sendreceive',  $('#document_card__sendreceive').val());
-        data.append('signed', $('#document_card__signed').attr('checked'));
+        data.append('signed', $('#document_card__signed').is(':checked')) ? 1 : 0;
         data.append('signer', $('#document_card__signer').val());
         data.append('state', $('#document_card__state').val());
         
@@ -91,10 +91,10 @@ function document_card_press_OK(sender) {
             let info = {};
             info.id = $(element).children('.id').text();
             info.version_number = $(element).children('.version_number').text();
-            //info.version.versiondate = $(element).children('.versiondate').text();
             info.version_title = $(element).children('.attachments__name_item').text();
             info.version_type = $(element).children('.type').text();
             info.is_deleted = $(element).children('.is_deleted').text();
+            info.state = $(element).children('.state').text();
             if ($(element).find('.file').val()!=''){
                 info.file_index = index;
                 files[index] = $(element).find('.file').prop('files')[0];
@@ -269,23 +269,60 @@ function document_card__check_fields() {
  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ВЕРСИЯ ДОКУМЕНТА =========================
  */
 function document_version_card_press_OK(sender){
+    let id = $('#document_version_card__id').text().trim();
+    let document_version = [];
+    let file_list;
     // Проверяем заполненность обязательных полей
-    if (document_version_card__check_fields()){
-        if ($('#document_version_card__id').text() === ''){
-            // Режим создания версии
-            let document_version = [];
-            let file_list = $('#document_version_card__browse').prop('files');
+    if (document_version_card__check_fields(id)){
+        if (id ===''){
+            // Режим создания версии     
+            file_list = $('#document_version_card__browse').prop('files');
             document_version['version_number'] = $('#document_version_card__number').val();
-            document_version['versiondate'] = file_list[0].lastModified;
             document_version['type'] = file_list[0].type;
             document_version['version_title'] = $('#document_version_card__title').val(); 
             document_version['is_deleted'] = 0;
             document_version['file_list'] = file_list;
+            document_version['state'] = $('#document_version_card__state').val();
+            
+            // Делаем остальные версии недействующими
+            let versions = $('.version__item');
+            $.each(versions, function(index, element){
+                $(element).addClass('Inactive')
+                $(element).children('.state').text('Inactve');
+            })
+            // Отображаем созданную версию 
             $('#document_card__version_list').prepend(
                 document_card_draw_version(document_version)
             );
+        
+        }else{
+            // Режим редактирования версии
+            // Находим редактируемую версию в списке
+            let version = $('.version__item.highlight');
+            if ($('#document_version_card__browse').val() !== ''){
+                file_list = $('#document_version_card__browse').prop('files');
+                $(version).children('.file').prop('files', file_list);
+                $(version).children('.type').text(file_list[0].type);
+            }
+            $(version).children('.version_number').text($('#document_version_card__number').val());
+            $(version).children('.attachments__name_item').text($('#document_version_card__title').val()); 
+            $(version).children('.is_deleted').text(0);
+
+            // Определяем действующая ли редактируемая версия
+            if ($('#document_version_card__state').val() == 'Active'){
+                // Делаем все вверсии недействующими
+                $('.version__item').children('.state').text('Inactive');
+                $('.version__item').addClass('Inactive');
+                // Текущую версию делаем активной
+                $(version).children('.state').text('Active');
+                $(version).removeClass('Inactive');
+            }
+             
+
         }
+        // Закрываем карточку
         $(sender).parents('.appdialog:first').css('display', 'none');
+
         
     }
     
@@ -294,11 +331,14 @@ function document_version_card_press_OK(sender){
 /**
  * ============== ПРОВЕРЯЕМ ЗАПОЛНЕННОСТЬ ОБЯЗАТЕЛЬНЫХ ПОЛЕЙ КАРТОЧКИ ВЕРСИЯ ДОКУМЕНТА ==================
  */
-function document_version_card__check_fields() {
+function document_version_card__check_fields(id) {
     message = '';
     message = reference.check_empty_field('document_version_card__title','Наименование', message );
     message = reference.check_empty_field('document_version_card__number','Номер версии', message );
-    message = reference.check_empty_field('document_version_card__browse','Файл', message );    
+    // Делаем поле обязательным только для новых карточек
+    if (id ===''){
+         message = reference.check_empty_field('document_version_card__browse','Файл', message );    
+    }
     if (message == ''){
         return true;
     }else{
@@ -570,6 +610,7 @@ function document_card_create_version() {
 
  }
 
+
 /**
  * ========================= ОБНОВЛЯЕМ СПИСОК ВЕРСИЙ ДОКУМЕНТА ==================
  */
@@ -710,9 +751,9 @@ function document_extended_search_OK() {
 
 
 /**
- * ======================== ЗАГРУЗКА ДАННЫХ В КАРТОЧКУ =======================
- * @param {Object} data 
- * @param {boolean} openMode
+ * ================== ЗАГРУЗКА ДАННЫХ В КАРТОЧКУ ДОКУМЕНТА ===================
+ * @param {string} data 
+ * @param {integer} openMode
  */
 async function card_document_load_data(data, openMode) {
     var cardData = JSON.parse(data);
@@ -732,7 +773,7 @@ async function card_document_load_data(data, openMode) {
     $('#document_card__kind').find('.fullname').val(cardData[0].document_kind_name);
     $('#document_card__type').val(cardData[0].type);
     $('#document_card__sendreceive').val(cardData[0].sendreceive);
-    $('#document_card__signed').prop('checked', cardData[0].signed);
+    $('#document_card__signed').prop('checked', cardData[0].signed == 1 ? true : false);
     $('#document_card__signer').val(cardData[0].signer);
     $('#document_card__sender').find('.id').text(cardData[0].sender_id);
     $('#document_card__sender').find('.fullname').val(cardData[0].sender_name);
@@ -761,6 +802,20 @@ async function card_document_load_data(data, openMode) {
             document_card_draw_send_list_row(organization)
         );
     })
+}
+
+/**
+ * ============= ЗАГРУЗКА ДАННЫХ В КАРТОЧКУ ВЕРСИЯ ДОКУМЕНТА ================
+ * @param {string} data 
+ * @param {integer} openMode 
+ */
+function card_document_version_load_data(data, openMode){
+    // Загружаем данные из таблицы на форме
+    version = $('.version__item.highlight');
+    $('#document_version_card__id').text($(version).children('.id').text());
+    $('#document_version_card__title').val($(version).children('.attachments__name_item').text());
+    $('#document_version_card__number').val($(version).children('.version_number').text());
+    $('#document_version_card__state').val($(version).children('.state').text()); 
 }
 
 /**
@@ -910,6 +965,7 @@ function document_card_binging_events() {
         document_version['type'] = file.type;
         document_version['version_title'] = 'Версия ' + version_number;
         document_version['is_deleted'] = 0;
+        document_version['state'] = 'Active';
         document_version['file'] = $(e.target).clone();
         $('#document_card__version_list').prepend(
             document_card_draw_version(document_version)
@@ -952,11 +1008,11 @@ function document_card_draw_version(document_version) {
     var content_html = $("<li class='attachments__item version__item'>")
         .append($("<p class='id hide'>").text(document_version['id']))
         .append($("<p class='version_number hide'>").text(document_version['version_number']))
-        .append($("<p class='versiondate hide'>").text(document_version['versiondate']))
         .append($("<p class='type hide'>").text(document_version['type']))
         .append($("<img class='attachments__ico'>").attr('src', icon))
         .append($("<p class='attachments__name_item'>").text(document_version['version_title']))
-        .append($("<p class='is_deleted hide'>").text(document_version['is_deleted']));
+        .append($("<p class='is_deleted hide'>").text(document_version['is_deleted']))
+        .append($("<p class='state hide'>").text(document_version['state']));
     if (document_version['file_list'] != undefined){
         content_html.append($("<input class='file hide' type='file'>").prop('files', document_version['file_list']))
     } else {

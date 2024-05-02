@@ -201,9 +201,10 @@ class SecDb
         $this->document_kind->table_install();
         $this->organization->table_install();
         $this->document->table_install(); 
+        $this->contract->table_install();
         $this->information_system->table_install();
         $this->administrator->table_install();  
-        $this->contract->table_install();
+        
     }
 
     /**
@@ -214,9 +215,10 @@ class SecDb
         $this->department->install_data();
         $this->document_kind->install_data();
         $this->document->install_data();
+        $this->contract->install_data();
         $this->information_system->install_data();
         $this->administrator->install_data(); 
-        $this->contract->install_data();
+        
     }
 
     /**
@@ -235,6 +237,7 @@ class SecDb
         switch($_POST['card']){
             case 'document_kind_card' :{ $results = $this->document_kind->secure_load_card_data($id);};break;
             case 'document_card' :{ $results = $this->document->secure_load_card_data($id);}; break;
+            //case 'document_version_card' :{ $results = $this->document->secure_load_version_card_data($id);}; break;
             case 'department_card' :{ $results = $this->department->secure_load_card_data($id);}; break;
             case 'information_system_card':{ $results = $this->information_system->secure_load_card_data($id);}; break;
             case 'administrator_card' : { $results = $this->administrator->secure_load_card_data($id);}; break;

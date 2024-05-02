@@ -28,8 +28,8 @@ $document_icons = $resources->get_document_icons();
                 </div>
                 <label for="document_version_card__state">Состояние</label>
                 <select id ="document_version_card__state">
-                    <option value="Actve">Действующая</option>
-                    <option value="inactve">Не Действующая</option> 
+                    <option value="Active">Действующая</option>
+                    <option value="Inactive">Не Действующая</option> 
                 </select>
             </div>
 

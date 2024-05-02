@@ -205,7 +205,8 @@ var reference = {
                     case '#contract_ref': card_contract_load_data(result, openMode); break;
                     case '#employee_ref' : card_employee_load_data(result, openMode); break;
                     // Детальные разделы
-                    case '#information_system_card__documents' : card_document_load_data(result, openMode); break; 
+                    case '#information_system_card__documents' : card_document_load_data(result, openMode); break;
+                    case '#document_card__version_list' : card_document_version_load_data(result, openMode); break; 
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 var size = { width: 500, height: 200 };

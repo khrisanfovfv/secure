@@ -325,6 +325,11 @@
     display: none;
 }
 
+.Inactive{
+    text-decoration: line-through;
+    text-decoration-color: #000;
+}
+
 input{
     //margin: 5px 0;
     border: none;

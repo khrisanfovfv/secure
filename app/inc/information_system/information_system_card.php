@@ -18,7 +18,7 @@ $document_icons = $resources->get_document_icons();
                         <li class="tabs__item information_system_card__tabs_item"><a href="#information_system_card__administrators">Администраторы</a>
                         </li>
                         <li class="tabs__item information_system_card__tabs_item"><a href="#information_system_card__contracts">Контракты</a> </li>
-                        <li class="tabs__item information_system_card__tabs_item"><a href="#information_system_card__archive">Архив</a> </li>
+                        <!--li class="tabs__item information_system_card__tabs_item"><a href="#information_system_card__archive">Архив</a> </li-->
                     </ul>
                 <!-- Содержимое основной карточки -->
                 <div class="information_system_card__content">
@@ -241,25 +241,11 @@ $document_icons = $resources->get_document_icons();
                                     <th>Предмет котракта</th>
                                     <th style="width:100px">Тип контракта</th>
                                     <th style="width:230px">Ссылка на сайт закупок</th>
-                                    <th style="width:230px">Заказчик</th>
-                                    <th style="width:230px">Исполнитель</th>
+                                    <th style="width:230px">Статус</th>
                                 </tr>
 
                             </thead>
                             <tbody>
-                                <tr class="information_system_card__contracts_table_row">
-                                    <td class="id hide"></td>
-                                    <td>1</td>
-                                    <td>25-36/99-22</td>
-                                    <td>25.03.2022</td>
-                                    <td>Сопровождение ИС в 2023 году</td>
-                                    <td>Поддержка</td>
-                                    <td>zakupki.gov.ru/123587566/cardinfo255oh</td>
-                                    <td>БУ ВО ЦИТ</td>
-                                    <td>ООО Поддержка</td>
-                                </tr>
-
-
                             </tbody>
                         </table>
 

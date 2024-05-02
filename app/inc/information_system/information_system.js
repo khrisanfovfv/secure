@@ -436,10 +436,10 @@ function card_information_system_load_data(data, openMode) {
                 information_system_card__draw_remark_row(remark)
             );
         });
-
-        // Очищаем таблицу Администраторы
-        $('#information_system_card__administrators_table tbody tr').remove();
+        
         // Заполняем таблицу Администраторы
+        $('#information_system_card__administrators_table tbody tr').remove();
+        
         administrators = cardData['administrators'];
         var ind = 1;
         administrators.forEach(administrator => {
@@ -448,6 +448,17 @@ function card_information_system_load_data(data, openMode) {
                 information_system_card__draw_administrator_row(administrator)
             );
         });
+
+        // Заполняем таблицу Контракты
+        let contracts = cardData['contracts'];
+        ind = 1;
+        $('#information_system_card__contracts_table tbody tr').remove();
+        contracts.forEach(contract => {
+            //contract['ind'] = ind++;
+            $('#information_system_card__contracts_table tbody').append(
+                information_system_card__draw_contract_row(contract)
+            )
+        })
     }
 
 }
@@ -982,6 +993,29 @@ function information_system_card__draw_administrator_row(administrator) {
             )
             .append($("<td class='is_deleted hide'>").text(0))
     return content_html;
+}
+
+/**
+ * =============== ОТРИСОВКА ТАБЛИЦЫ КОНТРАКТЫ ===============
+ * @param {object} contract объект - Контракты 
+ */
+function information_system_card__draw_contract_row(contract){
+    let ind = $('#information_system_card__contracts_table tbody tr').length + 1;
+    var content_html =
+    $("<tr>")
+        .append($("<td class='information_system_card__contracts_table_num'>").text(ind))
+        .append($("<td class='contract_number'>").text(contract['contract_number']))
+        .append($("<td class='conclusionDate'>").text(contract['conclusionDate']))
+        
+        .append($("<td class='id hide'>").text(contract['id']))
+        .append($("<td class='contract_id hide'>").text(contract['contract_id']))
+        .append($("<td class='contract_subject'>").text(contract['contract_subject']))
+        .append($("<td class='contract_type'>").text(contract['contract_type']))
+        .append($("<td class='link'>").text(contract['link'])) 
+        .append($("<td class='contract_state'>").text(contract['contract_state']))
+        .append($("<td class='is_deleted hide'>").text(0));
+    return content_html;
+
 }
 
 
