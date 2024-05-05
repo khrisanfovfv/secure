@@ -109,20 +109,37 @@ function contract_create_record() {
 
 
 /**
- * ======================= ОРГАНИЗАЦИЯ. ВЫБОР ЗАПИСИ =========================
+ * ======================= КОНТРАКТ. ВЫБОР ЗАПИСИ =========================
  */
 function contract_select_record(e) {
-    rows = $('.contract_ref__table_row.highlight');
+    let rows = $('.contract_ref__table_row.highlight');
     if (rows.length > 0) {
-        id = rows[0].children.item(0).textContent
-        fullname = rows[0].children.item(3).textContent
-        // Извлекаем элемент с помощью которого вызвали справочник из стэка
-        el = stack.pop();
-        // Присваиваем элементу значения выбранного элемента
-        el.children('.id').text(id);
-        el.children('.fullname').val(fullname);
+        let contract_id = rows[0].children.item(0).textContent;
+        
+        // Делаем запрос данных записи
+        let data = {
+            action: 'load_single_contract',
+            contract_id : contract_id,
+        }
+
+        jQuery.post(MainData.ajaxurl, data, function (result) {
+            contract = JSON.parse(result)[0]; 
+            // Извлекаем элемент с id таблицы в которую будем добвлять строку
+            let el = stack.pop();
+        // отрисовываем элемент
+        
+        switch (el.attr('id')){
+            case 'information_system_card__contracts_table' :{
+                el.append(information_system_card__draw_contract_row(contract));
+            } ; break
+        }
+        
         // Закрываем окно выбора
         $(e.target).parents('.appdialog:first').css('display', 'none');
+        })
+
+        
+        
     }
 } 
 /**=====СОЗДАНИЕ ЗАПИСИ. ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ */
@@ -363,7 +380,7 @@ function contract_card__developpers_update(){
 }
 
 /**
- * ============ ПРИВЯЗКА СОБЫТИЙ К СПРАВОЧНИКУ ОРГАНИЗАЦИИ ============ 
+ * ============ ПРИВЯЗКА СОБЫТИЙ К СПРАВОЧНИКУ КОНТРАКТЫ ============ 
  */
 function contract_ref_binding_events() {
 

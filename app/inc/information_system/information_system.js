@@ -88,6 +88,17 @@ function information_system_card_press_OK(src) {
             // Копируем обьект в массив
             administrators[ind] = JSON.parse(JSON.stringify(administrator));
         });
+
+        // Вкладка Контракты
+        var rows = $('#information_system_card__contracts_table tbody tr');
+        let contracts = [];
+        rows.each(function (ind, row) {
+            let contract = {}
+            contract.id = $(row.cells[0]).text();
+            contract.contract_id = $(row.cells[1]).text();
+            contract.is_deleted = $(row.cells[9]).text();
+            contracts.push(contract);
+        })
         record = {
             id: $('#information_system_card__id').text(),
             fullname: $('#information_system_card__fullName').val(),
@@ -101,7 +112,8 @@ function information_system_card_press_OK(src) {
             state: $('#information_system_card__state').val(),
             developpers: JSON.stringify(developpers),
             remarks: JSON.stringify(remarks),
-            administrators: JSON.stringify(administrators)
+            administrators: JSON.stringify(administrators),
+            contracts: JSON.stringify(contracts)
         }
         if ($('#information_system_card__id').text() == '') {
             // ДОБАВЛЯЕМ значение в базу+
@@ -436,10 +448,10 @@ function card_information_system_load_data(data, openMode) {
                 information_system_card__draw_remark_row(remark)
             );
         });
-        
+
         // Заполняем таблицу Администраторы
         $('#information_system_card__administrators_table tbody tr').remove();
-        
+
         administrators = cardData['administrators'];
         var ind = 1;
         administrators.forEach(administrator => {
@@ -651,9 +663,9 @@ function information_system_card__developpers_delete_record() {
 /**
  * ================================= ДОКУМЕНТЫ. ОТКРЫТЬ ================================
  */
-function information_system_read_document(){
+function information_system_read_document() {
     let document_id = $('.attachments__item').children('.id').text();
-    
+
     let data = {
         action: 'load_document_version_list',
         document_id: document_id
@@ -662,20 +674,20 @@ function information_system_read_document(){
     jQuery.post(MainData.ajaxurl, data, function (result) {
         var rows = JSON.parse(result);
         // Ищем действующие версии
-        let results = rows.filter(function(item){
+        let results = rows.filter(function (item) {
             return item.state === 'Active'
         })
         let version;
         // Если нашли действующие версии выбираем максимальную
-        if (results.length > 0){
-            version =  results.reduce((max,current) => (max.version_number > current.version_number ? max : current), results[0]);
-        // Иначе ищем последнюю версию
-        } else{
+        if (results.length > 0) {
+            version = results.reduce((max, current) => (max.version_number > current.version_number ? max : current), results[0]);
+            // Иначе ищем последнюю версию
+        } else {
             version = rows.reduce((max, current) => (max.version_number > current.version_number ? max : current), rows[0]);
         }
         // Открываем версию документа
         document_version_read(version.id);
-        
+
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
         message = 'Во время загрузки версий документов произощла ошибка' + textStatus + ' ' + errorThrown;
@@ -877,6 +889,38 @@ function information_system_remark_delete_record() {
         rows[0].classList.add('hide');
     }
 }
+/**
+ * ==================== КОНТРАКТЫ. ДОБАВИТЬ ЗАПИСЬ ===================
+ */
+function information_system_contract_add_record() {
+    let sourse = $('#information_system_card__contracts_table');
+    reference.open_reference(null, '#information_system_card', 'Справочник контракты', 'contract', sourse);
+}
+
+/**
+ * ==================== КОНТРАКТЫ. ОБНОВИТЬ ЗАПИСЬ =====================
+ */
+function information_system_contract_edit_record() {
+    var rows = $('#information_system_card__contracts_table>tbody>tr.highlight')
+    if (rows.length > 0) {
+        var id = rows[0].children.item(0).textContent;
+        var size = { width: 1000, height: 500 };
+        reference.open_card('#information_system_card', 'Карточка Контракта', size, 
+            OpenMode.Edit, id,'#information_system_card__contracts');
+    }
+}
+
+/**
+ * ==================== КОНТРАКТЫ УДАЛИТЬ ЗАПИСЬ ===================
+ */
+function information_system_contract_delete_record() {
+    var rows = $('#information_system_card__contracts_table>tbody>tr.highlight')
+    if (rows.length > 0) {
+        var id = rows[0].children.item(0).textContent;
+        rows[0].children.item(9).textContent = 1;
+        rows[0].classList.add('hide');
+    }
+}
 
 /** ============================================================================
  * ========================= ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===========================
@@ -999,21 +1043,20 @@ function information_system_card__draw_administrator_row(administrator) {
  * =============== ОТРИСОВКА ТАБЛИЦЫ КОНТРАКТЫ ===============
  * @param {object} contract объект - Контракты 
  */
-function information_system_card__draw_contract_row(contract){
+function information_system_card__draw_contract_row(contract) {
     let ind = $('#information_system_card__contracts_table tbody tr').length + 1;
     var content_html =
-    $("<tr>")
-        .append($("<td class='information_system_card__contracts_table_num'>").text(ind))
-        .append($("<td class='contract_number'>").text(contract['contract_number']))
-        .append($("<td class='conclusionDate'>").text(contract['conclusionDate']))
-        
-        .append($("<td class='id hide'>").text(contract['id']))
-        .append($("<td class='contract_id hide'>").text(contract['contract_id']))
-        .append($("<td class='contract_subject'>").text(contract['contract_subject']))
-        .append($("<td class='contract_type'>").text(contract['contract_type']))
-        .append($("<td class='link'>").text(contract['link'])) 
-        .append($("<td class='contract_state'>").text(contract['contract_state']))
-        .append($("<td class='is_deleted hide'>").text(0));
+        $("<tr class='information_system_card__contracts_table_row'>")
+            .append($("<td class='id hide'>").text(contract['id']))
+            .append($("<td class='contract_id hide'>").text(contract['contract_id']))
+            .append($("<td>").text(ind))
+            .append($("<td class='contract_number'>").text(contract['contract_number']))
+            .append($("<td class='conclusionDate'>").text(contract['conclusionDate']))
+            .append($("<td class='contract_subject'>").text(contract['contract_subject']))
+            .append($("<td class='contract_type'>").text(contract['contract_type']))
+            .append($("<td class='link'>").text(contract['link']))
+            .append($("<td class='contract_state'>").text(contract['contract_state']))
+            .append($("<td class='is_deleted hide'>").text(0));
     return content_html;
 
 }
@@ -1070,7 +1113,7 @@ function information_system_card_binging_events() {
 
 
     /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. ОТКРЫТЬ ДОКУМЕНТ */
-    $('#information_system_card__documents_open').on('click', function(){
+    $('#information_system_card__documents_open').on('click', function () {
         information_system_read_document();
     })
 
@@ -1099,6 +1142,21 @@ function information_system_card_binging_events() {
     $('#information_system_card__administrators_delete').on('click', function () {
         information_system_card_administrator_delete_record();
     })
+
+    /** =========================== КОНТРАКТЫ. КНОПКА ДОБАВИТЬ ========================== */
+    $('#information_system_card__contracts_add').on('click', function () {
+        information_system_contract_add_record();
+    })
+
+    /** =========================== КОНТРАКТЫ. КНОПКА РЕДАКТИРОВАТЬ ========================== */
+    $('#information_system_card__contracts_edit').on('click', function () {
+        information_system_contract_edit_record();
+    })
+    /** =========================== КОНТРАКТЫ. КНОПКА ИСКЛЮЧИТЬ ========================== */
+    $('#information_system_card__contracts_delete').on('click', function () {
+        information_system_contract_delete_record();
+    })
+
 
 
     /** ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА СОЗДАТЬ ======================= */
@@ -1129,6 +1187,26 @@ function information_system_card_binging_events() {
     /** ================ ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КОНТЕКСТНОЕ МЕНЮ. УДАЛИТЬ ================= */
     $('#information_system_card__remarks_context_delete').on('click', function () {
         information_system_remark_delete_record();
+    })
+
+    /** =================== КОНТЕКСТНОЕ МЕНЮ. КОНТРАКТЫ. КНОПКА ДОБАВИТЬ ====================== */
+    $('#information_system_card_contracts__out_context_add').on('click', function () {
+        information_system_contract_add_record();
+    })
+
+    /** =================== КОНТЕКСТНОЕ МЕНЮ. КОНТРАКТЫ. КНОПКА РЕДАКТИРОВАТЬ=================== */
+    $('#information_system_card__contracts_context_edit').on('click', function(){
+        information_system_contract_edit_record();
+    })
+
+    /** =================== КОНТЕКСТНОЕ МЕНЮ. КОНТРАКТЫ. КНОПКА ИСКЛЮЧИТЬ ====================== */
+    $('#information_system_card__contracts_context_delete').on('click', function(){
+        information_system_contract_delete_record();
+    })
+    
+    /** =================== КОНТЕКСТНОЕ МЕНЮ. КОНТРАКТЫ. КНОПКА ОБНОВИТЬ ====================== */
+    $('#information_system_card_contracts__out_context_update').on('click', function () {
+        information_system_contract_update_records();
     })
 }
 

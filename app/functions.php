@@ -237,6 +237,7 @@
                 case 'organization' : get_template_part('inc/organization/organization_ref'); break;
                 case 'department' : get_template_part('inc/department/department_ref'); break;
                 case 'document_kind' : get_template_part('inc/document_kind/document_kind_ref'); break;
+                case 'contract' : get_template_part('inc/contract/contract_ref'); break;
             }
         } catch(Exception $ex){
             wp_die($ex->getMessage(),['response' => 501]);

@@ -116,6 +116,7 @@ class SecDb
          add_action('wp_ajax_nopriv_search_organization_extended', array('Organization','secure_search_organization_extended'));
          //Контракты
          add_action('wp_ajax_load_contract', array('Contract', 'secure_load_contract'));
+         add_action('wp_ajax_load_single_contract', array('Contract', 'secure_load_single_contract'));
          //add_action('wp_ajax_nopriv_load_contract', array('Contract', 'secure_load_contract'));
          add_action('wp_ajax_load_contract_customers', array('Contract', 'secure_load_contract_customers'));
          add_action('wp_ajax_load_contract_developpers', array('Contract', 'secure_load_contract_developpers'));
@@ -186,9 +187,12 @@ class SecDb
         add_action('wp_ajax_nopriv_load_information_system_remarks', array('InformationSystem', 'secure_load_information_system_remarks'));
         add_action('wp_ajax_load_information_system_administrators', array('InformationSystem', 'secure_load_information_system_administrators'));
         add_action('wp_ajax_nopriv_load_information_system_administrators', array('InformationSystem', 'secure_load_information_system_administrators'));
+        add_action('wp_ajax_load_information_system_contracts', array('InformationSystem', 'secure_load_information_system_contracts'));
 
         add_action('wp_ajax_load_document_send_list', array('Document', 'secure_load_document_send_list'));
         add_action('wp_ajax_nopriv_load_document_send_list', array('Document', 'secure_load_document_send_list'));
+
+        
     }
 
     /**

@@ -179,6 +179,27 @@ class Contract
     }
 
     /**
+     * ==================== КОНТРАКТЫ ЗАГРУЗКА ОДНОЙ ЗАПИСИ ====================
+     */
+    public function secure_load_single_contract(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $contract_id = $_POST['contract_id'];
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT contract.id as contract_id, contract.contract_subject, contract.contract_number, 
+            contract.conclusionDate, contract.contract_type, contract.link, contract.contract_state
+            FROM {$prefix}contract contract
+            WHERE id = %d", $contract_id), 
+            ARRAY_A );
+
+            if ($wpdb->last_error){
+                wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+            }
+        echo json_encode($results);
+        wp_die();
+    }
+
+    /**
      * ============================ ЗАГРУЗКА ДАННЫХ КАРТОЧКИ ===============================
      */
 

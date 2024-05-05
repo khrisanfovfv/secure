@@ -210,28 +210,25 @@ $document_icons = $resources->get_document_icons();
                     <section class="information_system_card__contracts hide" id="information_system_card__contracts">
                         <!-- Кнопки для управления записями в таблице Контракты-->
                         <div class="reference__buttons">
-                            <button class="reference__button" id="information_system_card__contracts_create">
-                                <img src="<?php echo $button_icons->create ?>" alt="">
-                                <p>Создать</p>
+                            <button class="reference__button" id="information_system_card__contracts_add">
+                                <img src="<?php echo $button_icons->create ?>" alt="Добавить">
+                                <p>Добавить</p>
                             </button>
                             <button class="reference__button" id="information_system_card__contracts_edit">
                                 <img src="<?php echo $button_icons->edit ?>" alt="">
                                 <p>Редактировать</p>
                             </button>
-                            <button class="reference__button" id="information_system_card__contracts_copy">
-                                <img src="<?php echo $button_icons->copy ?>" alt="">
-                                <p>Копировать</p>
-                            </button>
                             <button class="reference__button" id="information_system_card__contracts_delete">
                                 <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
-                                <p>Удалить</p>
+                                <p>Исключить</p>
                             </button>
                             <button class="reference__button" id="information_system_card__contracts_excel">
                                 <img src="<?php echo $button_icons->excel ?>" alt="Удалить">
                                 <p>Эл. таб</p>
                             </button>
                         </div>
-                        <table class="reference__table" ID="information_system_card__contracts_table">
+                        <div class ="information_system_card__contracts_container">
+                             <table class="reference__table" ID="information_system_card__contracts_table">
                             <thead>
                                 <tr>
                                     <th class="hide">Ид</th>
@@ -248,6 +245,9 @@ $document_icons = $resources->get_document_icons();
                             <tbody>
                             </tbody>
                         </table>
+                        </div>
+
+                       
 
                     </section>
                     <!-- ВКЛАДКА АРХИВ -->
@@ -446,35 +446,45 @@ $document_icons = $resources->get_document_icons();
 </div>
 
 
-<!-- КОНТЕКСТНОЕ МЕНЮ ЭЛЕМЕНТА 
+<!-- КОНТЕКСТНОЕ МЕНЮ ЭЛЕМЕНТА -->
+
+<!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ОБЛАСТИ С КОНТРАКТАМИ -->
+<div class="context-menu" id="information_system_card_contracts__out_context">
+    <ul class="context-menu__list">
+        <li class="context-menu__item" id="information_system_card_contracts__out_context_add">
+            <img src="<?php echo $button_icons->create ?>">
+            <p>Добавить</p>
+        </li>
+        <li class="context-menu__item" id="information_system_card_contracts__out_context_update">
+            <img src="<?php echo $button_icons->update ?>">
+            <p>Обновить</p>
+        </li>
+    </ul>
+</div>
 
 <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ КОНТРАКТЫ -->
 <div class="context-menu" id="information_system_card__contracts_context">
     <ul class="context-menu__list">
-        <li class="context-menu__item">
+        <li class="context-menu__item" id="information_system_card__contracts_context_edit">
             <img src="<?php echo $button_icons->edit ?>" alt=Редактировать">
             <p>Редактировать</p>
         </li>
-        <li class="context-menu__item">
-            <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
-            <p>Копировать</p>
-        </li>
-        <li class="context-menu__item">
-            <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
-            <p>Удалить</p>
+        <li class="context-menu__item" id="information_system_card__contracts_context_delete">
+            <img src="<?php echo $button_icons->delete ?>" alt="Исключить">
+            <p>Исключить</p>
         </li>
     </ul>
 </div>
 
 <!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ОБЛАСТИ С ДОКУМЕНТАМИ -->
-<div class="context-menu" id="information_system_card__documents_context">
+<!-- <div class="context-menu" id="information_system_card__documents_context">
     <ul class="context-menu__list">
         <li class="context-menu__item">
-            <img src="<?php echo $button_icons->create ?>" alt=Создать">
+            <img src="<!?php echo $button_icons->create ?>" alt=Создать">
             <p>Создать документ</p>
         </li>
     </ul>
-</div>
+</div> -->
 
 
 <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ДОКУМЕНТА -->

@@ -24,11 +24,19 @@ var reference = {
      * @param {Event} e 
      * @param {string} prefix
      * @param {string} reference_title
+     * @param {string} reference_name ярлык вызываемого справочника если e пустой 
+     * @param {object} source элемент-источник Если e пустой (jQuery object);
      */
-    open_reference(e, prefix, reference_title){
-        //получаем jQuery-объект ref_record
-        el = $(e.target.parentNode);
-        var reference_name = el.children('.name_reference').text();
+    open_reference(e, prefix, reference_title, reference_name = '', source = null){
+        let el;
+        if (e){
+            //получаем jQuery-объект ref_record
+            el = $(e.target.parentNode);
+            reference_name = el.children('.name_reference').text();
+        } else{
+            el = source;
+        }
+        
         // Заносим элемент с помощью которого вызвали справочник в стэк
         stack.push(el);
         var size = { width: 1500, height: 700 };
@@ -112,6 +120,7 @@ var reference = {
             case '#organization_ref' : card = 'organization_card' ; break;
             case '#document_card__version_list' : card = 'document_version_card'; break;
             case '#information_system_card__documents' : card = 'document_card'; break;
+            case '#information_system_card__contracts' : card = 'contract_card'; break;
             case '#contract_ref' : card = 'contract_card'; break;
             case '#footer_ref' : card = 'employee_card'; break;
             case '#employee_ref' : card = 'employee_card' ; break;
@@ -159,6 +168,7 @@ var reference = {
             case 'department' : department_ref_binding_events();
             case 'document_kind' : document_kind_ref_binding_events();
             case 'document' : document_ref_binding_events();
+            case 'contract' : contract_ref_binding_events();
         }
         
     },
@@ -206,6 +216,7 @@ var reference = {
                     case '#employee_ref' : card_employee_load_data(result, openMode); break;
                     // Детальные разделы
                     case '#information_system_card__documents' : card_document_load_data(result, openMode); break;
+                    case '#information_system_card__contracts' : card_contract_load_data(result, openMode); break;
                     case '#document_card__version_list' : card_document_version_load_data(result, openMode); break; 
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {

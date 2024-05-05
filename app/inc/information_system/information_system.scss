@@ -189,9 +189,20 @@
 
     /* Вкладка - Контракты */
     &__contracts{
+        display: flex;
+        flex-direction: column;
         margin-top: -1px;
         /*border: thin solid black;*/
         padding: 5px;
+        width: 100%;
+        height: 100%;
+    }
+
+    &__contracts_container{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
 
     /* Вкладка - Архив */
