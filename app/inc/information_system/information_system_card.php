@@ -392,9 +392,9 @@ $document_icons = $resources->get_document_icons();
 <!-- КОНТЕКСТНОЕ МЕНЮ ЭЛЕМЕНТА information_system_card__documents -->
 <div class="context-menu" id="information_system_card__documents_out_context">
     <ul class="context-menu__list">
-        <li class="context-menu__item" id="information_system_card__documents__out_context_create">
+        <li class="context-menu__item" id="information_system_card__documents__out_context_add">
             <img src="<?php echo $button_icons->create ?>">
-            <p>Создать</p>
+            <p>Добавить</p>
         </li>
         <li class="context-menu__item" id="information_system_card__documents__out_context_update">
             <img src="<?php echo $button_icons->update ?>">

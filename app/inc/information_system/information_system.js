@@ -696,6 +696,33 @@ function information_system_read_document() {
 
 }
 
+/**
+ * ================================= ДОКУМЕНТЫ. ОБНОВИТЬ ================================
+ */
+function information_system_card__documents_update_records(){
+    var information_system_id = $('#information_system_card__id').text();
+    // Загружаем детальный раздел Документы
+    var data = {
+        action: 'load_information_system_documents',
+        information_system_id: information_system_id
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var rows = JSON.parse(result);
+        $('#information_system_card__documents>.document__item').remove();
+        var ind = 1;
+
+        rows.forEach(document => {
+            $('#information_system_card__documents').append(
+                information_system_card__draw_document(document)
+            );
+        });
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки детального раздела Замечания по аттестации произощла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#information_system_ref', 'Ошибка', size, message);
+    });
+}
+
 
 /**
  * ============================== АДМИНИСТРАТОРЫ. СОЗДАТЬ ==============================
@@ -1111,7 +1138,6 @@ function information_system_card_binging_events() {
         information_system_card__developpers_update_records();
     })
 
-
     /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. ОТКРЫТЬ ДОКУМЕНТ */
     $('#information_system_card__documents_open').on('click', function () {
         information_system_read_document();
@@ -1121,6 +1147,11 @@ function information_system_card_binging_events() {
     $('#information_system_card__documents_delete_record').on('click', function (e) {
         information_system_card__documents_delete_record(e);
     })
+
+     /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. ОБНОВИТЬ */
+     $('#information_system_card__documents__out_context_update').on('click', function(){
+        information_system_card__documents_update_records();
+     });
 
 
     /** =========================== АДМИНИСТРАТОРЫ. КНОПКА СОЗДАТЬ ========================== */

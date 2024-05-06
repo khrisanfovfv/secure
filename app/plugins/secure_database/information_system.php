@@ -522,6 +522,29 @@ class InformationSystem{
     }
 
     /**
+     * ================ ДОКУМЕНТЫ. ЗАГРУЗКА ЗАПИСЕЙ ================
+     */
+    function secure_load_information_system_documents(){
+        global $wpdb;
+        $information_system_id = $_POST['information_system_id'];
+        $documents = $wpdb->get_results(
+            $wpdb->prepare("SELECT document.id, document.name, document_version.type 
+            FROM {$wpdb->prefix}information_system_documents inf_sys_doc
+            JOIN {$wpdb->prefix}document document on inf_sys_doc.document = document.id
+            JOIN (SELECT * 
+                FROM {$wpdb->prefix}document_version document_version
+                WHERE document_version.state = 'Active'
+                LIMIT 1) document_version
+            WHERE inf_sys_doc.information_system = %d", $information_system_id), OBJECT);
+
+            if ($wpdb->last_error){
+                wp_die($wpdb->last_error, 'Ошибка', array('response'=> 500));
+            }
+        echo json_encode($documents);
+        wp_die();
+    }
+
+    /**
      * ==================== РАЗРАБОТЧИКИ. СОЗДАНИЕ ЗАПИСИ ==================
      */
     protected function secure_create_developper($information_system_id, $developper){
