@@ -1017,7 +1017,12 @@ function document_card_draw_version(document_version) {
             icon = document_icons.ms_excel; break;
         case 'application/pdf': icon = document_icons.pdf; break;
     }
-    var content_html = $("<li class='attachments__item version__item'>")
+
+    let class_Inactive = ''
+    if (document_version.state == 'Inactive'){
+        class_Inactive = 'Inactive'
+    }
+    var content_html = $("<li class='attachments__item version__item "+ class_Inactive + "'>")
         .append($("<p class='id hide'>").text(document_version['id']))
         .append($("<p class='version_number hide'>").text(document_version['version_number']))
         .append($("<p class='type hide'>").text(document_version['type']))
