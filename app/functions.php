@@ -236,6 +236,7 @@
                 case 'administrator' : get_template_part('inc/administrator/administrator_ref'); break;
                 case 'organization' : get_template_part('inc/organization/organization_ref'); break;
                 case 'department' : get_template_part('inc/department/department_ref'); break;
+                case 'document' : get_template_part('inc/document/document_ref'); break;
                 case 'document_kind' : get_template_part('inc/document_kind/document_kind_ref'); break;
                 case 'contract' : get_template_part('inc/contract/contract_ref'); break;
             }

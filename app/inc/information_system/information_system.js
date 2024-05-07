@@ -697,6 +697,14 @@ function information_system_read_document() {
 }
 
 /**
+ * ================================= ДОКУМЕНТЫ. ДОБАВИТЬ ================================ 
+ */
+function information_system_card__documents_add_record(){
+    let source = $('#information_system_card__documents');
+    reference.open_reference(null, '#information_system_card', 'Справочник документы', 'document', source);
+}
+
+/**
  * ================================= ДОКУМЕНТЫ. ОБНОВИТЬ ================================
  */
 function information_system_card__documents_update_records(){
@@ -980,6 +988,7 @@ function information_system_card__draw_developper_row(developper) {
  */
 function information_system_card__draw_document(document) {
     var icon = document_icons.other
+    alert(document['type']);
     switch (document['type']) {
         case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
             icon = document_icons.ms_word; break;
@@ -1146,6 +1155,10 @@ function information_system_card_binging_events() {
     /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ УДАЛИТЬ ================*/
     $('#information_system_card__documents_delete_record').on('click', function (e) {
         information_system_card__documents_delete_record(e);
+    })
+
+    $('#information_system_card__documents__out_context_add').on('click', function(){
+        information_system_card__documents_add_record();
     })
 
      /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. ОБНОВИТЬ */

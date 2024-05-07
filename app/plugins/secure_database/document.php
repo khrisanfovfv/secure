@@ -208,6 +208,44 @@ class Document
     }
 
     /**
+     * =========== ЗАГРУЗКА ОДНОГО ДОКУМЕНТА =============
+     */
+    public function secure_load_single_document()
+    {
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $document_id = $_POST['document_id'];
+        // Ищем максимальную действующую версию
+        $document_version = $wpdb->get_row( 
+            $wpdb->prepare("SELECT id, type, MAX(version_number)  
+            FROM ${prefix}document_version
+            WHERE document = %d AND state = 'Active'
+            GROUP BY id, type", $document_id), OBJECT);
+        // Если действующей версии нет то ищем версию с максимальным номером
+        if (count($document_version)==0){
+            $document_version = $wpdb->get_row( 
+                $wpdb->prepare("SELECT id, document, type, MAX(version_number)  
+                FROM ${prefix}document_version
+                WHERE document = %s
+                GROUP BY id, document, type", $document_id), OBJECT);
+        }
+         
+        $results = $wpdb->get_row( 
+            $wpdb->prepare("SELECT document.id, document.name, document.state, version.type
+            FROM {$prefix}document document
+            JOIN {$prefix}document_version version on version.document = document.id
+            WHERE document.id = %d AND version.id = %d", $document_id, $document_version->id), 
+            ARRAY_A );
+        
+
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+        }
+        echo json_encode($results);
+        wp_die();
+    }
+
+    /**
      * ============================ ЗАГРУЗКА ДАННЫХ КАРТОЧКИ ===============================
      */
     public function secure_load_card_data($document_id)

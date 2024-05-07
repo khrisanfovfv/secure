@@ -425,12 +425,6 @@ $('#document_ref__create').on('click', function () {
     document_create_record();
 });
 
-/**
- * =========================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ==============================
- */
-$('#document_ref__select').on('click', function () {
-    document_select_record(e);
-})
 
 /**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ===========================
@@ -504,19 +498,37 @@ function document_create_record() {
  * ======================= ДОКУМЕНТ. ВЫБРАТЬ ЗАПИСЬ =========================
  */
 function document_select_record(e) {
-    rows = $('.document_ref__table_row.highlight');
+    let rows = $('.document_ref__table_row.highlight');
     if (rows.length > 0) {
-        id = rows[0].children.item(0).textContent
-        fullname = rows[0].children.item(2).textContent
-        // Извлекаем элемент с помощью которого вызвали справочник из стэка
-        el = stack.pop();
-        // Присваиваем элементу значения выбранного элемента
-        el.children('.id').text(id);
-        el.children('.fullname').val(fullname);
+        let document_id = rows[0].children.item(0).textContent;
+        
+        // Делаем запрос данных записи
+        let data = {
+            action: 'load_single_document',
+            document_id : document_id,
+        }
+
+        jQuery.post(MainData.ajaxurl, data, function (result) {
+            let doc = JSON.parse(result); 
+            console.log(doc);
+            // Извлекаем элемент с id таблицы в которую будем добвлять строку
+            let el = stack.pop();
+        // отрисовываем элемент
+        
+        switch (el.attr('id')){
+            case 'information_system_card__documents' :{
+                el.append(information_system_card__draw_document(doc));
+            } ; break
+        }
+        
         // Закрываем окно выбора
         $(e.target).parents('.appdialog:first').css('display', 'none');
+        })
+
+        
+        
     }
-}
+} 
 
 /**
  * ================================ ДОКУМЕНТ. РЕДАКТИРОВАТЬ =================================
@@ -1050,7 +1062,7 @@ function document_card_draw_send_list_row(organization){
  * ================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СПРАВОЧНИКА ===================
  */
 function document_ref_binding_events() {
-    $('#document_ref_select').on('click', function (e) {
+    $('#document_ref__select').on('click', function (e) {
         document_select_record(e)
     })
 

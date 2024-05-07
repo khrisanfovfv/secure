@@ -161,6 +161,7 @@ class SecDb
         add_action('wp_ajax_nopriv_search_document_extended', array('Document','secure_search_document_extended'));
         add_action('wp_ajax_load_document_version', array('Document', 'secure_load_document_version'));
         add_action('wp_ajax_load_document_version_list', array('Document', 'secure_load_document_version_list'));
+        add_action('wp_ajax_load_single_document', array('Document', 'secure_load_single_document'));
 
         // СОТРУДНИКИ
         add_action('wp_ajax_load_employee', array('Employee', 'secure_load_employee'));
