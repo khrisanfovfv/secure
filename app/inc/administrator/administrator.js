@@ -95,7 +95,7 @@ function administrator_card_press_OK(sender) {
                 reference.show_notification('administrator_ref', 'Ошибка', size, message);
             })
         }
-        $(sender).parents('.appdialog').css('display', 'none');
+        $(sender).parents('.appdialog:first').css('display', 'none');
     }
 
 }
@@ -155,7 +155,7 @@ function administrator_card__check_fields() {
  * ==================== НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ИНФОРМАЦИОНОЙ СИСТЕМЫ ======================
  */
 $('#administrator_card__Cancel').on('click', function () {
-    $(this).parents('.appdialog').css('display', 'none');
+    $(this).parents('.appdialog:first').css('display', 'none');
 });
 
 
@@ -255,7 +255,7 @@ function administrator_extended_search_OK(e) {
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена =============
 */
 $('#administrator_search__button_Cancel').on('click', function () {
-    $(this).parents('.appdialog').css('display', 'none');
+    $(this).parents('.appdialog:first').css('display', 'none');
 });
 
 
@@ -644,6 +644,42 @@ function administrator_card__draw_information_system_row(information_system) {
 }
 
 /**
+ * ============ ПРИВЯЗКА СОБЫТИЙ К СПРАВОЧНИКУ АДМИНИСТРАТОРЫ ============ 
+ */
+function administrator_ref_binding_events() {
+
+    $('#administrator_ref__table tbody tr').on('click', function (e) {
+        reference.highlight(e);
+    });
+
+    /** ===================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ====================== */
+    $('#administrator_ref__create').on('click', function (e) {
+        administrator_create_record();
+    })
+
+    /** ===================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ====================== */
+    $('#administrator_ref__select').on('click', function (e) {
+        administrator_select_record(e);
+    })
+    /** ===================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ====================== */
+    $('#administrator_ref__edit').on('click', function (e) {
+        administrator_edit_record(e);
+    })
+    /** ===================== НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ====================== */
+    $('#administrator_ref__copy').on('click', function () {
+        administrator_copy_record();
+    });
+    /** ===================== НАЖАТИЕ КНОПКИ УДАЛИТЬ ====================== */
+    $('#administrator_ref__delete').on('click', function () {
+        administrator_delete_record();
+    });
+    /** ===================== НАЖАТИЕ КНОПКИ ОБНОВИТЬ ====================== */
+    $('#administrator_ref__update').on('click', function () {
+        administrator_load_records();
+    });
+}
+
+/**
  * ====================ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ АДМИНИИСТРАТОР =====================
  */
 function adminisrator_card_binding_events() {
@@ -684,7 +720,7 @@ function adminisrator_card_binding_events() {
 
     /** ======================== НАЖАТИЕ КНОПКИ ОТМЕНА ====================== */
     $('#administrator_card__Cancel').on('click', function () {
-        $(this).parents('.appdialog').css('display', 'none');
+        $(this).parents('.appdialog:first').css('display', 'none');
     })
 }
 
@@ -709,7 +745,7 @@ function administrator_search_binding_events() {
 
     /** ======================== НАЖАТИЕ КНОПКИ ОТМЕНА  ======================= */
     $('#administrator_search__button_Cancel').on('click', function (e) {
-        $(e.target).parents('.appdialog').css('display', 'none');
+        $(e.target).parents('.appdialog:first').css('display', 'none');
     })
 
 

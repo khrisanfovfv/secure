@@ -388,9 +388,31 @@ function contract_ref_binding_events() {
         reference.highlight(e);
     });
 
+    /** ===================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ====================== */
+    $('#contract_ref__create').on('click', function () {
+        contract_create_record();
+    })
+
     $('#contract_ref__select').on('click', function (e) {
         contract_select_record(e);
     })
+
+    /** ===================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ====================== */
+    $('#contract_ref__edit').on('click', function (e) {
+        contract_edit_record(e);
+    })
+    /** ===================== НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ====================== */
+    $('#contract_ref__copy').on('click', function () {
+        contract_copy_record();
+    });
+    /** ===================== НАЖАТИЕ КНОПКИ УДАЛИТЬ ====================== */
+    $('#contract_ref__delete').on('click', function () {
+        contract_delete_record();
+    });
+
+    $('#contract_ref__update').on('click', function () {
+        contract_load_records();
+    });
 }
 /**
  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ КОНТРАКТА ===============================

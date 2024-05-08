@@ -405,7 +405,6 @@ class Document
         // // Убираем символы экранирования '/'
         $document_versions_json = stripcslashes($_POST['versions_info']);
         $document_versions = json_decode($document_versions_json);
-        print_r($document_version->version_number);
         foreach ($document_versions as $document_version){
             if ($document_version->id ==''){
                 if ($document_version->is_deleted == 0){
@@ -555,7 +554,8 @@ class Document
         $prefix = $wpdb->prefix;
 
         $file_index = $document_version->file_index;
-        if (file_index >=0){
+        print_r($file_index);
+        if ($file_index>=0){
             if(!empty($_FILES )){
 
                 // Удаляем старую версию
@@ -601,12 +601,13 @@ class Document
             }
         } else{
             // Обновляем базу данных без колонки имя файла
+            print_r('Мы пришли сюда!');
             $wpdb->update(
                 $prefix.'document_version',
                 array(
                     'version_number' => $document_version->version_number,
                     'version_title' => $document_version->version_title,
-                    'type' => $document_version->version_type,
+                    'type' => $document_version->type,
                     'state' => $document_version->state
                 ),
                 array( 'ID' => $document_version->id ),

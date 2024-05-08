@@ -65,7 +65,7 @@ function department_card_press_OK(sender) {
                 reference.show_notification('department_ref', 'Ошибка', size, message);
             })
         }
-        $(sender).parents('.appdialog').css('display', 'none');
+        $(sender).parents('.appdialog:first').css('display', 'none');
     }
 }
 
@@ -344,12 +344,12 @@ function department_update_reference(records)
  */
 function department_card_binging_events() {
     $('#department_card__OK').on('click', function () {
-        department_card_press_OK(this);
+        department_card_press_OK(this);ministrator
     });
 
     /** ============ НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ВИД ДОКУМЕНТА ============ */
     $('#department_card__Cancel').on('click', function () {
-        $(this).parents('.appdialog').css('display', 'none');
+        $(this).parents('.appdialog:first').css('display', 'none');
     });
 
     /** ======== НАЖАТИЕ КНОПКИ ВЫБОР ИЗ СПРАВОЧНИКА В ПОЛЕ ОРГАНИЗАЦИЯ ========= */
@@ -363,9 +363,30 @@ function department_card_binging_events() {
  * ================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СПРАВОЧНИКА ===================
  */
 function department_ref_binding_events(){
-    $('#department_ref_select').on('click', function(e){
-        department_select_record(e)
+    /** ===================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ====================== */
+    $('#department_ref__create').on('click', function (e) {
+        department_create_record();
     })
+    /** ===================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ====================== */
+    $('#department_ref__select').on('click', function (e) {
+        department_select_record(e);
+    })
+    /** ===================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ====================== */
+    $('#department_ref__edit').on('click', function (e) {
+        department_edit_record(e);
+    })
+    /** ===================== НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ====================== */
+    $('#department_ref__copy').on('click', function () {
+        department_copy_record();
+    });
+    /** ===================== НАЖАТИЕ КНОПКИ УДАЛИТЬ ====================== */
+    $('#department_ref__delete').on('click', function () {
+        department_delete_record();
+    });
+    /** ===================== НАЖАТИЕ КНОПКИ ОБНОВИТЬ ====================== */
+    $('#department_ref__update').on('click', function () {
+        department_load_records();
+    });
 }
 
 /**
@@ -385,7 +406,7 @@ function department_search_binding_events(){
 
     /** ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена ============= */
     $('#department_search__button_Cancel').on('click', function (e) {
-        $(e.target).parents('.appdialog').css('display', 'none');
+        $(e.target).parents('.appdialog:first').css('display', 'none');
     });
 
 }

@@ -89,10 +89,11 @@ function document_card_press_OK(sender) {
         let files = [];
         $.each(versions, function(index, element){
             let info = {};
+            info.file_index = -1;
             info.id = $(element).children('.id').text();
             info.version_number = $(element).children('.version_number').text();
             info.version_title = $(element).children('.attachments__name_item').text();
-            info.version_type = $(element).children('.type').text();
+            info.type = $(element).children('.type').text();
             info.is_deleted = $(element).children('.is_deleted').text();
             info.state = $(element).children('.state').text();
             if ($(element).find('.file').val()!=''){
@@ -240,7 +241,7 @@ function document_card_press_OK(sender) {
         //         reference.show_notification('document_ref', 'Ошибка', size, message);
         //     })
         // }
-        $(sender).parents('.appdialog').css('display', 'none');
+        $(sender).parents('.appdialog:first').css('display', 'none');
     }
 }
 
@@ -288,7 +289,7 @@ function document_version_card_press_OK(sender){
             let versions = $('.version__item');
             $.each(versions, function(index, element){
                 $(element).addClass('Inactive')
-                $(element).children('.state').text('Inactve');
+                $(element).children('.state').text('Inactive');
             })
             // Отображаем созданную версию 
             $('#document_card__version_list').prepend(
@@ -306,7 +307,7 @@ function document_version_card_press_OK(sender){
             }
             $(version).children('.version_number').text($('#document_version_card__number').val());
             $(version).children('.attachments__name_item').text($('#document_version_card__title').val()); 
-            $(version).children('.is_deleted').text(0);
+            $(version).children('.is_deleted').text(0);   
 
             // Определяем действующая ли редактируемая версия
             if ($('#document_version_card__state').val() == 'Active'){
@@ -317,9 +318,16 @@ function document_version_card_press_OK(sender){
                 $(version).children('.state').text('Active');
                 $(version).removeClass('Inactive');
             }
-             
-
         }
+
+        
+        if ($('#document_version_card__state').val() == 'Inactive') {
+            // Текущую версию делаем неактивной
+            let version = $('.version__item.highlight');
+            $(version).children('.state').text('Inactive')
+            $(version).addClass('Inactive');
+        }
+       
         // Закрываем карточку
         $(sender).parents('.appdialog:first').css('display', 'none');
 
@@ -594,7 +602,7 @@ function document_version_read(id){
         if (xhr.status === 200) {
             var blob = xhr.response;
             var link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
+            link.href = window.URL.createObjectURL(new Blob(blob));
             link.download = 'file.pdf'; // Имя файла, которое будет предложено пользователю
             link.click();
         } else {
@@ -912,7 +920,6 @@ function document_card_binging_events() {
 
      /** ======= КОНТЕКСТНОЕ МЕНЮ ВЕРСИЯ ДОКУМЕНТА. ДВОЙНОЕ НАЖАТИЕ КНОПКИ ======== */
     $('.version__item').on('dblclick', function(e){
-        alert('работает!');
     })
 
 
@@ -1067,9 +1074,32 @@ function document_card_draw_send_list_row(organization){
  * ================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СПРАВОЧНИКА ===================
  */
 function document_ref_binding_events() {
+    
+    /** ===================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ====================== */
+    $('#document_ref__create').on('click', function () {
+        document_create_record();
+    })
+    /** ===================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ====================== */
     $('#document_ref__select').on('click', function (e) {
         document_select_record(e)
     })
+
+    /** ===================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ====================== */
+    $('#document_ref__edit').on('click', function (e) {
+        document_edit_record(e);
+    })
+    /** ===================== НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ====================== */
+    $('#document_ref__copy').on('click', function () {
+        document_copy_record();
+    });
+    /** ===================== НАЖАТИЕ КНОПКИ УДАЛИТЬ ====================== */
+    $('#document_ref__delete').on('click', function () {
+        document_delete_record();
+    });
+
+    $('#document_ref__update').on('click', function () {
+        document_load_records();
+    });
 
     $('#department_ref__table tbody tr').on('dblclick', function (e) {
         document_edit_record();

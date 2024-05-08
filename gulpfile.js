@@ -60,6 +60,9 @@ function scripts(){
     return src([
         'app/plugins/jquery-ui-1.13.2/external/jquery/jquery.js',
         'app/plugins/jquery-ui-1.13.2/jquery-ui.js',
+        'node_modules/file-saver/dist/FileSaver.js',
+        'node_modules/@babel/polyfill/dist/polyfill.js',
+        'node_modules/exceljs/dist/exceljs.js',
         'app/plugins/tables_context_menu/context_menu.js',
         'app/js/reference.js',
         'app/inc/login/login.js',

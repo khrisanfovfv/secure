@@ -164,11 +164,12 @@ var reference = {
      */
     binding_event_reference(reference_name){
         switch(reference_name){
-            case 'organization' : organization_ref_binding_events();
-            case 'department' : department_ref_binding_events();
-            case 'document_kind' : document_kind_ref_binding_events();
-            case 'document' : document_ref_binding_events();
-            case 'contract' : contract_ref_binding_events();
+            case 'organization' : organization_ref_binding_events(); break;
+            case 'department' : department_ref_binding_events(); break;
+            case 'document_kind' : document_kind_ref_binding_events(); break;
+            case 'document' : document_ref_binding_events(); break;
+            case 'contract' : contract_ref_binding_events(); break;
+            case 'administrator' : administrator_ref_binding_events();break;
         }
         
     },

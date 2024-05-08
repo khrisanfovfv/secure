@@ -340,17 +340,13 @@ $document_icons = $resources->get_document_icons();
 </div-->
 
 <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ АДМИНИСТРАТОРЫ -->
-<div class="context-menu" id="information_system_card__general_admins_context">
+<div class="context-menu" id="information_system_card__administrators_context">
     <ul class="context-menu__list">
-        <li class="context-menu__item">
-            <img src="<?php echo $button_icons->edit ?>" alt=Редактировать">
-            <p>Редактировать</p>
-        </li>
-        <li class="context-menu__item">
+        <li class="context-menu__item" id="information_system_card__administrators_context_copy">
             <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
             <p>Копировать</p>
         </li>
-        <li class="context-menu__item">
+        <li class="context-menu__item" id="information_system_card__administrators_context_delete">
             <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
             <p>Удалить</p>
         </li>

@@ -52,7 +52,7 @@ $prefix = $wpdb->prefix;
                     <p>Обновить</p>
                 </button>
             </div>
-            <div class="organization__reference_container">
+            <div class="organization_ref__container">
                 <table class="reference__table" id="organization_ref__table">
                     <thead>
                         <tr>

@@ -1,4 +1,4 @@
-<?php wp_head();
+<?php
 require_once(wp_normalize_path(get_template_directory()) . '/common.php');
 $resources = new Resources();
 $button_icons = $resources->get_button_icons();
@@ -22,37 +22,37 @@ $prefix = $wpdb->prefix;
         <div class="reference">
             <p class="reference__title">Справочник Информационные системы</p>
             <div class="reference__buttons">
-                <button class="reference__button" id="information_system_create">
+                <button class="reference__button" id="information_system_ref__create">
                     <img src="<?php echo $button_icons->create ?>" alt="Создать">
                     <p>Создать</p>
                 </button>
-                <button class="reference__button reference__button_select" id="information_system_select" disabled>
+                <button class="reference__button reference__button_select" id="information_system_ref__select" disabled>
                     <img src="<?php echo $button_icons->select ?>" alt="Выбрать">
                     <p>Выбрать</p>
                 </button>
-                <button class="reference__button" id="information_system_edit" disabled>
+                <button class="reference__button" id="information_system_ref__edit" disabled>
                     <img src="<?php echo $button_icons->edit ?>" alt="Редактировать">
                     <p>Редактировать</p>
                 </button>
-                <button class="reference__button" id="information_system_copy" disabled>
+                <button class="reference__button" id="information_system_ref__copy" disabled>
                     <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
                     <p>Копировать</p>
                 </button>
-                <button class="reference__button" id="information_system_delete" disabled>
+                <button class="reference__button" id="information_system_ref__delete" disabled>
                     <img src="<?php echo  $button_icons->delete ?>" alt="Удалить">
                     <p>Удалить</p>
                 </button>
-                <button class="reference__button" id="information_system_excel">
+                <button class="reference__button" id="information_system_ref__excel">
                     <img src="<?php echo $button_icons->excel ?>" alt="Excel">
                     <p>Эл. таб</p>
                 </button>
-                <button class="reference__button" id="information_system_update">
+                <button class="reference__button" id="information_system_ref__update">
                     <img src="<?php echo $button_icons->update ?>" alt="Update">
                     <p>Обновить</p>
                 </button>
             </div>
-            <div class="information_system__reference_container">
-                <table class="reference__table" id="information_system_table">
+            <div class="information_system_ref__container">
+                <table class="reference__table" id="information_system_ref__table">
                     <thead>
                         <tr>
                             <th style="width: 35px;">№</th>
@@ -74,7 +74,7 @@ $prefix = $wpdb->prefix;
                         for ($i = 0; $i < count($rows); $i++) {
                             $row = $rows[$i];
                         ?>
-                            <tr class="information_system_table_row">
+                            <tr class="information_system_ref__table_row">
                                 <td class="id hide"><?php echo $row["id"] ?></td>
                                 <td><?php echo $i + 1 ?></td>
                                 <td><?php echo $row["briefname"] ?></td>
@@ -158,5 +158,3 @@ $prefix = $wpdb->prefix;
     </li>
 </ul>    
 </div>
-
-<?php wp_footer() ?>

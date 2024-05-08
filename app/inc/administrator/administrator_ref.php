@@ -1,4 +1,4 @@
-<?php wp_head();
+<?php
 
 /**
  * Post Template: Documents Kind
@@ -23,29 +23,33 @@ $prefix = $wpdb->prefix;
         <div class="reference">
             <p class="reference__title">Справочник Администраторы</p>
             <div class="reference__buttons">
-                <button class="reference__button" id="administrator_create">
+                <button class="reference__button" id="administrator_ref__create">
                     <img src="<?php echo $button_icons->create ?>" alt="Создать">
                     <p>Создать</p>
                 </button>
-                <button class="reference__button reference__button_select" id="administrator_select">
+                <button class="reference__button reference__button_select" id="administrator_ref__select">
                     <img src="<?php echo $button_icons->select ?>" alt="Выбрать">
                     <p>Выбрать</p>
                 </button>
-                <button class="reference__button" id="administrator_edit" disabled>
+                <button class="reference__button" id="administrator_ref__edit" disabled>
                     <img src="<?php echo $button_icons->edit ?>" alt="Редактировать">
                     <p>Редактировать</p>
                 </button>
-                <button class="reference__button" id="administrator_copy" disabled>
+                <button class="reference__button" id="administrator_ref__copy" disabled>
                     <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
                     <p>Копировать</p>
                 </button>
-                <button class="reference__button" id="administrator_delete" disabled>
+                <button class="reference__button" id="administrator_ref__delete" disabled>
                     <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
                     <p>Удалить</p>
                 </button>
-                <button class="reference__button" id="administrator_excel">
+                <button class="reference__button" id="administrator_ref__excel">
                     <img src="<?php echo get_template_directory_uri() . '/images/excel.svg' ?>" alt="Exel">
                     <p>Эл. таб</p>
+                </button>
+                <button class="reference__button" id="administrator_ref__update">
+                    <img src="<?php echo $button_icons->update ?>" alt="Update">
+                    <p>Обновить</p>
                 </button>
             </div>
             <div class="administrator_ref__container">
@@ -156,5 +160,3 @@ $prefix = $wpdb->prefix;
     stack = [];
     dubl = 0;
 </script-->
-
-<?php wp_footer() ?>

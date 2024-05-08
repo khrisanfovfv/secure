@@ -12,6 +12,7 @@ var Context = {
         '#information_system_card__remarks_context',
         '#information_system_card_developpers__out_context',
         '#information_system_card_remarks__out_context',
+        '#information_system_card__administrators_context',
         '#information_system_card_administrators__out_context',
         '#information_system_card__contracts_context',
         '#information_system_card__document_context',
@@ -87,17 +88,6 @@ var Context = {
                 case 'document_kind_ref__context_edit' : document_kind_edit_record(); break;
                 case 'document_kind_ref__context_copy' : document_kind_copy_record(); break;
                 case 'document_kind_ref__context_delete' : document_kind_delete_record(); break;
-
-                case 'information_system_ref__out_context_create': information_system_create_record(); break;
-                case 'information_system_ref__out_context_update': information_system_load_records(); break;
-                case 'information_system_ref__context_edit': information_system_edit_record(); break;
-                case 'information_system_ref__context_copy': information_system_copy_record(); break;
-                case 'information_system_ref__context_delete': information_system_delete_record(); break;
-                
-                case 'information_system_card_remarks__out_context_create': information_system_remark_create_record(); break;
-                case 'information_system_card_remarks__out_context_update': information_system_remark_update_records(); break;
-                case 'information_system_card_administrators__out_context_create' : information_system_card__administrator_create_record(); break;
-                case 'information_system_card_administrators__out_context_update' : information_system_card__administrator_update_record(); break;
 
                 case 'department_ref__out_context_create' : department_create_record(); break;
                 case 'department_ref__out_context_update' : department_load_records(); break;
@@ -185,7 +175,7 @@ var Context = {
     clickInsideElement(e) {
         var src_el = e.srcElement || e.target;
         const classNames = [
-            'information_system_table_row',
+            'information_system_ref__table_row',
             'information_system_card__administrators_table_row',
             'information_system_card__developpers_table_num',
             'information_system_card__contracts_table_row',
@@ -253,8 +243,8 @@ var Context = {
      */
     selectContext(className) {
         switch (className) {
-            case 'information_system_table_row': Context.menu = $('#information_system_ref__context'); break;
-            case 'information_system_card__administrators_table_row': Context.menu = $('#information_system_card__general_admins_context'); break;
+            case 'information_system_ref__table_row': Context.menu = $('#information_system_ref__context'); break;
+            case 'information_system_card__administrators_table_num': Context.menu = $('#information_system_card__administrators_context'); break;
             case 'information_system_card__developpers_table_num': Context.menu = $('#information_system_card__general_developpers_context'); break;
             case 'information_system_card__contracts_table_row': Context.menu = $('#information_system_card__contracts_context'); break;
             case 'information_system_card__remarks_table_num': Context.menu = $('#information_system_card__remarks_context'); break;
@@ -367,7 +357,7 @@ var Context = {
 
     createContext: function (src_el) {
         switch (src_el.className) {
-            case 'information_system__reference_container': Context.menu = $('#information_system_ref__out_context'); break;
+            case 'information_system_ref__container': Context.menu = $('#information_system_ref__out_context'); break;
             case 'attachments__list information_system_card__documents' : Context.menu = $('#information_system_card__documents_out_context'); break;
             case 'information_system_card__remarks_container' : Context.menu = $('#information_system_card_remarks__out_context'); break;
             case 'information_system_card__developpers_container' : Context.menu = $('#information_system_card_developpers__out_context'); break;

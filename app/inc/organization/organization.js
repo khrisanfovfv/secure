@@ -17,59 +17,6 @@ $('#organization_ref__table tbody tr').on('dblclick', function () {
     organization_edit_record();
 })
 
-/**
- * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ВИД ДОКУМЕНТА =========================
- */
-$('#organization__card_OK').on('click', function () {
-    if ($('#organization_card__name').val().trim() == '') {
-        $('#organization_card__name').addClass('red_border');
-
-        // Отправляем уведомление
-        var size = { width: 400, height: 200 };
-        var message = 'Не заполнено обязательное поле';
-        reference.show_notification('#organization_ref', 'Предупреждение', size, message);
-    } else {
-        $('#organization_card__name').removeClass('red_border');
-        // Формируем запись для запроса
-        record = {
-            id: $('#organization_card__id').text(),
-            name: $('#organization_card__name').val(),
-            state: $('#organization_card__state').val()
-        }
-        if ($('#organization_card__id').text() == '') {
-
-            // ДОБАВЛЯЕМ значение в базу
-            var data = {
-                action: 'add_organization',
-                record: record
-            };
-
-            jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-                organization_load_records();
-            }).fail(function () {
-                var size = { width: 500, height: 200 };
-                var message = 'Во время добавления записи произошла ошибка';
-                reference.show_notification('organization_ref', 'Ошибка', size, message);
-            })
-        } else {
-            // ОБНОВЛЯЕМ значение в базе данных
-            var data = {
-                action: 'update_organization',
-                record: record
-            };
-
-            jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-                organization_load_records();
-            }).fail(function () {
-                var size = { width: 500, height: 200 };
-                var message = 'Во время обновления записи произошла ошибка';
-                reference.show_notification('organization_ref', 'Ошибка', size, message);
-            })
-        }
-        $(this).parents('.appdialog').css('display', 'none');
-    }
-
-});
 
 /**
  * ==================== НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ВИД ДОКУМЕНТА ======================
@@ -184,7 +131,7 @@ $('#organization_search__button_Cancel').on('click', function () {
  * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
  * */
 $('#organization_ref__create').on('click', function () {
-    oraganization_create_record();
+    organization_create_record();
 
 });
 
@@ -217,48 +164,84 @@ $('#organization_ref__copy').on('click', function () {
 /**
  * ========================= НАЖАТИЕ КНОПКИ ЭЛ. ТАБ. ===========================
  */
-$('#organization_excel').on('click', function(){
+$('#organization_excel').on('click', function () {
     // Выводим данные из базы данных
     var data = {
         action: 'load_organization'
     };
     jQuery.post(MainData.ajaxurl, data, function (result) {
-       var workbook = XLSX.utils.book_new();
-        var records = JSON.parse(result);
-        var organization_list = [
-            [{t:'s', v:"№"},"Краткое наименование", "Полное наименование", "Руководитель", "email", "Состояние"]
-        ]
-        var workbook = new XLSX.Workbook();
-        records.forEach((record,ind) => {
-            organization_list[ind+1] = [];
-            organization_list[ind+1][0] = ind+1;
-            organization_list[ind+1][1] = record['briefname'];
-            organization_list[ind+1][2] = record['fullname'];
-            organization_list[ind+1][3] = record['boss'];
-            organization_list[ind+1][4] = record['email'];
-            organization_list[ind+1][5] = record['state'];
-        })
-        var worksheet = XLSX.utils.aoa_to_sheet(organization_list);
-        worksheet["A1"].s ={
-            font: {
-                name: 'Arial',
-                sz: 24,
-                bold: true,
-                color : {rgb: "FFAA00"}
-            }
-        }
-            
-        XLSX.utils.book_append_sheet(workbook, worksheet,"Организации");
-        XLSX.writeFileXLSX(workbook,"Организации.xlsx");
+        const workbook = new ExcelJS.Workbook();
+        //const sheet = workbook.addWorksheet('My Sheet');
+        // create a sheet with red tab colour
+        const sheet = workbook.addWorksheet('My Sheet', { properties: { tabColor: { argb: 'FFC0000' } } });
+        buffer = workbook.xlsx.writeBuffer();
+            //.then(buffer => FileSaver.saveAs(new Blob([buffer]), `${Date.now()}_feedback.xlsx`))
+            //.catch(err => console.log('Error writing excel export', err))
+        let blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+        let link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = "fName.xlsx";
+        link.click();
+        URL.revokeObjectURL(link.href);
+        
+        // // create a sheet where the grid lines are hidden
+        // const sheet = workbook.addWorksheet('My Sheet', { views: [{ showGridLines: false }] });
+
+        // // create a sheet with the first row and column frozen
+        // const sheet = workbook.addWorksheet('My Sheet', { views: [{ state: 'frozen', xSplit: 1, ySplit: 1 }] });
+
+        // // Create worksheets with headers and footers
+        // const sheet = workbook.addWorksheet('My Sheet', {
+        //     headerFooter: { firstHeader: "Hello Exceljs", firstFooter: "Hello World" }
+        // });
+
+        // // create new sheet with pageSetup settings for A4 - landscape
+        // const worksheet = workbook.addWorksheet('My Sheet', {
+        //     pageSetup: { paperSize: 9, orientation: 'landscape' }
+        // });
+        //    var workbook = XLSX.utils.book_new();
+        //     var records = JSON.parse(result);
+        //     var organization_list = [
+        //         [{t:'s', v:"№"},"Краткое наименование", "Полное наименование", "Руководитель", "email", "Состояние"]
+        //     ]
+        //     var workbook = new XLSX.Workbook();
+        //     records.forEach((record,ind) => {
+        //         organization_list[ind+1] = [];
+        //         organization_list[ind+1][0] = ind+1;
+        //         organization_list[ind+1][1] = record['briefname'];
+        //         organization_list[ind+1][2] = record['fullname'];
+        //         organization_list[ind+1][3] = record['boss'];
+        //         organization_list[ind+1][4] = record['email'];
+        //         organization_list[ind+1][5] = record['state'];
+        //     })
+        //     var worksheet = XLSX.utils.aoa_to_sheet(organization_list);
+        //     worksheet["A1"].s ={
+        //         font: {
+        //             name: 'Arial',
+        //             sz: 24,
+        //             bold: true,
+        //             color : {rgb: "FFAA00"}
+        //         }
+        //     }
+
+        //     XLSX.utils.book_append_sheet(workbook, worksheet,"Организации");
+        //     XLSX.writeFileXLSX(workbook,"Организации.xlsx");
 
     });
-    
-    
+
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+      }
 
 
 
 
-    
+
+
+
 })
 /**
  * ========================= НАЖАТИЕ КНОПКИ Обновить ===========================
@@ -267,7 +250,7 @@ $('#organization_ref__update').on('click', function () {
     organization_load_records()
 })
 
-function oraganization_create_record() {
+function organization_create_record() {
     var size = { width: 700, height: 650 };
     reference.open_card('#organization_ref', 'Карточка организации', size, OpenMode.Create, 0);
 }
@@ -392,7 +375,7 @@ function organization_edit_record() {
 }
 
 /**
- * ОРГАНИЗАТОР. КОПИРОВАНИЕ ЗАПИСИ
+ * ОРГАНИЗАЦИЯ. КОПИРОВАНИЕ ЗАПИСИ
  */
 function organization_copy_record() {
     rows = $('.organization_ref__table_row.highlight')
@@ -427,10 +410,31 @@ function organization_ref_binding_events() {
         reference.highlight(e);
     });
 
+    /** ===================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ====================== */
+    $('#organization_ref__create').on('click', function (e) {
+        organization_create_record();
+    })
+
     /** ===================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ====================== */
     $('#organization_ref__select').on('click', function (e) {
         organization_select_record(e);
     })
+    /** ===================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ====================== */
+    $('#organization_ref__edit').on('click', function (e) {
+        organization_edit_record(e);
+    })
+    /** ===================== НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ====================== */
+    $('#organization_ref__copy').on('click', function () {
+        organization_copy_record();
+    });
+    /** ===================== НАЖАТИЕ КНОПКИ УДАЛИТЬ ====================== */
+    $('#organization_ref__delete').on('click', function () {
+        organization_delete_record();
+    });
+
+    $('#organization_ref__update').on('click', function () {
+        organization_load_records();
+    });
 }
 /**
  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ОРГАНИЗАЦИИ ===============================
@@ -513,7 +517,7 @@ function organization_card_press_OK(sender) {
                 reference.show_notification('organization_ref', 'Ошибка', size, message);
             })
         }
-        $(sender).parents('.appdialog').css('display', 'none');
+        $(sender).parents('.appdialog:first').css('display', 'none');
     }
 }
 
@@ -558,7 +562,6 @@ function organization_load_records(textStatus = '') {
     var data = {
         action: 'load_organization',
     };
-
     jQuery.post(MainData.ajaxurl, data, function (result) {
         var records = JSON.parse(result);
         var size = { width: 500, height: 200 };
@@ -665,18 +668,18 @@ $('#organization_search__button_Cancel').on('click', function () {
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
 */
-function organization_extended_search_OK (e){
+function organization_extended_search_OK(e) {
     var data = {
         action: 'search_organization_extended',
         fullname: $('#organization__search_fullname').val(),
         briefname: $('#organization__search_briefname').val(),
         boss: $('#organization__search_boss').val(),
         email: $('#organization__search_email').val(),
-        inn: $('#organization__search_inn').val(), 
+        inn: $('#organization__search_inn').val(),
         okpo: $('#organization__search_okpo').val(),
-        kpp: $('#organization__search_kpp').val(), 
         kpp: $('#organization__search_kpp').val(),
-        ogrn: $('#organization__search_ogrn').val(), 
+        kpp: $('#organization__search_kpp').val(),
+        ogrn: $('#organization__search_ogrn').val(),
         postAddress: $('#organization__search_postAddress').val(),
         LegalAddress: $('#organization__search_LegalAddress').val(),
         state: $('#organization__search_state').val()
