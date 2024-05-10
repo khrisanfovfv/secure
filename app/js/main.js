@@ -335,3 +335,18 @@ function about_binding_events(){
         $(e.target).parents('.appdialog').css('display', 'none');
     })
 }
+
+/**
+ * 
+ * @param {Object} workbook книга Excel 
+ * @param {*} file_name справочник
+ */
+async function saveToExcel(workbook, file_name){
+    const bytes = await workbook.xlsx.writeBuffer();
+    const mydata = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    let link = document.createElement('a');
+    link.href = URL.createObjectURL(mydata);
+    link.download = file_name + ".xlsx";
+    link.click();
+    URL.revokeObjectURL(link.href);
+}

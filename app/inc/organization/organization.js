@@ -158,18 +158,76 @@ $('#organization_ref__copy').on('click', function () {
     reference.open_card('#organization_ref', 'Карточка Вид документа', size, OpenMode.Copy, id);
 })
 
-async function toExcel(data){
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('My Sheet', { properties: { tabColor: { argb: 'FFC0000' } } });
-    worksheet.getCell('B5').value = 'Hello, World!';
+/** 
+ * ======================= ВЫГРУЗКА ОРГАНИЗАЦИЙ В ТАБЛИЦУ EXCEL =====================
+ */
+async function organization_to_excel(data){
 
-    const bytes = await workbook.xlsx.writeBuffer();
-    const mydata = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    let link = document.createElement('a');
-    link.href = URL.createObjectURL(mydata);
-    link.download = "fName.xlsx";
-    link.click();
-    URL.revokeObjectURL(link.href);
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Организации');
+    const letr = ['A','B','C','D','E','F','G','H','I','J','K','L','M'];
+    
+    // Шрифт для заголовка
+    const font = { 
+        name: 'Arial', 
+        size: 12, 
+        bold: true
+    };
+    // Границы ячеек 
+    const border = {
+        top: {style:'thin'},
+        left: {style:'thin'},
+        bottom: {style:'thin'},
+        right: {style:'thin'}
+    }
+
+    // Настраиаем колонки
+    worksheet.columns = [
+        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ИД', key : 'id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Полное наименование', key : 'fullname', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'Краткое наименование', key : 'briefname', width: 50},
+        {header: 'ИНН', key : 'inn', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ОКПО', key : 'okpo', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'КПП', key : 'kpp', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ОГРН', key : 'ogrn', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Почтовый адрес', key : 'postAddress', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'Юридический Адрес', key : 'legalAddress', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'email', key : 'email', width: 30, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Руководитель', key : 'boss', width: 40, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Статус', key : 'state', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}}
+    ]       
+    worksheet.getRow(1).font = font;
+    worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
+
+    // Устанавливаем границы ячеек заголовков таблицы
+    letr.forEach((value) => {
+        worksheet.getCell(value + '1').border = border;
+    })
+
+    // Добавляем значения в таблицу
+    data.forEach((organization, ind) => {
+        worksheet.getCell('A'+(ind+2)).value = ind+1;
+        worksheet.getCell('B'+(ind+2)).value = organization['id'];
+        worksheet.getCell('C'+(ind+2)).value = organization['fullname'];
+        worksheet.getCell('D'+(ind+2)).value = organization['briefname'];
+        worksheet.getCell('E'+(ind+2)).value = organization['inn'];
+        worksheet.getCell('F'+(ind+2)).value = organization['okpo'];
+        worksheet.getCell('G'+(ind+2)).value = organization['kpp'];
+        worksheet.getCell('H'+(ind+2)).value = organization['ogrn'];
+        worksheet.getCell('I'+(ind+2)).value = organization['postAddress'];
+        worksheet.getCell('J'+(ind+2)).value = organization['legalAddress'];
+        worksheet.getCell('K'+(ind+2)).value = organization['email'];
+        worksheet.getCell('L'+(ind+2)).value = organization['boss'];
+        worksheet.getCell('M'+(ind+2)).value = reference.get_state(organization['state']);
+
+        // Устанавливаем границы ячеек строки
+        letr.forEach((value) => {
+            worksheet.getCell(value + (ind+2)).border = border;
+        })
+    })
+
+    saveToExcel(workbook, 'Организации');
 
 }
 
@@ -183,79 +241,9 @@ $('#organization_excel').on('click', function () {
         action: 'load_organization'
     };
     jQuery.post(MainData.ajaxurl, data, function (result) {
-        toExcel(result);
-        //const sheet = workbook.addWorksheet('My Sheet');
-        // create a sheet with red tab colour
-       
-            //.then(buffer => FileSaver.saveAs(new Blob([buffer]), `${Date.now()}_feedback.xlsx`))
-            //.catch(err => console.log('Error writing excel export', err))
-
-        // Почти работает
-        // let blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-        // let link = document.createElement('a');
-        // link.href = URL.createObjectURL(blob);
-        // link.download = "fName.xlsx";
-        // link.click();
-        // URL.revokeObjectURL(link.href);
-        
-
-        // // create a sheet where the grid lines are hidden
-        // const sheet = workbook.addWorksheet('My Sheet', { views: [{ showGridLines: false }] });
-
-        // // create a sheet with the first row and column frozen
-        // const sheet = workbook.addWorksheet('My Sheet', { views: [{ state: 'frozen', xSplit: 1, ySplit: 1 }] });
-
-        // // Create worksheets with headers and footers
-        // const sheet = workbook.addWorksheet('My Sheet', {
-        //     headerFooter: { firstHeader: "Hello Exceljs", firstFooter: "Hello World" }
-        // });
-
-        // // create new sheet with pageSetup settings for A4 - landscape
-        // const worksheet = workbook.addWorksheet('My Sheet', {
-        //     pageSetup: { paperSize: 9, orientation: 'landscape' }
-        // });
-        //    var workbook = XLSX.utils.book_new();
-        //     var records = JSON.parse(result);
-        //     var organization_list = [
-        //         [{t:'s', v:"№"},"Краткое наименование", "Полное наименование", "Руководитель", "email", "Состояние"]
-        //     ]
-        //     var workbook = new XLSX.Workbook();
-        //     records.forEach((record,ind) => {
-        //         organization_list[ind+1] = [];
-        //         organization_list[ind+1][0] = ind+1;
-        //         organization_list[ind+1][1] = record['briefname'];
-        //         organization_list[ind+1][2] = record['fullname'];
-        //         organization_list[ind+1][3] = record['boss'];
-        //         organization_list[ind+1][4] = record['email'];
-        //         organization_list[ind+1][5] = record['state'];
-        //     })
-        //     var worksheet = XLSX.utils.aoa_to_sheet(organization_list);
-        //     worksheet["A1"].s ={
-        //         font: {
-        //             name: 'Arial',
-        //             sz: 24,
-        //             bold: true,
-        //             color : {rgb: "FFAA00"}
-        //         }
-        //     }
-
-        //     XLSX.utils.book_append_sheet(workbook, worksheet,"Организации");
-        //     XLSX.writeFileXLSX(workbook,"Организации.xlsx");
-
+        let organizations = JSON.parse(result);
+        organization_to_excel(organizations);
     });
-
-    function s2ab(s) {
-        var buf = new ArrayBuffer(s.length);
-        var view = new Uint8Array(buf);
-        for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
-        return buf;
-      }
-
-
-
-
-
-
 
 })
 /**
