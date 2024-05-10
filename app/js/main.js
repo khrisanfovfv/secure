@@ -43,13 +43,11 @@ $(function () {
             case 'sm_references__contract': open_page('contract'); break;
             case 'sm_references__employees': open_page('employee'); break;
             case 'sm_references__documents' : open_page('document'); break;
+            case 'sm_help__help' : open_page('help'); break;
             case 'sm_help__about' : {
-                $('#is_card__notif').css('display','flex');
-                $('#is_card__notif').css('z-index', ++z_index);
-                $('#is_card__notif_content').load(host+'inc/about/about_card.html');
-                $('.appdialog__header_title').text('О программе')
-
-            }; break;
+                let size = {width : 500, height : 230};
+                reference.open_card('#footer_ref', 'О программе', size, OpenMode.Create, 0, '#about');
+            }
         }
     })
 
@@ -329,4 +327,11 @@ $(function () {
        
     })
 
+    
+
 });
+function about_binding_events(){
+    $('#about_card_OK').on('click', function(e){
+        $(e.target).parents('.appdialog').css('display', 'none');
+    })
+}

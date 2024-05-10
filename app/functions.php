@@ -100,6 +100,7 @@
             case 'organization' : $new_template = locate_template(array('inc/organization/page-organization.php')); break;
             case 'administrator' : $new_template = locate_template(array('inc/administrator/page-administrator.php' )); break;
             case 'employee' : $new_template = locate_template(array('inc/employee/page-employee.php')); break; 
+            case 'help' : $new_template = locate_template(array('inc/help/help.php')); break;
             default : $new_template = $template;
         }
         return $new_template;
@@ -215,8 +216,8 @@
             case 'profile_card' : get_template_part('inc/login/profile'); break;
             case 'employee_card' : get_template_part('inc/employee/employee_card'); break;
             //case 'load_file_form' : get_template_part('load_file_form'); break;
-            case 'change_password' : get_template_part('inc/employee/change_password'); break;  
-            
+            case 'change_password' : get_template_part('inc/employee/change_password'); break; 
+            case 'about_card' : get_template_part('inc/about/about_card'); break; 
             case 'document_kind_search' : get_template_part('inc/document_kind/document_kind_search_form');break;
             case 'document_search' : get_template_part('inc/document/document_search_form'); break;
             case 'department_search' : get_template_part('inc/department/department_search_form'); break;

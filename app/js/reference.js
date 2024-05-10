@@ -127,6 +127,7 @@ var reference = {
             case '#user_profile' : card = 'employee_card' ; break;
             case '#employee_card__photo' : card = 'load_file_form'; break;
             case '#change_password' : card = 'change_password'; break;
+            case '#about' : card = 'about_card' ; break;
 
             // КАРТОЧКИ ПОИСКА
             case '#document_kind_ref_search' : card = 'document_kind_search'; break;
@@ -158,7 +159,8 @@ var reference = {
                 case '#document_card__version_list' : document_version_card_binding_events();break;
                 case '#information_system_card__documents' : document_card_binging_events(); break;
                 case '#user_profile' : employee_card_binging_events(); break;
-                case '#change_password' : employee_change_password(); break;
+                case '#change_password' : employee_change_password_binding_events(); break;
+                case '#about' : about_binding_events(); break;
             }
         }
     },

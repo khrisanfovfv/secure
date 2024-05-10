@@ -616,7 +616,7 @@ function employee_search_binding_events() {
 /**
  * ================= ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СМЕНИТЬ ПАРОЛЬ =============== 
  */
-function employee_change_password(){
+function employee_change_password_binding_events(){
     /** Сменить пароль. Кнопка ОК */
     $('#change_password_card__button_OK').on('click', function(e){
         change_password_ok(e.target);
