@@ -23,6 +23,7 @@
     "gulp-webp": "^4.0.1",
     "node-excel-export": "^1.4.4",
     "sass": "^1.62.1",
+    "xlsx": "^0.18.5",
     "xlsx-style": "^0.8.13"
   },
   "dependencies": {

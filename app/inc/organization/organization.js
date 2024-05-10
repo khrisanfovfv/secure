@@ -1,8 +1,5 @@
 
 
-
-
-
 /** 
  * ====================== ОДИНОЧНЫЙ КЛИК НА СТРОКУ ТАБЛИЦЫ =======================
 */
@@ -161,6 +158,22 @@ $('#organization_ref__copy').on('click', function () {
     reference.open_card('#organization_ref', 'Карточка Вид документа', size, OpenMode.Copy, id);
 })
 
+async function toExcel(data){
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('My Sheet', { properties: { tabColor: { argb: 'FFC0000' } } });
+    worksheet.getCell('B5').value = 'Hello, World!';
+
+    const bytes = await workbook.xlsx.writeBuffer();
+    const mydata = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    let link = document.createElement('a');
+    link.href = URL.createObjectURL(mydata);
+    link.download = "fName.xlsx";
+    link.click();
+    URL.revokeObjectURL(link.href);
+
+}
+
+
 /**
  * ========================= НАЖАТИЕ КНОПКИ ЭЛ. ТАБ. ===========================
  */
@@ -170,20 +183,22 @@ $('#organization_excel').on('click', function () {
         action: 'load_organization'
     };
     jQuery.post(MainData.ajaxurl, data, function (result) {
-        const workbook = new ExcelJS.Workbook();
+        toExcel(result);
         //const sheet = workbook.addWorksheet('My Sheet');
         // create a sheet with red tab colour
-        const sheet = workbook.addWorksheet('My Sheet', { properties: { tabColor: { argb: 'FFC0000' } } });
-        buffer = workbook.xlsx.writeBuffer();
+       
             //.then(buffer => FileSaver.saveAs(new Blob([buffer]), `${Date.now()}_feedback.xlsx`))
             //.catch(err => console.log('Error writing excel export', err))
-        let blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-        let link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = "fName.xlsx";
-        link.click();
-        URL.revokeObjectURL(link.href);
+
+        // Почти работает
+        // let blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+        // let link = document.createElement('a');
+        // link.href = URL.createObjectURL(blob);
+        // link.download = "fName.xlsx";
+        // link.click();
+        // URL.revokeObjectURL(link.href);
         
+
         // // create a sheet where the grid lines are hidden
         // const sheet = workbook.addWorksheet('My Sheet', { views: [{ showGridLines: false }] });
 
