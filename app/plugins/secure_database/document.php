@@ -278,7 +278,6 @@ class Document
             WHERE send_list.document = $document_id"), OBJECT);
          $results = (object) array_merge( (array)$results, array( 'document_send_list' => $send_list ));
         return $results;
-        wp_die();
     }
 
     /** 

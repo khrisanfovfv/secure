@@ -13,7 +13,8 @@
         "profile" :  "profile.svg",
         "exit" : "exit.svg",
         "open_card": "open-card.svg",
-        "read" : "read.svg"
+        "read" : "read.svg",
+        "keys" : "keys.svg"
     },
     "document_icons":{
         "ms_word":"ms-word.svg",

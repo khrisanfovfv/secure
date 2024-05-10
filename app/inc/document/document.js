@@ -595,7 +595,6 @@ function document_version_read(id){
     
     var xhr = new XMLHttpRequest();
     xhr.open('POST', MainData.ajaxurl + '?action=load_document_version', true); // URL обработчика
-    //xhr.open('GET', '/wp-admin/admin-ajax.php?action=load_document_version', true); // URL обработчика
     xhr.responseType = 'blob';
 
     xhr.onload = function() {

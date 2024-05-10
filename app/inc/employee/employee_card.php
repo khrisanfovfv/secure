@@ -8,11 +8,16 @@
     $current_user = wp_get_current_user();
     $roles = $current_user->roles;
     $disabled = 'disabled';
+    $is_admin = false;
+    // Определяем является ли пользователь администратором
     foreach($roles as $role){
        if ($role == 'administrator'){
-            $disabled = "";
+            $is_admin = true; 
+            $disabled = '';
+            break;
        } 
     }
+
 ?>
 
 <div class="employee_card">
@@ -23,12 +28,14 @@
         </div>
     
         <div class="employee_card__top_right">
+            <!-- ИД -->
+            <p class="hide" id="employee_card__id"></p>
             <!-- Логин -->
-            <label for="employee_card__login" >Логин<span class="required">*</span></label>
-            <input id="employee_card__login" >
+            <label for="employee_card__login">Логин<span class="required">*</span></label>
+            <input id="employee_card__login" <?php echo $disabled?> >
             <!-- Роль -->
             <label for="employee_card__role" id="employee_card__role_label" >Роль</label>
-            <select id="employee_card__role" name="employee_card__role">
+            <select id="employee_card__role" name="employee_card__role" <?php echo $disabled?>>
                 <option value="author">Пользователь</option>
                 <option value="administrator">Администратор</option>
             </select>
@@ -42,8 +49,8 @@
             <label for="employee_card__firstname">Отчество:</label>
             <input id="employee_card__middlename">
             <!-- Пароль -->
-            <label for="employee_card__password" id="employee_card__password_label" >Пароль<span class="required">*</span>:</label>
-            <input id="employee_card__password" type ="password">
+            <label for="employee_card__password" class="hide" id="employee_card__password_label" >Пароль<span class="required">*</span>:</label>
+            <input id="employee_card__password" class="hide"  type ="password">
             
             
         </div>
@@ -54,16 +61,16 @@
             <div class="card__record" id="employee_card__organization">
                 <p class='hide name_reference'>organization</p>
                 <p class="id hide"></p>
-                <input class="fullname" type="text"  >
-                <div class="card_record__button" id="employee_card__organization_btn">&#183;&#183;&#183;</div>
+                <input class="fullname" type="text" <?php echo $disabled?>>
+                <div class="card_record__button" id="employee_card__organization_btn" <?php echo $disabled?>>&#183;&#183;&#183;</div>
             </div>
             <!-- Отдел -->
             <label for="employee_card__department" >Отдел<span class="required">*</span></label>
             <div class="card__record" id="employee_card__department" >
                 <p class='hide name_reference'>department</p>
                 <p class="id hide"></p>
-                <input class="fullname" type="text"  >
-                <div class="card_record__button" id="employee_card__department_btn">&#183;&#183;&#183;</div>
+                <input class="fullname" type="text"  <?php echo $disabled?>>
+                <div class="card_record__button" id="employee_card__department_btn" <?php echo $disabled?>>&#183;&#183;&#183;</div>
             </div>
             
             <!-- email -->
@@ -71,7 +78,7 @@
             <input id="employee_card__email" value="email">
             <!-- Состояние -->
             <label for="employee_card__state" id="employee_card__state_label" >Состояние:</label>
-            <select id="employee_card__state"  name="employee_card__state"  >
+            <select id="employee_card__state"  name="employee_card__state" <?php echo $disabled?> >
                 <option value="Active">Действующая</option>
                 <option value="Inactive">Не действующая</option>
             </select>

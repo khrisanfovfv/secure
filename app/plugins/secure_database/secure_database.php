@@ -169,14 +169,15 @@ class SecDb
         add_action('wp_ajax_add_employee', array('Employee', 'secure_add_employee'));
         add_action('wp_ajax_nopriv_add_employee', array('Employee', 'secure_add_employee'));
         add_action('wp_ajax_update_employee', array('Employee','secure_update_employee'));
-        add_action('wp_ajax_nopriv_update_employee', array('Employee','secure_update_employee'));
         add_action('wp_ajax_delete_employee', array('Employee', 'secure_delete_employee'));
         add_action('wp_ajax_nopriv_delete_employee', array('Employee', 'secure_delete_employee'));
         add_action('wp_ajax_search_employee', array('Employee','secure_search_employee'));
         add_action('wp_ajax_nopriv_search_employee', array('Employee','secure_search_employee'));
         add_action('wp_ajax_search_employee_extended', array('Employee','secure_search_employee_extended'));
         add_action('wp_ajax_nopriv_search_employee_extended', array('Employee','secure_search_employee_extended'));
-        add_action('wp_ajax_get_avatar', array('Employee', 'secure_get_avatar'));
+        add_action('wp_ajax_get_current_user_id', array('Employee','secure_get_current_user_id'));
+        add_action('wp_ajax_employee_change_password', array('Employee','secure_employee_change_password'));
+        //add_action('wp_ajax_get_avatar', array('Employee', 'secure_get_avatar'));
         // ДЕТАЛЬНЫЕ РАЗДЕЛЫ
         add_action('wp_ajax_load_information_system_developpers', array('InformationSystem', 'secure_load_information_system_developpers'));
         add_action('wp_ajax_nopriv_load_information_system_developpers', array('InformationSystem', 'secure_load_information_system_developpers'));

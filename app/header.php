@@ -21,6 +21,23 @@ if (($last_name == '') && $firstname == ''){
     $display_name = $last_name . ' ' . $firstLetters;
 }
 
+// Получаем аватар пользователя
+$file_name = get_user_meta($user->ID,'avatar_path',true);
+if ($file_name != ''){
+    $avatar_path = get_template_directory_uri().'/storage/avatars/' . $file_name; 
+} else{
+    $avatar_path = get_template_directory_uri().'/images/avatar-default.svg';
+}
+
+// Определяем является ли пользователь администратором
+$is_admin = false;
+foreach($user->roles as $role){
+    if($role == 'administrator'){
+        $is_admin = true;
+        break;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -64,8 +81,14 @@ if (($last_name == '') && $firstname == ''){
                                 документов</a></li>
                         <li class="submenu__item"><a class="submenu__link" href="sm_references__contract">Контракты</a>
                         </li>
-                        <li class="submenu__item"><a class="submenu__link" href="sm_references__employees">Сотрудники</a>
+                        <!-- Отображаем пункт меню только если пользователь имеет права администратора -->
+                        <?php if ($is_admin){ ?>
+                            <li class="submenu__item"><a class="submenu__link" href="sm_references__employees">Сотрудники</a>
                         </li>
+                        <?php
+                            }
+                        ?>
+                        
                         <li class="submenu__item"><a class="submenu__link" href="sm_references__documents">Документы</a>
                         </li>
                     </ul>
@@ -86,7 +109,7 @@ if (($last_name == '') && $firstname == ''){
             </div>
             <!-- Пользователь -->
             <div class="user">
-                <img class="user__img" src="<?php echo get_template_directory_uri() . '/images/user.png' ?>" alt="Пользователь">
+                <img class="user__img" src="<?php echo $avatar_path ?>" alt="Пользователь">
                 <p class="user__text"><?php echo  $display_name ?></p>
             </div>
         </header>

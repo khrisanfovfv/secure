@@ -305,8 +305,28 @@ $(function () {
      * ================ ПОКАЗЫВАЕМ ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ ================
     */
     $('#user__context_profile').on('click', function(){
-        let size = {width:600, height:400}; 
-        reference.open_card('#footer_ref', 'Профиль пользователя', size, OpenMode.Create, 0);
+        let size = {width:600, height:400};
+        let data ={
+            action: 'get_current_user_id',
+        }
+        jQuery.post(MainData.ajaxurl, data, function(id){
+            reference.open_card('#footer_ref', 'Профиль пользователя', size, OpenMode.Edit, id, '#user_profile');
+        })
+        
+    })
+
+    /**
+     * ================= ПОКАЗЫВАЕМ ДИАЛОГ СМЕНЫ ПАРОЛЯ =================
+     */
+    $('#user__context_password').on('click', function(){
+        let size = {width: 400, height:200};
+        let data ={
+            action: 'get_current_user_id',
+        }
+        jQuery.post(MainData.ajaxurl, data, function(id){
+            reference.open_card('#footer_ref', 'Смена пароля', size, OpenMode.Edit, id, '#change_password');
+        })
+       
     })
 
 });

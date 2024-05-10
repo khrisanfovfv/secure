@@ -344,7 +344,7 @@ function department_update_reference(records)
  */
 function department_card_binging_events() {
     $('#department_card__OK').on('click', function () {
-        department_card_press_OK(this);ministrator
+        department_card_press_OK(this);
     });
 
     /** ============ НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ВИД ДОКУМЕНТА ============ */

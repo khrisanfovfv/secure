@@ -119,6 +119,40 @@
     }
 }
 
+.change_password_card{
+    display: flex;
+    flex-direction: column;
+    
+    &__form{
+        margin-top: 20px;
+        display: grid;
+        row-gap: 15px;
+        grid-template-columns: repeat(24,1fr);
+    }
+
+    &__form label{
+        grid-column: 1;
+    }
+
+    &__form input{
+        grid-column: 3/25;
+    }
+
+    &__buttons{
+        display: flex;
+        margin-top: 25px;
+        justify-content: center;
+    }
+
+    &__button:first-child{
+        margin-right: 20px;
+    }
+    &__button{
+        width: 100px;
+    }
+
+}
+
 
 
 

@@ -79,6 +79,7 @@
     update_user_meta( $user_id, 'department', $_POST['department'] );
     update_user_meta( $user_id, 'user_state', $_POST['user_state'] );
     update_user_meta( $user_id, 'avatar_path', $_POST['avatar_path']);
+    update_user_meta( $user_id, 'avatar_ext',$_POST['']);
     }
 
 
@@ -213,7 +214,8 @@
             case 'information_system_ref' : get_template_part('inc/information_system/information_system_ref'); break;
             case 'profile_card' : get_template_part('inc/login/profile'); break;
             case 'employee_card' : get_template_part('inc/employee/employee_card'); break;
-            case 'load_file_form' : get_template_part('load_file_form'); break;
+            //case 'load_file_form' : get_template_part('load_file_form'); break;
+            case 'change_password' : get_template_part('inc/employee/change_password'); break;  
             
             case 'document_kind_search' : get_template_part('inc/document_kind/document_kind_search_form');break;
             case 'document_search' : get_template_part('inc/document/document_search_form'); break;

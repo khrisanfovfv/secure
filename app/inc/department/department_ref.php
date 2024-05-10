@@ -21,7 +21,7 @@ $prefix = $wpdb->prefix;
                     <img src="<?php echo $button_icons->create ?>" alt="Создать">
                     <p>Создать</p>
                 </button>
-                <button class="reference__button reference__button_select" id="department_ref_select" disabled>
+                <button class="reference__button reference__button_select" id="department_ref__select" disabled>
                     <img src="<?php echo $button_icons->select ?>" alt="Выбрать">
                     <p>Выбрать</p>
                 </button>
