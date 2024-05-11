@@ -380,6 +380,84 @@ $('#information_system_ref__delete').on('click', function () {
     information_system_delete_record();
 });
 
+$('#information_system_ref__excel').on('click', function(){
+    // Выводим данные из базы данных
+    var data = {
+        action: 'load_information_system'
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        let information_systems = JSON.parse(result);
+        information_systems_to_excel(information_systems);
+    });
+});
+
+function information_systems_to_excel(data){
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Информационные системы');
+    const letr = ['A','B','C','D','E','F','G','H','I','J','K'];
+    
+    // Шрифт для заголовка
+    const font = { 
+        name: 'Arial', 
+        size: 12, 
+        bold: true
+    };
+    // Границы ячеек 
+    const border = {
+        top: {style:'thin'},
+        left: {style:'thin'},
+        bottom: {style:'thin'},
+        right: {style:'thin'}
+    }
+
+    // Настраиаем колонки
+    worksheet.columns = [
+        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ИД', key : 'id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Полное наименование', key : 'fullname', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'Краткое наименование', key : 'briefname', width: 50},
+        {header: 'Сертифицирована', key : 'certified', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Дата сертификации', key : 'certifydate', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Масштаб ИС', key : 'scope', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Уровень значимости', key : 'significancelevel', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Дата аттестации', key : 'commissioningdate', width: 20, style : {alignment :{vertical: 'middle', horizontal: 'left'}}},
+        {header: 'Есть замечания', key : 'hasremark', width: 15, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'Статус', key : 'state', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}}
+    ]       
+    worksheet.getRow(1).font = font;
+    worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
+
+    // Устанавливаем границы ячеек заголовков таблицы
+    letr.forEach((value) => {
+        worksheet.getCell(value + '1').border = border;
+    })
+
+    // Добавляем значения в таблицу
+    data.forEach((information_system, ind) => {
+        worksheet.getCell('A'+(ind+2)).value = ind+1;
+        worksheet.getCell('B'+(ind+2)).value = information_system['id'];
+        worksheet.getCell('C'+(ind+2)).value = information_system['fullname'];
+        worksheet.getCell('D'+(ind+2)).value = information_system['briefname'];
+        worksheet.getCell('E'+(ind+2)).value = information_system['certifyed'];
+        worksheet.getCell('F'+(ind+2)).value = information_system['certifydate'];
+        worksheet.getCell('G'+(ind+2)).value = information_system['scope'];
+        worksheet.getCell('H'+(ind+2)).value = information_system['significancelevel'];
+        worksheet.getCell('I'+(ind+2)).value = information_system['commissioningdate'];
+        worksheet.getCell('J'+(ind+2)).value = reference.get_boolean_value(information_system['hasremark']);
+        worksheet.getCell('K'+(ind+2)).value = reference.get_state(information_system['state']);
+
+        // Устанавливаем границы ячеек строки
+        letr.forEach((value) => {
+            worksheet.getCell(value + (ind+2)).border = border;
+        })
+    })
+
+    saveToExcel(workbook, 'Информационные системы');
+
+}
+
+
+
 /**
  * ============================= НАЖАТИЕ КНОПКИ ОБНОВИТЬ =============================
  */
@@ -414,6 +492,7 @@ $('#information_system_ref__context_copy').on('click', function(){
 $('#information_system_ref__context_delete').on('click', function(){
     information_system_delete_record();
 })
+
 
 /** 
  * ===================== КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ ====================
