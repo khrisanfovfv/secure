@@ -63,7 +63,7 @@ function document_kind_card_press_OK(sender) {
                 reference.show_notification('document_kind_ref', 'Ошибка', size, message);
             })
         }
-        $(sender).parents('.appdialog').css('display', 'none');
+        $(sender).parents('.appdialog:first').css('display', 'none');
     }
     
 };
@@ -71,8 +71,8 @@ function document_kind_card_press_OK(sender) {
 /**
  * ==================== НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ВИД ДОКУМЕНТА ======================
  */
-$('#document_kind_card__Cancel').on('click', function () {
-    $(this).parents('.appdialog').css('display', 'none');
+$('#document_kind_card__Cancel').on('click', function (e) {
+    $(e.target).parents('.appdialog:first').css('display', 'none');
 });
 
 
@@ -156,7 +156,7 @@ $('#document_kind_search__button_OK').on('click', function(e){
     jQuery.post(MainData.ajaxurl, data, function (result) {
         var records = JSON.parse(result);
         document_kind_update_reference(records);
-        $(e.target).parents('.appdialog').css('display', 'none');
+        $(e.target).parents('.appdialog:first').css('display', 'none');
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };
@@ -170,7 +170,7 @@ $('#document_kind_search__button_OK').on('click', function(e){
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена =============
 */
 $('#document_kind_search__button_Cancel').on('click', function(){
-    $(this).parents('.appdialog').css('display', 'none');
+    $(this).parents('.appdialog:first').css('display', 'none');
 });
 
 
@@ -181,9 +181,9 @@ $('#document_kind_search__button_Cancel').on('click', function(){
  * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
  * */
 $('#document_kind_ref__create').on('click', function () {
-    var size = { width: 600, height: 250 };
-    reference.open_card('#document_kind_ref', 'Карточка Вид документа', size, OpenMode.Create, 0);
+    document_kind_create_record();
 });
+   
 
 /**
  * =========================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ==============================
@@ -214,6 +214,13 @@ $('#document_kind_ref__copy').on('click', function () {
 $('#document_kind_ref__delete').on('click', function () {
     document_kind_delete_record()
 });
+/**
+ * ========================= НАЖАТИЕ КНОПКИ СОЗДАТЬ ЗАПИСЬ ==========================
+ */
+function document_kind_create_record(){
+    var size = { width: 600, height: 250 };
+    reference.open_card('#document_kind_ref', 'Карточка Вид документа', size, OpenMode.Create, 0);
+};
 
 /**
  * ======================= ВИД ДОКУМЕНТА. РЕДАКТИРОВАТЬ ЗАПИСЬ =========================
@@ -336,10 +343,33 @@ function document_kind_ref_binding_events(){
     $('#document_kind_ref__table tbody tr').on('click', function(e){
         reference.highlight(e);
     })
+     /** ===================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ====================== */
+    $('#document_kind_ref__create').on('click', function (e) {
+            document_kind_create_record();
+        })
 
+     /** ===================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ====================== */
     $('#document_kind_ref__select').on('click', function(e){
         document_kind_select_record(e)
     })
+
+    /** ===================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ====================== */
+    $('#document_kind_ref__edit').on('click', function (e) {
+        document_kind_edit_record(e);
+    })
+    /** ===================== НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ====================== */
+    $('#document_kind_ref__copy').on('click', function () {
+        document_kind_copy_record();
+    });
+    /** ===================== НАЖАТИЕ КНОПКИ УДАЛИТЬ ====================== */
+    $('#document_kind_ref__delete').on('click', function () {
+        document_kind_delete_record();
+    });
+
+    $('#document_kind_ref__update').on('click', function () {
+        document_kind_load_records();
+    });
+
 }
 /**
  * ================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СПРАВОЧНИКА ===================
@@ -351,7 +381,7 @@ function document_kind_card_binging_events (){
     });
     /** ==============Карточка ВИДА ДОКУМЕНТОВ: НАЖАТИЕ КНОПКИ Отмена ============= */
     $('#document_kind_card__Cancel').on('click', function (e) {
-        $(e.target).parents('.appdialog').css('display', 'none');
+        $(e.target).parents('.appdialog:first').css('display', 'none');
     });
 }
 

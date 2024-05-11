@@ -317,6 +317,23 @@ class InformationSystem{
         );
 
         $id = $wpdb->insert_id;
+
+        // Обновляем записив детальном разделе Разработчики
+        $developpers_json = stripcslashes($record['developpers']);
+        $developpers = json_decode($developpers_json);
+        foreach ($developpers as $developper){
+            if ($developper->id ==''){
+                if ($developper->is_deleted == 0){
+                    InformationSystem::secure_create_developper($id, $developper);
+                }
+            }elseif ($developper->is_deleted ==='1'){
+                InformationSystem::secure_delete_developper($developper);
+            } else {
+                InformationSystem::secure_update_developper($developper);
+            }
+        }
+
+
         // Создаем записи в детальном разделе Замечания по аттестации
         // Убираем символы экранирования '/'
         $remarks_json = stripcslashes($record['remarks']);
@@ -330,6 +347,21 @@ class InformationSystem{
         $administrators = json_decode($administrators_json);
         foreach ($administrators as $administrator){
             InformationSystem::secure_create_administrator($id, $administrator);
+        }
+
+        // Создаем записи в детальном разделе Контракты
+        $contracts_json = stripcslashes($record['contracts']);
+        $contracts = json_decode($contracts_json);
+        foreach ($contracts as $contract){
+            if (trim($contract->id) ==''){
+                if ($contract->is_deleted == 0){
+                    InformationSystem::secure_create_contract($id, $contract);
+                }
+            }elseif ($contract->is_deleted == 1){
+                InformationSystem::secure_delete_contract($contract);
+            } else {
+                InformationSystem::secure_update_contract($contract);
+            }
         }
         
 
@@ -421,8 +453,23 @@ class InformationSystem{
                 InformationSystem::secure_update_administrator($administrator);
             }
         }
+
+        // Обновляем записи в детальном разделе Контракты
+        $contracts_json = stripcslashes($record['contracts']);
+        $contracts = json_decode($contracts_json);
+        foreach ($contracts as $contract){
+            if (trim($contract->id) ==''){
+                if ($contract->is_deleted == 0){
+                    InformationSystem::secure_create_contract($record['id'], $contract);
+                }
+            }elseif ($contract->is_deleted == 1){
+                InformationSystem::secure_delete_contract($contract);
+            } else {
+                InformationSystem::secure_update_contract($contract);
+            }
+        }
         
-        echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
+        echo 'Запись ид = ' . $record['id'] . ' успешно обновлена ';
         wp_die();
     }
 
@@ -433,6 +480,14 @@ class InformationSystem{
         global $wpdb;
         $prefix = $wpdb->prefix;
         $information_system_id = $_POST['id'];
+
+        // Удаляем связанные записи из таблицы developpers
+        $developpers = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}developpers WHERE information_system = %d", Array($information_system_id)), OBJECT );
+        foreach($developpers as $developper){
+            InformationSystem::secure_delete_developper($developper);
+        }
+
         // Удаляем связанные записи из таблицы remarks
         $remarks = $wpdb->get_results( 
             $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE information_system_id = %d", Array($information_system_id)), OBJECT );
@@ -447,11 +502,46 @@ class InformationSystem{
             InformationSystem::secure_delete_administrator($administrator);
         }
 
+        // Удаляем связанные записи из таблицы information_system_contracts
+        $contracts = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}information_system_contracts WHERE information_system = %d", Array($information_system_id)), OBJECT );
+        foreach($contracts as $contract){
+            InformationSystem::secure_delete_contract($contract);
+        }
+
         // Удаляем запись информационная система
         $wpdb->delete( $prefix.'information_system', array( 'ID' => $information_system_id ), array( '%d' ));
+
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка', array('response'=> 500));
+        }
         echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
+
         wp_die();
 
+    }
+
+    /**
+     * ================ ДОКУМЕНТЫ. ЗАГРУЗКА ЗАПИСЕЙ ================
+     */
+    function secure_load_information_system_documents(){
+        global $wpdb;
+        $information_system_id = $_POST['information_system_id'];
+        $documents = $wpdb->get_results(
+            $wpdb->prepare("SELECT document.id, document.name, document_version.type 
+            FROM {$wpdb->prefix}information_system_documents inf_sys_doc
+            JOIN {$wpdb->prefix}document document on inf_sys_doc.document = document.id
+            JOIN (SELECT * 
+                FROM {$wpdb->prefix}document_version document_version
+                WHERE document_version.state = 'Active'
+                LIMIT 1) document_version
+            WHERE inf_sys_doc.information_system = %d", $information_system_id), OBJECT);
+
+            if ($wpdb->last_error){
+                wp_die($wpdb->last_error, 'Ошибка', array('response'=> 500));
+            }
+        echo json_encode($documents);
+        wp_die();
     }
 
     /**
@@ -502,7 +592,10 @@ class InformationSystem{
         $prefix = $wpdb->prefix;
         $wpdb->delete( $prefix . 'developpers', array( 'ID' => $developper->id ), array( '%d' ));
         echo 'Запись ид = ' . $developper->id . ' успешно удалена';
-        wp_die();
+
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка', array('responce' => 500));
+        }
     }
 
     /**
@@ -594,7 +687,10 @@ class InformationSystem{
         $prefix = $wpdb->prefix;
         $wpdb->delete( $prefix . 'remarks', array( 'ID' => $remark->id ), array( '%d' ));
         echo 'Запись ид = ' . $remark->id . ' успешно удалена';
-        wp_die();
+        
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка', array('responce' => 500));
+        }
     }
 
     /**
@@ -651,6 +747,9 @@ class InformationSystem{
         );
     }
 
+    /**
+     * ============== АДМИНИСТРАТОРЫ. РЕДАКТИРОВАНИЕ ЗАПИСИ ==============
+     */
     function secure_update_administrator($administrator){
         global $wpdb;
         $prefix = $wpdb->prefix;
@@ -683,8 +782,97 @@ class InformationSystem{
         $prefix = $wpdb->prefix;
         $wpdb->delete( $prefix . 'information_system_administrator', array( 'ID' => $administrator->id ), array( '%d' ));
         echo 'Запись ид = ' . $administrator->id . ' успешно удалена';
+        
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка', array('responce' => 500));
+        }
+    }
+
+    /**
+     * ==================== КОНТРАКТЫ ЗАГРУЗКА ЗАПИСЕЙ ====================
+     */
+    public function secure_load_information_system_contracts(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $information_system_id = $_POST['information_system_id'];
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT inf_sys_contracts.id, contract.id as contract_id, contract.contract_subject, 
+            contract.contract_number, contract.conclusionDate, contract.contract_type, contract.link, 
+            contract.contract_state   
+            FROM {$prefix}information_system_contracts inf_sys_contracts 
+            JOIN {$prefix}contract contract on inf_sys_contracts.contract = contract.id 
+            WHERE inf_sys_contracts.information_system = %d", $information_system_id), ARRAY_A );
+
+            if ($wpdb->last_error){
+                wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+            }
+        echo json_encode($results);
         wp_die();
     }
+
+    /**
+     * ============== КОНТРАКТЫ. СОЗДАНИЕ ЗАПИСИ ==============
+     */
+    protected function secure_create_contract($information_system_id, $contract){
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'information_system_contracts';
+        $wpdb->insert(
+            $table_name,
+            array(
+                'information_system' => $information_system_id,
+                'contract' => $contract->contract_id,
+            ),
+            array(
+                '%d', // information_system_id
+                '%d', // contract_id
+            )
+        );
+
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+        }
+
+    }
+
+    /**
+     * ============== КОНТРАКТЫ. РЕДАКТИРОВАНИЕ ЗАПИСИ ==============
+     */
+    function secure_update_contract($contract){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $wpdb->update(
+            $prefix.'information_system_contracts',
+            array(
+                'information_system' => $contract->information_system_id,
+                'contract' => $contract->contract_id,
+            ),
+            array( 'ID' => $contract->id ),
+            array(
+                '%d', // information_system_id
+                '%d', // contract_id
+            ),
+            array( '%d' )
+        );
+    }
+
+    /**
+     * ============== КОНТРАКТЫ. УДАЛЕНИЕ ЗАПИСИ ==============
+     */
+    protected function secure_delete_contract($contract){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $wpdb->delete( $prefix . 'information_system_contracts', array( 'ID' => $contract->id ), array( '%d' ));
+        echo 'Запись ид = ' . $contract->id . ' успешно удалена';
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка', array('responce' => 500));
+        }
+    }
+
+
+
+
+    
+
 
 
 

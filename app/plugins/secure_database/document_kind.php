@@ -91,7 +91,6 @@ class DocumentKind{
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT * FROM {$prefix}document_kind WHERE id = %s", $id), OBJECT );
         return $results;
-        wp_die();
      }
 
      /**

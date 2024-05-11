@@ -36,7 +36,7 @@ $('#employee_ref__table tbody tr').on('dblclick', function () {
 //   }
 
 // /**
-//  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ДОКУМЕНТА =========================
+//  * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ СОТРУДНИКА =========================
 //  */
 
 function employee_card_press_OK(sender) {
@@ -376,8 +376,13 @@ function employee_extended_search_OK() {
     });
 }
 
-
-
+/**
+ * =========  ПОДГОТОВКА КАРТОЧКИ СОТРУДНИКА =========
+ */
+function employee_card_initialize(){
+    $('#employee_card__password_label').removeClass('hide');
+    $('#employee_card__password').removeClass('hide');
+}
 
 /**
  * ======================== ЗАГРУЗКА ДАННЫХ В КАРТОЧКУ =======================
@@ -391,10 +396,22 @@ async function card_employee_load_data(data, openMode) {
      * обнуляем поле id
      */
     switch (openMode) {
-        case OpenMode.Create: $('#employee_card__id').text(''); break;
-        case OpenMode.Edit: $('#employee_card__id').text(cardData.id); break;
-        case OpenMode.Copy: $('#employee_card__id').text(''); break;
+        case OpenMode.Create: {
+            $('#employee_card__id').text('');
+            
+        }break;
+        case OpenMode.Edit: {
+            $('#employee_card__id').text(cardData.id); 
+        }break;
+        case OpenMode.Copy: {
+            $('#employee_card__id').text(''); 
+            $('#employee_card__password_label').removeClass('hide');
+            $('#employee_card__password').removeClass('hide');
+        }break;
     }
+
+    // Загружаем аватар
+
 
     $('#employee_card__login').val(cardData.login);
     $('#employee_card__lastname').val(cardData.last_name);
@@ -410,6 +427,7 @@ async function card_employee_load_data(data, openMode) {
     $('#employee_card__state').val(cardData.state);
 
 }
+
 
 /**
  *  ========================= ОБНОВЛЕНИЕ СПРАВОЧНИКА ===========================
@@ -483,6 +501,8 @@ function employee_card_binging_events() {
         $('#employee_card__avatar').trigger('click');
     })
 
+    
+
     /**
      *  ========= СОБЫТИЕ ИЗМЕНИТЬ ДЛЯ СКРЫТОГО ЭЛЕМЕНТА INPUT FILE ========
      * */
@@ -496,6 +516,56 @@ function employee_card_binging_events() {
         }
     })
 
+}
+
+/** 
+* ============ СМЕНА ПАРОЛЯ. НАЖАТИЕ КНОПКИ ОК ============
+*/
+function change_password_ok(sender){
+    // Проверяем поля для ввода пароля
+    let new_password = $('#new_password').val().trim();
+    let confirm_password = $('#confirm_password').val().trim();
+    if (employee_check_password_fileds(new_password, confirm_password)){
+        data ={
+            action: 'employee_change_password',
+            new_password: new_password
+        }
+
+        jQuery.post(MainData.ajaxurl, data, function (message) {
+            var size = { width: 500, height: 200 };
+            reference.show_notification('#footer_ref', 'Уведомление', size, message);
+    
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            var size = { width: 500, height: 200 };
+            message = 'Во время загрузки данных карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
+            reference.show_notification('#footer_ref', 'Ошибка', size, message);
+        });
+        $(sender).parents('.appdialog').css('display', 'none');
+    }
+    
+}
+
+/**
+ * ========== ПРОВЕРКА КОРРЕКТНОСТИ ВВОДА ПАРОЛЯ ==========
+ * @param {string} new_password новый пароль пользователя
+ * @param {string} confirm_password подтверждение пароля 
+ */
+function employee_check_password_fileds(new_password, confirm_password){
+    if (new_password == confirm_password){
+        if ( new_password !==''){
+            return true;
+        } else{
+            var size = { width: 400, height: 150 };
+            message = 'Введен пустой пароль'
+            reference.show_notification('#footer_ref', 'Ошибка', size, message);
+            return false;
+        }
+    } else {
+        var size = { width: 400, height: 150 };
+        message = 'Пароли не совпадают.'
+        reference.show_notification('#footer_ref', 'Ошибка', size, message);
+        return false;
+    }
 }
 
 
@@ -542,6 +612,24 @@ function employee_search_binding_events() {
     });
 
 }
+
+/**
+ * ================= ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СМЕНИТЬ ПАРОЛЬ =============== 
+ */
+function employee_change_password_binding_events(){
+    /** Сменить пароль. Кнопка ОК */
+    $('#change_password_card__button_OK').on('click', function(e){
+        change_password_ok(e.target);
+    })
+    /** Сменить пароль. Кнопка Отмена */
+    $('#change_password_card__button_Cancel').on('click', function(e){
+        $(e.target).parents('.appdialog').css('display', 'none');
+    })
+
+
+}
+
+
 
 
 

@@ -208,6 +208,44 @@ class Document
     }
 
     /**
+     * =========== ЗАГРУЗКА ОДНОГО ДОКУМЕНТА =============
+     */
+    public function secure_load_single_document()
+    {
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $document_id = $_POST['document_id'];
+        // Ищем максимальную действующую версию
+        $document_version = $wpdb->get_row( 
+            $wpdb->prepare("SELECT id, type, MAX(version_number)  
+            FROM ${prefix}document_version
+            WHERE document = %d AND state = 'Active'
+            GROUP BY id, type", $document_id), OBJECT);
+        // Если действующей версии нет то ищем версию с максимальным номером
+        if (count($document_version)==0){
+            $document_version = $wpdb->get_row( 
+                $wpdb->prepare("SELECT id, document, type, MAX(version_number)  
+                FROM ${prefix}document_version
+                WHERE document = %s
+                GROUP BY id, document, type", $document_id), OBJECT);
+        }
+         
+        $results = $wpdb->get_row( 
+            $wpdb->prepare("SELECT document.id, document.name, document.state, version.type
+            FROM {$prefix}document document
+            JOIN {$prefix}document_version version on version.document = document.id
+            WHERE document.id = %d AND version.id = %d", $document_id, $document_version->id), 
+            ARRAY_A );
+        
+
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+        }
+        echo json_encode($results);
+        wp_die();
+    }
+
+    /**
      * ============================ ЗАГРУЗКА ДАННЫХ КАРТОЧКИ ===============================
      */
     public function secure_load_card_data($document_id)
@@ -240,7 +278,6 @@ class Document
             WHERE send_list.document = $document_id"), OBJECT);
          $results = (object) array_merge( (array)$results, array( 'document_send_list' => $send_list ));
         return $results;
-        wp_die();
     }
 
     /** 
@@ -260,64 +297,61 @@ class Document
      */
     function secure_add_document()
     {
-        if(!empty( $_FILES )){
-		    $files = $_FILES;
-            $file_name = $files[0]['name'];
-            $ext =  pathinfo($file_name, PATHINFO_EXTENSION);
-            // Путь к папке с аватарами
-            $path = wp_normalize_path(get_template_directory() .'/storage/documents/');
-            $path_avatar = $path . '33' . '_' . $login . '.' . $ext;
-            // Записываем файл на сервер
-            if (move_uploaded_file($_FILES[0]['tmp_name'], $path_avatar) === false){
-                wp_send_json_error( 'Ошибка загрузки файла');
-            }
-        }
         global $wpdb;
         $prefix = $wpdb->prefix;
-        // $record = $_POST['record'];
-        //     $wpdb->insert(
-        //         $prefix . 'document',
-        //         array(
-        //             'number' => $record['number'],
-        //             'documentdate' => $record['documentdate'],
-        //             'name' => $record['documentname'],
-        //             'kind' => $record['kind'] == ''? null : $record['kind'],
-        //             'type' => $record['type'],
-        //             'sender' => $record['sender'] == ''? null : $record['sender'],
-        //             'correspondent' => $record['correspondent']  == ''? null : $record['correspondent'],
-        //             'sendreceive' => $record['sendreceive'],
-        //             'signer' => $record['signer'],
-        //             'signed' => $record['signed'],
-        //             'state' => 'Active'
-        //         ),
-        //         array(
-        //             '%s', // number
-        //             '%s', // documentdate
-        //             '%s', // name
-        //             '%d', // kind
-        //             '%s', // type
-        //             '%d', // sender
-        //             '%d', // correspondent
-        //             '%s', // sendreceive
-        //             '%s', // signer
-        //             '%d', // signed
-        //             '%s', // state
-        //         )
-        //     ) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
-        // $id = $wpdb->insert_id;
+        $record = $_POST['record'];
+            $wpdb->insert(
+                $prefix . 'document',
+                array(
+                    'number' => $_POST['number'],
+                    'documentdate' => $_POST['documentdate'],
+                    'name' => $_POST['documentname'],
+                    'kind' => $_POST['kind'] == ''? null : $_POST['kind'],
+                    'type' => $_POST['type'],
+                    'sender' => $_POST['sender'] == ''? null : $_POST['sender'],
+                    'correspondent' => $_POST['correspondent']  == ''? null : $_POST['correspondent'],
+                    'sendreceive' => $_POST['sendreceive'],
+                    'signer' => $_POST['signer'],
+                    'signed' => $_POST['signed'] == true ? 1 : 0,
+                    'state' => 'Active'
+                ),
+                array(
+                    '%s', // number
+                    '%s', // documentdate
+                    '%s', // name
+                    '%d', // kind
+                    '%s', // type
+                    '%d', // sender
+                    '%d', // correspondent
+                    '%s', // sendreceive
+                    '%s', // signer
+                    '%d', // signed
+                    '%s', // state
+                )
+            ) or wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
+        $id = $wpdb->insert_id;
 
         // Создаем записи в таблице Версии документов
         // Убираем символы экранирования '/'
-        $document_versions_json = stripcslashes($record['versions_info']);
-        /*
+        $document_versions_json = stripcslashes($_POST['versions_info']);
         $document_versions = json_decode($document_versions_json);
         foreach ($document_versions as $document_version){
-            Document::secure_create_document_version($id, $document_version);
-        }*/
-
-        $versions_info = $_POST['versions_info'];
-
-        echo 'Запись добавлена ИД=' . $id;
+            if ($document_version->id ==''){
+                if ($document_version->is_deleted == 0){
+                    Document::secure_create_document_version($id, $document_version);
+                }
+            } else {
+                if ($document_version->is_deleted == 0){
+                    Document::secure_update_document_version($document_version);
+                }
+                else{
+                    Document::secure_delete_document_version($document_version);
+                }
+                
+            }
+        }
+        wp_send_json_success( 'Запись ИД =' .  $id . '  добавлена успешно!');
+        //echo 'Запись добавлена ИД=' . $id;
         wp_die();
     }
 
@@ -367,7 +401,6 @@ class Document
         // // Убираем символы экранирования '/'
         $document_versions_json = stripcslashes($_POST['versions_info']);
         $document_versions = json_decode($document_versions_json);
-        print_r($document_version->version_number);
         foreach ($document_versions as $document_version){
             if ($document_version->id ==''){
                 if ($document_version->is_deleted == 0){
@@ -448,7 +481,7 @@ class Document
                 'document' => $id,
                 'version_number' => $document_version->version_number,
                 'version_title' => $document_version->version_title,
-                'type' => $document_version->version_type,
+                'type' => $document_version->type,
                 'state' => $document_version->state
             ),
             array(
@@ -517,7 +550,8 @@ class Document
         $prefix = $wpdb->prefix;
 
         $file_index = $document_version->file_index;
-        if (file_index >=0){
+        print_r($file_index);
+        if ($file_index>=0){
             if(!empty($_FILES )){
 
                 // Удаляем старую версию
@@ -538,7 +572,7 @@ class Document
                         array(
                             'version_number' => $document_version->version_number,
                             'version_title' => $document_version->version_title,
-                            'type' => $document_version->version_type,
+                            'type' => $document_version->type,
                             'filename' => $version_name,
                             'state' => $document_version->state
                         ),
@@ -563,12 +597,13 @@ class Document
             }
         } else{
             // Обновляем базу данных без колонки имя файла
+            print_r('Мы пришли сюда!');
             $wpdb->update(
                 $prefix.'document_version',
                 array(
                     'version_number' => $document_version->version_number,
                     'version_title' => $document_version->version_title,
-                    'type' => $document_version->version_type,
+                    'type' => $document_version->type,
                     'state' => $document_version->state
                 ),
                 array( 'ID' => $document_version->id ),

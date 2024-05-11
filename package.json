@@ -11,6 +11,7 @@
   "devDependencies": {
     "browser-sync": "^2.29.1",
     "excel4node": "^1.8.2",
+    "file-saver": "^2.0.5",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-avif": "^1.1.1",
@@ -22,9 +23,13 @@
     "gulp-webp": "^4.0.1",
     "node-excel-export": "^1.4.4",
     "sass": "^1.62.1",
+    "xlsx": "^0.18.5",
     "xlsx-style": "^0.8.13"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "exceljs": "^4.4.0",
+    "fs": "^0.0.1-security",
     "jquery": "^3.6.4",
     "jsdom": "^22.0.0"
   }

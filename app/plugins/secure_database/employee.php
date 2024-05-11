@@ -12,7 +12,6 @@ class Employee{
     public function secure_load_employee(){
         global $wpdb;
         $prefix = $wpdb->prefix;
-    
         $users = get_users();
         $employeers = array();
         foreach ($users as $user) {
@@ -61,7 +60,7 @@ class Employee{
         $result['id'] = $user->id;
         $result['login'] = $user->user_login;
         // ЗАГРУЖАЕМ аватар
-        $result['photo'] = Employee::image_to_base64(get_template_directory().'/storage/avatars/2_naimovada.jpg');
+        $result['photo'] = get_template_directory_uri() . '/storage/avatars/' . get_user_meta($id,'avatar_path', true);
         $result['last_name'] = $user->last_name;
         $result['first_name'] = $user->first_name;
         $result['middle_name'] = $user->middle_name;
@@ -71,6 +70,11 @@ class Employee{
         $result['department_id'] = $user->department;
         $result['department_name'] = $wpdb->get_var( $wpdb->prepare("SELECT name FROM {$prefix}department WHERE id = %d", $user->department));
         return $result;
+     }
+
+     // Получение ид текущего пользователя
+     function secure_get_current_user_id(){
+        echo get_current_user_id();
         wp_die();
      }
 
@@ -117,19 +121,26 @@ class Employee{
             $ext =  pathinfo($file_name, PATHINFO_EXTENSION);
             // Путь к папке с аватарами
             $path = wp_normalize_path(get_template_directory() .'/storage/avatars/');
-            $path_avatar = $path . $id . '_' . $login . '.' . $ext;
+            $file_name =  $id . '_' . $_POST['login'] . '.' . $ext;
+            $path_avatar = $path . $file_name;
             // Записываем файл на сервер
             if (move_uploaded_file($_FILES[0]['tmp_name'], $path_avatar) === false){
                 wp_send_json_error( 'Ошибка загрузки файла');
             }
 		}
 
+        $user = get_user_by('id',$id);
+        update_user_meta( $user->id, 'avatar_path', $file_name);
+        update_user_meta($user->id,'avatar_ext', $ext);
+
+
+
         wp_send_json_success( 'Запись ИД =' .  $id . 'Добавлена успешно!');
         wp_die();
     }
 
     /**
-     * ==================== УДАЛЕНИЕ ЗАПИСИ ОТДЕЛА ======================
+     * ==================== УДАЛЕНИЕ ПОЛЬЗОВАТЕЛЯ ======================
      */
     function secure_delete_employee(){
         global $wpdb;
@@ -146,33 +157,66 @@ class Employee{
 
 
     /** 
-     * ====================== ОБНОВЛЕНИЕ ЗАПИСИ ОТДЕЛ ==========================
+     * ====================== ОБНОВЛЕНИЕ ПОЛЬЗОВАТЕЛЯ ==========================
      */
     function secure_update_employee(){
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        $record = $_POST['record'];
+        check_ajax_referer( 'cit_secure', 'nonce' ); // защита
+        $id = $_POST['id'];
+        $user = get_user_by('id',$id);
+        $user->user_login       =      $_POST['login'];
+        $user-> user_pass       =      $_POST['password'];
+        $user-> user_email      =      $_POST['email'];
+        $user->last_name        =      $_POST['last_name'];
+        $user->first_name       =      $_POST['first_name'];
+        $user->role             =      $_POST['role'];
+        $user->show_admin_bar_front     =      $_POST['role'] == 'administrator' ? 'true' : 'false';
+        update_user_meta( $id, 'middle_name' , $_POST['middle_name']);
+        update_user_meta( $id, 'organization' , $_POST['organization']);
+        update_user_meta( $id, 'department' , $_POST['department']);
 
-        $wpdb->update(
-            $prefix . 'employee',
-            array(
-                'name' => $record['name'],
-                'organization_id' => $record['organization_id'],
-                'boss' => $record['boss'],
-                'state' => $record['state']
-            ),
-            array( 'ID' => $record['id'] ),
-            array(
-                '%s', // name
-                '%d', // organization_id
-                '%s', // boss
-                '%s'  // state
-            ),
-            array( '%d' )
-        );
-        echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
+        // Загружаем аватар
+        if(!empty( $_FILES )){           
+		    $files = $_FILES;
+            $file_name = $files[0]['name'];
+            $ext =  pathinfo($file_name, PATHINFO_EXTENSION);
+            // Путь к папке с аватарами
+            $path = wp_normalize_path(get_template_directory() .'/storage/avatars/');
+            $file_name =  $id . '_' . $_POST['login'] . '.' . $ext;
+            $path_avatar = $path . $file_name;
+            // Записываем файл на сервер
+            if (move_uploaded_file($_FILES[0]['tmp_name'], $path_avatar) === false){
+                wp_send_json_error( 'Ошибка загрузки файла');
+            } else{
+                update_user_meta( $id, 'avatar_path' , $file_name);
+                update_user_meta($user->id,'avatar_ext', $ext);
+            }
+		}
+
+        wp_send_json_success( 'Запись ИД =' .  $id . '  обновлена успешно!');
         wp_die();
     }
+
+    /**
+     * ============== СМЕНА ПАРОЛЯ =============
+     */
+    function  secure_employee_change_password(){
+        $user_id = get_current_user_id();
+        $user_info = get_userdata( $user_id );
+        $new_password = $_POST['new_password'];
+        wp_set_password($new_password, $user_id);
+        // авторизация с новыми учетными данными
+
+        $creds = array();
+        $creds['user_login'] = $user_info->user_login;
+        $creds['user_password'] = $new_password;
+        $creds['remember'] = $user_info->remember;
+
+        $user = wp_signon($creds);
+        
+        echo "Пароль для пользователя $user_info->user_login изменен";
+        wp_die();
+    }
+
 
     /**
      * ================ СОТРУДНИКИ. ОБЩИЙ ПОИСК =================
@@ -258,8 +302,8 @@ class Employee{
             $employee['first_name'] = $user->first_name;
             $employee['middle_name'] = $user->middle_name;
             $employee['last_name'] = $user->last_name;
-            $employee['organization_name'] = $organization_name;
-            $employee['department_name'] = $department_name;
+            //$employee['organization_name'] = $organization_name;
+            //$employee['department_name'] = $department_name;
             $employee['email'] = $user->user_email;
             array_push($results, $employee);
         }
@@ -268,4 +312,4 @@ class Employee{
     }
 
 }
-?>
+

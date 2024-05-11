@@ -6,6 +6,8 @@ const browserSync = require('browser-sync').create();
 const autoprefixer = require('gulp-autoprefixer');
 const clean = require('gulp-clean');
 const imagemin = require('gulp-imagemin');
+var XLSX = require("xlsx");
+
 //const XLSX = require('xlsx-style');
 
 const destFolder = 'C:/OSPanel/domains/secure/wp-content/themes/cit_secure/';
@@ -28,7 +30,8 @@ function php(){
 }
 
 function references_php(){
-    var references = ['document_kind','document','department' ,'administrator', 'information_system', 'organization', 'contract', 'login', 'employee'];
+    var references = ['document_kind','document','department' ,'administrator', 'information_system', 
+        'organization', 'contract', 'login', 'employee', 'help' , 'about'];
     references.forEach(reference => {
         return src([
             'app/inc/'+ reference + '/*.php'
@@ -60,6 +63,8 @@ function scripts(){
     return src([
         'app/plugins/jquery-ui-1.13.2/external/jquery/jquery.js',
         'app/plugins/jquery-ui-1.13.2/jquery-ui.js',
+        'node_modules/@babel/polyfill/dist/polyfill.js',
+        'node_modules/exceljs/dist/exceljs.js',
         'app/plugins/tables_context_menu/context_menu.js',
         'app/js/reference.js',
         'app/inc/login/login.js',
@@ -152,6 +157,7 @@ exports.secure_database = secure_database;
 exports.references_php = references_php;
 exports.json = json;
 exports.jquery_style = jquery_style;
+exports.XLSX = XLSX;
 
 exports.watching = watching;
 exports.browsersync = browsersync;

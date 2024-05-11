@@ -24,11 +24,19 @@ var reference = {
      * @param {Event} e 
      * @param {string} prefix
      * @param {string} reference_title
+     * @param {string} reference_name ярлык вызываемого справочника если e пустой 
+     * @param {object} source элемент-источник Если e пустой (jQuery object);
      */
-    open_reference(e, prefix, reference_title){
-        //получаем jQuery-объект ref_record
-        el = $(e.target.parentNode);
-        var reference_name = el.children('.name_reference').text();
+    open_reference(e, prefix, reference_title, reference_name = '', source = null){
+        let el;
+        if (e){
+            //получаем jQuery-объект ref_record
+            el = $(e.target.parentNode);
+            reference_name = el.children('.name_reference').text();
+        } else{
+            el = source;
+        }
+        
         // Заносим элемент с помощью которого вызвали справочник в стэк
         stack.push(el);
         var size = { width: 1500, height: 700 };
@@ -74,6 +82,7 @@ var reference = {
                 cache: false,
                 card: card
             };
+
         jQuery.post(MainData.ajaxurl, data, function (textStatus) {
             $(prefix + '__dialog_content').empty();
             $(prefix + '__dialog_content').html(textStatus);
@@ -81,7 +90,7 @@ var reference = {
             reference.binding_event_card(prefix, detail);
             switch (openMode){
                 // Режим создания
-                case OpenMode.Create : reference.initialization_card(detail); break;
+                case OpenMode.Create : reference.initialization_card(prefix, detail); break;
                 // Режим редактирования
                 case OpenMode.Edit : reference.load_card_data(prefix,id,OpenMode.Edit, detail); break;
                 // Режим копирования
@@ -112,10 +121,13 @@ var reference = {
             case '#organization_ref' : card = 'organization_card' ; break;
             case '#document_card__version_list' : card = 'document_version_card'; break;
             case '#information_system_card__documents' : card = 'document_card'; break;
+            case '#information_system_card__contracts' : card = 'contract_card'; break;
             case '#contract_ref' : card = 'contract_card'; break;
             case '#footer_ref' : card = 'employee_card'; break;
-            case '#employee_ref' : card = 'employee_card' ; break;
+            case '#user_profile' : card = 'employee_card' ; break;
             case '#employee_card__photo' : card = 'load_file_form'; break;
+            case '#change_password' : card = 'change_password'; break;
+            case '#about' : card = 'about_card' ; break;
 
             // КАРТОЧКИ ПОИСКА
             case '#document_kind_ref_search' : card = 'document_kind_search'; break;
@@ -140,11 +152,15 @@ var reference = {
                 case '#document_kind_ref' : document_kind_card_binging_events(); break;
                 case '#contract_ref' : contract_card_binding_events(); break;
                 case '#employee_ref' : employee_card_binging_events(); break;
+                
             }
         } else {
             switch(detail){
                 case '#document_card__version_list' : document_version_card_binding_events();break;
                 case '#information_system_card__documents' : document_card_binging_events(); break;
+                case '#user_profile' : employee_card_binging_events(); break;
+                case '#change_password' : employee_change_password_binding_events(); break;
+                case '#about' : about_binding_events(); break;
             }
         }
     },
@@ -155,10 +171,12 @@ var reference = {
      */
     binding_event_reference(reference_name){
         switch(reference_name){
-            case 'organization' : organization_ref_binding_events();
-            case 'department' : department_ref_binding_events();
-            case 'document_kind' : document_kind_ref_binding_events();
-            case 'document' : document_ref_binding_events();
+            case 'organization' : organization_ref_binding_events(); break;
+            case 'department' : department_ref_binding_events(); break;
+            case 'document_kind' : document_kind_ref_binding_events(); break;
+            case 'document' : document_ref_binding_events(); break;
+            case 'contract' : contract_ref_binding_events(); break;
+            case 'administrator' : administrator_ref_binding_events();break;
         }
         
     },
@@ -167,8 +185,12 @@ var reference = {
      * Инициализация карточки
      * @param {string} prefix 
      */
-    initialization_card(prefix){
-        switch (prefix){
+    initialization_card(prefix, detail){
+        switch(prefix){
+            case '#employee_ref': employee_card_initialize(); break;
+        }
+        
+        switch (detail){
             case '#document_card__version_list' : document_version_initialize(); break;
         }
     },
@@ -204,9 +226,13 @@ var reference = {
                     case '#organization_ref': card_organization_load_data(result, openMode); break;
                     case '#contract_ref': card_contract_load_data(result, openMode); break;
                     case '#employee_ref' : card_employee_load_data(result, openMode); break;
+                     
+                    
                     // Детальные разделы
                     case '#information_system_card__documents' : card_document_load_data(result, openMode); break;
-                    case '#document_card__version_list' : card_document_version_load_data(result, openMode); break; 
+                    case '#information_system_card__contracts' : card_contract_load_data(result, openMode); break;
+                    case '#document_card__version_list' : card_document_version_load_data(result, openMode); break;
+                    case '#user_profile' : card_employee_load_data(result, openMode); break;
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 var size = { width: 500, height: 200 };

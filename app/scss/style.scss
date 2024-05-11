@@ -16,6 +16,7 @@
 @import '../inc/about/about.scss';
 @import '../inc/version/version.scss';
 @import '../inc/document/document';
+@import '../inc/help/help.scss';
 
  html, body, .wrapper{
     height: 100%;
@@ -147,6 +148,7 @@
     cursor: pointer;
     &__img{
         width: 50px;
+        border-radius: 25px;
         margin-right: 5px;
     }
     &__text{
@@ -413,3 +415,8 @@ select:focus{
     box-shadow: 0 0 0 2px #000;
 }
 
+#footer_ref__dialog_content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

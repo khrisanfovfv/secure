@@ -43,13 +43,11 @@ $(function () {
             case 'sm_references__contract': open_page('contract'); break;
             case 'sm_references__employees': open_page('employee'); break;
             case 'sm_references__documents' : open_page('document'); break;
+            case 'sm_help__help' : open_page('help'); break;
             case 'sm_help__about' : {
-                $('#is_card__notif').css('display','flex');
-                $('#is_card__notif').css('z-index', ++z_index);
-                $('#is_card__notif_content').load(host+'inc/about/about_card.html');
-                $('.appdialog__header_title').text('О программе')
-
-            }; break;
+                let size = {width : 500, height : 230};
+                reference.open_card('#footer_ref', 'О программе', size, OpenMode.Create, 0, '#about');
+            }
         }
     })
 
@@ -305,8 +303,50 @@ $(function () {
      * ================ ПОКАЗЫВАЕМ ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ ================
     */
     $('#user__context_profile').on('click', function(){
-        let size = {width:600, height:400}; 
-        reference.open_card('#footer_ref', 'Профиль пользователя', size, OpenMode.Create, 0);
+        let size = {width:600, height:400};
+        let data ={
+            action: 'get_current_user_id',
+        }
+        jQuery.post(MainData.ajaxurl, data, function(id){
+            reference.open_card('#footer_ref', 'Профиль пользователя', size, OpenMode.Edit, id, '#user_profile');
+        })
+        
     })
 
+    /**
+     * ================= ПОКАЗЫВАЕМ ДИАЛОГ СМЕНЫ ПАРОЛЯ =================
+     */
+    $('#user__context_password').on('click', function(){
+        let size = {width: 400, height:200};
+        let data ={
+            action: 'get_current_user_id',
+        }
+        jQuery.post(MainData.ajaxurl, data, function(id){
+            reference.open_card('#footer_ref', 'Смена пароля', size, OpenMode.Edit, id, '#change_password');
+        })
+       
+    })
+
+    
+
 });
+function about_binding_events(){
+    $('#about_card_OK').on('click', function(e){
+        $(e.target).parents('.appdialog').css('display', 'none');
+    })
+}
+
+/**
+ * 
+ * @param {Object} workbook книга Excel 
+ * @param {*} file_name справочник
+ */
+async function saveToExcel(workbook, file_name){
+    const bytes = await workbook.xlsx.writeBuffer();
+    const mydata = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    let link = document.createElement('a');
+    link.href = URL.createObjectURL(mydata);
+    link.download = file_name + ".xlsx";
+    link.click();
+    URL.revokeObjectURL(link.href);
+}

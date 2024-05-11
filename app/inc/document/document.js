@@ -89,10 +89,11 @@ function document_card_press_OK(sender) {
         let files = [];
         $.each(versions, function(index, element){
             let info = {};
+            info.file_index = -1;
             info.id = $(element).children('.id').text();
             info.version_number = $(element).children('.version_number').text();
             info.version_title = $(element).children('.attachments__name_item').text();
-            info.version_type = $(element).children('.type').text();
+            info.type = $(element).children('.type').text();
             info.is_deleted = $(element).children('.is_deleted').text();
             info.state = $(element).children('.state').text();
             if ($(element).find('.file').val()!=''){
@@ -130,7 +131,7 @@ function document_card_press_OK(sender) {
             success: function (result) {
                 var size = { width: 500, height: 200 };
                 reference.show_notification('#employee_ref', 'Уведомление', size, result.data);
-                employee_load_records();
+                document_load_records();
             },
             // функция ошибки ответа сервера
             error: function (jqXHR, status, errorThrown) {
@@ -240,7 +241,7 @@ function document_card_press_OK(sender) {
         //         reference.show_notification('document_ref', 'Ошибка', size, message);
         //     })
         // }
-        $(sender).parents('.appdialog').css('display', 'none');
+        $(sender).parents('.appdialog:first').css('display', 'none');
     }
 }
 
@@ -288,7 +289,7 @@ function document_version_card_press_OK(sender){
             let versions = $('.version__item');
             $.each(versions, function(index, element){
                 $(element).addClass('Inactive')
-                $(element).children('.state').text('Inactve');
+                $(element).children('.state').text('Inactive');
             })
             // Отображаем созданную версию 
             $('#document_card__version_list').prepend(
@@ -306,7 +307,7 @@ function document_version_card_press_OK(sender){
             }
             $(version).children('.version_number').text($('#document_version_card__number').val());
             $(version).children('.attachments__name_item').text($('#document_version_card__title').val()); 
-            $(version).children('.is_deleted').text(0);
+            $(version).children('.is_deleted').text(0);   
 
             // Определяем действующая ли редактируемая версия
             if ($('#document_version_card__state').val() == 'Active'){
@@ -317,9 +318,16 @@ function document_version_card_press_OK(sender){
                 $(version).children('.state').text('Active');
                 $(version).removeClass('Inactive');
             }
-             
-
         }
+
+        
+        if ($('#document_version_card__state').val() == 'Inactive') {
+            // Текущую версию делаем неактивной
+            let version = $('.version__item.highlight');
+            $(version).children('.state').text('Inactive')
+            $(version).addClass('Inactive');
+        }
+       
         // Закрываем карточку
         $(sender).parents('.appdialog:first').css('display', 'none');
 
@@ -425,12 +433,6 @@ $('#document_ref__create').on('click', function () {
     document_create_record();
 });
 
-/**
- * =========================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ==============================
- */
-$('#document_ref__select').on('click', function () {
-    document_select_record(e);
-})
 
 /**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ===========================
@@ -462,7 +464,12 @@ $('#document_ref__update').on('click', function () {
     document_load_records();
 })
 
-
+/** 
+ * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ СОЗДАТЬ =================================
+ */
+$('#document_ref__out_context_create').on('click', function(){
+    document_create_record();
+})
 
 /** 
  * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ =================================
@@ -485,6 +492,13 @@ $('#document_ref__context_delete').on('click', function () {
     document_delete_record();
 })
 
+/** 
+ * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ =================================
+ */
+$('#document_ref__out_context_update').on('click', function(){
+    document_load_records();
+});
+
 
 
 
@@ -504,19 +518,37 @@ function document_create_record() {
  * ======================= ДОКУМЕНТ. ВЫБРАТЬ ЗАПИСЬ =========================
  */
 function document_select_record(e) {
-    rows = $('.document_ref__table_row.highlight');
+    let rows = $('.document_ref__table_row.highlight');
     if (rows.length > 0) {
-        id = rows[0].children.item(0).textContent
-        fullname = rows[0].children.item(2).textContent
-        // Извлекаем элемент с помощью которого вызвали справочник из стэка
-        el = stack.pop();
-        // Присваиваем элементу значения выбранного элемента
-        el.children('.id').text(id);
-        el.children('.fullname').val(fullname);
+        let document_id = rows[0].children.item(0).textContent;
+        
+        // Делаем запрос данных записи
+        let data = {
+            action: 'load_single_document',
+            document_id : document_id,
+        }
+
+        jQuery.post(MainData.ajaxurl, data, function (result) {
+            let doc = JSON.parse(result); 
+            console.log(doc);
+            // Извлекаем элемент с id таблицы в которую будем добвлять строку
+            let el = stack.pop();
+        // отрисовываем элемент
+        
+        switch (el.attr('id')){
+            case 'information_system_card__documents' :{
+                el.append(information_system_card__draw_document(doc));
+            } ; break
+        }
+        
         // Закрываем окно выбора
         $(e.target).parents('.appdialog:first').css('display', 'none');
+        })
+
+        
+        
     }
-}
+} 
 
 /**
  * ================================ ДОКУМЕНТ. РЕДАКТИРОВАТЬ =================================
@@ -575,14 +607,13 @@ function document_version_read(id){
     
     var xhr = new XMLHttpRequest();
     xhr.open('POST', MainData.ajaxurl + '?action=load_document_version', true); // URL обработчика
-    //xhr.open('GET', '/wp-admin/admin-ajax.php?action=load_document_version', true); // URL обработчика
     xhr.responseType = 'blob';
 
     xhr.onload = function() {
         if (xhr.status === 200) {
             var blob = xhr.response;
             var link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
+            link.href = window.URL.createObjectURL(new Blob(blob));
             link.download = 'file.pdf'; // Имя файла, которое будет предложено пользователю
             link.click();
         } else {
@@ -900,7 +931,6 @@ function document_card_binging_events() {
 
      /** ======= КОНТЕКСТНОЕ МЕНЮ ВЕРСИЯ ДОКУМЕНТА. ДВОЙНОЕ НАЖАТИЕ КНОПКИ ======== */
     $('.version__item').on('dblclick', function(e){
-        alert('работает!');
     })
 
 
@@ -1005,7 +1035,12 @@ function document_card_draw_version(document_version) {
             icon = document_icons.ms_excel; break;
         case 'application/pdf': icon = document_icons.pdf; break;
     }
-    var content_html = $("<li class='attachments__item version__item'>")
+
+    let class_Inactive = ''
+    if (document_version.state == 'Inactive'){
+        class_Inactive = 'Inactive'
+    }
+    var content_html = $("<li class='attachments__item version__item "+ class_Inactive + "'>")
         .append($("<p class='id hide'>").text(document_version['id']))
         .append($("<p class='version_number hide'>").text(document_version['version_number']))
         .append($("<p class='type hide'>").text(document_version['type']))
@@ -1050,9 +1085,32 @@ function document_card_draw_send_list_row(organization){
  * ================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СПРАВОЧНИКА ===================
  */
 function document_ref_binding_events() {
-    $('#document_ref_select').on('click', function (e) {
+    
+    /** ===================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ====================== */
+    $('#document_ref__create').on('click', function () {
+        document_create_record();
+    })
+    /** ===================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ====================== */
+    $('#document_ref__select').on('click', function (e) {
         document_select_record(e)
     })
+
+    /** ===================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ====================== */
+    $('#document_ref__edit').on('click', function (e) {
+        document_edit_record(e);
+    })
+    /** ===================== НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ====================== */
+    $('#document_ref__copy').on('click', function () {
+        document_copy_record();
+    });
+    /** ===================== НАЖАТИЕ КНОПКИ УДАЛИТЬ ====================== */
+    $('#document_ref__delete').on('click', function () {
+        document_delete_record();
+    });
+
+    $('#document_ref__update').on('click', function () {
+        document_load_records();
+    });
 
     $('#department_ref__table tbody tr').on('dblclick', function (e) {
         document_edit_record();

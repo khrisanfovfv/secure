@@ -79,6 +79,7 @@
     update_user_meta( $user_id, 'department', $_POST['department'] );
     update_user_meta( $user_id, 'user_state', $_POST['user_state'] );
     update_user_meta( $user_id, 'avatar_path', $_POST['avatar_path']);
+    update_user_meta( $user_id, 'avatar_ext',$_POST['']);
     }
 
 
@@ -99,6 +100,7 @@
             case 'organization' : $new_template = locate_template(array('inc/organization/page-organization.php')); break;
             case 'administrator' : $new_template = locate_template(array('inc/administrator/page-administrator.php' )); break;
             case 'employee' : $new_template = locate_template(array('inc/employee/page-employee.php')); break; 
+            case 'help' : $new_template = locate_template(array('inc/help/help.php')); break;
             default : $new_template = $template;
         }
         return $new_template;
@@ -110,11 +112,9 @@
     add_action( 'wp_enqueue_scripts', 'add_theme_scripts' );
 
     function add_theme_scripts() {
-        
         wp_register_script( 'main_script', get_template_directory_uri() . '/js/main.min.js', array(), filemtime(get_template_directory() . '/js/main.min.js'), true );
         wp_register_style('main_style', get_template_directory_uri() . '/css/style.min.css', array(), filemtime(get_template_directory() . '/css/style.min.css'), 'all');
         wp_enqueue_script('main_script');
-        wp_enqueue_style('jquery_style');
         wp_enqueue_style('main_style'); 
         
         // Передаем переменную ajaxurl в main.js
@@ -213,8 +213,9 @@
             case 'information_system_ref' : get_template_part('inc/information_system/information_system_ref'); break;
             case 'profile_card' : get_template_part('inc/login/profile'); break;
             case 'employee_card' : get_template_part('inc/employee/employee_card'); break;
-            case 'load_file_form' : get_template_part('load_file_form'); break;
-            
+            //case 'load_file_form' : get_template_part('load_file_form'); break;
+            case 'change_password' : get_template_part('inc/employee/change_password'); break; 
+            case 'about_card' : get_template_part('inc/about/about_card'); break; 
             case 'document_kind_search' : get_template_part('inc/document_kind/document_kind_search_form');break;
             case 'document_search' : get_template_part('inc/document/document_search_form'); break;
             case 'department_search' : get_template_part('inc/department/department_search_form'); break;
@@ -236,7 +237,9 @@
                 case 'administrator' : get_template_part('inc/administrator/administrator_ref'); break;
                 case 'organization' : get_template_part('inc/organization/organization_ref'); break;
                 case 'department' : get_template_part('inc/department/department_ref'); break;
+                case 'document' : get_template_part('inc/document/document_ref'); break;
                 case 'document_kind' : get_template_part('inc/document_kind/document_kind_ref'); break;
+                case 'contract' : get_template_part('inc/contract/contract_ref'); break;
             }
         } catch(Exception $ex){
             wp_die($ex->getMessage(),['response' => 501]);

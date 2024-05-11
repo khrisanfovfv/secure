@@ -1,8 +1,5 @@
 
 
-
-
-
 /** 
  * ====================== ОДИНОЧНЫЙ КЛИК НА СТРОКУ ТАБЛИЦЫ =======================
 */
@@ -17,59 +14,6 @@ $('#organization_ref__table tbody tr').on('dblclick', function () {
     organization_edit_record();
 })
 
-/**
- * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ВИД ДОКУМЕНТА =========================
- */
-$('#organization__card_OK').on('click', function () {
-    if ($('#organization_card__name').val().trim() == '') {
-        $('#organization_card__name').addClass('red_border');
-
-        // Отправляем уведомление
-        var size = { width: 400, height: 200 };
-        var message = 'Не заполнено обязательное поле';
-        reference.show_notification('#organization_ref', 'Предупреждение', size, message);
-    } else {
-        $('#organization_card__name').removeClass('red_border');
-        // Формируем запись для запроса
-        record = {
-            id: $('#organization_card__id').text(),
-            name: $('#organization_card__name').val(),
-            state: $('#organization_card__state').val()
-        }
-        if ($('#organization_card__id').text() == '') {
-
-            // ДОБАВЛЯЕМ значение в базу
-            var data = {
-                action: 'add_organization',
-                record: record
-            };
-
-            jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-                organization_load_records();
-            }).fail(function () {
-                var size = { width: 500, height: 200 };
-                var message = 'Во время добавления записи произошла ошибка';
-                reference.show_notification('organization_ref', 'Ошибка', size, message);
-            })
-        } else {
-            // ОБНОВЛЯЕМ значение в базе данных
-            var data = {
-                action: 'update_organization',
-                record: record
-            };
-
-            jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-                organization_load_records();
-            }).fail(function () {
-                var size = { width: 500, height: 200 };
-                var message = 'Во время обновления записи произошла ошибка';
-                reference.show_notification('organization_ref', 'Ошибка', size, message);
-            })
-        }
-        $(this).parents('.appdialog').css('display', 'none');
-    }
-
-});
 
 /**
  * ==================== НАЖАТИЕ КНОПКИ ОТМЕНА В КАРТОЧКЕ ВИД ДОКУМЕНТА ======================
@@ -184,7 +128,7 @@ $('#organization_search__button_Cancel').on('click', function () {
  * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
  * */
 $('#organization_ref__create').on('click', function () {
-    oraganization_create_record();
+    organization_create_record();
 
 });
 
@@ -214,51 +158,93 @@ $('#organization_ref__copy').on('click', function () {
     reference.open_card('#organization_ref', 'Карточка Вид документа', size, OpenMode.Copy, id);
 })
 
+/** 
+ * ======================= ВЫГРУЗКА ОРГАНИЗАЦИЙ В ТАБЛИЦУ EXCEL =====================
+ */
+async function organization_to_excel(data){
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Организации');
+    const letr = ['A','B','C','D','E','F','G','H','I','J','K','L','M'];
+    
+    // Шрифт для заголовка
+    const font = { 
+        name: 'Arial', 
+        size: 12, 
+        bold: true
+    };
+    // Границы ячеек 
+    const border = {
+        top: {style:'thin'},
+        left: {style:'thin'},
+        bottom: {style:'thin'},
+        right: {style:'thin'}
+    }
+
+    // Настраиаем колонки
+    worksheet.columns = [
+        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ИД', key : 'id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Полное наименование', key : 'fullname', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'Краткое наименование', key : 'briefname', width: 50},
+        {header: 'ИНН', key : 'inn', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ОКПО', key : 'okpo', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'КПП', key : 'kpp', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ОГРН', key : 'ogrn', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Почтовый адрес', key : 'postAddress', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'Юридический Адрес', key : 'legalAddress', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'email', key : 'email', width: 30, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Руководитель', key : 'boss', width: 40, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Статус', key : 'state', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}}
+    ]       
+    worksheet.getRow(1).font = font;
+    worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
+
+    // Устанавливаем границы ячеек заголовков таблицы
+    letr.forEach((value) => {
+        worksheet.getCell(value + '1').border = border;
+    })
+
+    // Добавляем значения в таблицу
+    data.forEach((organization, ind) => {
+        worksheet.getCell('A'+(ind+2)).value = ind+1;
+        worksheet.getCell('B'+(ind+2)).value = organization['id'];
+        worksheet.getCell('C'+(ind+2)).value = organization['fullname'];
+        worksheet.getCell('D'+(ind+2)).value = organization['briefname'];
+        worksheet.getCell('E'+(ind+2)).value = organization['inn'];
+        worksheet.getCell('F'+(ind+2)).value = organization['okpo'];
+        worksheet.getCell('G'+(ind+2)).value = organization['kpp'];
+        worksheet.getCell('H'+(ind+2)).value = organization['ogrn'];
+        worksheet.getCell('I'+(ind+2)).value = organization['postAddress'];
+        worksheet.getCell('J'+(ind+2)).value = organization['legalAddress'];
+        worksheet.getCell('K'+(ind+2)).value = organization['email'];
+        worksheet.getCell('L'+(ind+2)).value = organization['boss'];
+        worksheet.getCell('M'+(ind+2)).value = reference.get_state(organization['state']);
+
+        // Устанавливаем границы ячеек строки
+        letr.forEach((value) => {
+            worksheet.getCell(value + (ind+2)).border = border;
+        })
+    })
+
+    saveToExcel(workbook, 'Организации');
+
+}
+
+
 /**
  * ========================= НАЖАТИЕ КНОПКИ ЭЛ. ТАБ. ===========================
  */
-$('#organization_excel').on('click', function(){
+$('#organization_excel').on('click', function () {
     // Выводим данные из базы данных
     var data = {
         action: 'load_organization'
     };
     jQuery.post(MainData.ajaxurl, data, function (result) {
-       var workbook = XLSX.utils.book_new();
-        var records = JSON.parse(result);
-        var organization_list = [
-            [{t:'s', v:"№"},"Краткое наименование", "Полное наименование", "Руководитель", "email", "Состояние"]
-        ]
-        var workbook = new XLSX.Workbook();
-        records.forEach((record,ind) => {
-            organization_list[ind+1] = [];
-            organization_list[ind+1][0] = ind+1;
-            organization_list[ind+1][1] = record['briefname'];
-            organization_list[ind+1][2] = record['fullname'];
-            organization_list[ind+1][3] = record['boss'];
-            organization_list[ind+1][4] = record['email'];
-            organization_list[ind+1][5] = record['state'];
-        })
-        var worksheet = XLSX.utils.aoa_to_sheet(organization_list);
-        worksheet["A1"].s ={
-            font: {
-                name: 'Arial',
-                sz: 24,
-                bold: true,
-                color : {rgb: "FFAA00"}
-            }
-        }
-            
-        XLSX.utils.book_append_sheet(workbook, worksheet,"Организации");
-        XLSX.writeFileXLSX(workbook,"Организации.xlsx");
-
+        let organizations = JSON.parse(result);
+        organization_to_excel(organizations);
     });
-    
-    
 
-
-
-
-    
 })
 /**
  * ========================= НАЖАТИЕ КНОПКИ Обновить ===========================
@@ -267,7 +253,7 @@ $('#organization_ref__update').on('click', function () {
     organization_load_records()
 })
 
-function oraganization_create_record() {
+function organization_create_record() {
     var size = { width: 700, height: 650 };
     reference.open_card('#organization_ref', 'Карточка организации', size, OpenMode.Create, 0);
 }
@@ -392,7 +378,7 @@ function organization_edit_record() {
 }
 
 /**
- * ОРГАНИЗАТОР. КОПИРОВАНИЕ ЗАПИСИ
+ * ОРГАНИЗАЦИЯ. КОПИРОВАНИЕ ЗАПИСИ
  */
 function organization_copy_record() {
     rows = $('.organization_ref__table_row.highlight')
@@ -427,10 +413,31 @@ function organization_ref_binding_events() {
         reference.highlight(e);
     });
 
+    /** ===================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ====================== */
+    $('#organization_ref__create').on('click', function (e) {
+        organization_create_record();
+    })
+
     /** ===================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ====================== */
     $('#organization_ref__select').on('click', function (e) {
         organization_select_record(e);
     })
+    /** ===================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ====================== */
+    $('#organization_ref__edit').on('click', function (e) {
+        organization_edit_record(e);
+    })
+    /** ===================== НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ====================== */
+    $('#organization_ref__copy').on('click', function () {
+        organization_copy_record();
+    });
+    /** ===================== НАЖАТИЕ КНОПКИ УДАЛИТЬ ====================== */
+    $('#organization_ref__delete').on('click', function () {
+        organization_delete_record();
+    });
+
+    $('#organization_ref__update').on('click', function () {
+        organization_load_records();
+    });
 }
 /**
  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ОРГАНИЗАЦИИ ===============================
@@ -513,7 +520,7 @@ function organization_card_press_OK(sender) {
                 reference.show_notification('organization_ref', 'Ошибка', size, message);
             })
         }
-        $(sender).parents('.appdialog').css('display', 'none');
+        $(sender).parents('.appdialog:first').css('display', 'none');
     }
 }
 
@@ -558,7 +565,6 @@ function organization_load_records(textStatus = '') {
     var data = {
         action: 'load_organization',
     };
-
     jQuery.post(MainData.ajaxurl, data, function (result) {
         var records = JSON.parse(result);
         var size = { width: 500, height: 200 };
@@ -665,18 +671,18 @@ $('#organization_search__button_Cancel').on('click', function () {
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
 */
-function organization_extended_search_OK (e){
+function organization_extended_search_OK(e) {
     var data = {
         action: 'search_organization_extended',
         fullname: $('#organization__search_fullname').val(),
         briefname: $('#organization__search_briefname').val(),
         boss: $('#organization__search_boss').val(),
         email: $('#organization__search_email').val(),
-        inn: $('#organization__search_inn').val(), 
+        inn: $('#organization__search_inn').val(),
         okpo: $('#organization__search_okpo').val(),
-        kpp: $('#organization__search_kpp').val(), 
         kpp: $('#organization__search_kpp').val(),
-        ogrn: $('#organization__search_ogrn').val(), 
+        kpp: $('#organization__search_kpp').val(),
+        ogrn: $('#organization__search_ogrn').val(),
         postAddress: $('#organization__search_postAddress').val(),
         LegalAddress: $('#organization__search_LegalAddress').val(),
         state: $('#organization__search_state').val()

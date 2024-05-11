@@ -12,10 +12,12 @@ var Context = {
         '#information_system_card__remarks_context',
         '#information_system_card_developpers__out_context',
         '#information_system_card_remarks__out_context',
+        '#information_system_card__administrators_context',
         '#information_system_card_administrators__out_context',
         '#information_system_card__contracts_context',
         '#information_system_card__document_context',
         '#information_system_card__documents_out_context',
+        '#information_system_card_contracts__out_context',
         '#information_system_ref__context',
         '#information_system_ref__out_context',
         '#administrator_ref__context',
@@ -89,21 +91,9 @@ var Context = {
                 case 'document_kind_ref__context_copy' : document_kind_copy_record(); break;
                 case 'document_kind_ref__context_delete' : document_kind_delete_record(); break;
 
-                case 'information_system_ref__out_context_create': information_system_create_record(); break;
-                case 'information_system_ref__out_context_update': information_system_load_records(); break;
-                case 'information_system_ref__context_edit': information_system_edit_record(); break;
-                case 'information_system_ref__context_copy': information_system_copy_record(); break;
-                case 'information_system_ref__context_delete': information_system_delete_record(); break;
-                
-                case 'information_system_card_remarks__out_context_create': information_system_remark_create_record(); break;
-                case 'information_system_card_remarks__out_context_update': information_system_remark_update_records(); break;
-                case 'information_system_card_administrators__out_context_create' : information_system_card__administrator_create_record(); break;
-                case 'information_system_card_administrators__out_context_update' : information_system_card__administrator_update_record(); break;
-
                 case 'department_ref__out_context_create' : department_create_record(); break;
                 case 'department_ref__out_context_update' : department_load_records(); break;
 
-                case 'document_ref__out_context_update' : document_load_records(); break; 
                 case 'document_card_send_list__out_context_create' : document_card__send_list_create_record(); break
                 case 'document_card_send_list__out_context_update' : document_card_send_list_load_records(); break;
                 case 'document_card__send_list_context_copy' : document_card_send_list_copy_record(); break;
@@ -186,7 +176,7 @@ var Context = {
     clickInsideElement(e) {
         var src_el = e.srcElement || e.target;
         const classNames = [
-            'information_system_table_row',
+            'information_system_ref__table_row',
             'information_system_card__administrators_table_row',
             'information_system_card__developpers_table_num',
             'information_system_card__contracts_table_row',
@@ -255,8 +245,8 @@ var Context = {
      */
     selectContext(className) {
         switch (className) {
-            case 'information_system_table_row': Context.menu = $('#information_system_ref__context'); break;
-            case 'information_system_card__administrators_table_row': Context.menu = $('#information_system_card__general_admins_context'); break;
+            case 'information_system_ref__table_row': Context.menu = $('#information_system_ref__context'); break;
+            case 'information_system_card__administrators_table_num': Context.menu = $('#information_system_card__administrators_context'); break;
             case 'information_system_card__developpers_table_num': Context.menu = $('#information_system_card__general_developpers_context'); break;
             case 'information_system_card__contracts_table_row': Context.menu = $('#information_system_card__contracts_context'); break;
             case 'information_system_card__remarks_table_num': Context.menu = $('#information_system_card__remarks_context'); break;
@@ -266,6 +256,7 @@ var Context = {
             case 'administrator_card__information_systems_table_num' : Context.menu = $('#administrator_card__remarks_context'); break;
             case 'organization_ref__table_row': Context.menu = $('#organization_ref__context'); break;
             case 'department_ref__table_row': Context.menu = $('#department_ref__context'); break;
+            case 'document_ref__table_row' : Context.menu = $('#document_ref__context'); break;
             case 'document_kind_ref__table_row': Context.menu = $('#document_kind_ref__context'); break;
             case 'contract_ref_table_row': Context.menu = $('#contract_ref__context'); break;
             case 'contract_card__customers_table_num' : Context.menu = $('#contract_card__customer_context'); break;
@@ -370,11 +361,12 @@ var Context = {
 
     createContext: function (src_el) {
         switch (src_el.className) {
-            case 'information_system__reference_container': Context.menu = $('#information_system_ref__out_context'); break;
+            case 'information_system_ref__container': Context.menu = $('#information_system_ref__out_context'); break;
             case 'attachments__list information_system_card__documents' : Context.menu = $('#information_system_card__documents_out_context'); break;
             case 'information_system_card__remarks_container' : Context.menu = $('#information_system_card_remarks__out_context'); break;
             case 'information_system_card__developpers_container' : Context.menu = $('#information_system_card_developpers__out_context'); break;
             case 'information_system_card__administrators_container' : Context.menu = $('#information_system_card_administrators__out_context'); break;
+            case 'information_system_card__contracts_container' : Context.menu = $('#information_system_card_contracts__out_context'); break;
             case 'administrator_ref__container': Context.menu = $('#administrator_ref__out_context'); break;
             case 'department_ref__container' : Context.menu = $('#department_ref__out_context'); break;
             case 'document_ref__container' : Context.menu = $('#document_ref__out_context'); break;
