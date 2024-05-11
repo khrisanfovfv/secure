@@ -92,7 +92,6 @@ var Context = {
                 case 'department_ref__out_context_create' : department_create_record(); break;
                 case 'department_ref__out_context_update' : department_load_records(); break;
 
-                case 'document_ref__out_context_update' : document_load_records(); break; 
                 case 'document_card_send_list__out_context_create' : document_card__send_list_create_record(); break
                 case 'document_card_send_list__out_context_update' : document_card_send_list_load_records(); break;
                 case 'document_card__send_list_context_copy' : document_card_send_list_copy_record(); break;
@@ -254,6 +253,7 @@ var Context = {
             case 'administrator_card__information_systems_table_num' : Context.menu = $('#administrator_card__remarks_context'); break;
             case 'organization_ref__table_row': Context.menu = $('#organization_ref__context'); break;
             case 'department_ref__table_row': Context.menu = $('#department_ref__context'); break;
+            case 'document_ref__table_row' : Context.menu = $('#document_ref__context'); break;
             case 'document_kind_ref__table_row': Context.menu = $('#document_kind_ref__context'); break;
             case 'contract_ref_table_row': Context.menu = $('#contract_ref__context'); break;
             case 'contract_card__customers_table_num' : Context.menu = $('#contract_card__customer_context'); break;

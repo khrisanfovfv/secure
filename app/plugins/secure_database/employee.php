@@ -192,7 +192,7 @@ class Employee{
             }
 		}
 
-        wp_send_json_success( 'Запись ИД =' .  $id . ' ' . 'какая-то надпись' . ' обновлена успешно!');
+        wp_send_json_success( 'Запись ИД =' .  $id . '  обновлена успешно!');
         wp_die();
     }
 

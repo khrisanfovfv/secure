@@ -28,7 +28,7 @@ $prefix = $wpdb->prefix;
 <main class="main">
     <div class="content">
         <div class="reference">
-            <p class="reference__title">Справочник Информационные системы</p>
+            <p class="reference__title">Справочник Документы</p>
             <div class="reference__buttons">
                 <button class="reference__button" id="document_ref__create">
                     <img src="<?php echo $button_icons->create ?>" alt="Создать">

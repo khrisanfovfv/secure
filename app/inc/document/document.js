@@ -131,7 +131,7 @@ function document_card_press_OK(sender) {
             success: function (result) {
                 var size = { width: 500, height: 200 };
                 reference.show_notification('#employee_ref', 'Уведомление', size, result.data);
-                employee_load_records();
+                document_load_records();
             },
             // функция ошибки ответа сервера
             error: function (jqXHR, status, errorThrown) {
@@ -464,7 +464,12 @@ $('#document_ref__update').on('click', function () {
     document_load_records();
 })
 
-
+/** 
+ * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ СОЗДАТЬ =================================
+ */
+$('#document_ref__out_context_create').on('click', function(){
+    document_create_record();
+})
 
 /** 
  * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ =================================
@@ -486,6 +491,13 @@ $('#document_ref__context_copy').on('click', function () {
 $('#document_ref__context_delete').on('click', function () {
     document_delete_record();
 })
+
+/** 
+ * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ =================================
+ */
+$('#document_ref__out_context_update').on('click', function(){
+    document_load_records();
+});
 
 
 
