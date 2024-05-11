@@ -133,8 +133,8 @@ $document_icons = $resources->get_document_icons();
             <div class="contract_card__frame-top-right">
                 <div class="attachments">
                     <p class="attachments__title">Документы</p>
-                    <ul class="attachments__list">
-                        <li class="attachments__item document__item">
+                    <ul class="attachments__list contract_card__documents" id = "contract_card__documents">
+                        <!-- <li class="attachments__item document__item">
                             <a class="attachments__link" href="#">
                                 <img class="attachments__ico" src="<?php echo $document_icons->pdf ?>" alt="">
                                 <p class="attachments__name_item">Аттестат соответствия</p>
@@ -145,7 +145,7 @@ $document_icons = $resources->get_document_icons();
                                 <img class="attachments__ico" src="<?php echo $document_icons->ms_word ?>" alt="">
                                 <p class="attachments__name_item">Технический паспорт</p>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -211,23 +211,24 @@ $document_icons = $resources->get_document_icons();
 
 
 <!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ОБЛАСТИ С ДОКУМЕНТАМИ -->
-<div class="context-menu" id="contract_card__documents_context">
+<div class="context-menu" id="contract_card__documents_out_context">
     <ul class="context-menu__list">
-        <li class="context-menu__item">
-            <img src="<?php echo $button_icons->create ?>" alt=Создать">
-            <p>Создать документ</p>
+        <li class="context-menu__item" id="contract_card__documents__out_context_create">
+            <img src="<?php echo $button_icons->create ?>">
+            <p>Создать</p>
+        </li>
+        <li class="context-menu__item" id="contract_card__documents__out_context_update">
+            <img src="<?php echo $button_icons->update ?>">
+            <p>Обновить</p>
         </li>
     </ul>
 </div>
 
 
+
 <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ДОКУМЕНТА -->
 <div class="context-menu" id="contract_card__document_context">
     <ul class="context-menu__list">
-        <li class="context-menu__item">
-            <img src="<?php echo $button_icons->edit ?>" alt=Редактировать">
-            <p>Редактировать</p>
-        </li>
         <li class="context-menu__item">
             <img src="<?php echo $button_icons->edit ?>" alt="Читать">
             <p>Читать</p>
@@ -236,17 +237,10 @@ $document_icons = $resources->get_document_icons();
             <img src="<?php echo $button_icons->edit ?>" alt="Открыть карточку">
             <p>Открыть карточку</p>
         </li>
-        <li class="context-menu__item" id="contract_card__documents_create_version">
-            <img src="<?php echo $button_icons->edit ?>" alt="Создать версию">
-            <p>Создать версию</p>
-        </li>
+
         <li class="context-menu__item">
             <img src="<?php echo $button_icons->edit ?>" alt="Удалить">
             <p>Удалить</p>
-        </li>
-        <li class="context-menu__item">
-            <img src="<?php echo $button_icons->edit ?>" alt="История">
-            <p>История</p>
         </li>
     </ul>
 </div>

@@ -196,6 +196,17 @@ function card_contract_load_data(data, openMode) {
     $('#contract_card__type').val(cardData[0].contract_type);
     $('#contract_card__link').val(cardData[0].link);
     $('#contract_card__state').val(cardData[0].contract_state);
+
+    // ОБЛАСТЬ С ДОКУМЕНТАМИ
+    let documents = cardData['documents'];
+        ind = 1;
+        $('#contract_card__documents li').remove();
+        documents.forEach(document => {
+            $('#contract_card__documents').append(
+                contract_card__draw_document(document)
+            )
+
+        })
    
     //ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ
     if (openMode == OpenMode.Edit) {
@@ -223,6 +234,28 @@ function card_contract_load_data(data, openMode) {
             )
         })
     }
+}
+
+/**
+ * ================ ОТРИСОВКА ДОКУМЕНТА В ОБЛАСТИ ВЛОЖЕНИЙ ======================
+ * @param {object} document
+ */
+function contract_card__draw_document(document) {
+    var icon = document_icons.other
+    switch (document['type']) {
+        case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+            icon = document_icons.ms_word; break;
+        case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+            icon = document_icons.ms_excel; break;
+        case 'application/pdf': icon = document_icons.pdf; break;
+    }
+
+    var content_html =
+        $("<li class='attachments__item contract_document__item'>")
+            .append($("<p class='id hide'>").text(document.id))
+            .append($("<img class='attachments__ico'>").attr('src', icon))
+            .append($("<p class='attachments__name_item'>").text(document.name))
+    return content_html;
 }
 
 /** ================== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ ЗАКАЗЧИКИ 1================= */

@@ -223,6 +223,22 @@ class Contract
         //     $results = (object) array_merge( (array)$results, array( 'remarks' => $remarks )); 
         //contract.id, contract.contract_number, contract.conclusionDate, contract.contract_type, 
         //contract.contract_subject, contract.contract_state
+        
+        // Область с документами
+        $documents = $wpdb->get_results(
+            $wpdb->prepare("SELECT document.id, document.name, document_version.type 
+            FROM {$wpdb->prefix}contract_document contract_doc
+            JOIN {$wpdb->prefix}document document on contract_doc.document_id = document.id
+            JOIN (SELECT * 
+                FROM {$wpdb->prefix}document_version document_version
+                WHERE document_version.state = 'Active'
+                LIMIT 1) document_version
+            WHERE contract_doc.contract_id = $id"), OBJECT);
+             $results = (object) array_merge( (array)$results, array( 'documents' => $documents ));
+            if ($wpdb->last_error){
+                wp_die($wpdb->last_error, "Ошибка при загрузке карточки документы",array("response"=>500));
+            }
+             
         return $results;
         wp_die();
     }
@@ -310,7 +326,7 @@ class Contract
             ),
             array('%d')
         );
-        //         // Обновляем записи в детальном разделе Замечания по аттестации
+        //         // Обновляем записи в детальном разделе ЗАКАЗЧИКИ
         //         // Убираем символы экранирования '/'
         $customers_json = stripcslashes($record['customers']);
         $customers = json_decode($customers_json);
@@ -331,6 +347,27 @@ class Contract
         }
         echo 'Запись ид = ' . $record['id'] . ' успешно обновлена ' .$customers_json;
         wp_die();
+        // //         // Обновляем записи в детальном разделе ИСПОЛНИТЕЛИ
+        // //         // Убираем символы экранирования '/'
+        // $developpers_json = stripcslashes($record['developpers']);
+        // $developpers = json_decode($developpers_json);
+        // foreach ($developpers as $developper){
+        //     if ($developper->id ==''){
+        //         if ($developper->is_deleted == 0){
+        //             Contract::secure_create_developper($record['id'], $developper);
+        //         }
+        //     }elseif ($developper->is_deleted ==='1'){
+        //         Contract::secure_delete_developper($developper);
+        //     } else {
+        //         Contract::secure_update_developper($developper);
+        //      }
+        // }
+
+        // if ($wpdb->last_error) {
+        //     wp_die($wpdb->last_error, 'Ошибка при обновлении записи', array('response' => 500));
+        // }
+        // echo 'Запись ид = ' . $record['id'] . ' успешно обновлена ' .$developpers_json;
+        // wp_die();
     }
 
     //     /**
@@ -362,7 +399,7 @@ class Contract
     //     }
 
         /**
-         * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. СОЗДАНИЕ ЗАПИСИ ==============
+         * ============== ДЕТАЛЬНАЯ СТРАНИЦА ЗАКАЗЧИКИ. СОЗДАНИЕ ЗАПИСИ ==============
          */
         protected function secure_create_customer($contract_id, $customer){
             global $wpdb;
@@ -385,7 +422,7 @@ class Contract
         }
 
         /**
-         * ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. РЕДАКТИРОВАНИЕ ЗАПИСИ ==============
+         * ============== ДЕТАЛЬНАЯ СТРАНИЦА ЗАКАЗЧИКИ. РЕДАКТИРОВАНИЕ ЗАПИСИ ==============
          */
         protected function secure_update_customer($customer){
             global $wpdb;
@@ -425,6 +462,71 @@ class Contract
 
             wp_die();
         }
+
+    //     /** ============== ДЕТАЛЬНАЯ СТРАНИЦА ЗАКАЗЧИКИ. СОЗДАНИЕ ЗАПИСИ ==============
+    //     */
+    //    protected function secure_create_developper($contract_id, $developper){
+    //        global $wpdb;
+    //        $table_name = $wpdb->prefix . 'contract_developper';
+    //        $wpdb->insert(
+    //            $table_name,
+    //            array(
+    //                'contract_id' => $contract_id,
+    //                'organization_id' =>$developper->organization_id
+    //            ),
+    //            array(
+    //                '%d', // contract_id
+    //                '%d', // organization_id
+    //            )
+    //        );
+
+    //        if($wpdb-> last_error){
+    //            wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+    //        }
+    //    }
+
+    //    /**
+    //     * ============== ДЕТАЛЬНАЯ СТРАНИЦА ЗАКАЗЧИКИ. РЕДАКТИРОВАНИЕ ЗАПИСИ ==============
+    //     */
+    //    protected function secure_update_developper($developper){
+    //        global $wpdb;
+    //        $prefix = $wpdb->prefix;
+    //        print_r($developper->eliminated);
+    //        $wpdb->update(
+    //            $prefix.'contarct_developper',
+    //            array(
+    //                'contract_id' => $developper->contract_id,
+    //                'organization_id' =>$developper->organization_id
+    //            ),
+    //            array( 'ID' => $developper->id ),
+    //            array(
+    //                '%d', // contract_id
+    //                '%d', // organization_id
+    //            ),
+    //            array( '%d' )
+    //        );
+
+    //        if($wpdb-> last_error){
+    //            wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+    //        }
+
+    //    }
+    //    /**
+    //     * ============== ЗАКАЗЧИКИ. УДАЛЕНИЕ ЗАПИСИ ==============
+    //     */
+    //    protected function secure_delete_developper($developper){
+    //        global $wpdb;
+    //        $prefix = $wpdb->prefix;
+    //        $wpdb->delete( $prefix . 'contract_developper', array( 'ID' => $developper->id ), array( '%d' ));
+    //        echo 'Запись ид = ' . $developper->id . ' успешно удалена';
+           
+    //        if($wpdb-> last_error){
+    //            wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+    //        }
+
+    //        wp_die();
+    //    }
+
 
     /**
      * ============== ВКЛАДКА ЗАКАЗЧИКИ. ЗАГРУЗКА ЗАПИСЕЙ ==============
