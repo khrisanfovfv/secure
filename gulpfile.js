@@ -31,7 +31,7 @@ function php(){
 
 function references_php(){
     var references = ['document_kind','document','department' ,'administrator', 'information_system', 
-        'organization', 'contract', 'login', 'employee', 'help' , 'about'];
+        'organization', 'contract', 'login', 'employee', 'help' , 'about', 'settings'];
     references.forEach(reference => {
         return src([
             'app/inc/'+ reference + '/*.php'
@@ -76,6 +76,7 @@ function scripts(){
         'app/inc/contract/contract.js',
         'app/inc/employee/employee.js',
         'app/inc/document/document.js',
+        'app/inc/settings/settings.js',
         'app/js/main.js'
     ])
     .pipe(concat('main.min.js'))

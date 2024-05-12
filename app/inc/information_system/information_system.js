@@ -800,7 +800,7 @@ function information_system_read_document() {
             version = rows.reduce((max, current) => (max.version_number > current.version_number ? max : current), rows[0]);
         }
         // Открываем версию документа
-        document_version_read(version.id);
+        document_version_read(version.id, version.extension, version.type);
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };

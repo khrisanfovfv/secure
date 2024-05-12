@@ -82,6 +82,20 @@ function document_card_press_OK(sender) {
         data.append('signer', $('#document_card__signer').val());
         data.append('state', $('#document_card__state').val());
         
+        // Обрабатываем список рассылки
+        let rows = $('#document_card__send_list_table tbody tr');
+        let correspondent = {}
+        let send_list = []
+
+        rows.each(function(ind, row){
+            correspondent.id = $(row.cells[0]).text();
+            correspondent.correspondent_id = $(row.cells[2]).find('.id').text();
+            correspondent.send_date = $(row.cells[3]).children().val();
+            correspondent.is_deleted = $(row.cells[4]).text();
+            // Копируем обьект в массив
+            send_list[ind] = correspondent;
+        })
+        data.append('send_list',JSON.stringify(send_list));
 
         // Обрабатываем версии документа
         let versions = $('.version__item');
@@ -110,12 +124,16 @@ function document_card_press_OK(sender) {
             data.append(key, value);
         })
 
+        
+
         // Выбираем действие создать/обновить
         if ($('#document_card__id').text() == '') {
             data.append('action', 'add_document');
         } else{
             data.append('action', 'update_document')
         }
+
+
         // Выполняем запрос
         $.ajax({
             url: MainData.ajaxurl,
@@ -173,18 +191,7 @@ function document_card_press_OK(sender) {
         //     document_versions[ind] = JSON.parse(JSON.stringify(document_version));
         // })
 
-        // var rows = $('#document_card__send_list_table tbody tr');
-        // var correspondent = {}
-        // var send_list = []
-
-        // rows.each(function(ind, row){
-        //     correspondent.id = $(row.cells[0]).text();
-        //     correspondent.correspondent_id = $(row.cells[2]).find('.id').text();
-        //     correspondent.send_date = $(row.cells[3]).children().val();
-        //     correspondent.is_deleted = $(row.cells[4]).text();
-        //     // Копируем обьект в массив
-        //     send_list[ind] = JSON.parse(JSON.stringify(correspondent));
-        // })
+        
 
         // // Формируем запись для запроса
         // record = {
@@ -600,10 +607,14 @@ function document_card__send_list_create_record(){
 
 /**
  * ========================= ЧИТАЕМ ВЕРСИЮ ДОКУМЕНТА ===========================
+ * @param {integer} id ид версии документа
+ * @param {string} extension расширение файла
+ * @param {string} type тип файла   
  */
-function document_version_read(id){
+function document_version_read(id, extension, type){
     let formData = new FormData();
     formData.append('version_id', id);
+    formData.append('extension', extension);
     
     var xhr = new XMLHttpRequest();
     xhr.open('POST', MainData.ajaxurl + '?action=load_document_version', true); // URL обработчика
@@ -613,9 +624,20 @@ function document_version_read(id){
         if (xhr.status === 200) {
             var blob = xhr.response;
             var link = document.createElement('a');
-            link.href = window.URL.createObjectURL(new Blob(blob));
-            link.download = 'file.pdf'; // Имя файла, которое будет предложено пользователю
+            link.href = window.URL.createObjectURL(new Blob([blob], {type : type}));
+            link.download = 'file.'+ extension; // Имя файла, которое будет предложено пользователю
             link.click();
+            URL.revokeObjectURL(link.href);
+
+            /* 
+            const bytes = await workbook.xlsx.writeBuffer();
+            const mydata = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            let link = document.createElement('a');
+            link.href = URL.createObjectURL(mydata);
+            link.download = file_name + ".xlsx";
+            link.click();
+            URL.revokeObjectURL(link.href);
+            */
         } else {
             console.error('Ошибка при загрузке файла.');
         }
@@ -938,7 +960,9 @@ function document_card_binging_events() {
     $('#document_card__version_context_read').on('click', function(e){
         version = $('.version__item.highlight');
         let id = version.find('.id').text();
-        document_version_read(id);
+        let extension = version.find('.extension').text();
+        let type = version.find('.type').text();
+        document_version_read(id, extension, type);
     });
 
     /** == КОНТЕКСТНОЕ МЕНЮ ВЕРСИЯ ДОКУМЕНТА. НАЖАТИЕ КНОПКИ ОТКРЫТЬ КАРТОЧКУ ==== */
@@ -1046,6 +1070,7 @@ function document_card_draw_version(document_version) {
         .append($("<p class='type hide'>").text(document_version['type']))
         .append($("<img class='attachments__ico'>").attr('src', icon))
         .append($("<p class='attachments__name_item'>").text(document_version['version_title']))
+        .append($("<p class='extension hide'>").text(document_version['extension']))
         .append($("<p class='is_deleted hide'>").text(document_version['is_deleted']))
         .append($("<p class='state hide'>").text(document_version['state']));
     if (document_version['file_list'] != undefined){

@@ -1,0 +1,35 @@
+.settings_card{
+    display: flex;
+    padding: 5px;
+    flex-direction: column;
+    &__title{
+        margin-top: 10px;
+        font-size: 16px;
+    }
+    &__fields{
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(24,1fr);
+        row-gap: 15px;
+    }
+
+    &__fields label{
+        grid-column: 1;
+    }
+
+    &__fields input{
+        grid-column: 3/25;
+    }
+
+    &__buttons{
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+    }
+    &__button{
+        width: 100px;
+    }
+    &__button:first-child{
+        margin-right: 20px;
+    }
+}

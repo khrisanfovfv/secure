@@ -50,6 +50,7 @@ class Document
             version_number smallint,
             version_title tinytext, 
             type tinytext,
+            extension tinytext,
             filename text,
             state varchar(14) DEFAULT 'Active' NOT NULL,
             PRIMARY KEY  (id),
@@ -159,14 +160,16 @@ class Document
                 'versiondate' => 123,
                 'version_number' => 1,
                 'version_title' => 'Версия 1',
+                'extension' => 'pdf',
                 'type' => 'application/pdf',
-                'filename' => ''
+                'filename' => '1.pdf'
             ),
             array(
                 '%d', // document
                 '%s', // versiondate
                 '%d', // version_number
                 '%s', // version_title
+                '%s', // extension
                 '%s', // type
                 '%s'  // filename
             )
@@ -218,16 +221,16 @@ class Document
         // Ищем максимальную действующую версию
         $document_version = $wpdb->get_row( 
             $wpdb->prepare("SELECT id, type, MAX(version_number)  
-            FROM ${prefix}document_version
+            FROM {$prefix}document_version
             WHERE document = %d AND state = 'Active'
             GROUP BY id, type", $document_id), OBJECT);
         // Если действующей версии нет то ищем версию с максимальным номером
         if (count($document_version)==0){
             $document_version = $wpdb->get_row( 
-                $wpdb->prepare("SELECT id, document, type, MAX(version_number)  
-                FROM ${prefix}document_version
+                $wpdb->prepare("SELECT id, document, type, extension, MAX(version_number)  
+                FROM {$prefix}document_version
                 WHERE document = %s
-                GROUP BY id, document, type", $document_id), OBJECT);
+                GROUP BY id, document, type, extension", $document_id), OBJECT);
         }
          
         $results = $wpdb->get_row( 
@@ -280,17 +283,6 @@ class Document
         return $results;
     }
 
-    /** 
-     * ========== ЗАГРУЗКА ДАННЫХ КАРТОЧКИ ВЕРСИИ ДОКУМЕНТА =============== 
-     * */
-    // function secure_load_version_card_data($id){
-    //     global $wpdb;
-    //     $prefix = $wpdb->prefix;
-    //     $results = $wpdb->get_results(
-    //         $wpdb->prepare("SELECT * FROM {$prefix}document_version
-    //             WHERE id = %d", $id), OBJECT);
-    //     return $results;
-    // }
 
     /**
      * ==================== ДОБАВЛЕНИЕ ЗАПИСИ ДОКУМЕНТА ======================
@@ -350,8 +342,24 @@ class Document
                 
             }
         }
+
+        // Создаем записи в детальном разделе Список рассылки
+        // Убираем символы экранирования '/'
+        $send_list_json = stripcslashes($_POST['send_list']);
+        $send_list = json_decode($send_list_json);
+        foreach ($send_list as $correspondent){
+            if ($correspondent->id ==''){
+                if ($correspondent->is_deleted == 0){
+                    Document::secure_create_send_list($id, $correspondent);
+                }
+            }elseif ($correspondent->is_deleted == 1){
+                Document::secure_delete_send_list($correspondent);
+            } else {
+                Document::secure_update_send_list($correspondent);
+            }
+        }
+
         wp_send_json_success( 'Запись ИД =' .  $id . '  добавлена успешно!');
-        //echo 'Запись добавлена ИД=' . $id;
         wp_die();
     }
 
@@ -417,21 +425,21 @@ class Document
             }
         }
 
-        // // Обновляем записи в детальном разделе Список рассылки
-        // // Убираем символы экранирования '/'
-        // $send_list_json = stripcslashes($record['send_list']);
-        // $send_list = json_decode($send_list_json);
-        // foreach ($send_list as $correspondent){
-        //     if ($correspondent->id ==''){
-        //         if ($correspondent->is_deleted == 0){
-        //             Document::secure_create_send_list($record['id'], $correspondent);
-        //         }
-        //     }elseif ($correspondent->is_deleted == 1){
-        //         Document::secure_delete_send_list($correspondent);
-        //     } else {
-        //         Document::secure_update_send_list($correspondent);
-        //     }
-        // }
+        // Обновляем записи в детальном разделе Список рассылки
+        // Убираем символы экранирования '/'
+        $send_list_json = stripcslashes($_POST['send_list']);
+        $send_list = json_decode($send_list_json);
+        foreach ($send_list as $correspondent){
+            if ($correspondent->id ==''){
+                if ($correspondent->is_deleted == 0){
+                    Document::secure_create_send_list($_POST['id'], $correspondent);
+                }
+            }elseif ($correspondent->is_deleted == 1){
+                Document::secure_delete_send_list($correspondent);
+            } else {
+                Document::secure_update_send_list($correspondent);
+            }
+        }
 
         if ($wpdb->last_error){
             wp_die(wp_die($wpdb->last_error, 'Ошибка при обновлении Карточки документа', ['response' => 500]));
@@ -509,7 +517,8 @@ class Document
                 $file_name = $files[$file_index]['name'];
                 $ext =  pathinfo($file_name, PATHINFO_EXTENSION);
                 // Путь к папке с документами
-                $path = wp_normalize_path(get_template_directory() .'/storage/documents/');
+                //$path = wp_normalize_path(get_template_directory() .'/storage/documents/');
+                $path = wp_normalize_path(get_option('documents_folder','' ));
                 $version_name = $id . '.' .$ext; // будет сохранено в БД
                 $path_to_document = $path . $version_name;
 
@@ -524,7 +533,8 @@ class Document
                 $wpdb->update(
                     $prefix.'document_version',
                     array(
-                        'filename' => $version_name
+                        'filename' => $version_name,
+                        'extension' => $ext
                     ),
                     array( 'ID' => $id ),
                     array(
@@ -561,7 +571,8 @@ class Document
                 $file_name = $files[$file_index]['name'];
                 $ext =  pathinfo($file_name, PATHINFO_EXTENSION);
                 // Путь к папке с документами
-                $path = wp_normalize_path(get_template_directory() .'/storage/documents/');
+                //$path = wp_normalize_path(get_template_directory() .'/storage/documents/');
+                $path = wp_normalize_path(get_option('documents_folder','' ));
                 $version_name = $document_version->id . '.' .$ext; // будет сохранено в БД
                 $path_to_document = $path . $version_name;
                 // Записываем файл на сервер
@@ -573,6 +584,7 @@ class Document
                             'version_number' => $document_version->version_number,
                             'version_title' => $document_version->version_title,
                             'type' => $document_version->type,
+                            'extension' => $ext,
                             'filename' => $version_name,
                             'state' => $document_version->state
                         ),
@@ -597,7 +609,6 @@ class Document
             }
         } else{
             // Обновляем базу данных без колонки имя файла
-            print_r('Мы пришли сюда!');
             $wpdb->update(
                 $prefix.'document_version',
                 array(
@@ -802,9 +813,9 @@ class Document
      * ========== ЧИТАЕМ ВЕРСИЮ ДОКУМЕНТА ===========
      */
     function secure_load_document_version(){
-        $file_path = 'C:/OSPanel/domains/secure/wp-content/themes/cit_secure/storage/documents/1.pdf'; // Путь к файлу на сервере
         $version_id = $_POST['version_id'];
-        $file_path = wp_normalize_path(get_template_directory() . '/storage/documents/' . $version_id .'.pdf');
+        $ext = $_POST['extension'];
+        $file_path = wp_normalize_path(get_template_directory() . '/storage/documents/' . $version_id .'.'. $ext);
 
         if (file_exists($file_path)) {
             header('Content-Type: application/octet-stream');
@@ -826,7 +837,7 @@ class Document
         $prefix = $wpdb->prefix;
 
         $results = $wpdb->get_results(
-            $wpdb->prepare("SELECT * FROM ${prefix}document_version WHERE document = %d", $document_id), ARRAY_A);
+            $wpdb->prepare("SELECT * FROM {$prefix}document_version WHERE document = %d", $document_id), ARRAY_A);
         
         echo json_encode($results);
         wp_die();

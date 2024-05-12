@@ -17,8 +17,9 @@
 @import '../inc/version/version.scss';
 @import '../inc/document/document';
 @import '../inc/help/help.scss';
+@import '../inc/settings/settings.scss';
 
- html, body, .wrapper{
+html, body, .wrapper{
     height: 100%;
     width: 100%;
     padding: 5px;

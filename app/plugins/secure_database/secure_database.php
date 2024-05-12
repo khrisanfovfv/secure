@@ -38,6 +38,7 @@ class SecDb
     protected $organization;
     protected $document;
     protected $employee;
+
     function __construct()
     {
         
@@ -53,8 +54,7 @@ class SecDb
         $this->organization = new Organization();
         $this->document = new Document();
         $this->employee = new Employee();
-        
-        //add_action( 'plugins_loaded', array($this, 'myplugin_update_db_check'));
+
     }
     public function secure_init_plugin(){
         // ОБЩИЕ
@@ -62,6 +62,7 @@ class SecDb
         add_action('wp_ajax_nopriv_load_card_data', array($this, 'secure_load_card_data'));
         add_action('wp_ajax_delete_record', array($this,'secure_delete_record'));
         add_action('wp_ajax_nopriv_delete_record', array($this, 'secure_delete_record'));
+        add_action('wp_ajax_update_settings', array($this,'secure_update_settings'));
         // ВИДЫ ДОКУМЕНТОВ
         add_action('wp_ajax_load_document_kind',array('DocumentKind','secure_load_document_kind'));
         add_action('wp_ajax_nopriv_load_document_kind', array('DocumentKind','secure_load_document_kind'));
@@ -199,6 +200,20 @@ class SecDb
     }
 
     /**
+     * =====================   СМЕНИТЬ НАСТРОЙКИ =======================
+     */
+    function secure_update_settings(){
+        $documents_folder = wp_normalize_path($_POST['documents_path']);
+        $avatars_folder = wp_normalize_path($_POST['avatars_path']);
+        update_option('documents_folder', $documents_folder);
+        update_option('avatars_folder', $avatars_folder);
+        echo "Настройки сохранены успешно";
+        wp_die();
+        
+        
+    }
+
+    /**
      * ======================= СОЗДАНИЕ ТАБЛИЦ ==========================
      */
     public function secure_install_tables(){
@@ -244,7 +259,6 @@ class SecDb
         switch($_POST['card']){
             case 'document_kind_card' :{ $results = $this->document_kind->secure_load_card_data($id);};break;
             case 'document_card' :{ $results = $this->document->secure_load_card_data($id);}; break;
-            //case 'document_version_card' :{ $results = $this->document->secure_load_version_card_data($id);}; break;
             case 'department_card' :{ $results = $this->department->secure_load_card_data($id);}; break;
             case 'information_system_card':{ $results = $this->information_system->secure_load_card_data($id);}; break;
             case 'administrator_card' : { $results = $this->administrator->secure_load_card_data($id);}; break;
@@ -254,7 +268,7 @@ class SecDb
         }
         echo json_encode($results);
         wp_die();
-    }
+}
 
     /**
      * ======================= УДАЛЕНИЕ ЗАПИСИ СПРАВОЧНИКА =======================

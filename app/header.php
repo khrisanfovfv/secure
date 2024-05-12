@@ -65,7 +65,10 @@ foreach($user->roles as $role){
             <div class="main_menu">
                 <ul class="main_menu__list">
                     <li class="main_menu__item" id="main_menu__reports">Отчеты</li>
-                    <li class="main_menu__item" id="main_menu__settings">Настройки</li>
+                    <!-- Отображаем пункт меню только если пользователь имеет права администратора -->
+                    <?php if ($is_admin){ ?>
+                        <li class="main_menu__item" id="main_menu__settings">Настройки</li>
+                    <?php } ?>
                     <li class="main_menu__item" id="main_menu__references">Справочники</li>
                     <li class="main_menu__item" id="main_menu__help">Помощь</li>
                 </ul>
