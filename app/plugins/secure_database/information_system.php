@@ -94,6 +94,12 @@ class InformationSystem{
         dbDelta($information_system_contracts_sql);
 
         add_option('sec_db_version', $sec_db_version);
+
+        // Добавляем настройки путей к папкам с документами и аватарами
+        $documents_folder = wp_normalize_path(get_template_directory() .'/storage/documents');
+        $avatars_folder = wp_normalize_path(get_template_directory() .'/storage/avatars');
+        update_option('documents_folder', $documents_folder);
+        update_option('avatars_folder', $avatars_folder);
     }
 
     /**
@@ -276,7 +282,6 @@ class InformationSystem{
             }
            
         return $results;
-        wp_die();
 
 
      }

@@ -59,8 +59,9 @@ class Employee{
         $user = get_user_by('id', $id);
         $result['id'] = $user->id;
         $result['login'] = $user->user_login;
+        $avatar_folder = wp_normalize_path(get_option('avatars_folder','' )); 
         // ЗАГРУЖАЕМ аватар
-        $result['photo'] = get_template_directory_uri() . '/storage/avatars/' . get_user_meta($id,'avatar_path', true);
+        $result['photo'] = $avatar_folder . get_user_meta($id,'avatar_path', true);
         $result['last_name'] = $user->last_name;
         $result['first_name'] = $user->first_name;
         $result['middle_name'] = $user->middle_name;
@@ -120,7 +121,8 @@ class Employee{
             $file_name = $files[0]['name'];
             $ext =  pathinfo($file_name, PATHINFO_EXTENSION);
             // Путь к папке с аватарами
-            $path = wp_normalize_path(get_template_directory() .'/storage/avatars/');
+            $path = wp_normalize_path(get_option('avatars_folder',''));
+            //$path = wp_normalize_path(get_template_directory() .'/storage/avatars/');
             $file_name =  $id . '_' . $_POST['login'] . '.' . $ext;
             $path_avatar = $path . $file_name;
             // Записываем файл на сервер
@@ -180,7 +182,8 @@ class Employee{
             $file_name = $files[0]['name'];
             $ext =  pathinfo($file_name, PATHINFO_EXTENSION);
             // Путь к папке с аватарами
-            $path = wp_normalize_path(get_template_directory() .'/storage/avatars/');
+            $path = wp_normalize_path(get_option('avatars_folder',''));
+            //$path = wp_normalize_path(get_template_directory() .'/storage/avatars/');
             $file_name =  $id . '_' . $_POST['login'] . '.' . $ext;
             $path_avatar = $path . $file_name;
             // Записываем файл на сервер

@@ -82,43 +82,6 @@
     update_user_meta( $user_id, 'avatar_ext',$_POST['']);
     }
 
-    /** 
-     * ================= ДОБАВЛЕНИЕ НАСТРОЕК ТЕМЫ =================
-     */
-    add_action( 'customize_register', 'secure_customize_register' );
-
-    function secure_customize_register(WP_Customize_Manager $wp_customize){
-        $wp_customize->add_section(
-            'folder_settings_section',
-            array(
-                'title'=> __('Настройки папок'),
-                'priority' => 2,
-                'description' => 'Описание'
-            )
-        );
-        $wp_customize->add_setting('folder_settings_avatars_setting', array(
-            'default' => 'C:/OSPanel/domains/secure/wp-content/themes/cit_secure/storage/avatars'));
-
-        $wp_customize->add_setting('folder_settings_documents_setting', array(
-            'default' => 'C:/OSPanel/domains/secure/wp-content/themes/cit_secure/storage/documents'));
-    
-
-        $wp_customize->add_control( new WP_Customize_Control($wp_customize, 'folder_settings_avatars', array(
-            'label'=> __('Путь к папке Аватары'),
-            'section' => 'folder_settings_section',
-            'settings' => 'folder_settings_avatars_setting',
-            'type'      => 'input'
-        )));
-
-        $wp_customize->add_control( new WP_Customize_Control($wp_customize, 'folder_settings_documents', array(
-            'label'=> __('Путь к папке Документы'),
-            'section' => 'folder_settings_section',
-            'settings' => 'folder_settings_documents_setting',
-            'type'      => 'input'
-        )));
-    }
-
-
     /**
      * ================================ ПРИВЯЗКА ШАБЛОНОВ К СТРАНИЦАМ ===============================
      */

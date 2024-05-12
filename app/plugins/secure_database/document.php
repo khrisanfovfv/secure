@@ -517,7 +517,8 @@ class Document
                 $file_name = $files[$file_index]['name'];
                 $ext =  pathinfo($file_name, PATHINFO_EXTENSION);
                 // Путь к папке с документами
-                $path = wp_normalize_path(get_template_directory() .'/storage/documents/');
+                //$path = wp_normalize_path(get_template_directory() .'/storage/documents/');
+                $path = wp_normalize_path(get_option('documents_folder','' ));
                 $version_name = $id . '.' .$ext; // будет сохранено в БД
                 $path_to_document = $path . $version_name;
 
@@ -570,7 +571,8 @@ class Document
                 $file_name = $files[$file_index]['name'];
                 $ext =  pathinfo($file_name, PATHINFO_EXTENSION);
                 // Путь к папке с документами
-                $path = wp_normalize_path(get_template_directory() .'/storage/documents/');
+                //$path = wp_normalize_path(get_template_directory() .'/storage/documents/');
+                $path = wp_normalize_path(get_option('documents_folder','' ));
                 $version_name = $document_version->id . '.' .$ext; // будет сохранено в БД
                 $path_to_document = $path . $version_name;
                 // Записываем файл на сервер
