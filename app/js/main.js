@@ -337,7 +337,7 @@ function about_binding_events(){
 }
 
 /**
- * 
+ * ============== ВЫГРУЗКА В ФАЙЛ EXCEL ==================
  * @param {Object} workbook книга Excel 
  * @param {*} file_name справочник
  */
@@ -350,3 +350,18 @@ async function saveToExcel(workbook, file_name){
     link.click();
     URL.revokeObjectURL(link.href);
 }
+
+/**
+ * ============ НАЖАТИЕ НА КНОПКУ НАСТРОЙКИ =============
+ */
+$('#main_menu__settings').on('click', function(){
+    let size = {width: 600, height:200};
+        reference.open_card('#footer_ref', 'Настройки', size, OpenMode.Edit, 0, '#settings_card');
+})
+
+/**
+ * ПАНЕЛЬ НАСТРОЕК. КНОПКА ЗАКРЫТЬ
+ */
+$('#setting_card__button_close').on('click', function(){
+    $(e.target).parents('.appdialog').css('display', 'none');
+})

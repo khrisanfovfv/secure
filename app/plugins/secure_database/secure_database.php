@@ -27,6 +27,7 @@ require_once('contract.php');
 require_once('organization.php');
 require_once('document.php');
 require_once('employee.php');
+require_once('settings.php');
 
 class SecDb
 {
@@ -38,6 +39,8 @@ class SecDb
     protected $organization;
     protected $document;
     protected $employee;
+
+    protected $settings;
     function __construct()
     {
         
@@ -53,8 +56,8 @@ class SecDb
         $this->organization = new Organization();
         $this->document = new Document();
         $this->employee = new Employee();
-        
-        //add_action( 'plugins_loaded', array($this, 'myplugin_update_db_check'));
+        $this->settings = new Settings();
+
     }
     public function secure_init_plugin(){
         // ОБЩИЕ
@@ -251,10 +254,11 @@ class SecDb
             case 'organization_card' : { $results = $this->organization->secure_load_card_data($id);}; break;
             case 'contract_card' : { $results = $this->contract->secure_load_card_data($id);}; break;
             case 'employee_card' : {$results = $this->employee->secure_load_card_data($id);}; break;
+            case 'settings_card': {$results = $this->settings->secure_load_card_data();}; break;
         }
         echo json_encode($results);
         wp_die();
-    }
+}
 
     /**
      * ======================= УДАЛЕНИЕ ЗАПИСИ СПРАВОЧНИКА =======================

@@ -128,6 +128,7 @@ var reference = {
             case '#employee_card__photo' : card = 'load_file_form'; break;
             case '#change_password' : card = 'change_password'; break;
             case '#about' : card = 'about_card' ; break;
+            case '#settings_card': card = 'settings_card'; break;
 
             // КАРТОЧКИ ПОИСКА
             case '#document_kind_ref_search' : card = 'document_kind_search'; break;
@@ -152,7 +153,6 @@ var reference = {
                 case '#document_kind_ref' : document_kind_card_binging_events(); break;
                 case '#contract_ref' : contract_card_binding_events(); break;
                 case '#employee_ref' : employee_card_binging_events(); break;
-                
             }
         } else {
             switch(detail){
@@ -161,6 +161,7 @@ var reference = {
                 case '#user_profile' : employee_card_binging_events(); break;
                 case '#change_password' : employee_change_password_binding_events(); break;
                 case '#about' : about_binding_events(); break;
+                case '#settings_card' : settings_card_binding_events(); break;
             }
         }
     },
@@ -233,6 +234,7 @@ var reference = {
                     case '#information_system_card__contracts' : card_contract_load_data(result, openMode); break;
                     case '#document_card__version_list' : card_document_version_load_data(result, openMode); break;
                     case '#user_profile' : card_employee_load_data(result, openMode); break;
+                    case '#settings_card' : card_settings_load_data(result, openMode); break
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 var size = { width: 500, height: 200 };
