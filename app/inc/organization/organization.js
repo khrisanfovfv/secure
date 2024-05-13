@@ -28,21 +28,27 @@ $('#organization__card_Cancel').on('click', function () {
 /**
  * =========================== ЗАГРУЗКА ЗАПИСЕЙ СПРАВОЧНИКА ===========================
  */
-function organization_load_records() {
-    var data = {
-        action: 'load_organization',
-    };
+// function organization_load_records() {
+//     alert('Работает!');
+//     var data = {
+//             action: 'load_organization',
+//             fbrief_name : $('#organisation_ref__fbriefname').val().trim(),
+//             ffull_name: $('#organisation_ref__ffullname').val().trim(),
+//             fboss : $('#organisation_ref__fboss').val().trim(),
+//             femail : $('#organisation_ref__femail').val().trim(),
+//             fstate: $('#organisation_ref__fstate').val()
+//     };
 
-    jQuery.post(MainData.ajaxurl, data, function (result) {
-        var records = JSON.parse(result);
-        organization_update_reference(records);
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        var size = { width: 500, height: 200 };
-        var message = 'Во время удаления записи произошла ошибка ' + textStatus + ' ' + errorThrown;
-        reference.show_notification('#organization_ref', 'Ошибка', size, message);
-    });
+//     jQuery.post(MainData.ajaxurl, data, function (result) {
+//         var records = JSON.parse(result);
+//         organization_update_reference(records);
+//     }).fail(function (jqXHR, textStatus, errorThrown) {
+//         var size = { width: 500, height: 200 };
+//         var message = 'Во время удаления записи произошла ошибка ' + textStatus + ' ' + errorThrown;
+//         reference.show_notification('#organization_ref', 'Ошибка', size, message);
+//     });
 
-}
+// }
 
 /**
  *  ================================== ОБЩИЙ ПОИСК =======================================
@@ -246,12 +252,8 @@ $('#organization_excel').on('click', function () {
     });
 
 })
-/**
- * ========================= НАЖАТИЕ КНОПКИ Обновить ===========================
- */
-$('#organization_ref__update').on('click', function () {
-    organization_load_records()
-})
+
+
 
 function organization_create_record() {
     var size = { width: 700, height: 650 };
@@ -438,6 +440,12 @@ function organization_ref_binding_events() {
     $('#organization_ref__update').on('click', function () {
         organization_load_records();
     });
+
+    $('.organization_filter').on('keyup',function(event){
+        if (event.key === 'Enter'){
+            organization_load_records();
+        }
+    })
 }
 /**
  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ ОРГАНИЗАЦИИ ===============================
@@ -563,6 +571,11 @@ function organization_card__check_fields() {
 }
 function organization_load_records(textStatus = '') {
     var data = {
+        fbriefname : $('#organisation_ref__fbriefname').val().trim(),
+        ffullname: $('#organisation_ref__ffullname').val().trim(),
+        fboss : $('#organisation_ref__fboss').val().trim(),
+        femail : $('#organisation_ref__femail').val().trim(),
+        fstate: $('#organisation_ref__fstate').val(),
         action: 'load_organization',
     };
     jQuery.post(MainData.ajaxurl, data, function (result) {
@@ -700,6 +713,13 @@ function organization_extended_search_OK(e) {
         reference.show_notification('#document_kind_ref', 'Ошибка', size, message);
     });
 }
+
+$('.organization_filter').on('keyup',function(event){
+    if (event.key === 'Enter'){
+        organization_load_records();
+    }
+    
+})
 
 
 

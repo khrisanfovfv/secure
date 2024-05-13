@@ -148,9 +148,22 @@ class Organization
     {
         global $wpdb;
         $prefix = $wpdb->prefix;
+        // Считываем значение фильтра
+        $wild = '%';
+        $like_briefname = $wild . $wpdb->esc_like($_POST['fbriefname']) . $wild;
+        $like_fullname = $wild . $wpdb->esc_like($_POST['ffullname']) . $wild;
+        $like_boss = $wild . $wpdb->esc_like($_POST['fboss']) . $wild;
+        $like_email = $wild . $wpdb->esc_like($_POST['femail']). $wild;
+
+        $state_query = '';
+        if ($_POST['fstate'] !=='') {
+            $state_query = " AND state = '" . $_POST['fstate'] . "'"; 
+        }
         $results = $wpdb->get_results(
-            $wpdb->prepare("SELECT * FROM {$prefix}organization", ARRAY_A)
-        );
+            $wpdb->prepare("SELECT * FROM {$prefix}organization
+                WHERE briefname LIKE %s AND fullname LIKE %s 
+                AND boss LIKE %s AND email LIKE %s $state_query", $like_briefname, $like_fullname,  $like_boss,  $like_email), 
+        ARRAY_A );
         echo json_encode($results);
         wp_die();
     }

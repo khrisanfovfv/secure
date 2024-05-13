@@ -421,3 +421,29 @@ select:focus{
     flex-direction: column;
     justify-content: center;
 }
+
+
+th input {
+    border: none;
+    width: 100%;
+    font-family: "Roboto",sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+}
+
+th input:focus{
+    border: none;
+}
+
+th select{
+    background-color: white;
+    border: none;
+    width: 100%;
+    font-family: "Roboto",sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+}
+
+th select:focus{
+    border: none;
+}
