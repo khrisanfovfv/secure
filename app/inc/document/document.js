@@ -471,6 +471,75 @@ $('#document_ref__update').on('click', function () {
     document_load_records();
 })
 
+$('#document_ref__excel').on('click', function(){
+    // Выводим данные из базы данных
+    alert('rab')
+    var data = {
+        action: 'load_document'
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        let documents = JSON.parse(result);
+        documents_to_excel(documents);
+    });
+});
+
+function documents_to_excel(data){
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Документы');
+    const letr = ['A','B','C','D','E','F','G'];
+    
+    // Шрифт для заголовка
+    const font = { 
+        name: 'Arial', 
+        size: 12, 
+        bold: true
+    };
+    // Границы ячеек 
+    const border = {
+        top: {style:'thin'},
+        left: {style:'thin'},
+        bottom: {style:'thin'},
+        right: {style:'thin'}
+    }
+
+    // Настраиаем колонки
+    worksheet.columns = [
+        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ИД', key : 'id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Номер', key : 'number', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left'}}},
+        {header: 'Дата', key : 'documentdate', width: 50},
+        {header: 'Наименование', key : 'name', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center', wrapText: true}}},
+        {header: 'Тип', key : 'document_kind', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Состояние', key : 'state', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}}
+    ]       
+    worksheet.getRow(1).font = font;
+    worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
+
+    // Устанавливаем границы ячеек заголовков таблицы
+    letr.forEach((value) => {
+        worksheet.getCell(value + '1').border = border;
+    })
+
+    // Добавляем значения в таблицу
+    data.forEach((document, ind) => {
+        worksheet.getCell('A'+(ind+2)).value = ind+1;
+        worksheet.getCell('B'+(ind+2)).value = document['id'];
+        worksheet.getCell('C'+(ind+2)).value = document['number'];
+        worksheet.getCell('D'+(ind+2)).value = document['documentdate'];
+        worksheet.getCell('E'+(ind+2)).value = document['name'];
+        worksheet.getCell('F'+(ind+2)).value = document['document_kind'];
+        worksheet.getCell('G'+(ind+2)).value = reference.get_state(document['state']);
+
+        // Устанавливаем границы ячеек строки
+        letr.forEach((value) => {
+            worksheet.getCell(value + (ind+2)).border = border;
+        })
+    })
+
+    saveToExcel(workbook, 'Документы');
+
+}
+
 /** 
  * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ СОЗДАТЬ =================================
  */
@@ -989,8 +1058,9 @@ function document_card_binging_events() {
     /** ==== КОНТЕКСТНОЕ МЕНЮ ВЕРСИЯ ДОКУМЕНТА. НАЖАТИЕ КНОПКИ УДАЛИТЬ ==== */
     $('#document_card__version_context_delete').on('click', function(){
         document_version_list_delete_record();
-    })
+    });
 
+   
 
 
 
