@@ -626,7 +626,7 @@ function information_system_update_reference(records) {
  * ======================= ИНФОРМАЦИОННАЯ СИСТЕМА. СОЗДАТЬ =========================
  */
 function information_system_create_record() {
-    var size = { width: 1400, height: 800 };
+    var size = { width: 1400, height: 650 };
     reference.open_card('#information_system_ref', 'Карточка Информационной системы', size, OpenMode.Create, 0);
 }
 
@@ -637,7 +637,7 @@ function information_system_edit_record() {
     rows = $('.information_system_ref__table_row.highlight')
     if (rows.length > 0) {
         var id = rows[0].children.item(0).textContent;
-        var size = { width: 1400, height: 800 };
+        var size = { width: 1400, height: 650 };
         reference.open_card('#information_system_ref', 'Карточка Информационной системы', size, OpenMode.Edit, id);
     }
     $('#information_system_ref__context').css('display', 'none');
