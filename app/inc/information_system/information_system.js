@@ -1246,7 +1246,7 @@ function information_system_ref_binding_events(){
     });
     /** ===================== НАЖАТИЕ КНОПКИ ОБНОВИТЬ ====================== */
     $('#information_system_ref__update').on('click', function () {
-        department_load_records();
+        information_system_load_records();
     });
 
     /** НАЖАТИЕ КНОПКИ ENTER В ОКНЕ ФИЛЬТРА */

@@ -156,7 +156,6 @@ var reference = {
                 case '#employee_ref' : employee_card_binging_events(); break;
             }
         } else {
-            alert(detail);
             switch(detail){
                 case '#document_card__version_list' : document_version_card_binding_events();break;
                 case '#information_system_card__documents' : document_card_binging_events(); break;
@@ -181,6 +180,7 @@ var reference = {
             case 'document' : document_ref_binding_events(); break;
             case 'contract' : contract_ref_binding_events(); break;
             case 'administrator' : administrator_ref_binding_events();break;
+            case 'information_system' : information_system_ref_binding_events(); break;
         }
         
     },
