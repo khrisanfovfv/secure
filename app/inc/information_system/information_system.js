@@ -241,6 +241,13 @@ function information_system_card__check_fields() {
 function information_system_load_records() {
     var data = {
         action: 'load_information_system',
+        fbriefname : $('#information_system_ref__fbriefname').val().trim(),
+        ffullname: $('#information_system_ref__ffullname').val().trim(),
+        fcertified : $('#information_system_ref__fcerified').val(),
+        fcertifydate : $('#information_system_ref__fcertifydate').val().trim(),
+        fcommissioningdate: $('#information_system_ref__fcommissioningdate').val().trim(),
+        fhasremark : $('#information_system_ref__fhasremark').val(),
+
     };
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
@@ -1238,6 +1245,13 @@ function information_system_ref_binding_events(){
     $('#information_system_ref__update').on('click', function () {
         department_load_records();
     });
+
+    /** НАЖАТИЕ КНОПКИ ENTER В ОКНЕ ФИЛЬТРА */
+    $('.information_system_filter').on('keyup', function(event){
+        if (event.key === 'Enter'){
+            information_system_load_records();
+        }
+    })
 }
 
 
@@ -1422,6 +1436,15 @@ function information_system_card_binging_events() {
         information_system_contract_update_records();
     })
 }
+
+/**
+ * НАЖАТИЕ КНОПКИ ENTER В ОКНЕ ФИЛЬТРА
+ */
+$('.information_system_filter').on('keyup', function(event){
+    if (event.key === 'Enter'){
+        information_system_load_records();
+    }
+})
 
 
 

@@ -216,9 +216,36 @@ class InformationSystem{
     public function secure_load_information_system(){
         global $wpdb;
         $prefix = $wpdb->prefix;
+        $wild = '%';
+        $like_briefname = $wild . $wpdb->esc_like($_POST['fbriefname']) . $wild;
+        $like_fullname = $wild . $wpdb->esc_like($_POST['ffullname']) . $wild;
+        $certified_query = '';
+
+        $state_query = '';
+        if ($_POST['fstate'] !=='') {
+            $state_query = " AND state = '" . $_POST['fstate'] . "'"; 
+        }
+
+        if ($_POST['fcertified'] !==''){
+            $certified_query = " AND certified = '" . $_POST['fcertified'] . "'";     
+        }
+
+        $like_certifydate =  $wild . $wpdb->esc_like($_POST['fcertifydate']) . $wild;
+        $like_commissioningdate = $wild . $wpdb->esc_like($_POST['fcommissioningdate']) . $wild;
+        
+        $hasremark_query = '';
+        if ($_POST['fhasremark'] !=='') {
+            $hasremark_query = " AND hasremark = '" . $_POST['fhasremark'] . "'"; 
+        }
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM sec_information_system"), ARRAY_A );
-        echo json_encode($results);
+            $wpdb->prepare("SELECT * FROM {$prefix}information_system
+            WHERE briefname LIKE %s AND fullname LIKE %s
+            AND certifydate LIKE %s AND commissioningdate LIKE %s $certified_query $hasremark_query", 
+            array($like_briefname, $like_fullname, $like_certifydate, $like_commissioningdate)), ARRAY_A );
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error,'Ошибка', array('response' => 500));
+        }
+            echo json_encode($results);
         wp_die();
     }
 

@@ -65,6 +65,23 @@ $prefix = $wpdb->prefix;
                             <th style="width: 130px;">Дата ввода в эксплуатацию</th>
                             <th style="width: 130px;">Проблемы ИБ</th>
                         </tr>
+                        <tr>
+                            <th></th>
+                            <th><input class="information_system_filter" id="information_system_ref__fbriefname"></th>
+                            <th><input class="information_system_filter" id="information_system_ref__ffullname"></th>
+                            <th><select class="information_system_filter" id="information_system_ref__fcerified">
+                                <option value=""></option>
+                                <option value="1">Да</option>
+                                <option value="0" >Нет</option>
+                            </select></th>
+                            <th><input class="information_system_filter"  id="information_system_ref__fcertifydate"></th>
+                            <th><input class="information_system_filter"  id="information_system_ref__fcommissioningdate"></th>
+                            <th><select class="information_system_filter" id="information_system_ref__fhasremark">
+                                <option value=""></option>
+                                <option value="1">Да</option>
+                                <option value="0" >Нет</option>
+                            </select></th>
+                        </tr>
                     </thead>
                     <tbody>
                         <!-- Выводим строки таблицы -->

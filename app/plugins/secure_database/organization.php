@@ -159,6 +159,7 @@ class Organization
         if ($_POST['fstate'] !=='') {
             $state_query = " AND state = '" . $_POST['fstate'] . "'"; 
         }
+        // Делаем запрос
         $results = $wpdb->get_results(
             $wpdb->prepare("SELECT * FROM {$prefix}organization
                 WHERE briefname LIKE %s AND fullname LIKE %s 
