@@ -380,6 +380,10 @@ $('#information_system_ref__delete').on('click', function () {
     information_system_delete_record();
 });
 
+/**
+ * ========================= НАЖАТИЕ КНОПКИ Эл.таб ==========================
+ */
+
 $('#information_system_ref__excel').on('click', function(){
     // Выводим данные из базы данных
     var data = {

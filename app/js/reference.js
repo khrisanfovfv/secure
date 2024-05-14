@@ -279,6 +279,14 @@ var reference = {
             default: '';
         }
     },
+    get_support(support) {
+        switch (support) {
+            case 'Support': return 'Поддержка'; break;
+            case 'Develop': return 'Развитие'; break;
+            case 'Certification': return 'Аттестация'; break;
+            default: '';
+        }
+    },
 
     /**
      * ============================ ЗАМЕНА 1/0 НА Да/Нет ================================
