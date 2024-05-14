@@ -303,7 +303,74 @@ $('#administrator_ref__delete').on('click', function () {
  */
 $('#administrator_ref__update').on('click', function () {
     administrator_load_records();
-})
+});
+
+
+$('#administrator_ref__excel').on('click', function(){
+    // Выводим данные из базы данных
+    var data = {
+        action: 'load_administrator'
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        let administrators = JSON.parse(result);
+        administrators_to_excel(administrators);
+    });
+});
+
+function administrators_to_excel(data){
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Администраторы');
+    const letr = ['A','B','C','D','E','F'];
+    
+    // Шрифт для заголовка
+    const font = { 
+        name: 'Arial', 
+        size: 12, 
+        bold: true
+    };
+    // Границы ячеек 
+    const border = {
+        top: {style:'thin'},
+        left: {style:'thin'},
+        bottom: {style:'thin'},
+        right: {style:'thin'}
+    }
+
+    // Настраиаем колонки
+    worksheet.columns = [
+        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ИД', key : 'id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ФИО Администратора', key : 'fullname', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'Организация', key : 'organization_name', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'Отдел', key : 'department_name', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center', wrapText: true}}},
+        {header: 'Состояние', key : 'state', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}}
+    ]       
+    worksheet.getRow(1).font = font;
+    worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
+
+    // Устанавливаем границы ячеек заголовков таблицы
+    letr.forEach((value) => {
+        worksheet.getCell(value + '1').border = border;
+    })
+
+    // Добавляем значения в таблицу
+    data.forEach((administrator, ind) => {
+        worksheet.getCell('A'+(ind+2)).value = ind+1;
+        worksheet.getCell('B'+(ind+2)).value = administrator['id'];
+        worksheet.getCell('C'+(ind+2)).value = administrator['fullname'];
+        worksheet.getCell('D'+(ind+2)).value = administrator['organization_name'];
+        worksheet.getCell('E'+(ind+2)).value = administrator['department_name'];
+        worksheet.getCell('F'+(ind+2)).value = reference.get_state(administrator['state']);
+
+        // Устанавливаем границы ячеек строки
+        letr.forEach((value) => {
+            worksheet.getCell(value + (ind+2)).border = border;
+        })
+    })
+
+    saveToExcel(workbook, 'Администраторы');
+
+}
 
 /** 
  * ========================= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ СОЗДАТЬ =================================

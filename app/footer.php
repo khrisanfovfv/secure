@@ -12,7 +12,7 @@
 ?>
 
     <footer class="footer">
-        <p class="footer__text">&copy Наимова Д.А., 2023</p3>
+        <p class="footer__text">&copy Наимова Д.А., 2024</p3>
     </footer>
 
     <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ПОЛЬЗОВАТЕЛЯ -->

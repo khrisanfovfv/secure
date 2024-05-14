@@ -86,6 +86,11 @@ $('#contract_ref__select').on('click', function (e) {
     contract_select_record(e);
 });
 
+/** =====================КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ====================== */
+$('#contract_ref__out_context_create').on('click', function () {
+    contract_create_record();
+})
+
 /**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
@@ -94,6 +99,84 @@ $('#contract_ref__edit').on('click', function () {
 
 });
 
+/** ===================== КОНТЕКСТНОЕ МЕНЮ НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ====================== */
+$('#contract_ref__context_edit').on('click', function (e) {
+    contract_edit_record(e);
+})
+
+/**
+ * ========================= НАЖАТИЕ КНОПКИ ЭЛ.ТАБ ===========================
+ */
+
+$('#contract_excel').on('click', function(){
+    // Выводим данные из базы данных
+    var data = {
+        action: 'load_contract'
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        let contracts = JSON.parse(result);
+        contracts_to_excel(contracts);
+    });
+});
+
+function contracts_to_excel(data){
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Контракты');
+    const letr = ['A','B','C','D','E','F', 'G', 'H'];
+    
+    // Шрифт для заголовка
+    const font = { 
+        name: 'Arial', 
+        size: 12, 
+        bold: true
+    };
+    // Границы ячеек 
+    const border = {
+        top: {style:'thin'},
+        left: {style:'thin'},
+        bottom: {style:'thin'},
+        right: {style:'thin'}
+    }
+
+    // Настраиаем колонки
+    worksheet.columns = [
+        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ИД', key : 'id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Номер', key : 'contract_number', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Дата заключения', key : 'conclusionDate', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Предмет контракта', key : 'contract_subject', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center', wrapText: true}}},
+        {header: 'Тип контракта', key : 'contract_type', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Ссылка на сайт закупок', key : 'link', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center', wrapText: true}}},
+        {header: 'Состояние', key : 'state', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}}
+    ]       
+    worksheet.getRow(1).font = font;
+    worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
+
+    // Устанавливаем границы ячеек заголовков таблицы
+    letr.forEach((value) => {
+        worksheet.getCell(value + '1').border = border;
+    })
+
+    // Добавляем значения в таблицу
+    data.forEach((contract, ind) => {
+        worksheet.getCell('A'+(ind+2)).value = ind+1;
+        worksheet.getCell('B'+(ind+2)).value = contract['id'];
+        worksheet.getCell('C'+(ind+2)).value = contract['contract_subject'];
+        worksheet.getCell('D'+(ind+2)).value = contract['contract_number'];
+        worksheet.getCell('E'+(ind+2)).value = contract['conclusionDate'];
+        worksheet.getCell('F'+(ind+2)).value = reference.get_support(contract['contract_type']);
+        worksheet.getCell('G'+(ind+2)).value = contract['link'];
+        worksheet.getCell('H'+(ind+2)).value = reference.get_state(contract['contract_state']);
+
+        // Устанавливаем границы ячеек строки
+        letr.forEach((value) => {
+            worksheet.getCell(value + (ind+2)).border = border;
+        })
+    })
+
+    saveToExcel(workbook, 'Контракты');
+
+}
 
 /**
  * ========================= НАЖАТИЕ КНОПКИ Обновить ===========================
@@ -426,6 +509,8 @@ function contract_ref_binding_events() {
         contract_create_record();
     })
 
+    
+
     $('#contract_ref__select').on('click', function (e) {
         contract_select_record(e);
     })
@@ -438,6 +523,7 @@ function contract_ref_binding_events() {
     $('#contract_ref__copy').on('click', function () {
         contract_copy_record();
     });
+
     /** ===================== НАЖАТИЕ КНОПКИ УДАЛИТЬ ====================== */
     $('#contract_ref__delete').on('click', function () {
         contract_delete_record();
@@ -451,6 +537,7 @@ function contract_ref_binding_events() {
  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ КОНТРАКТА ===============================
  */
 function contract_card_binding_events() { 
+    alert('rab');
     /** ===================== ВЫБОР ВКЛАДКИ НА КАРТОЧКЕ КОНТРАКТА ================ */
     $('.contract_card__tabs_item').on('click', function (e) {
         contract__chose_tab(e);
@@ -478,7 +565,7 @@ function contract_card_binding_events() {
            })
            
     /** ==============Карточка КОНТРАКТА: НАЖАТИЕ КНОПКИ OK ============= */
-    $('#contract_card__OK ').on('click', function (e) {
+    $('#contract_card__OK').on('click', function (e) {
         contract_card_press_OK(e.target);
         //$(e.target).parents('.appdialog').css('display', 'none');
     });

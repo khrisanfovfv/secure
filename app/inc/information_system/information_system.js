@@ -387,6 +387,10 @@ $('#information_system_ref__delete').on('click', function () {
     information_system_delete_record();
 });
 
+/**
+ * ========================= НАЖАТИЕ КНОПКИ Эл.таб ==========================
+ */
+
 $('#information_system_ref__excel').on('click', function(){
     // Выводим данные из базы данных
     var data = {
@@ -406,8 +410,7 @@ function information_systems_to_excel(data){
     // Шрифт для заголовка
     const font = { 
         name: 'Arial', 
-        size: 12, 
-        bold: true
+        size: 12,         bold: true
     };
     // Границы ячеек 
     const border = {
@@ -633,7 +636,7 @@ function information_system_update_reference(records) {
  * ======================= ИНФОРМАЦИОННАЯ СИСТЕМА. СОЗДАТЬ =========================
  */
 function information_system_create_record() {
-    var size = { width: 1400, height: 800 };
+    var size = { width: 1400, height: 650 };
     reference.open_card('#information_system_ref', 'Карточка Информационной системы', size, OpenMode.Create, 0);
 }
 
@@ -644,7 +647,7 @@ function information_system_edit_record() {
     rows = $('.information_system_ref__table_row.highlight')
     if (rows.length > 0) {
         var id = rows[0].children.item(0).textContent;
-        var size = { width: 1400, height: 800 };
+        var size = { width: 1400, height: 650 };
         reference.open_card('#information_system_ref', 'Карточка Информационной системы', size, OpenMode.Edit, id);
     }
     $('#information_system_ref__context').css('display', 'none');

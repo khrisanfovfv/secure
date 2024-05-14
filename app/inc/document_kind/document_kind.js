@@ -243,7 +243,6 @@ function document_kind_copy_record(e){
 
 $('#document_kind_ref__excel').on('click', function(){
     // Выводим данные из базы данных
-    alert('работает')
     var data = {
         action: 'load_document_kind'
     };

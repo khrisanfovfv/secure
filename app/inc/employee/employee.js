@@ -242,6 +242,82 @@ $('#employee_ref__edit').on('click', function (e) {
 //     employee_delete_record();
 // });
 
+/**
+ * ======================== НАЖАТИЕ КНОПКИ "Эл. таб" ===========================
+ */
+$('#employee_ref__excel').on('click', function(){
+    // Выводим данные из базы данных
+    var data = {
+        action: 'load_employee'
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        let employees = JSON.parse(result);
+        employees_to_excel(employees);
+    });
+});
+
+function employees_to_excel(data){
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Сотрудники');
+    const letr = ['A','B','C','D','E','F','G','H','I','J'];
+    
+    // Шрифт для заголовка
+    const font = { 
+        name: 'Arial', 
+        size: 12,         bold: true
+    };
+    // Границы ячеек 
+    const border = {
+        top: {style:'thin'},
+        left: {style:'thin'},
+        bottom: {style:'thin'},
+        right: {style:'thin'}
+    }
+
+    // Настраиаем колонки
+    worksheet.columns = [
+        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ИД', key : 'id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Логин', key : 'login', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'Фамилия', key : 'first_name', width: 50},
+        {header: 'Имя', key : 'middle_name', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Отчество', key : 'last_name', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Организация', key : 'organization_name', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center', wrapText: true}}},
+        {header: 'Отдел', key : 'department_name', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center', wrapText: true}}},
+        {header: 'E-mail', key : 'email', width: 20, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'Состояние', key : 'state', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}}
+    ]       
+    worksheet.getRow(1).font = font;
+    worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
+
+    // Устанавливаем границы ячеек заголовков таблицы
+    letr.forEach((value) => {
+        worksheet.getCell(value + '1').border = border;
+    })
+
+    // Добавляем значения в таблицу
+    data.forEach((employee, ind) => {
+        worksheet.getCell('A'+(ind+2)).value = ind+1;
+        worksheet.getCell('B'+(ind+2)).value = employee['id'];
+        worksheet.getCell('C'+(ind+2)).value = employee['login'];
+        worksheet.getCell('D'+(ind+2)).value = employee['first_name'];
+        worksheet.getCell('E'+(ind+2)).value = employee['middle_name'];
+        worksheet.getCell('F'+(ind+2)).value = employee['last_name'];
+        worksheet.getCell('G'+(ind+2)).value = employee['organization_name'];
+        worksheet.getCell('H'+(ind+2)).value = employee['department_name'];
+        worksheet.getCell('I'+(ind+2)).value = employee['email'];
+        worksheet.getCell('J'+(ind+2)).value = reference.get_state(employee['state']);
+
+        // Устанавливаем границы ячеек строки
+        letr.forEach((value) => {
+            worksheet.getCell(value + (ind+2)).border = border;
+        })
+    })
+
+    saveToExcel(workbook, 'Сотрудники');
+
+}
+
 /** 
  * ========================= НАЖАТИЕ КНОПКИ ОБНОВИТЬ ===============================
  */

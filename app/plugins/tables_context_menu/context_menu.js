@@ -29,6 +29,7 @@ var Context = {
         '#department_ref__out_context',
         '#document_kind_ref__context',
         '#contract_ref__context',
+        '#contract_ref__out_context',
         '#contract_card__customer_context',
         '#contract_card_customers__out_context',
         '#contract_card__documents_out_context',
@@ -189,7 +190,7 @@ var Context = {
             'organization_ref__table_row',
             'department_ref__table_row',
             'document_kind_ref__table_row',
-            'contract_ref_table_row',
+            'contract_ref__table_row',
             'contract_card__customers_table_num',
             'attachments__item document__item',
             'employee_ref__table_row',
@@ -258,7 +259,7 @@ var Context = {
             case 'department_ref__table_row': Context.menu = $('#department_ref__context'); break;
             case 'document_ref__table_row' : Context.menu = $('#document_ref__context'); break;
             case 'document_kind_ref__table_row': Context.menu = $('#document_kind_ref__context'); break;
-            case 'contract_ref_table_row': Context.menu = $('#contract_ref__context'); break;
+            case 'contract_ref__table_row': Context.menu = $('#contract_ref__context'); break;
             case 'contract_card__customers_table_num' : Context.menu = $('#contract_card__customer_context'); break;
             case 'contract_document__item' : Context.menu = $('contract_card__document_context'); break;
             case 'employee_ref__table_row': Context.menu = $('#employee_ref__context'); break;
@@ -376,6 +377,7 @@ var Context = {
             case 'employee_ref__container' : Context.menu = $('#employee_ref__out_context'); break;
             case 'contract_card__customers_container': Context.menu = $('#contract_card_customers__out_context'); break;
             case 'attachments__list contract_card__documents' : Context.menu = $('#contract_card__documents_out_context'); break;
+            case 'contract_ref__container': Context.menu = $('#contract_ref__out_context'); break;
             default: return false;
         }
         return src_el;

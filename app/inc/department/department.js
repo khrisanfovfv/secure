@@ -179,6 +179,74 @@ $('#department_ref__delete').on('click', function () {
     department_delete_record();
 });
 
+
+$('#department_ref__excel').on('click', function(){
+    // Выводим данные из базы данных
+    var data = {
+        action: 'load_department'
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        let departments = JSON.parse(result);
+        departments_to_excel(departments);
+    });
+});
+
+function departments_to_excel(data){
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Отделы');
+    const letr = ['A','B','C','D','E','F'];
+    
+    // Шрифт для заголовка
+    const font = { 
+        name: 'Arial', 
+        size: 12, 
+        bold: true
+    };
+    // Границы ячеек 
+    const border = {
+        top: {style:'thin'},
+        left: {style:'thin'},
+        bottom: {style:'thin'},
+        right: {style:'thin'}
+    }
+
+    // Настраиаем колонки
+    worksheet.columns = [
+        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ИД', key : 'id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Наименование', key : 'name', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'Организация', key : 'organization_name', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'Руководитель', key : 'boss', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center', wrapText: true}}},
+        {header: 'Состояние', key : 'state', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}}
+    ]       
+    worksheet.getRow(1).font = font;
+    worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
+
+    // Устанавливаем границы ячеек заголовков таблицы
+    letr.forEach((value) => {
+        worksheet.getCell(value + '1').border = border;
+    })
+
+    // Добавляем значения в таблицу
+    data.forEach((department, ind) => {
+        worksheet.getCell('A'+(ind+2)).value = ind+1;
+        worksheet.getCell('B'+(ind+2)).value = department['id'];
+        worksheet.getCell('C'+(ind+2)).value = department['name'];
+        worksheet.getCell('D'+(ind+2)).value = department['organization_name'];
+        worksheet.getCell('E'+(ind+2)).value = department['boss'];
+        worksheet.getCell('F'+(ind+2)).value = reference.get_state(department['state']);
+
+        // Устанавливаем границы ячеек строки
+        letr.forEach((value) => {
+            worksheet.getCell(value + (ind+2)).border = border;
+        })
+    })
+
+    saveToExcel(workbook, 'Отделы');
+
+}
+
+
 /** 
  * ========================= НАЖАТИЕ КНОПКИ ОБНОВИТЬ ===============================
  */

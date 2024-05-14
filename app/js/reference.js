@@ -143,6 +143,7 @@ var reference = {
      * @param {string} prefix 
      */
     binding_event_card(prefix, detail = ''){
+        
         if (detail == ''){
             switch (prefix){
                 case '#information_system_ref' : information_system_card_binging_events(); break;
@@ -155,9 +156,11 @@ var reference = {
                 case '#employee_ref' : employee_card_binging_events(); break;
             }
         } else {
+            alert(detail);
             switch(detail){
                 case '#document_card__version_list' : document_version_card_binding_events();break;
                 case '#information_system_card__documents' : document_card_binging_events(); break;
+                case '#information_system_card__contracts' : contract_card_binging_events(); break;
                 case '#user_profile' : employee_card_binging_events(); break;
                 case '#change_password' : employee_change_password_binding_events(); break;
                 case '#about' : about_binding_events(); break;
@@ -273,6 +276,14 @@ var reference = {
         switch (state) {
             case 'Active': return 'Действующая'; break;
             case 'Inactive': return 'Не действующая'; break;
+            default: '';
+        }
+    },
+    get_support(support) {
+        switch (support) {
+            case 'Support': return 'Поддержка'; break;
+            case 'Develop': return 'Развитие'; break;
+            case 'Certification': return 'Аттестация'; break;
             default: '';
         }
     },
