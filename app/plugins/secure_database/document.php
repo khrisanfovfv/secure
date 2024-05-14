@@ -201,11 +201,30 @@ class Document
     {
         global $wpdb;
         $prefix = $wpdb->prefix;
+        // Считываем значение фильтра
+        $wild = '%';
+        $like_number = $wild . $wpdb->esc_like($_POST['fnumber']) . $wild;
+        $like_documentdate = $wild . $wpdb->esc_like($_POST['fdocumentdate']) . $wild;
+        $like_name = $wild . $wpdb->esc_like($_POST['fname']) . $wild;
+        $like_kind = $wild . $wpdb->esc_like($_POST['fkind']) . $wild;
+
+        $state_query = '';
+        if ($_POST['fstate'] !=='') {
+            $state_query = " AND document.state = '" . $_POST['fstate'] . "'"; 
+        }
         $results = $wpdb->get_results(
-            $wpdb->prepare("SELECT document.id, document.number, document.documentdate, document.name, document_kind.name as document_kind, document.state  FROM {$prefix}document document 
-            LEFT JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id"),
+            $wpdb->prepare("SELECT document.id, document.number, document.documentdate, document.name, document_kind.name as document_kind, document.state  
+            FROM {$prefix}document document 
+            LEFT JOIN {$prefix}document_kind document_kind on document.kind = document_kind.id
+            WHERE document.number LIKE %s AND document.documentdate LIKE %s 
+            AND document.name LIKE %s AND document_kind.name LIKE %s $state_query", 
+            array($like_number, $like_documentdate, $like_name, $like_kind)),
             ARRAY_A
         );
+
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+        }
         echo json_encode($results);
         wp_die();
     }

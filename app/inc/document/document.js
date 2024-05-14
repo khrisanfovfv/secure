@@ -372,6 +372,11 @@ function document_version_card__check_fields(id) {
 function document_load_records() {
     var data = {
         action: 'load_document',
+        fnumber : $('#document_ref__fnumber').val().trim(),
+        fdocumentdate: $('#document_ref__fdocumentdate').val().trim(),
+        fname : $('#document_ref__fname').val().trim(),
+        fkind : $('#document_ref__fkind').val().trim(),
+        fstate: $('#document_ref__fstate').val(),
     };
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
@@ -1271,8 +1276,15 @@ function document_ref_binding_events() {
         document_load_records();
     });
 
-    $('#department_ref__table tbody tr').on('dblclick', function (e) {
+    $('#document_ref__table tbody tr').on('dblclick', function (e) {
         document_edit_record();
+    })
+    /** =========== НАЖАТИЕ КЛАВИШИ ENTER В ОБЛАСТИ ФИЛЬТРАЦИИ =========== */
+    $('.document_filter').on('keyup',function(event){
+        if (event.key === 'Enter'){
+            document_load_records();
+        }
+        
     })
 }
 
@@ -1303,6 +1315,16 @@ function document_search_binding_events() {
     });
 
 }
+
+/**
+ * ========= НАЖАТИЕ КЛАВИШИ ENTER В ОБЛАСТИ ФИЛЬТРАЦИИ =========
+ */
+$('.document_filter').on('keyup',function(event){
+    if (event.key === 'Enter'){
+        document_load_records();
+    }
+    
+})
 
 
 
