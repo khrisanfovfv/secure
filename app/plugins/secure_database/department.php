@@ -66,8 +66,25 @@ class Department{
     public function secure_load_department(){
         global $wpdb;
         $prefix = $wpdb->prefix;
+        // Считываем значение фильтра
+        $wild = '%';
+        $like_name = $wild . $wpdb->esc_like($_POST['fname']) . $wild;
+        $like_organization = $wild . $wpdb->esc_like($_POST['forganization']) . $wild;
+        $like_boss = $wild . $wpdb->esc_like($_POST['fboss']) . $wild;
+
+        $state_query = '';
+        if ($_POST['fstate'] !=='') {
+            $state_query = " AND department.state = '" . $_POST['fstate'] . "'"; 
+        }
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT department.id, department.name, organization.fullname as organization_name, department.boss, department.state FROM {$prefix}department department JOIN {$prefix}organization organization on department.organization_id = organization.id", ARRAY_A )); 
+            $wpdb->prepare("SELECT department.id, department.name, organization.fullname as organization_name, department.boss, department.state 
+            FROM {$prefix}department department 
+            JOIN {$prefix}organization organization on department.organization_id = organization.id
+            WHERE department.name LIKE %s AND organization.fullname LIKE %s AND department.boss LIKE %s $state_query",
+                array($like_name, $like_organization, $like_boss)), ARRAY_A ); 
+            if ($wpdb->last_error){
+                wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+            }
         echo json_encode($results);
         wp_die();
     }

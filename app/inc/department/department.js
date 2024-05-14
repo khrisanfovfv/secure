@@ -81,6 +81,10 @@ function department_card_press_OK(sender) {
 function department_load_records() {
     var data = {
         action: 'load_department',
+        fname : $('#department_ref___fname').val().trim(),
+        forganization: $('#department_ref___forganization').val().trim(),
+        fboss : $('#department_ref___fboss').val().trim(),
+        fstate: $('#department_ref__fstate').val(),
     };
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
@@ -455,6 +459,13 @@ function department_ref_binding_events(){
     $('#department_ref__update').on('click', function () {
         department_load_records();
     });
+    
+    /** ============= НАЖАТИЕ КЛАВИШИ ENTER В ОБЛАСТИ ФИЛЬТРАЦИИ ============ */
+    $('.department_filter').on('keyup',function(event){
+        if (event.key === 'Enter'){
+            department_load_records();
+        }
+    })
 }
 
 /**
@@ -478,6 +489,16 @@ function department_search_binding_events(){
     });
 
 }
+
+/**
+ * ========= НАЖАТИЕ КЛАВИШИ ENTER В ОБЛАСТИ ФИЛЬТРАЦИИ =========
+ */
+$('.department_filter').on('keyup',function(event){
+    if (event.key === 'Enter'){
+        department_load_records();
+    }
+    
+})
 
 
 

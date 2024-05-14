@@ -57,6 +57,17 @@ $prefix = $wpdb->prefix;
                             <th style="width: 200px;">Руководитель</th>
                             <th style="width: 200px;">Состояние</th>
                         </tr>
+                        <tr>
+                            <th></th>
+                            <th><input class="department_filter" id="department_ref___fname"></th>
+                            <th><input class="department_filter" id="department_ref___forganization"></th>
+                            <th><input class="department_filter" id="department_ref___fboss"></th>
+                            <th><select class="department_filter" id="department_ref__fstate">
+                                <option value=""></option>
+                                <option value="Active">Действующая</option>
+                                <option value="Inactive">Не Действующая</option>
+                            </select></th>
+                        </tr>
                     </thead>
                     <tbody>
                         <!-- Выводим строки таблицы -->

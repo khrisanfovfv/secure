@@ -714,6 +714,9 @@ function organization_extended_search_OK(e) {
     });
 }
 
+/**
+ * ========= НАЖАТИЕ КЛАВИШИ ENTER В ОБЛАСТИ ФИЛЬТРАЦИИ =========
+ */
 $('.organization_filter').on('keyup',function(event){
     if (event.key === 'Enter'){
         organization_load_records();
