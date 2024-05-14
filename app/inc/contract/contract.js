@@ -86,6 +86,11 @@ $('#contract_ref__select').on('click', function (e) {
     contract_select_record(e);
 });
 
+/** =====================КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ====================== */
+$('#contract_ref__out_context_create').on('click', function () {
+    contract_create_record();
+})
+
 /**
  * ======================== НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ========================
  */
@@ -93,6 +98,11 @@ $('#contract_ref__edit').on('click', function () {
     contract_edit_record()
 
 });
+
+/** ===================== КОНТЕКСТНОЕ МЕНЮ НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ ====================== */
+$('#contract_ref__context_edit').on('click', function (e) {
+    contract_edit_record(e);
+})
 
 
 /**
@@ -426,6 +436,8 @@ function contract_ref_binding_events() {
         contract_create_record();
     })
 
+    
+
     $('#contract_ref__select').on('click', function (e) {
         contract_select_record(e);
     })
@@ -438,6 +450,7 @@ function contract_ref_binding_events() {
     $('#contract_ref__copy').on('click', function () {
         contract_copy_record();
     });
+
     /** ===================== НАЖАТИЕ КНОПКИ УДАЛИТЬ ====================== */
     $('#contract_ref__delete').on('click', function () {
         contract_delete_record();
@@ -451,6 +464,7 @@ function contract_ref_binding_events() {
  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ КОНТРАКТА ===============================
  */
 function contract_card_binding_events() { 
+    alert('rab');
     /** ===================== ВЫБОР ВКЛАДКИ НА КАРТОЧКЕ КОНТРАКТА ================ */
     $('.contract_card__tabs_item').on('click', function (e) {
         contract__chose_tab(e);
@@ -478,7 +492,7 @@ function contract_card_binding_events() {
            })
            
     /** ==============Карточка КОНТРАКТА: НАЖАТИЕ КНОПКИ OK ============= */
-    $('#contract_card__OK ').on('click', function (e) {
+    $('#contract_card__OK').on('click', function (e) {
         contract_card_press_OK(e.target);
         //$(e.target).parents('.appdialog').css('display', 'none');
     });

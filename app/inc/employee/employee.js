@@ -242,6 +242,18 @@ $('#employee_ref__edit').on('click', function (e) {
 //     employee_delete_record();
 // });
 
+
+$('#employee_ref__excel').on('click', function(){
+    // Выводим данные из базы данных
+    var data = {
+        action: 'load_employee'
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        let employees = JSON.parse(result);
+        employees_to_excel(employees);
+    });
+});
+
 /** 
  * ========================= НАЖАТИЕ КНОПКИ ОБНОВИТЬ ===============================
  */

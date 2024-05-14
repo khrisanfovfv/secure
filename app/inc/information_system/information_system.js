@@ -399,8 +399,7 @@ function information_systems_to_excel(data){
     // Шрифт для заголовка
     const font = { 
         name: 'Arial', 
-        size: 12, 
-        bold: true
+        size: 12,         bold: true
     };
     // Границы ячеек 
     const border = {

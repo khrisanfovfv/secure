@@ -473,7 +473,6 @@ $('#document_ref__update').on('click', function () {
 
 $('#document_ref__excel').on('click', function(){
     // Выводим данные из базы данных
-    alert('rab')
     var data = {
         action: 'load_document'
     };
@@ -482,6 +481,71 @@ $('#document_ref__excel').on('click', function(){
         documents_to_excel(documents);
     });
 });
+
+function documents_to_excel(data){
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Сотрудники');
+    const letr = ['A','B','C','D','E','F','G','H','I','J'];
+    
+    // Шрифт для заголовка
+    const font = { 
+        name: 'Arial', 
+        size: 12, 
+        bold: true
+    };
+    // Границы ячеек 
+    const border = {
+        top: {style:'thin'},
+        left: {style:'thin'},
+        bottom: {style:'thin'},
+        right: {style:'thin'}
+    }
+
+    // Настраиаем колонки
+    worksheet.columns = [
+        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ИД', key : 'id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Полное наименование', key : 'login', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'Краткое наименование', key : 'first_name', width: 50},
+        {header: 'Сертифицирована', key : 'middle_name', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Дата сертификации', key : 'certifydate', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Масштаб ИС', key : 'scope', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Уровень значимости', key : 'significancelevel', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Дата аттестации', key : 'commissioningdate', width: 20, style : {alignment :{vertical: 'middle', horizontal: 'left'}}},
+        {header: 'Есть замечания', key : 'hasremark', width: 15, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
+        {header: 'Статус', key : 'state', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}}
+    ]       
+    worksheet.getRow(1).font = font;
+    worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
+
+    // Устанавливаем границы ячеек заголовков таблицы
+    letr.forEach((value) => {
+        worksheet.getCell(value + '1').border = border;
+    })
+
+    // Добавляем значения в таблицу
+    data.forEach((document, ind) => {
+        worksheet.getCell('A'+(ind+2)).value = ind+1;
+        worksheet.getCell('B'+(ind+2)).value = document['id'];
+        worksheet.getCell('C'+(ind+2)).value = document['login'];
+        worksheet.getCell('D'+(ind+2)).value = document['first_name'];
+        worksheet.getCell('E'+(ind+2)).value = document['middle_name'];
+        worksheet.getCell('F'+(ind+2)).value = document['last_name'];
+        worksheet.getCell('G'+(ind+2)).value = document['organization_name'];
+        worksheet.getCell('H'+(ind+2)).value = document['department_name'];
+        worksheet.getCell('I'+(ind+2)).value = document['email'];
+        worksheet.getCell('J'+(ind+2)).value = reference.get_state(document['state']);
+
+        // Устанавливаем границы ячеек строки
+        letr.forEach((value) => {
+            worksheet.getCell(value + (ind+2)).border = border;
+        })
+    })
+
+    saveToExcel(workbook, 'Сотрудники');
+
+}
+
 
 function documents_to_excel(data){
     const workbook = new ExcelJS.Workbook();
