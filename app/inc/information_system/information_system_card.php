@@ -250,61 +250,6 @@ $document_icons = $resources->get_document_icons();
                        
 
                     </section>
-                    <!-- ВКЛАДКА АРХИВ -->
-                    <section class="information_system_card__archive hide" id="information_system_card__archive">
-                        <div class="reference__buttons">
-                            <button class="reference__button" id="information_system_card__archive_create">
-                                <img src="<?php echo $button_icons->create ?>" alt="">
-                                <p>Создать</p>
-                            </button>
-                            <button class="reference__button" id="information_system_card__archive_edit">
-                                <img src="<?php echo $button_icons->edit ?>" alt="">
-                                <p>Редактировать</p>
-                            </button>
-                            <button class="reference__button" id="information_system_card__archive_copy">
-                                <img src="<?php echo $button_icons->copy ?>" alt="">
-                                <p>Копировать</p>
-                            </button>
-                            <button class="reference__button" id="information_system_card__archive_delete">
-                                <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
-                                <p>Удалить</p>
-                            </button>
-                            <button class="reference__button" id="information_system_card__archive_excel">
-                                <img src="<?php echo $button_icons->excel ?>" alt="Удалить">
-                                <p>Эл. таб</p>
-                            </button>
-                        </div>
-
-                        <table class="reference__table" id="information_system_card__archive_IS_table">
-                            <thead>
-                                <tr>
-                                    <th class="hide">Ид</th>
-                                    <th style="width: 35px;">№</th>
-                                    <th style="width: 200px;">Краткое наименование</th>
-                                    <th>Полн. наименование</th>
-                                    <th style="width: 130px;">Аттестована</th>
-                                    <th style="width: 130px;">Дата посл. аттестации</th>
-                                    <th style="width: 130px;">Срок след. аттестации</th>
-                                    <th style="width: 130px;">Проблемы ИБ</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <tr class="is_table_row">
-                                    <td class="id hide">1</td>
-                                    <td>1</td>
-                                    <td>АСЭД</td>
-                                    <td style="text-align: left;">Автоматизированная система электронного документооборота
-                                        органов исполнительной
-                                        государственной власти области</td>
-                                    <td>Нет</td>
-                                    <td>01.01.2021</td>
-                                    <td>01.01.2023</td>
-                                    <td>Да</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </section>
 
                 </div> <!-- information_system_card__content -->
                 <!-- ПАНЕЛЬ ДОКУМЕНТЫ -->

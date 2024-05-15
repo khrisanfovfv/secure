@@ -279,6 +279,12 @@ var reference = {
             default: '';
         }
     },
+
+    /**
+     * ========================= ПОЛУЧИТЬ ПОЛЕ ТИП КОНТРАКТА ======================
+     * @param {string} support значение в базе 
+     * @returns значение в интерфейсе
+     */
     get_support(support) {
         switch (support) {
             case 'Support': return 'Поддержка'; break;
@@ -311,6 +317,19 @@ var reference = {
             return '';
         } else{
             return value;
+        }
+    },
+
+    /**
+    * =========================== ПОЛУЧИТЬ СОСТОЯНИЕ ПОЛЯ ==============================
+    * @param {string} state 
+    * @returns Состояние поля
+    */
+    get_administrator_type(type) {
+        switch (type) {
+            case 'base': return 'Основной'; break;
+            case 'substitute': return 'Замещающий'; break;
+            default: '';
         }
     },
 
