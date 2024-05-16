@@ -1388,7 +1388,19 @@ function information_system_card_binging_events() {
     $('#information_system_card__contracts_delete').on('click', function () {
         information_system_contract_delete_record();
     })
-
+    
+    /** =========================== КОНТРАКТЫ. КНОПКА EXCEL ========================== */
+    $('#information_system_card__contracts_excel').on('click', function(){
+        // Выводим данные из базы данных
+    var data = {
+        action: 'load_information_system_contracts',
+        information_system_id : $('#information_system_card__id').text()
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        let contracts = JSON.parse(result);
+        //information_system_contracts_to_excel(contracts);
+    });
+    })
 
 
     /** ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА СОЗДАТЬ ======================= */
@@ -1574,6 +1586,64 @@ function information_system_remarks_to_excel(data){
 
     saveToExcel(workbook, 'Информационные системы. Замечания по аттестации');
 }
+
+
+function information_system_contracts_to_excel(data){
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Контракты');
+    const letr = ['A','B','C','D','E','F','G','H'];
+    
+    // Шрифт для заголовка
+    const font = { 
+        name: 'Arial', 
+        size: 12,         bold: true
+    };
+    // Границы ячеек 
+    const border = {
+        top: {style:'thin'},
+        left: {style:'thin'},
+        bottom: {style:'thin'},
+        right: {style:'thin'}
+    }
+
+    // Настраиаем колонки
+    worksheet.columns = [
+        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ИД', key : 'contract_id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Номер', key : 'contract_number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Дата заключения', key : 'conclusionDate', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Предмет контракта', key : 'contract_subject', width: 30, style : {alignment :{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Тип контракта', key : 'contract_type', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Ссылка на сайт закупок', key : 'link', width: 30, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Статус', key : 'contract_state', width: 15, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+    ]       
+    worksheet.getRow(1).font = font;
+    worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
+
+    // Устанавливаем границы ячеек заголовков таблицы
+    letr.forEach((value) => {
+        worksheet.getCell(value + '1').border = border;
+    })
+
+    // Добавляем значения в таблицу
+    data.forEach((contract, ind) => {
+        worksheet.getCell('A'+(ind+2)).value = ind+1;
+        worksheet.getCell('B'+(ind+2)).value = contract['contract_id'];
+        worksheet.getCell('C'+(ind+2)).value = contract['contract_number'];
+        worksheet.getCell('D'+(ind+2)).value = contract['conclusionDate'];
+        worksheet.getCell('E'+(ind+2)).value = contract['contract_subject'];
+        worksheet.getCell('F'+(ind+2)).value = reference.get_support(contract['contract_type']);
+        worksheet.getCell('G'+(ind+2)).value = contract['link'];
+        worksheet.getCell('H'+(ind+2)).value = reference.get_state(contract['contract_state']);
+        // Устанавливаем границы ячеек строки
+        letr.forEach((value) => {
+            worksheet.getCell(value + (ind+2)).border = border;
+        })
+    })
+
+    saveToExcel(workbook, 'Информационные системы. Контракты');
+}
+
 
 
 /**
