@@ -193,7 +193,7 @@ $document_icons = $resources->get_document_icons();
                                         <th style="width: 35px;">№</th>
                                         <th style="width: 130px;">Дата замечания</th>
                                         <th style="width: 130px;">Автор замечания</th>
-                                        <th>Содержание амечания</th>
+                                        <th>Содержание замечания</th>
                                         <th style="width: 130px;">Устранено</th>
                                         <th style="width: 130px;">Дата устранения</th>
                                         <th style="width: 130px;">Кем устранено</th>

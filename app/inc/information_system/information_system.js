@@ -1406,6 +1406,19 @@ function information_system_card_binging_events() {
         information_system_remark_update_records();
     })
 
+    /** =========================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА EXCEL ========================== */
+    $('#information_system_card__remarks_excel').on('click', function(){
+        // Выводим данные из базы данных
+    var data = {
+        action: 'load_information_system_remarks',
+        information_system_id : $('#information_system_card__id').text()
+    };
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        let remarks = JSON.parse(result);
+        information_system_remarks_to_excel(remarks);
+    });
+    })
+
     /** ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА УДАЛИТЬ ======================= */
     $('#information_system_card__remarks_delete').on('click', function () {
         information_system_remark_delete_record();
@@ -1505,6 +1518,63 @@ function information_systems_administrators_to_excel(data){
 
     saveToExcel(workbook, 'Информационные системы. Дет. разд. Администраторы');
 }
+
+function information_system_remarks_to_excel(data){
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Замечания по аттестации');
+    const letr = ['A','B','C','D','E','F','G','H'];
+    
+    // Шрифт для заголовка
+    const font = { 
+        name: 'Arial', 
+        size: 12,         bold: true
+    };
+    // Границы ячеек 
+    const border = {
+        top: {style:'thin'},
+        left: {style:'thin'},
+        bottom: {style:'thin'},
+        right: {style:'thin'}
+    }
+
+    // Настраиаем колонки
+    worksheet.columns = [
+        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'ИД', key : 'information_system_id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Дата замечания', key : 'remarkdate', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Автор замечания', key : 'author', width: 30, style : {alignment :{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Содержание замечания', key : 'content', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Устранено', key : 'eliminated', width: 30, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Дата устранения', key : 'eliminatedate', width: 30, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Кем устранено', key : 'performer', width: 15, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+    ]       
+    worksheet.getRow(1).font = font;
+    worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
+
+    // Устанавливаем границы ячеек заголовков таблицы
+    letr.forEach((value) => {
+        worksheet.getCell(value + '1').border = border;
+    })
+
+    // Добавляем значения в таблицу
+    data.forEach((remark, ind) => {
+        worksheet.getCell('A'+(ind+2)).value = ind+1;
+        worksheet.getCell('B'+(ind+2)).value = remark['information_system_id'];
+        worksheet.getCell('C'+(ind+2)).value = remark['remarkdate'];
+        worksheet.getCell('D'+(ind+2)).value = remark['author'];
+        worksheet.getCell('E'+(ind+2)).value = remark['content'];
+        worksheet.getCell('F'+(ind+2)).value = reference.get_boolean_value(remark['eliminated']);
+        worksheet.getCell('G'+(ind+2)).value = remark['eliminatedate'];
+        worksheet.getCell('H'+(ind+2)).value = remark['performer'];
+        // Устанавливаем границы ячеек строки
+        letr.forEach((value) => {
+            worksheet.getCell(value + (ind+2)).border = border;
+        })
+    })
+
+    saveToExcel(workbook, 'Информационные системы. Замечания по аттестации');
+}
+
 
 /**
  * НАЖАТИЕ КНОПКИ ENTER В ОКНЕ ФИЛЬТРА
