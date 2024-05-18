@@ -167,6 +167,11 @@ $('#administrator_card__Cancel').on('click', function () {
 function administrator_load_records() {
     var data = {
         action: 'load_administrator',
+        ffullname :$('#administrator_ref__ffullname').val(),
+        forganization : $('#administrator_ref__forganization').val(),
+        fdepartment : $('#administrator_ref__fdepartment').val(),
+        fstate : $('#administrator_ref__fstate').val()
+
     };
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
@@ -744,6 +749,13 @@ function administrator_ref_binding_events() {
     $('#administrator_ref__update').on('click', function () {
         administrator_load_records();
     });
+
+    /**============== НАЖАТИЕ КНОПКИ ENTER В ОКНЕ ФИЛЬТРА =================== */
+$('.administrator_filter').on('keyup', function(event){
+    if (event.key === 'Enter'){
+        administrator_load_records();
+    }
+})
 }
 
 /**
@@ -822,7 +834,6 @@ function administrator_search_binding_events() {
  * НАЖАТИЕ КНОПКИ ENTER В ОКНЕ ФИЛЬТРА
  */
 $('.administrator_filter').on('keyup', function(event){
-    alert('rab')
     if (event.key === 'Enter'){
         administrator_load_records();
     }

@@ -105,10 +105,26 @@ class Administrator{
     public function secure_load_administrator(){
         global $wpdb;
         $prefix = $wpdb->prefix;
+        $wild = '%';
+
+        $like_fullname = $wild . $wpdb->esc_like($_POST['ffullname']) . $wild;
+        $like_organization = $wild . $wpdb->esc_like($_POST['forganization']) . $wild;
+        $like_department = $wild . $wpdb->esc_like($_POST['fdepartment']) . $wild;
+        $state_query = '';
+        if ($_POST['fstate'] !=='') {
+            $state_query = " AND state = '" . $_POST['fstate'] . "'"; 
+        }
+
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT administrator.id, administrator.fullname, organization.fullname as organization_name, department.name as department_name, administrator.state FROM {$prefix}administrator administrator 
             JOIN {$prefix}organization organization on administrator.organization = organization.id 
-            JOIN {$prefix}department department on administrator.department = department.id"), ARRAY_A );
+            JOIN {$prefix}department department on administrator.department = department.id
+            WHERE administrator.fullname LIKE %s AND organization.fullname LIKE %s
+            AND department.name LIKE %s $state_query", array($like_fullname, $like_organization, $like_department)), ARRAY_A );
+        
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка', array('response'=> 500));
+        }
         echo json_encode($results);
         wp_die();
     }

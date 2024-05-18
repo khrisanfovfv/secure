@@ -58,6 +58,15 @@ $prefix = $wpdb->prefix;
                         <th>Вид документа</th>
                         <th style="width: 200px;">Состояние</th>
                     </tr>
+                    <tr>
+                        <th></th>
+                        <th><input class="document_kind_filter" id="document_kind_ref__fname"></th>
+                        <th><select class="document_kind_filter" id="document_kind_ref__fstate">
+                            <option value=""></option>
+                            <option value="Active">Действующая</option>
+                            <option value="Inactive">Не Действующая</option>
+                        </select></th>
+                    </tr>
                 </thead>
                 <tbody>
                     <!-- Выводим строки таблицы -->

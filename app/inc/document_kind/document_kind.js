@@ -446,4 +446,11 @@ function document_kind_card_binging_events (){
         $(e.target).parents('.appdialog:first').css('display', 'none');
     });
 }
-
+/**
+ * НАЖАТИЕ КНОПКИ ENTER В ОКНЕ ФИЛЬТРА
+ */
+$('.document_kind_filter').on('keyup', function(event){
+    if (event.key === 'Enter'){
+        document_kind_load_records();
+    }
+})

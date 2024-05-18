@@ -76,9 +76,20 @@ class DocumentKind{
     public function secure_load_document_kind(){
         global $wpdb;
         $prefix = $wpdb->prefix;
+        $wild = '%';
+        $like_name = $wild . $wpdb->esc_like($_POST['fname']) . $wild;
+        $state_query = '';
+        if ($_POST['fstate'] !=='') {
+            $state_query = " AND state = '" . $_POST['fstate'] . "'"; 
+        }
+
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}document_kind", ARRAY_A )); 
-        echo json_encode($results);
+            $wpdb->prepare("SELECT * FROM {$prefix}document_kind WHERE name LIKE %s $state_query", array($like_name)) ,ARRAY_A ); 
+        
+            if ($wpdb->last_error){
+                wp_die($wpdb->last_error, 'Ошибка', array('response'=> 500));
+            }
+            echo json_encode($results);
         wp_die();
     }
 
