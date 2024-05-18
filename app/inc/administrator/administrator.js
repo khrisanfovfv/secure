@@ -818,6 +818,15 @@ function administrator_search_binding_events() {
 
 }
 
+/**
+ * НАЖАТИЕ КНОПКИ ENTER В ОКНЕ ФИЛЬТРА
+ */
+$('.administrator_filter').on('keyup', function(event){
+    alert('rab')
+    if (event.key === 'Enter'){
+        administrator_load_records();
+    }
+})
 
 
 

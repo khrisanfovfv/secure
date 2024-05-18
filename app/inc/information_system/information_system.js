@@ -1398,7 +1398,7 @@ function information_system_card_binging_events() {
     };
     jQuery.post(MainData.ajaxurl, data, function (result) {
         let contracts = JSON.parse(result);
-        //information_system_contracts_to_excel(contracts);
+        information_system_contracts_to_excel(contracts);
     });
     })
 
@@ -1589,6 +1589,7 @@ function information_system_remarks_to_excel(data){
 
 
 function information_system_contracts_to_excel(data){
+    alert('rab');
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Контракты');
     const letr = ['A','B','C','D','E','F','G','H'];
