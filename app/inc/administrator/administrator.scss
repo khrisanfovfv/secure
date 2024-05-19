@@ -71,6 +71,10 @@
         border: none;
         background-color: inherit;
     }
+
+    &__dialog_content{
+        height: 100%;
+    }
 }
 
 #administrator_ref__dialog_content{

@@ -59,9 +59,11 @@ $prefix = $wpdb->prefix;
                             <th style="width: 200px;">Краткое наименование</th>
                             <th>Полн. наименование</th>
                             <th style="width: 130px;">Аттестована</th>
+                            <th style="width: 130px;">Периодичность аттестации</th>
                             <th style="width: 130px;">Дата аттестации</th>
                             <th style="width: 130px;">Дата ввода в эксплуатацию</th>
                             <th style="width: 130px;">Проблемы ИБ</th>
+                            <th style="width: 170px;">Состояние</th>
                         </tr>
                         <tr>
                             <th></th>
@@ -72,6 +74,12 @@ $prefix = $wpdb->prefix;
                                 <option value="1">Да</option>
                                 <option value="0" >Нет</option>
                             </select></th>
+                            <th><select class="information_system_filter" id="information_system_ref__fperiodicity">
+                                <option value=""></option>
+                                <option value="half_year">Пол года</option>
+                                <option value="year">Год</option>
+                                <option value="two_years">Два года</option>
+                            </select></th>
                             <th><input class="information_system_filter"  id="information_system_ref__fcertifydate"></th>
                             <th><input class="information_system_filter"  id="information_system_ref__fcommissioningdate"></th>
                             <th><select class="information_system_filter" id="information_system_ref__fhasremark">
@@ -79,6 +87,11 @@ $prefix = $wpdb->prefix;
                                 <option value="1">Да</option>
                                 <option value="0" >Нет</option>
                             </select></th>
+                            <th><select class="information_system_filter" id="information_system_ref__fstate">
+                            <option value=""></option>
+                            <option value="Active" selected="selected">Действующая</option>
+                            <option value="Inactive">Не Действующая</option>
+                        </select></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -97,10 +110,11 @@ $prefix = $wpdb->prefix;
                                 <td><?php echo $row["briefname"] ?></td>
                                 <td style="text-align: left;"><?php echo $row["fullname"] ?></td>
                                 <td><?php echo get_boolean_value($row["certified"]) ?></td>
+                                <td><?php echo get_periodicity_value($row['periodicity']) ?></td>
                                 <td><?php echo get_data_value($row["certifydate"]) ?></td>
                                 <td><?php echo get_data_value($row["commissioningdate"]) ?></td>
                                 <td><?php echo get_boolean_value($row["hasremark"]) ?></td>
-                                <!--td><!?php echo secure_get_state($row["state"]) ?></td-->
+                                <td><?php echo secure_get_state($row["state"]) ?></td>
                             </tr>
 
                         <?php

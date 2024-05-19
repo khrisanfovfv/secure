@@ -23,6 +23,7 @@ class InformationSystem{
             briefname tinytext,
             certified boolean,
             certifydate date NULL,
+            periodicity varchar(9),
             scope varchar(13),
             significancelevel varchar(2),
             commissioningdate date NULL,
@@ -220,27 +221,36 @@ class InformationSystem{
         $like_briefname = $wild . $wpdb->esc_like($_POST['fbriefname']) . $wild;
         $like_fullname = $wild . $wpdb->esc_like($_POST['ffullname']) . $wild;
         $certified_query = '';
-
+        $periodicity_query = '';
+        $hasremark_query = '';
         $state_query = '';
-        if ($_POST['fstate'] !=='') {
-            $state_query = " AND state = '" . $_POST['fstate'] . "'"; 
-        }
+
+        
 
         if ($_POST['fcertified'] !==''){
             $certified_query = " AND certified = '" . $_POST['fcertified'] . "'";     
         }
 
+        if ($_POST["fperiodicity"] !== ''){
+            $periodicity_query = " AND periodicity = '" . $_POST["fperiodicity"] . "'";
+        }
+
         $like_certifydate =  $wild . $wpdb->esc_like($_POST['fcertifydate']) . $wild;
         $like_commissioningdate = $wild . $wpdb->esc_like($_POST['fcommissioningdate']) . $wild;
         
-        $hasremark_query = '';
+        
         if ($_POST['fhasremark'] !=='') {
             $hasremark_query = " AND hasremark = '" . $_POST['fhasremark'] . "'"; 
         }
+
+        if ($_POST['fstate'] !=='') {
+            $state_query = " AND state = '" . $_POST['fstate'] . "'"; 
+        }
+
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT * FROM {$prefix}information_system
             WHERE briefname LIKE %s AND fullname LIKE %s
-            AND certifydate LIKE %s AND commissioningdate LIKE %s $certified_query $hasremark_query", 
+            AND certifydate LIKE %s AND commissioningdate LIKE %s $certified_query $periodicity_query $hasremark_query $state_query", 
             array($like_briefname, $like_fullname, $like_certifydate, $like_commissioningdate)), ARRAY_A );
         if ($wpdb->last_error){
             wp_die($wpdb->last_error,'Ошибка', array('response' => 500));

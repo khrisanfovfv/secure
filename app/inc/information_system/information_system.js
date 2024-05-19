@@ -244,9 +244,11 @@ function information_system_load_records() {
         fbriefname : $('#information_system_ref__fbriefname').val().trim(),
         ffullname: $('#information_system_ref__ffullname').val().trim(),
         fcertified : $('#information_system_ref__fcerified').val(),
+        fperiodicity: $('#information_system_ref__fperiodicity').val(),
         fcertifydate : $('#information_system_ref__fcertifydate').val().trim(),
         fcommissioningdate: $('#information_system_ref__fcommissioningdate').val().trim(),
         fhasremark : $('#information_system_ref__fhasremark').val(),
+        fstate: $('#information_system_ref__fstate').val()
 
     };
 
@@ -604,25 +606,26 @@ function card_information_system_load_data(data, openMode) {
  * @param {Object} records 
  */
 function information_system_update_reference(records) {
-    var ind = 1;
     $('#information_system_ref__table tbody tr').remove();
+    let ind = 1;
     records.forEach(record => {
-        var tr = $('#information_system_ref__table tbody').append(
-            "<tr class='information_system_ref__table_row'>" +
-            "<td class='id hide'>" + record["id"] + "</td>" +
-            "<td>" + (ind++) + "</td>" +
-            "<td>" + record["briefname"].replace(/\\"/g, '"') + "</td>" +
-            "<td style='text-align: left'>" + record["fullname"].replace(/\\"/g, '"') + "</td>" +
-            "<td>" + reference.get_boolean_value(record["certified"]) + "</td>" +
-            "<td>" + reference.get_date_value(record["certifydate"]) + "</td>" +
-            "<td>" + reference.get_date_value(record["commissioningdate"]) + "</td>" +
-            "<td>" + reference.get_boolean_value(record["hasremark"]) + "</td>" +
-            /*"<td>" + reference.get_state(record["state"]) + "</td>" +*/
-            "</tr>");
-        tr.on('click', function (e) {
+        $('#information_system_ref__table tbody').append(
+            
+        $("<tr class='information_system_ref__table_row'>")
+            .append($("<td class='id hide'>").text(record['id']))
+            .append($("<td>").text(ind++))
+            .append($("<td>").text(record['briefname'].replace(/\\"/g, '"')))
+            .append($("<td style='text-align: left;'>").text(record['fullname'].replace(/\\"/g, '"')))
+            .append($("<td>").text(reference.get_boolean_value(record['certified'])))
+            .append($("<td>").text(reference.get_periodicity(record['periodicity'])))
+            .append($("<td>").text(record['certifydate']))
+            .append($("<td>").text(record['commissioningdate']))
+            .append($("<td>").text(reference.get_boolean_value(record['hasremark'])))
+            .append($("<td>").text(reference.get_state(record['state'])))
+        ).on('click', function (e) {
             reference.highlight(e);
         })
-        tr.on('dblclick', function () {
+        .on('dblclick', function () {
             information_system_edit_record();
         })
     });
@@ -1086,6 +1089,7 @@ function information_system_contract_delete_record() {
    ============================================================================*/
 
 
+
 /** ================== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ РАЗРАБОТЧИКИ ================= */
 function information_system_card__draw_developper_row(developper) {
     var content_html =
@@ -1248,6 +1252,32 @@ function information_system_ref_binding_events(){
     $('#information_system_ref__update').on('click', function () {
         information_system_load_records();
     });
+
+    /** ============= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ СОЗДАТЬ =============== */
+    $('#information_system_ref__out_context_create').on('click', function(){
+        information_system_create_record();
+    })
+
+    /** ============= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ =============== */
+    $('#information_system_ref__context_edit').on('click', function(){
+        information_system_edit_record();
+    })
+
+    /** ============= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ КОПИРОВАТЬ =============== */
+    $('#information_system_ref__context_copy').on('click', function(){
+        information_system_copy_record();
+    })
+
+    /** ============= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ УДАЛИТЬ =============== */
+    $('#information_system_ref__context_delete').on('click', function(){
+        information_system_delete_record();
+    })
+
+    /** ============= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ =============== */
+    $('#information_system_ref__out_context_update').on('click', function(){
+        information_system_load_records();
+    })
+
 
     /** НАЖАТИЕ КНОПКИ ENTER В ОКНЕ ФИЛЬТРА */
     $('.information_system_filter').on('keyup', function(event){

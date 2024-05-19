@@ -286,6 +286,18 @@
         } else echo $value;
     }
 
+    /**
+     * =========== ВОЗВРАЩАЕТ ЗНАЧЕНИЕ ПЕРИОДИЧНОСТИ ДЛЯ ИНТЕРФЕЙСА ===========
+     */
+    function get_periodicity_value($value){
+        switch($value){
+            case 'half_year' : echo 'Пол года'; break; 
+            case 'year': echo 'Год';  break;
+            case 'two_years' : echo 'Два года'; break;
+            default : echo ''; break;
+        }
+    }
+
 
 
     /**
