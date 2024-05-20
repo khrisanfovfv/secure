@@ -106,6 +106,7 @@ function information_system_card_press_OK(src) {
             significancelevel: $('#information_system_card__significance_level').val(),
             scope: $('#information_system_card__scope').val(),
             certified: ($('#information_system_card__certified').is(':checked')) ? 1 : 0,
+            periodicity: ($('#information_system_card__periodicity')).val(),
             certifydate: $('#information_system_card__certifyDate').val(),
             hasremark: $('#information_system_card__has_remark').is(':checked') ? 1 : 0,
             commissioningdate: $('#information_system_card__commissioningDate').val(),
@@ -407,7 +408,7 @@ $('#information_system_ref__excel').on('click', function(){
 function information_systems_to_excel(data){
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Информационные системы');
-    const letr = ['A','B','C','D','E','F','G','H','I','J','K'];
+    const letr = ['A','B','C','D','E','F','G','H','I','J','K','L'];
     
     // Шрифт для заголовка
     const font = { 
@@ -428,10 +429,11 @@ function information_systems_to_excel(data){
         {header: 'ИД', key : 'id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
         {header: 'Полное наименование', key : 'fullname', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
         {header: 'Краткое наименование', key : 'briefname', width: 50},
-        {header: 'Сертифицирована', key : 'certified', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Аттестована', key : 'certified', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
         {header: 'Дата сертификации', key : 'certifydate', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
         {header: 'Масштаб ИС', key : 'scope', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
         {header: 'Уровень значимости', key : 'significancelevel', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
+        {header: 'Периодичность', key : 'periodicity', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
         {header: 'Дата аттестации', key : 'commissioningdate', width: 20, style : {alignment :{vertical: 'middle', horizontal: 'left'}}},
         {header: 'Есть замечания', key : 'hasremark', width: 15, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
         {header: 'Статус', key : 'state', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}}
@@ -454,9 +456,10 @@ function information_systems_to_excel(data){
         worksheet.getCell('F'+(ind+2)).value = information_system['certifydate'];
         worksheet.getCell('G'+(ind+2)).value = information_system['scope'];
         worksheet.getCell('H'+(ind+2)).value = information_system['significancelevel'];
-        worksheet.getCell('I'+(ind+2)).value = information_system['commissioningdate'];
-        worksheet.getCell('J'+(ind+2)).value = reference.get_boolean_value(information_system['hasremark']);
-        worksheet.getCell('K'+(ind+2)).value = reference.get_state(information_system['state']);
+        worksheet.getCell('I'+(ind+2)).value = information_system['periodicity'];
+        worksheet.getCell('J'+(ind+2)).value = information_system['commissioningdate'];
+        worksheet.getCell('K'+(ind+2)).value = reference.get_boolean_value(information_system['hasremark']);
+        worksheet.getCell('L'+(ind+2)).value = reference.get_state(information_system['state']);
 
         // Устанавливаем границы ячеек строки
         letr.forEach((value) => {
@@ -608,10 +611,37 @@ function card_information_system_load_data(data, openMode) {
 function information_system_update_reference(records) {
     $('#information_system_ref__table tbody tr').remove();
     let ind = 1;
+    let period;
+    // Время в секундах 
+    let half_year = 182*24*60*60*1000;
+    let year = 365*24*60*60*1000;
+    let month = 30*24*60*60*1000;
+    let two_years = 2*365*24*60*60*1000;
+    let today = new Date().getTime();
+    
     records.forEach(record => {
-        $('#information_system_ref__table tbody').append(
-            
-        $("<tr class='information_system_ref__table_row'>")
+        let attention = '';
+        switch(record['periodicity']){
+            case 'half_year': period = half_year; break;
+            case 'year' : period = year; break;
+            case 'two_years' : period = two_years; break;
+        }
+        let str = record['certifydate'].split("-");
+        let certifydate = new Date( str[0], str[1] - 1, str[2]);
+        
+        let result = certifydate.getTime() + period;
+        // Если текущая дата превышает дату следующей аттестации
+        // Подкрашиваем сроку в красноватый цвет
+        if (today  > result){
+            attention = 'red_background';
+        }
+        // Если до следующей аттестации осталось меньше месяца 
+        // подкрашиваем строку в оранжевый цвет
+        if ((today > (result - month)) && (today < result)){
+            attention = 'orange_background';
+        }
+        $('#information_system_ref__table tbody').append(    
+        $("<tr class='information_system_ref__table_row " +attention +"'>")
             .append($("<td class='id hide'>").text(record['id']))
             .append($("<td>").text(ind++))
             .append($("<td>").text(record['briefname'].replace(/\\"/g, '"')))
