@@ -488,7 +488,7 @@ function administrator_update_reference(records) {
                 .append($("<td class='id hide'>").text(record["id"]))
                 .append($("<td>").text(ind++))
                 .append($("<td>").text(record["fullname"]))
-                .append($("<td>").text(record["organization_name"]))
+                .append($("<td style='text-align: left;'>").text(record["organization_name"]))
                 .append($("<td>").text(record["department_name"]))
                 .append($("<td>").text(reference.get_state(record["state"])))
         ).on('click', function (e) {

@@ -73,6 +73,12 @@ foreach($user->roles as $role){
                     <li class="main_menu__item" id="main_menu__help">Помощь</li>
                 </ul>
                 <!-- Подменю Справочники -->
+                <div class="submenu" id="sm_reports">
+                    <ul class="submenu__list">
+                        <li class="submenu__item"><a class="submenu__link" href="sm_reports__expiring_is">Системы с истекающим аттестатом</a></li>
+                    </ul>
+                </div>
+                <!-- Подменю Справочники -->
                 <div class="submenu" id="sm_references">
                     <ul class="submenu__list">
                         <li class="submenu__item"><a class="submenu__link" href="sm_references__information_system" id="information_system_link">Информационные системы</a></li>

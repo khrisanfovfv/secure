@@ -1,10 +1,3 @@
-// var informationSystem = {
-//     prefix : '#is_card',
-//     cardPath : 'inc/administrator/administrator_card.html'
-// }
-
-
-
 /** Инициализация */
 z_index=1;
 
@@ -34,7 +27,7 @@ $(function () {
         e.preventDefault();
         href = $(this).children().attr('href');
         switch (href){
-
+            case 'sm_reports__expiring_is' : load_expiring_systems_report(e); break;
             case 'sm_references__information_system': open_page('information_system'); break;
             case 'sm_references__administrators': open_page('administrator'); break;
             case 'sm_references__organizations': open_page('organization'); break;
@@ -47,7 +40,7 @@ $(function () {
             case 'sm_help__about' : {
                 let size = {width : 500, height : 230};
                 reference.open_card('#footer_ref', 'О программе', size, OpenMode.Create, 0, '#about');
-            }
+            }; break;
         }
     })
 
@@ -96,84 +89,7 @@ $(function () {
             case 'employee' : employee_extended_search(); break;
         }
     })
-
-    $('#IS_table tr').on('click', function(e){
-        if (e.button == 1){
-            $('#is_table_context').css('display', 'none');
-        }
-    });
-
-
-
-
     
-
-    
-
-   /*  $('.is_card__developpers_table_row').on('dblclick', function(){
-        $('#is_card__dialog').css('display','flex');
-        $('#is_card__dialog').css('z-index', ++z_index);
-        $('#is_card__dialog_window').css('width','800px');
-        $('#is_card__dialog_title').text('Карточка организации')
-        $('#is_card__dialog_content').load(host+'inc/organization/organization_card.html');
-    }) */
-
-
-    /** Одиночный клик на таблицу Администраторы ИС */
-    $('#is_card__administrators_table tbody tr').on('click', function(){
-        reference.highlight($(this));
-    });
-
-    /** Двойной клик на таблицу Администраторы ИС */
-    $('#is_card__administrators_table tbody tr').on('dblclick', function(){
-        var rows = '#is_card__administrators_table tbody tr';
-        var title = 'Карточка администратора';
-        var size ={ width : 800, height : 600 }  
-        reference.editRecord(informationSystem.prefix, rows, title, informationSystem.cardPath, size);  
-    })
-
-    /* $('#is_card__organization_btn').on('click', function(){
-        $('#is_card__dialog').css('display','flex');
-        $('#is_card__dialog').css('z-index', ++z_index);
-        $('#is_card__dialog_window').css('width','800px');
-        $('#is_card__dialog_title').text('Карточка организации')
-        $('#is_card__dialog_content').load(host+'inc/organization/organization_card.html')
-    }) */
-
-    // /** Одиночный клик на таблицу разработчики */
-    // $('#is_card__developpers_table tbody tr').on('click', function(){
-    //     reference.highlight($(this));
-    // });
-
-
-    // /** Двойной клик на строку в таблице Организации */
-    // $('#is_card__developpers_table tbody tr').on('dblclick', function(){
-    //     var rows = '#is_card__developpers_table tbody tr';
-    //     var title = 'Карточка организации';
-    //     var cardPath = 'inc/organization/organization_card.html';
-    //     var size ={ width : 800, height : 600 }
-
-    //     reference.editRecord(informationSystem.prefix, rows, title, cardPath, size);
-    //     /*$('#is_card__dialog').css('display','flex');
-    //     $('#is_card__dialog').css('z-index', ++z_index);
-    //     $('#is_card__dialog_window').css('width','800px');
-    //     $('#is_card__dialog_title').text('Карточка организации')
-    //     $('#is_card__dialog_content').load(host+'inc/organization/organization_card.html')*/
-    // })
-
-    /** Одиночный клик на таблицу Контракты */
-    $('#is_card__contracts_table tbody tr').on('click', function(){
-        reference.highlight($(this));
-    })
-
-    /** Клик на строку в таблице Контракты */
-    $('#is_card__contracts_table tbody tr').on('dblclick', function(){
-        $('#is_card__dialog').css('display','flex');
-        $('#is_card__dialog').css('z-index', ++z_index);
-        $('#is_card__dialog_window').css('width','1200px');
-        $('#is_card__dialog_title').text('Карточка контракта')
-        $('#is_card__dialog_content').load(host+'inc/contract/contract_card.html')
-    })    
 
     /** Клик на кнопку закрыть */
     $('.modal__header_close').on('click', function(e){
@@ -193,17 +109,6 @@ $(function () {
         dlg_window.css('display','none');
         //z_index--;
     })
-    
-    // /** Кнопки ОК, Отмена */
-    // $('.appdialog__finish_button').on('click', function(){
-    //     var dlg_window = $(this).parent().parent().parent().parent();
-    //     dlg_window.css('display','none');
-    //     //z_index--;
-    // })
-
-    
-
-    
 
     /** Перемещение APPDIALOG */
     var dialogMove = {
@@ -254,30 +159,6 @@ $(function () {
         }
     })
 
-    // /** Кнопка Начать аттестацию */
-    // $('#start_certification_button').on('click', function(){
-    //     $('#is_card__dialog').css('display','flex');
-    //     $('#is_card__dialog').css('z-index', ++z_index);
-    //    // $('#is_card__dialog_window').css('width','1200px');
-    //     $('#is_card__dialog_content').empty();
-    //     $('#is_card__dialog_content').append("<p class='appdialog__content_text'>Вы действительно хотите начать новую аттестацию?</p>");
-    //     $('#is_card__dialog_title').text('Начать аттестацию')
-    //     //newItem.text('')
-    // })
-
-    // /** Таблица Администраторы. Кнопка Создать */
-    // $('#is_card__administrator_create').on('click', function(){
-    //     var title = 'Карточка администратора'; 
-    //     reference.createRecord(informationSystem.prefix, title, informationSystem.cardPath);
-    // })
-
-    // /** Таблица Администраторы. Кнопка Редактировать */
-    // $('#is_card__administrator_edit').on('click', function(){
-    //     var rows = '#is_card__administrators_table tbody tr';
-    //     var title = 'Карточка администратора';
-    //     var size ={ width : 800, height : 600 }
-    //     reference.editRecord(informationSystem.prefix, rows, title, informationSystem.cardPath, size);
-    // })
 
     $('.appdialog__notify_button').on('click', function(){
         $(this).parents('.appdialog').css('display', 'none');
@@ -330,6 +211,8 @@ $(function () {
     
 
 });
+
+/** ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ О ПРОГРАММЕ ============= */
 function about_binding_events(){
     $('#about_card_OK').on('click', function(e){
         $(e.target).parents('.appdialog').css('display', 'none');
@@ -365,3 +248,17 @@ $('#main_menu__settings').on('click', function(){
 $('#setting_card__button_close').on('click', function(){
     $(e.target).parents('.appdialog').css('display', 'none');
 })
+
+function load_expiring_systems_report(e){
+    let data = {
+        action : 'load_expiring_systems'
+    }
+
+    jQuery.post( MainData.ajaxurl, data, function( result ){
+        let information_systems = JSON.parse(result);
+        //information_systems_to_excel(information_systems);
+    });
+
+
+
+}

@@ -68,6 +68,14 @@ $document_icons = $resources->get_document_icons();
                                 <label for="information_system_card__commissioningDate" id="information_system_card__commissioningDate_title">Дата ввода в
                                     эксплуатацию</label>
                                 <input type="date" id="information_system_card__commissioningDate" name="information_system_card__commissioningDate" size="40"><br>
+                                <!-- Периодичность -->
+                                <label for="information_system_card__periodicity">Периодичность</label>
+                                <select id="information_system_card__periodicity" name="information_system_card__periodicity">
+                                    <option value=""></option>
+                                    <option value="half_year">Пол года</option>
+                                    <option value="year">Год</option>
+                                    <option value="two_years">Два года</option>
+                                </select>
                                 <!-- Состояние -->
                                 <label id="information_system_card__state_title" for="information_system_card__state">Состояние</label>
                                 <select id="information_system_card__state">

@@ -327,9 +327,22 @@ var reference = {
     */
     get_administrator_type(type) {
         switch (type) {
-            case 'base': return 'Основной'; break;
-            case 'substitute': return 'Замещающий'; break;
-            default: '';
+            case 'base': return 'Основной'; 
+            case 'substitute': return 'Замещающий'; 
+            default: return ''; 
+        }
+    },
+
+    /** ============================== ПОЛУЧИТЬ ПЕРИОДИЧНОСТЬ ============================= 
+     * @param {string} periodicity периодичность
+     * @returns значение периодичности для интерфейса
+    */
+    get_periodicity(periodicity){
+        switch(periodicity){
+            case 'half_year' : return 'Пол года'; 
+            case 'year': return 'Год'; 
+            case 'two_years' : return 'Два года';
+            default : return '';
         }
     },
 

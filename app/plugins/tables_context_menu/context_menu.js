@@ -44,6 +44,7 @@ var Context = {
         '#employee_ref__context',
         '#employee_ref__out_context',
         '#employee_card__photo_context',
+        '#sm_reports',
         '#sm_references',
         '#sm_help',
         '#user__context'
@@ -108,6 +109,7 @@ var Context = {
 
                 case 'information_system_card__documents_open_card': Context.document_open_card(); break;
                 case 'information_system_card__documents_create_version': Context.document_open_version_card(); break;
+                case 'main_menu__reports' : Context.show_menu_report(); break;
                 case 'main_menu__references': Context.show_menu_references(); break;
                 case 'main_menu__help': Context.show_menu_help(); break;
 
@@ -334,11 +336,18 @@ var Context = {
     },
     /** ФУНКЦИИ ДЛЯ РАБОТЫ С ПУНКТАМИ ГЛАВНОГО МЕНЮ */
 
-    /** Показать меню справочники */
+    /** Показать меню Отчеты */
+    show_menu_report : function(){
+        Context.menuState = 1;
+        $('#sm_reports').css('display', 'flex');
+    },
+
+    /** Показать меню Справочники */
     show_menu_references: function () {
         Context.menuState = 1;
         $('#sm_references').css('display', 'flex');
     },
+    /** Показать меню Помощь */
     show_menu_help() {
         Context.menuState = 1;
         $('#sm_help').css('display', 'flex');

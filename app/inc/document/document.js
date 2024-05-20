@@ -376,7 +376,7 @@ function document_load_records() {
         fdocumentdate: $('#document_ref__fdocumentdate').val().trim(),
         fname : $('#document_ref__fname').val().trim(),
         fkind : $('#document_ref__fkind').val().trim(),
-        fstate: $('#document_ref__fstate').val(),
+        fstate: $('#document_ref__fstate').val()
     };
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
