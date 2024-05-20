@@ -84,7 +84,7 @@ class DocumentKind{
         }
 
         $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM {$prefix}document_kind WHERE name LIKE %s $state_query", array($like_name)) ,ARRAY_A ); 
+            $wpdb->prepare("SELECT * FROM {$prefix}document_kind WHERE name LIKE %s $state_query",  array($like_name)), ARRAY_A ); 
         
             if ($wpdb->last_error){
                 wp_die($wpdb->last_error, 'Ошибка', array('response'=> 500));

@@ -454,3 +454,11 @@ $('.document_kind_filter').on('keyup', function(event){
         document_kind_load_records();
     }
 })
+
+$('#document_kind_ref__filter').on('click', function(){
+    let filter = $('#document_kind_ref__table_filter');
+    if ((filter).hasClass('hide'))
+        filter.removeClass('hide');
+    else
+        filter.addClass('hide');
+})
