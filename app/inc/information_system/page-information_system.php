@@ -52,10 +52,14 @@ $prefix = $wpdb->prefix;
                     <img src="<?php echo $button_icons->update ?>" alt="Update">
                     <p>Обновить</p>
                 </button>
+                <button class="reference__button" id="information_system_ref__filter">
+                    <img src="<?php echo $button_icons->filter ?>" alt="Фильтр">
+                </button>
             </div>
             <div class="information_system_ref__container">
                 <table class="reference__table" id="information_system_ref__table">
                     <thead>
+                        <tr>
                             <th style="width: 35px;">№</th>
                             <th style="width: 200px;">Краткое наименование</th>
                             <th>Полн. наименование</th>
@@ -66,7 +70,7 @@ $prefix = $wpdb->prefix;
                             <th style="width: 130px;">Проблемы ИБ</th>
                             <th style="width: 170px;">Состояние</th>
                         </tr>
-                        <tr>
+                        <tr class = 'hide' id="information_system_ref__container_filter">
                             <th></th>
                             <th><input class="information_system_filter" id="information_system_ref__fbriefname"></th>
                             <th><input class="information_system_filter" id="information_system_ref__ffullname"></th>

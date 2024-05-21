@@ -84,6 +84,8 @@ $('#document_kind_card__Cancel').on('click', function (e) {
 function document_kind_load_records() {
     var data = {
         action: 'load_document_kind',
+        fname : $('#document_kind_ref__fname').val().trim(),
+        fstate: $('#document_kind_ref__fstate').val()
     };
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
@@ -431,6 +433,21 @@ function document_kind_ref_binding_events(){
     $('#document_kind_ref__update').on('click', function () {
         document_kind_load_records();
     });
+
+    $('#document_kind_ref__filter').on('click', function(){
+        let filter = $('#document_kind_ref__table_filter');
+        if ((filter).hasClass('hide'))
+            filter.removeClass('hide');
+        else
+            filter.addClass('hide');
+    })
+
+
+    $('.document_kind_filter').on('keyup', function(event){
+        if (event.key === 'Enter'){
+            document_kind_load_records();
+        }
+    })
 
 }
 /**

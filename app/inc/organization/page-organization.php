@@ -50,6 +50,9 @@ $prefix = $wpdb->prefix;
                     <img src="<?php echo $button_icons->update ?>" alt="Update">
                     <p>Обновить</p>
                 </button>
+                <button class="reference__button" id="organization_ref__filter">
+                    <img src="<?php echo $button_icons->filter ?>" alt="Фильтр">
+                </button>
             </div>
             <div class="organization_ref__container">
                 <table class="reference__table" id="organization_ref__table">
@@ -62,7 +65,7 @@ $prefix = $wpdb->prefix;
                             <th style="width: 130px;">e-mail</th>
                             <th style="width: 130px;">Состояние</th>
                         </tr>
-                        <tr>
+                        <tr class = 'hide' id="organization_ref__container_filter">
                             <th></th>
                             <th><input class="organization_filter" id="organisation_ref__fbriefname"></th>
                             <th><input class="organization_filter" id="organisation_ref__ffullname"></th>

@@ -725,5 +725,14 @@ $('.organization_filter').on('keyup',function(event){
 })
 
 
+$('#organization_ref__filter').on('click', function(){
+    let filter = $('#organization_ref__container_filter');
+    if ((filter).hasClass('hide'))
+        filter.removeClass('hide');
+    else
+        filter.addClass('hide');
+})
+
+
 
 

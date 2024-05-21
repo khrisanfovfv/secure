@@ -751,11 +751,21 @@ function administrator_ref_binding_events() {
     });
 
     /**============== НАЖАТИЕ КНОПКИ ENTER В ОКНЕ ФИЛЬТРА =================== */
-$('.administrator_filter').on('keyup', function(event){
-    if (event.key === 'Enter'){
+    $('.administrator_filter').on('keyup', function(event){
+        if (event.key === 'Enter'){
         administrator_load_records();
-    }
-})
+        }
+    })
+
+
+    $('#administrator_ref__filter').on('click', function(){
+        let filter = $('#administrator_ref__container_filter');
+        if ((filter).hasClass('hide'))
+            filter.removeClass('hide');
+        else
+            filter.addClass('hide');
+    })
+
 }
 
 /**
@@ -839,5 +849,11 @@ $('.administrator_filter').on('keyup', function(event){
     }
 })
 
-
+$('#administrator_ref__filter').on('click', function(){
+    let filter = $('#administrator_ref__container_filter');
+    if ((filter).hasClass('hide'))
+        filter.removeClass('hide');
+    else
+        filter.addClass('hide');
+})
 

@@ -45,6 +45,9 @@ $prefix = $wpdb->prefix;
                     <img src="<?php echo get_template_directory_uri() . '/images/excel.svg' ?>" alt="Exel">
                     <p>Эл. таб</p>
                 </button>
+                <button class="reference__button" id="document_kind_ref__filter">
+                    <img src="<?php echo $button_icons->filter ?>" alt="Фильтр">
+                </button>
             </div>
             <table class="reference__table" id="document_kind_ref__table">
                 <thead>
@@ -53,6 +56,15 @@ $prefix = $wpdb->prefix;
                         <th style="width: 35px;">№</th>
                         <th>Вид документа</th>
                         <th style="width: 200px;">Состояние</th>
+                    </tr>
+                    <tr class = 'hide' id="document_kind_ref__table_filter">
+                        <th></th>
+                        <th><input class="document_kind_filter" id="document_kind_ref__fname"></th>
+                        <th><select class="document_kind_filter" id="document_kind_ref__fstate">
+                            <option value=""></option>
+                            <option value="Active">Действующая</option>
+                            <option value="Inactive">Не Действующая</option>
+                        </select></th>
                     </tr>
                 </thead>
                 <tbody>

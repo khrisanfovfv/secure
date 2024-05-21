@@ -499,6 +499,13 @@ $('.department_filter').on('keyup',function(event){
     }
     
 })
+$('#department_ref__filter').on('click', function(){
+    let filter = $('#department_ref__container_filter');
+    if ((filter).hasClass('hide'))
+        filter.removeClass('hide');
+    else
+        filter.addClass('hide');
+})
 
 
 

@@ -50,6 +50,9 @@ $prefix = $wpdb->prefix;
                     <img src="<?php echo $button_icons->update ?>" alt="Update">
                     <p>Обновить</p>
                 </button>
+                <button class="reference__button" id="department_ref__filter">
+                    <img src="<?php echo $button_icons->filter ?>" alt="Фильтр">
+                </button>
             </div>
             <div class="department_ref__container">
                 <table class="reference__table" id="department_ref__table">
@@ -62,6 +65,7 @@ $prefix = $wpdb->prefix;
                             <th style="width: 200px;">Руководитель</th>
                             <th style="width: 200px;">Состояние</th>
                         </tr>
+                        <tr class = 'hide' id="department_ref__container_filter">
                         <th></th>
                             <th><input class="department_filter" id="department_ref___fname"></th>
                             <th><input class="department_filter" id="department_ref___forganization"></th>
@@ -71,6 +75,7 @@ $prefix = $wpdb->prefix;
                                 <option value="Active">Действующая</option>
                                 <option value="Inactive">Не Действующая</option>
                             </select></th>
+                        </tr>
                     </thead>
                     <tbody>
                         <!-- Выводим строки таблицы -->

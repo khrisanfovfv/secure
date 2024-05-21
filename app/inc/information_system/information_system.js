@@ -1315,6 +1315,14 @@ function information_system_ref_binding_events(){
             information_system_load_records();
         }
     })
+
+    $('#information_system_ref__filter').on('click', function(){
+        let filter = $('#information_system_ref__container_filter');
+        if ((filter).hasClass('hide'))
+            filter.removeClass('hide');
+        else
+            filter.addClass('hide');
+    })
 }
 
 
@@ -1716,6 +1724,13 @@ $('.information_system_filter').on('keyup', function(event){
     }
 })
 
+$('#information_system_ref__filter').on('click', function(){
+    let filter = $('#information_system_ref__container_filter');
+    if ((filter).hasClass('hide'))
+        filter.removeClass('hide');
+    else
+        filter.addClass('hide');
+})
 
 
 
