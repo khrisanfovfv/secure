@@ -76,6 +76,7 @@ foreach($user->roles as $role){
                 <div class="submenu" id="sm_reports">
                     <ul class="submenu__list">
                         <li class="submenu__item"><a class="submenu__link" href="sm_reports__expiring_is">Системы с истекающим аттестатом</a></li>
+                        <li class="submenu__item"><a class="submenu__link" href="sm_reports__not_full_complect">Системы с неполным комплектом документов</a></li>
                     </ul>
                 </div>
                 <!-- Подменю Справочники -->

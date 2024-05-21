@@ -1049,4 +1049,12 @@ class InformationSystem{
 
         wp_die();
     }
+
+    /**
+     * СИСТЕМЫ С НЕПОЛНЫМ КОМПЛЕКТОМ ДОКУМЕНТОВ ДЛЯ АТТЕСТАЦИИ
+     */
+    function secure_information_system_not_full_complect(){
+        echo 'Неполный комплект';
+        wp_die();
+    }
 }

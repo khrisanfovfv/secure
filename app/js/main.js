@@ -28,6 +28,7 @@ $(function () {
         href = $(this).children().attr('href');
         switch (href){
             case 'sm_reports__expiring_is' : load_expiring_systems_report(e); break;
+            case 'sm_reports__not_full_complect' : load_not_full_complect_report(); break;
             case 'sm_references__information_system': open_page('information_system'); break;
             case 'sm_references__administrators': open_page('administrator'); break;
             case 'sm_references__organizations': open_page('organization'); break;

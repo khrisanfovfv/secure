@@ -1732,5 +1732,15 @@ $('#information_system_ref__filter').on('click', function(){
         filter.addClass('hide');
 })
 
+function load_not_full_complect_report(){
+    data = {
+        action: 'information_system_not_full_complect'
+    }
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        alert(result);
+    });
+
+}
+
 
 
