@@ -1022,25 +1022,23 @@ class InformationSystem{
         global $wpdb;
         $prefix = $wpdb->prefix;
         $current_date = strtotime(date("Y-m-d"));
-        $month = 30*24*60*60;
         $half_year = 182*24*60*60;
         $year = 360*24*60*60;
         $two_years = 2*365*24*60*60;
-        $control_date = $current_date - $month;
     
         $half_year_result = $wpdb->get_results(
             $wpdb->prepare("SELECT * FROM {$prefix}information_system
-            WHERE periodicity = 'half_year' AND UNIX_TIMESTAMP(certifydate) + ". $half_year . " > " . $control_date), ARRAY_A 
+            WHERE periodicity = 'half_year' AND UNIX_TIMESTAMP(certifydate) + " . $half_year . " < " . $current_date), ARRAY_A 
         );
 
         $year_result = $wpdb->get_results(
             $wpdb->prepare("SELECT * FROM {$prefix}information_system
-            WHERE periodicity = 'year' AND UNIX_TIMESTAMP(certifydate) + ". $year . " > " . $control_date), ARRAY_A 
+            WHERE periodicity = 'year' AND UNIX_TIMESTAMP(certifydate) + " . $year . " < " . $current_date), ARRAY_A 
         );
 
         $two_years_result = $wpdb->get_results(
             $wpdb->prepare("SELECT * FROM {$prefix}information_system
-            WHERE periodicity = 'two_years' AND (UNIX_TIMESTAMP(certifydate) + 63072000) > UNIX_TIMESTAMP(certifydate)"), ARRAY_A 
+            WHERE periodicity = 'two_years' AND (UNIX_TIMESTAMP(certifydate) + " . $two_years . " < " . $current_date), ARRAY_A 
         );
 
         if ($wpdb->last_error){

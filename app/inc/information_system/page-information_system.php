@@ -107,10 +107,14 @@ $prefix = $wpdb->prefix;
                             $wpdb->prepare("SELECT * FROM {$prefix}information_system"),
                             ARRAY_A
                         );
+                       
+  
                         for ($i = 0; $i < count($rows); $i++) {
                             $row = $rows[$i];
+                            $row_color = highlight_row($row['certifydate'], $row['periodicity']);
+                            //echo "<script>alert( $row_color );</script>"
                         ?>
-                            <tr class="information_system_ref__table_row">
+                            <tr class="information_system_ref__table_row <?php echo $row_color ?>">
                                 <td class="id hide"><?php echo $row["id"] ?></td>
                                 <td><?php echo $i + 1 ?></td>
                                 <td><?php echo stripslashes($row["briefname"]) ?></td>

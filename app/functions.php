@@ -321,8 +321,31 @@
         return json_encode($icons->get_document_icons());
     }
 
+    /**
+     * ============= ПОДСВЕЧИВАЕТ СТРОКИ ИНФОРМАЦИОННЫХ СИСТЕМ ==============
+     * @param string $certifydate Дата аттестации
+     * @param string $periodicity Периодичность аттестации
+     * @return Имя класса цвета строки
+     */
+    function highlight_row($certifydate, $periodicity){
+        $current_date = date('Y-m-d',time());
 
-
+        $period = '';
+        $color = '';
+        switch($periodicity){
+            case 'half_year': $period = ' + 182 day'; break; 
+            case 'year' : $period = ' + 1 year'; break;
+            case 'two_years': $period = '+2 year'; break;
+        }
+        $certifytime = strtotime($certifydate . $period);
+        if ( $certifytime < strtotime($current_date)){
+             $color = 'red_background';
+        }
+        if ((strtotime($current_date) > $certifytime - 30*24*60*60) && (strtotime($current_date) < $certifytime)){
+            $color = 'orange_background';
+        }           
+        return $color;
+    }
 
    
 
