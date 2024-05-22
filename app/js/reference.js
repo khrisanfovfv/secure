@@ -123,6 +123,7 @@ var reference = {
             case '#information_system_card__documents' : card = 'document_card'; break;
             case '#information_system_card__contracts' : card = 'contract_card'; break;
             case '#contract_ref' : card = 'contract_card'; break;
+            case '#contract_card__documents' : card = 'contract_card'; break;
             case '#footer_ref' : card = 'employee_card'; break;
             case '#user_profile' : card = 'employee_card' ; break;
             case '#employee_card__photo' : card = 'load_file_form'; break;
@@ -152,13 +153,14 @@ var reference = {
                 case '#organization_ref' : organization_card_binding_events(); break
                 case '#document_ref' : document_card_binging_events(); break;
                 case '#document_kind_ref' : document_kind_card_binging_events(); break;
-                case '#contract_ref' : contract_card_binding_events(); break;
+                case '#contract_ref' : contract_card_binging_events(); break;
                 case '#employee_ref' : employee_card_binging_events(); break;
             }
         } else {
             switch(detail){
                 case '#document_card__version_list' : document_version_card_binding_events();break;
                 case '#information_system_card__documents' : document_card_binging_events(); break;
+                case '#contract_card__documents' : document_card_binging_events(); break;
                 case '#information_system_card__contracts' : contract_card_binging_events(); break;
                 case '#user_profile' : employee_card_binging_events(); break;
                 case '#change_password' : employee_change_password_binding_events(); break;
@@ -234,6 +236,7 @@ var reference = {
                     
                     // Детальные разделы
                     case '#information_system_card__documents' : card_document_load_data(result, openMode); break;
+                    case '#contract_card__documents' : card_document_load_data(result, openMode); break;
                     case '#information_system_card__contracts' : card_contract_load_data(result, openMode); break;
                     case '#document_card__version_list' : card_document_version_load_data(result, openMode); break;
                     case '#user_profile' : card_employee_load_data(result, openMode); break;

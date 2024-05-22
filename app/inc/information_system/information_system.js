@@ -1,4 +1,4 @@
-/**
+/**contract_car
  * ================================ ВЫБОР ВКЛАДКИ ================================
  */
 function information_system_select_tab(src) {

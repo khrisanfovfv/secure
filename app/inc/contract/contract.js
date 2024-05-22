@@ -75,7 +75,7 @@ $('#contract_search__button_Cancel').on('click', function () {
  * =========================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ==============================
  * */
 $('#contract_ref__create').on('click', function () {
-     contract_create_record();
+    contract_create_record();
 
 });
 
@@ -108,7 +108,7 @@ $('#contract_ref__context_edit').on('click', function (e) {
  * ========================= НАЖАТИЕ КНОПКИ ЭЛ.ТАБ ===========================
  */
 
-$('#contract_excel').on('click', function(){
+$('#contract_excel').on('click', function () {
     // Выводим данные из базы данных
     var data = {
         action: 'load_contract'
@@ -119,36 +119,36 @@ $('#contract_excel').on('click', function(){
     });
 });
 
-function contracts_to_excel(data){
+function contracts_to_excel(data) {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Контракты');
-    const letr = ['A','B','C','D','E','F', 'G', 'H'];
-    
+    const letr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
     // Шрифт для заголовка
-    const font = { 
-        name: 'Arial', 
-        size: 12, 
+    const font = {
+        name: 'Arial',
+        size: 12,
         bold: true
     };
     // Границы ячеек 
     const border = {
-        top: {style:'thin'},
-        left: {style:'thin'},
-        bottom: {style:'thin'},
-        right: {style:'thin'}
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
     }
 
     // Настраиаем колонки
     worksheet.columns = [
-        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'ИД', key : 'id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Номер', key : 'contract_number', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Дата заключения', key : 'conclusionDate', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Предмет контракта', key : 'contract_subject', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center', wrapText: true}}},
-        {header: 'Тип контракта', key : 'contract_type', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Ссылка на сайт закупок', key : 'link', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center', wrapText: true}}},
-        {header: 'Состояние', key : 'state', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}}
-    ]       
+        { header: '№', key: 'number', width: 10, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'ИД', key: 'id', width: 10, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Номер', key: 'contract_number', width: 50, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Дата заключения', key: 'conclusionDate', width: 50, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Предмет контракта', key: 'contract_subject', width: 20, style: { alignment: { vertical: 'middle', horizontal: 'center', wrapText: true } } },
+        { header: 'Тип контракта', key: 'contract_type', width: 20, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Ссылка на сайт закупок', key: 'link', width: 20, style: { alignment: { vertical: 'middle', horizontal: 'center', wrapText: true } } },
+        { header: 'Состояние', key: 'state', width: 20, style: { alignment: { vertical: 'middle', horizontal: 'center' } } }
+    ]
     worksheet.getRow(1).font = font;
     worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
 
@@ -159,18 +159,18 @@ function contracts_to_excel(data){
 
     // Добавляем значения в таблицу
     data.forEach((contract, ind) => {
-        worksheet.getCell('A'+(ind+2)).value = ind+1;
-        worksheet.getCell('B'+(ind+2)).value = contract['id'];
-        worksheet.getCell('C'+(ind+2)).value = contract['contract_subject'];
-        worksheet.getCell('D'+(ind+2)).value = contract['contract_number'];
-        worksheet.getCell('E'+(ind+2)).value = contract['conclusionDate'];
-        worksheet.getCell('F'+(ind+2)).value = reference.get_support(contract['contract_type']);
-        worksheet.getCell('G'+(ind+2)).value = contract['link'];
-        worksheet.getCell('H'+(ind+2)).value = reference.get_state(contract['contract_state']);
+        worksheet.getCell('A' + (ind + 2)).value = ind + 1;
+        worksheet.getCell('B' + (ind + 2)).value = contract['id'];
+        worksheet.getCell('C' + (ind + 2)).value = contract['contract_subject'];
+        worksheet.getCell('D' + (ind + 2)).value = contract['contract_number'];
+        worksheet.getCell('E' + (ind + 2)).value = contract['conclusionDate'];
+        worksheet.getCell('F' + (ind + 2)).value = reference.get_support(contract['contract_type']);
+        worksheet.getCell('G' + (ind + 2)).value = contract['link'];
+        worksheet.getCell('H' + (ind + 2)).value = reference.get_state(contract['contract_state']);
 
         // Устанавливаем границы ячеек строки
         letr.forEach((value) => {
-            worksheet.getCell(value + (ind+2)).border = border;
+            worksheet.getCell(value + (ind + 2)).border = border;
         })
     })
 
@@ -198,35 +198,35 @@ function contract_select_record(e) {
     let rows = $('.contract_ref__table_row.highlight');
     if (rows.length > 0) {
         let contract_id = rows[0].children.item(0).textContent;
-        
+
         // Делаем запрос данных записи
         let data = {
             action: 'load_single_contract',
-            contract_id : contract_id,
+            contract_id: contract_id,
         }
 
         jQuery.post(MainData.ajaxurl, data, function (result) {
-            contract = JSON.parse(result)[0]; 
+            contract = JSON.parse(result)[0];
             // Извлекаем элемент с id таблицы в которую будем добвлять строку
             let el = stack.pop();
-        // отрисовываем элемент
-        
-        switch (el.attr('id')){
-            case 'information_system_card__contracts_table' :{
-                el.append(information_system_card__draw_contract_row(contract));
-            } ; break
-        }
-        
-        // Закрываем окно выбора
-        $(e.target).parents('.appdialog:first').css('display', 'none');
+            // отрисовываем элемент
+
+            switch (el.attr('id')) {
+                case 'information_system_card__contracts_table': {
+                    el.append(information_system_card__draw_contract_row(contract));
+                }; break
+            }
+
+            // Закрываем окно выбора
+            $(e.target).parents('.appdialog:first').css('display', 'none');
         })
 
-        
-        
+
+
     }
-} 
+}
 /**=====СОЗДАНИЕ ЗАПИСИ. ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ */
-function contract_card__customers_create(){
+function contract_card__customers_create() {
     var ind = $('#contract_card__customers_table tbody tr').length + 1;
     var customer = [];
     customer['id'] = '';
@@ -239,7 +239,7 @@ function contract_card__customers_create(){
 }
 
 /**=====СОЗДАНИЕ ЗАПИСИ. ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ */
-function contract_card__developpers_create(){
+function contract_card__developpers_create() {
     var ind = $('#contract_card__developpers_table tbody tr').length + 1;
     var developper = [];
     developper['id'] = '';
@@ -299,15 +299,15 @@ function card_contract_load_data(data, openMode) {
 
     // ОБЛАСТЬ С ДОКУМЕНТАМИ
     let documents = cardData['documents'];
-        ind = 1;
-        $('#contract_card__documents li').remove();
-        documents.forEach(document => {
-            $('#contract_card__documents').append(
-                contract_card__draw_document(document)
-            )
+    ind = 1;
+    $('#contract_card__documents li').remove();
+    documents.forEach(document => {
+        $('#contract_card__documents').append(
+            contract_card__draw_document(document)
+        )
 
-        })
-   
+    })
+
     //ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ
     if (openMode == OpenMode.Edit) {
         // Заполняем таблицу Заказчики
@@ -337,6 +337,65 @@ function card_contract_load_data(data, openMode) {
 }
 
 /**
+ * ================================= ДОКУМЕНТЫ. ОТКРЫТЬ ================================
+ */
+function contract_read_document() {
+    let document_id = $('.attachments__item.highlight').children('.id').text();
+
+    let data = {
+        action: 'load_document_version_list',
+        document_id: document_id
+    }
+
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        var rows = JSON.parse(result);
+        // Ищем действующие версии
+        let results = rows.filter(function (item) {
+            return item.state === 'Active'
+        })
+        let version;
+        // Если нашли действующие версии выбираем максимальную
+        if (results.length > 0) {
+            version = results.reduce((max, current) => (max.version_number > current.version_number ? max : current), results[0]);
+            // Иначе ищем последнюю версию
+        } else {
+            version = rows.reduce((max, current) => (max.version_number > current.version_number ? max : current), rows[0]);
+        }
+        // Открываем версию документа
+        document_version_read(version.id, version.extension, version.type);
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        var size = { width: 500, height: 200 };
+        message = 'Во время загрузки версий документов произощла ошибка' + textStatus + ' ' + errorThrown;
+        reference.show_notification('#information_system_card', 'Ошибка', size, message);
+    });
+
+}
+
+/**
+ * =============== ДОБАВЛЕНИЕ ДОКУМЕНТА ===================
+ */
+function contract_card_documents_add_record(){
+    let source = $('#contract_card__documents');
+    reference.open_reference(null, '#contract_card', 'Справочник документы', 'document', source);
+}
+
+/**
+ * ================ ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. ОТКРЫТЬ КАРТОЧКУ
+ */
+function contract_document_open_card() {
+    let rows = $(".contract_document__item.highlight");
+    if (rows.length > 0){
+        let id = $(rows[0]).children('.document').text();
+        if (id > 0){
+            var size = { width: 1000, height: 600 };
+            reference.open_card('#contract_card', 'Карточка Документа', size, 
+                OpenMode.Edit, id,'#contract_card__documents');
+        }
+    }
+}
+
+/**
  * ================ ОТРИСОВКА ДОКУМЕНТА В ОБЛАСТИ ВЛОЖЕНИЙ ======================
  * @param {object} document
  */
@@ -354,7 +413,9 @@ function contract_card__draw_document(document) {
         $("<li class='attachments__item contract_document__item'>")
             .append($("<p class='id hide'>").text(document.id))
             .append($("<img class='attachments__ico'>").attr('src', icon))
+            .append($("<p class= 'document hide'>").text(document.document_id))
             .append($("<p class='attachments__name_item'>").text(document.name))
+            .append($("<p class='is_deleted hide'>").text(0))
     return content_html;
 }
 
@@ -441,7 +502,7 @@ function contract_delete_record() {
 }
 
 /** ВКЛАДКА ЗАКАЗЧИКИ. ДЕЙСТВИЕ ОБНОВЛЕНИЕ */
-function contract_card__customers_update(){
+function contract_card__customers_update() {
     var contract_id = $('#contract_card__id').text();
     // Загружаем детальный раздел ЗАКАЗЧИКИ
     var data = {
@@ -464,11 +525,11 @@ function contract_card__customers_update(){
         var size = { width: 500, height: 200 };
         message = 'Во время загрузки детального раздела Замечания по аттестации произошла ошибка' + textStatus + ' ' + errorThrown;
         reference.show_notification('#customers_ref', 'Ошибка', size, message);
-    });   
+    });
 }
 
 /** ВКЛАДКА ИСПОЛНИТЕЛИ. ДЕЙСТВИЕ ОБНОВЛЕНИЕ */
-function contract_card__developpers_update(){
+function contract_card__developpers_update() {
     alert('rabotaet')
     var contract_id = $('#contract_card__id').text();
     // Загружаем детальный раздел ИСПОЛНИТЕЛИ
@@ -492,7 +553,7 @@ function contract_card__developpers_update(){
         var size = { width: 500, height: 200 };
         message = 'Во время загрузки детального раздела Замечания по аттестации произошла ошибка' + textStatus + ' ' + errorThrown;
         reference.show_notification('#customers_ref', 'Ошибка', size, message);
-    });   
+    });
 }
 
 /**
@@ -509,7 +570,7 @@ function contract_ref_binding_events() {
         contract_create_record();
     })
 
-    
+
 
     $('#contract_ref__select').on('click', function (e) {
         contract_select_record(e);
@@ -535,34 +596,45 @@ function contract_ref_binding_events() {
 }
 /**
  * ============ ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ КОНТРАКТА ===============================
- */    
-function contract_card_binging_events() { 
+ */
+function contract_card_binging_events() {
     /** ===================== ВЫБОР ВКЛАДКИ НА КАРТОЧКЕ КОНТРАКТА ================ */
     $('.contract_card__tabs_item').on('click', function (e) {
         contract__chose_tab(e);
     })
-/** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ================ */
+
+    /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. ОТКРЫТЬ ДОКУМЕНТ */
+    $('#contract_card__documents_open').on('click', function () {
+        contract_read_document();
+    })
+
+    $('#contract_card__documents_open_card').on('click', function(){
+        contract_document_open_card();
+    })
+
+
+    /** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ================ */
     //$('.contract_card__tabs_item').on('click', function (e) {
-        $('#contract_card__customers_create').on('click', function(){   
-     contract_card__customers_create();
+    $('#contract_card__customers_create').on('click', function () {
+        contract_card__customers_create();
     })
     /** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ. НАЖАТИЕ КНОПКИ Обновить ================ */
-    
-        $('#contract_card__customers_update').on('click', function(){   
-            contract_card__customers_update();
-           })
 
-/** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ИСПОЛНИТЕЛИ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ================ */
+    $('#contract_card__customers_update').on('click', function () {
+        contract_card__customers_update();
+    })
+
+    /** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ИСПОЛНИТЕЛИ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ================ */
     //$('.contract_card__tabs_item').on('click', function (e) {
-        $('#contract_card__developpers_create').on('click', function(){   
-            contract_card__developpers_create();
-           })
-           /** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ИСПОЛНИТЕЛИ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ ================ */
+    $('#contract_card__developpers_create').on('click', function () {
+        contract_card__developpers_create();
+    })
+    /** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ИСПОЛНИТЕЛИ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ ================ */
     //$('.contract_card__tabs_item').on('click', function (e) {
-        $('#contract_card__developpers_update').on('click', function(){   
-            contract_card__developpers_update();
-           })
-           
+    $('#contract_card__developpers_update').on('click', function () {
+        contract_card__developpers_update();
+    })
+
     /** ==============Карточка КОНТРАКТА: НАЖАТИЕ КНОПКИ OK ============= */
     $('#contract_card__OK').on('click', function (e) {
         contract_card_press_OK(e.target);
@@ -574,8 +646,8 @@ function contract_card_binging_events() {
     });
 
     /** ============= КОНТЕКСТНОЕ МЕНЮ ДОКУМЕНТЫ. СОЗДАТЬ ===================  */
-    $('contract_card__documents__out_context_create').on('click', function(){
-        
+    $('#contract_card__documents__out_context_add').on('click', function () {
+        contract_card_documents_add_record();
     })
 
 
@@ -630,10 +702,23 @@ function contract_search_binding_events() {
  */
 function contract_card_press_OK(sender) {
     if (contract_card__check_fields() == true) {
+
+        let documents = [];
+        let document = {};
+        var rows = $('#contract_card__documents li')
+        rows.each(function(ind, row){
+            document.id = $(row).children('.id').text();
+            document.contract = $('contract_card__id').text();
+            document.document_id = $(row).children('.document').text();
+            document.is_deleted = $(row).children('.is_deleted').text();
+            documents[ind] = JSON.parse(JSON.stringify(document));
+
+        });
+
         let customers = [];
         let customer = {};
         let customers_html = $('#contract_card__customers_table>tbody>tr');
-        $.each(customers_html,function(index, element){
+        $.each(customers_html, function (index, element) {
             customer.id = $(element).children('.id').text();
             customer.organization_id = $(element).find('.ref_record').children('.id').text();
             customer.organization_name = $(element).find('.ref_record').children('.fullname').val();
@@ -644,14 +729,13 @@ function contract_card_press_OK(sender) {
         let developpers = [];
         let developper = {};
         let developpers_html = $('#contract_card__developpers_table>tbody>tr');
-        $.each(developpers_html,function(index, element){
+        $.each(developpers_html, function (index, element) {
             developper.id = $(element).children('.id').text();
             developper.organization_id = $(element).find('.ref_record').children('.id').text();
             developper.organization_name = $(element).find('.ref_record').children('.fullname').val();
             developper.is_deleted = $(element).children('.is_deleted');
         })
         developpers.push(developper);
-        // alert(developper[0].organization_name);
 
         record = {
             id: $('#contract_card__id').text(),
@@ -661,12 +745,13 @@ function contract_card_press_OK(sender) {
             contract_type: $('#contract_card__type').val(),
             link: $('#contract_card__link').val(),
             contract_state: $('#contract_card__state').val(),
-            customers : JSON.stringify(customers),
-            developpers : JSON.stringify(developpers)
+            customers: JSON.stringify(customers),
+            developpers: JSON.stringify(developpers),
+            documents : JSON.stringify(documents)
         }
-        
 
-        
+
+
 
         if ($('#contract_card__id').text() == '') {
             // ДОБАВЛЯЕМ значение в базу
@@ -687,7 +772,7 @@ function contract_card_press_OK(sender) {
                 action: 'update_contract',
                 record: record
             };
-            
+
             jQuery.post(MainData.ajaxurl, data, function (textStatus) {
                 contract_load_records();
             }).fail(function () {
@@ -779,7 +864,7 @@ function contract_update_reference(records) {
                 .append($("<td>").text(record["contract_number"]))
                 .append($("<td>").text(record["conclusionDate"]))
                 .append($("<td style='text-align: left'>").text(record["contract_subject"].replace(/\\"/g, '"')))
-                .append($("<td>").text(record["contract_type"]))	
+                .append($("<td>").text(record["contract_type"]))
                 .append($("<td>").text(record["link"]))
                 .append($("<td>").text(reference.get_state(record["contract_state"])))
         ).on('click', function (e) {
@@ -859,18 +944,18 @@ $('#contract_search__button_Cancel').on('click', function () {
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ ОК =============
 */
-function contract_extended_search_OK (e){
+function contract_extended_search_OK(e) {
     var data = {
         action: 'search_contract_extended',
         fullname: $('#contract__search_fullname').val(),
         briefname: $('#contract__search_briefname').val(),
         boss: $('#contract__search_boss').val(),
         email: $('#contract__search_email').val(),
-        inn: $('#contract__search_inn').val(), 
+        inn: $('#contract__search_inn').val(),
         okpo: $('#contract__search_okpo').val(),
-        kpp: $('#contract__search_kpp').val(), 
         kpp: $('#contract__search_kpp').val(),
-        ogrn: $('#contract__search_ogrn').val(), 
+        kpp: $('#contract__search_kpp').val(),
+        ogrn: $('#contract__search_ogrn').val(),
         postAddress: $('#contract__search_postAddress').val(),
         LegalAddress: $('#contract__search_LegalAddress').val(),
         state: $('#contract__search_state').val()

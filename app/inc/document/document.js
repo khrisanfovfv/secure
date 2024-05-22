@@ -685,6 +685,9 @@ function document_select_record(e) {
             case 'information_system_card__documents' :{
                 el.append(information_system_card__draw_document(doc));
             } ; break
+            case 'contract_card__documents' : {
+                el.append(contract_card__draw_document(doc));
+            }
         }
         
         // Закрываем окно выбора

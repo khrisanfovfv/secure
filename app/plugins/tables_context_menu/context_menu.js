@@ -192,6 +192,8 @@ var Context = {
             'organization_ref__table_row',
             'department_ref__table_row',
             'document_kind_ref__table_row',
+            'contract_document__item',
+            'attachments__item contract_document__item',
             'contract_ref__table_row',
             'contract_card__customers_table_num',
             'attachments__item document__item',
@@ -263,7 +265,7 @@ var Context = {
             case 'document_kind_ref__table_row': Context.menu = $('#document_kind_ref__context'); break;
             case 'contract_ref__table_row': Context.menu = $('#contract_ref__context'); break;
             case 'contract_card__customers_table_num' : Context.menu = $('#contract_card__customer_context'); break;
-            case 'contract_document__item' : Context.menu = $('contract_card__document_context'); break;
+            case 'contract_document__item' : Context.menu = $('#contract_card__document_context'); break;
             case 'employee_ref__table_row': Context.menu = $('#employee_ref__context'); break;
             case 'employee_card__photo' : Context.menu = $('#employee_card__photo_context'); break;
             case 'document_card__send_list_table_num': Context.menu = $('#document_card__send_list_context'); break;

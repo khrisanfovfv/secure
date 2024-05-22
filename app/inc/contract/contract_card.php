@@ -213,7 +213,7 @@ $document_icons = $resources->get_document_icons();
 <!-- КОНТЕКСТНОЕ МЕНЮ ДЛЯ ОБЛАСТИ С ДОКУМЕНТАМИ -->
 <div class="context-menu" id="contract_card__documents_out_context">
     <ul class="context-menu__list">
-        <li class="context-menu__item" id="contract_card__documents__out_context_create">
+        <li class="context-menu__item" id="contract_card__documents__out_context_add">
             <img src="<?php echo $button_icons->create ?>">
             <p>Создать</p>
         </li>
@@ -229,17 +229,17 @@ $document_icons = $resources->get_document_icons();
 <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ДОКУМЕНТА -->
 <div class="context-menu" id="contract_card__document_context">
     <ul class="context-menu__list">
-        <li class="context-menu__item">
-            <img src="<?php echo $button_icons->edit ?>" alt="Читать">
+        <li class="context-menu__item" id="contract_card__documents_open">
+            <img src="<?php echo $button_icons->read ?>" alt="Читать">
             <p>Читать</p>
         </li>
         <li class="context-menu__item" id="contract_card__documents_open_card">
-            <img src="<?php echo $button_icons->edit ?>" alt="Открыть карточку">
+            <img src="<?php echo $button_icons->open_card ?>" alt="Открыть карточку">
             <p>Открыть карточку</p>
         </li>
 
         <li class="context-menu__item">
-            <img src="<?php echo $button_icons->edit ?>" alt="Удалить">
+            <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
             <p>Удалить</p>
         </li>
     </ul>

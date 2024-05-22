@@ -247,7 +247,7 @@ class Contract
         
         // Область с документами
         $documents = $wpdb->get_results(
-            $wpdb->prepare("SELECT document.id, document.name, document_version.type 
+            $wpdb->prepare("SELECT contract_doc.id, document.name, document_version.type, contract_doc.document_id  
             FROM {$wpdb->prefix}contract_document contract_doc
             JOIN {$wpdb->prefix}document document on contract_doc.document_id = document.id
             JOIN (SELECT * 
@@ -261,7 +261,6 @@ class Contract
             }
              
         return $results;
-        wp_die();
     }
 
     /**
@@ -296,21 +295,40 @@ class Contract
         );
 
         $id = $wpdb->insert_id;
-        //         // Создаем записи в детальном разделе Заказчики
-        //         // Убираем символы экранирования '/'
-        //          $remarks_json = stripcslashes($record['remarks']);
 
-        //         $remarks = json_decode($remarks_json);
-        //         foreach ($remarks as $remark){
-        //             InformationSystem::secure_create_remark($id, $remark);
-        //         }
+        // Обновляем записи в детальном разделе ДОКУМЕНТЫ
+        // Убираем символы экранирования '/'
+        $documents_json = stripcslashes($record['documents']);
+        $documents = json_decode($documents_json);
+        foreach ($documents as $document){
+            if ($document->id ==''){
+                if ($document->is_deleted == 0){
+                    Contract::secure_create_document($id, $document);
+                }
+            }elseif ($document->is_deleted ==='1'){
+                Contract::secure_delete_document($document);
+            } else {
+                Contract::secure_update_document($document);
+             }
+        }
 
-        //         // Создаем записи в детальном разделе Администраторы
-        //         $administrators_json = stripcslashes($record['administrators']);
-        //         $administrators = json_decode($administrators_json);
-        //         foreach ($administrators as $administrator){
-        //             InformationSystem::secure_create_administrator($id, $administrator);
-        //         }
+        $id = $wpdb->insert_id;
+        
+        // Обновляем записи в детальном разделе ЗАКАЗЧИКИ
+        // Убираем символы экранирования '/'
+        $customers_json = stripcslashes($record['customers']);
+        $customers = json_decode($customers_json);
+        foreach ($customers as $customer){
+            if ($customer->id ==''){
+                if ($customer->is_deleted == 0){
+                    Contract::secure_create_customer($id, $customer);
+                }
+            }elseif ($customer->is_deleted ==='1'){
+                Contract::secure_delete_customer($customer);
+            } else {
+                Contract::secure_update_customer($customer);
+             }
+        }
 
 
         echo 'Запись добавлена ИД=' . $id;
@@ -318,7 +336,7 @@ class Contract
     }
 
     /** 
-     * ====================== ОБНОВЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ==========================
+     * ====================== ОБНОВЛЕНИЕ ЗАПИСИ КОНТРАКТА ==========================
      */
     function secure_update_contract()
     {
@@ -347,8 +365,25 @@ class Contract
             ),
             array('%d')
         );
-        //         // Обновляем записи в детальном разделе ЗАКАЗЧИКИ
-        //         // Убираем символы экранирования '/'
+
+        // Обновляем записи в детальном разделе ДОКУМЕНТЫ
+        // Убираем символы экранирования '/'
+        $documents_json = stripcslashes($record['documents']);
+        $documents = json_decode($documents_json);
+        foreach ($documents as $document){
+            if ($document->id ==''){
+                if ($document->is_deleted == 0){
+                    Contract::secure_create_document($record['id'], $document);
+                }
+            }elseif ($document->is_deleted ==='1'){
+                Contract::secure_delete_document($document);
+            } else {
+                Contract::secure_update_document($document);
+             }
+        }
+
+        // Обновляем записи в детальном разделе ЗАКАЗЧИКИ
+        // Убираем символы экранирования '/'
         $customers_json = stripcslashes($record['customers']);
         $customers = json_decode($customers_json);
         foreach ($customers as $customer){
@@ -441,6 +476,66 @@ class Contract
                 wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
             }
         }
+
+        /**
+         * ================ ДЕТАЛЬНЫЙ РАЗДЕЛ ДОКУМЕНТЫ. СОЗДАНИЕ ЗАПИСИ ================
+         */
+        protected function secure_create_document($contract_id, $document){
+            global $wpdb;
+            $prefix = $wpdb->prefix;
+            $table_name = $wpdb->prefix . 'contract_document';
+            $wpdb->insert(
+                $table_name,
+                array(
+                    'contract_id' => $contract_id,
+                    'document_id' => $document->document_id
+                ),
+                array(
+                    '%d', // contract_id
+                    '%d' // document_id
+                )
+            );
+            if ($wpdb->last_error){
+                wp_die($wpdb->last_error, 'Ошибка', array('responce' => 500));
+            }
+    
+        }
+
+        /**
+     * ============== ДОКУМЕНТЫ. РЕДАКТИРОВАНИЕ ЗАПИСИ ==============
+     */
+    protected function secure_update_document($document){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $wpdb->update(
+            $prefix.'contract_document',
+            array(
+                'document_id' => $document->document_id
+            ),
+            array( 'ID' => $document->id ),
+            array(
+                '%d', // document_id
+            ),
+            array( '%d' )
+        );
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка', array('responce' => 500));
+        }
+    }
+
+    /**
+     * ============== ДОКУМЕНТЫ. УДАЛЕНИЕ ЗАПИСИ ==============
+     */
+    protected function secure_delete_document($document){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $wpdb->delete( $prefix . 'contract_document', array( 'ID' => $document->id ), array( '%d' ));
+        echo 'Запись ид = ' . $document->id . ' успешно удалена';
+
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка', array('responce' => 500));
+        }
+    }
 
         /**
          * ============== ДЕТАЛЬНАЯ СТРАНИЦА ЗАКАЗЧИКИ. РЕДАКТИРОВАНИЕ ЗАПИСИ ==============
