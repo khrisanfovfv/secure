@@ -573,6 +573,11 @@ function contract_card_binging_events() {
         $(e.target).parents('.appdialog').css('display', 'none');
     });
 
+    /** ============= КОНТЕКСТНОЕ МЕНЮ ДОКУМЕНТЫ. СОЗДАТЬ ===================  */
+    $('contract_card__documents__out_context_create').on('click', function(){
+        
+    })
+
 
 
 }
@@ -621,7 +626,7 @@ function contract_search_binding_events() {
 
 
 /**
- * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ ОРГАНИЗАЦИИ (   Проверка на заполнение обязательных полей) =========================
+ * ======================= НАЖАТИЕ КНОПКИ ОК В КАРТОЧКЕ КОНТРАКТА (   Проверка на заполнение обязательных полей) =========================
  */
 function contract_card_press_OK(sender) {
     if (contract_card__check_fields() == true) {
@@ -790,6 +795,8 @@ function contract_update_reference(records) {
 $('#contract_ref__update').on('click', function () {
     contract_load_records();
 })
+
+
 
 /**
  *  ================================== ОБЩИЙ ПОИСК =======================================

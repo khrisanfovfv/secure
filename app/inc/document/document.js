@@ -289,6 +289,8 @@ function document_version_card_press_OK(sender){
             document_version['type'] = file_list[0].type;
             document_version['version_title'] = $('#document_version_card__title').val(); 
             document_version['is_deleted'] = 0;
+            document_version['extension'] = file_list[0].name.split('.').pop();
+            alert(document_version['extension']);
             document_version['file_list'] = file_list;
             document_version['state'] = $('#document_version_card__state').val();
             
@@ -675,7 +677,6 @@ function document_select_record(e) {
 
         jQuery.post(MainData.ajaxurl, data, function (result) {
             let doc = JSON.parse(result); 
-            console.log(doc);
             // Извлекаем элемент с id таблицы в которую будем добвлять строку
             let el = stack.pop();
         // отрисовываем элемент
@@ -1210,7 +1211,7 @@ function document_card_draw_version(document_version) {
         .append($("<img class='attachments__ico'>").attr('src', icon))
         .append($("<p class='attachments__name_item'>").text(document_version['version_title']))
         .append($("<p class='extension hide'>").text(document_version['extension']))
-        .append($("<p class='is_deleted hide'>").text(document_version['is_deleted']))
+        .append($("<p class='is_deleted hide'>").text(0))
         .append($("<p class='state hide'>").text(document_version['state']));
     if (document_version['file_list'] != undefined){
         content_html.append($("<input class='file hide' type='file'>").prop('files', document_version['file_list']))

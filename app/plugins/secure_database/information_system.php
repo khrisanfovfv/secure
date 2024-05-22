@@ -266,9 +266,10 @@ class InformationSystem{
      public function secure_load_card_data($id){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        // Детальный раздел администраторы
+        
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT * FROM sec_information_system WHERE id = $id"), OBJECT );
+        // Детальный раздел администраторы
         $administrators = $wpdb->get_results(
             $wpdb->prepare("SELECT inf_sys_adm.id,inf_sys_adm.administrator_id, administrator.fullname as administrator_name , inf_sys_adm.appointdate, inf_sys_adm.terminatedate, inf_sys_adm.type 
             FROM {$prefix}information_system_administrator inf_sys_adm 
@@ -292,7 +293,7 @@ class InformationSystem{
 
         // Область с документами
         $documents = $wpdb->get_results(
-            $wpdb->prepare("SELECT document.id, document.name, document_version.type 
+            $wpdb->prepare("SELECT inf_sys_doc.id, document.name, document_version.type, inf_sys_doc.document 
             FROM {$wpdb->prefix}information_system_documents inf_sys_doc
             JOIN {$wpdb->prefix}document document on inf_sys_doc.document = document.id
             JOIN (SELECT * 
@@ -361,6 +362,21 @@ class InformationSystem{
         );
 
         $id = $wpdb->insert_id;
+
+        // Обновление области документов
+        $documents_json = stripcslashes($record['documents']);
+        $documents = json_decode($documents_json);
+        foreach ($documents as $document){
+            if ($document->id ==''){
+                if ($document->is_deleted == 0){
+                    InformationSystem::secure_create_document($id, $document);
+                }
+            }elseif ($document->is_deleted ==='1'){
+                InformationSystem::secure_delete_document($document);
+            } else {
+                InformationSystem::secure_update_document($document);
+            }
+        }
 
         // Обновляем записив детальном разделе Разработчики
         $developpers_json = stripcslashes($record['developpers']);
@@ -452,6 +468,21 @@ class InformationSystem{
             array( '%d' )
         );
 
+        // Обновление области документов
+        $documents_json = stripcslashes($record['documents']);
+        $documents = json_decode($documents_json);
+        foreach ($documents as $document){
+            if ($document->id ==''){
+                if ($document->is_deleted == 0){
+                    InformationSystem::secure_create_document($record['id'], $document);
+                }
+            }elseif ($document->is_deleted ==='1'){
+                InformationSystem::secure_delete_document($document);
+            } else {
+                InformationSystem::secure_update_document($document);
+            }
+        }
+
         // Обновляем записив детальном разделе Разработчики
         $developpers_json = stripcslashes($record['developpers']);
         $developpers = json_decode($developpers_json);
@@ -515,7 +546,7 @@ class InformationSystem{
             }
         }
         
-        echo 'Запись ид = ' . $record['id'] . ' успешно обновлена ';
+        echo 'Запись ид = ' . $record['id'] . ' успешно обновлена';
         wp_die();
     }
 
@@ -526,6 +557,13 @@ class InformationSystem{
         global $wpdb;
         $prefix = $wpdb->prefix;
         $information_system_id = $_POST['id'];
+
+        // Удаляем данные из таблицы documents
+        $documents = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}information_system_documents WHERE information_system = %d", Array($information_system_id)), OBJECT );
+        foreach($documents as $document){
+            InformationSystem::secure_delete_document($document);
+        }
 
         // Удаляем связанные записи из таблицы developpers
         $developpers = $wpdb->get_results( 
@@ -566,6 +604,68 @@ class InformationSystem{
         wp_die();
 
     }
+
+    /**
+     * ==================== ДОКУМЕНТЫ. СОЗДАНИЕ ЗАПИСИ ==================
+     */
+    protected function secure_create_document($information_system_id, $document){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $table_name = $wpdb->prefix . 'information_system_documents';
+        $wpdb->insert(
+            $table_name,
+            array(
+                'information_system' => $information_system_id,
+                'document' => $document->document
+            ),
+            array(
+                '%d', // information_system
+                '%d' // organization
+            )
+        );
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка', array('responce' => 500));
+        }
+
+    }
+
+    /**
+     * ============== ДОКУМЕНТЫ. РЕДАКТИРОВАНИЕ ЗАПИСИ ==============
+     */
+    protected function secure_update_document($document){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $wpdb->update(
+            $prefix.'information_system_documents',
+            array(
+                'document' => $document->document
+            ),
+            array( 'ID' => $document->id ),
+            array(
+                '%d', // document
+            ),
+            array( '%d' )
+        );
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка', array('responce' => 500));
+        }
+    }
+
+    /**
+     * ============== ДОКУМЕНТЫ. УДАЛЕНИЕ ЗАПИСИ ==============
+     */
+    protected function secure_delete_document($document){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $wpdb->delete( $prefix . 'information_system_documents', array( 'ID' => $document->id ), array( '%d' ));
+        echo 'Запись ид = ' . $document->id . ' успешно удалена';
+
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, 'Ошибка', array('responce' => 500));
+        }
+    }
+
+
 
     /**
      * ================ ДОКУМЕНТЫ. ЗАГРУЗКА ЗАПИСЕЙ ================
@@ -1054,7 +1154,8 @@ class InformationSystem{
      * СИСТЕМЫ С НЕПОЛНЫМ КОМПЛЕКТОМ ДОКУМЕНТОВ ДЛЯ АТТЕСТАЦИИ
      */
     function secure_information_system_not_full_complect(){
-        echo 'Неполный комплект';
+        global $wpdb;
+
         wp_die();
     }
 }

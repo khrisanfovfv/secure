@@ -253,7 +253,7 @@ class Document
         }
          
         $results = $wpdb->get_row( 
-            $wpdb->prepare("SELECT document.id, document.name, document.state, version.type
+            $wpdb->prepare("SELECT document.id as document, document.name, document.state, version.type
             FROM {$prefix}document document
             JOIN {$prefix}document_version version on version.document = document.id
             WHERE document.id = %d AND version.id = %d", $document_id, $document_version->id), 

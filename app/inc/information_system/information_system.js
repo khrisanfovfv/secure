@@ -42,12 +42,26 @@ function information_system_card_press_OK(src) {
     if (information_system_card__check_fields()) {
         // Формируем запись для запроса
 
+        // Детальный раздел документы
+        var rows = $('#information_system_card__documents li')
+        var document = {};
+        var documents = {};
+        rows.each(function(ind, row){
+            document.id = $(row).children('.id').text();
+            document.information_system = $('#information_system_card__id').text();
+            document.document = $(row).children('.document').text();
+            document.is_deleted = $(row).children('.is_deleted').text();
+            documents[ind] = JSON.parse(JSON.stringify(document));
+
+        });
+
         // Таблица Разработчики
         var rows = $('#information_system_card__developpers_table tbody tr');
         var developper = {}
         var developpers = []
         rows.each(function (ind, row) {
             developper.id = $(row.cells[0]).text();
+            developper.information_system = $('#information_system_card__id').text();
             developper.developper_id = $(row.cells[2]).find('.ref_record>.id').text();
             developper.is_deleted = $(row.cells[3]).text();
             developpers[ind] = JSON.parse(JSON.stringify(developper));
@@ -63,6 +77,7 @@ function information_system_card_press_OK(src) {
         rows.each(function (ind, row) {
             remark.id = $(row.cells[0]).text();
             remark.remarkdate = $(row.cells[2]).children().val();
+            remark.information_system_id = $('#information_system_card__id').text();
             remark.author = $(row.cells[3]).text();
             remark.content = $(row.cells[4]).text();
             remark.eliminated = $(row.cells[5]).children().val();
@@ -95,6 +110,7 @@ function information_system_card_press_OK(src) {
         rows.each(function (ind, row) {
             let contract = {}
             contract.id = $(row.cells[0]).text();
+            contract.information_system = $('#information_system_card__id').text();
             contract.contract_id = $(row.cells[1]).text();
             contract.is_deleted = $(row.cells[9]).text();
             contracts.push(contract);
@@ -111,6 +127,7 @@ function information_system_card_press_OK(src) {
             hasremark: $('#information_system_card__has_remark').is(':checked') ? 1 : 0,
             commissioningdate: $('#information_system_card__commissioningDate').val(),
             state: $('#information_system_card__state').val(),
+            documents: JSON.stringify(documents),
             developpers: JSON.stringify(developpers),
             remarks: JSON.stringify(remarks),
             administrators: JSON.stringify(administrators),
@@ -539,6 +556,7 @@ function card_information_system_load_data(data, openMode) {
     $('#information_system_card__significance_level').val(cardData[0].significancelevel);
     $('#information_system_card__scope').val(cardData[0].scope);
     $('#information_system_card__certified').prop('checked', cardData[0].certified);
+    $('#information_system_card__periodicity').val(cardData[0].periodicity);
     $('#information_system_card__certifyDate').val(cardData[0].certifydate);
     $('#information_system_card__has_remark').prop('checked', cardData[0].hasremark);
     $('#information_system_card__commissioningDate').val(cardData[0].commissioningdate);
@@ -812,9 +830,6 @@ function information_system_card__developpers_delete_record() {
     }
 }
 
-/**
- * ================================= ДОКУМЕНТЫ. УДАЛИТЬ ================================
- */
 
 
 /**
@@ -859,6 +874,17 @@ function information_system_read_document() {
 function information_system_card__documents_add_record(){
     let source = $('#information_system_card__documents');
     reference.open_reference(null, '#information_system_card', 'Справочник документы', 'document', source);
+}
+
+/**
+ * ================================ ДОКУМЕНТЫ. УДАЛИТЬ ===================================
+ */
+function information_system_card__documents_delete_record(){
+    var rows = $('#information_system_card__documents>li.highlight');
+    if (rows.length > 0){
+        $(rows[0]).children('.is_deleted').text(1);
+        $(rows[0]).hide();
+    }
 }
 
 /**
@@ -1157,7 +1183,9 @@ function information_system_card__draw_document(document) {
         $("<li class='attachments__item document__item'>")
             .append($("<p class='id hide'>").text(document.id))
             .append($("<img class='attachments__ico'>").attr('src', icon))
+            .append($("<p class= 'document hide'>").text(document.document))
             .append($("<p class='attachments__name_item'>").text(document.name))
+            .append($("<p class='is_deleted hide'>").text(0))
     return content_html;
 }
 
@@ -1382,7 +1410,7 @@ function information_system_card_binging_events() {
 
     /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ УДАЛИТЬ ================*/
     $('#information_system_card__documents_delete_record').on('click', function (e) {
-        information_system_card__documents_delete_record(e);
+        information_system_card__documents_delete_record();
     })
     /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ ДОБАВИТЬ ================*/
     $('#information_system_card__documents__out_context_add').on('click', function(){
