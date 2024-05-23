@@ -46,7 +46,7 @@ function information_system_card_press_OK(src) {
         var rows = $('#information_system_card__documents li')
         var document = {};
         var documents = {};
-        rows.each(function(ind, row){
+        rows.each(function (ind, row) {
             document.id = $(row).children('.id').text();
             document.information_system = $('#information_system_card__id').text();
             document.document = $(row).children('.document').text();
@@ -259,13 +259,13 @@ function information_system_card__check_fields() {
 function information_system_load_records() {
     var data = {
         action: 'load_information_system',
-        fbriefname : $('#information_system_ref__fbriefname').val().trim(),
+        fbriefname: $('#information_system_ref__fbriefname').val().trim(),
         ffullname: $('#information_system_ref__ffullname').val().trim(),
-        fcertified : $('#information_system_ref__fcerified').val(),
+        fcertified: $('#information_system_ref__fcerified').val(),
         fperiodicity: $('#information_system_ref__fperiodicity').val(),
-        fcertifydate : $('#information_system_ref__fcertifydate').val().trim(),
+        fcertifydate: $('#information_system_ref__fcertifydate').val().trim(),
         fcommissioningdate: $('#information_system_ref__fcommissioningdate').val().trim(),
-        fhasremark : $('#information_system_ref__fhasremark').val(),
+        fhasremark: $('#information_system_ref__fhasremark').val(),
         fstate: $('#information_system_ref__fstate').val()
 
     };
@@ -411,17 +411,17 @@ $('#information_system_ref__delete').on('click', function () {
  * ========================= НАЖАТИЕ КНОПКИ Эл.таб ==========================
  */
 
-$('#information_system_ref__excel').on('click', function(){
+$('#information_system_ref__excel').on('click', function () {
     // Выводим данные из базы данных
     var data = {
         action: 'load_information_system',
-        fbriefname : $('#information_system_ref__fbriefname').val().trim(),
+        fbriefname: $('#information_system_ref__fbriefname').val().trim(),
         ffullname: $('#information_system_ref__ffullname').val().trim(),
-        fcertified : $('#information_system_ref__fcerified').val(),
+        fcertified: $('#information_system_ref__fcerified').val(),
         fperiodicity: $('#information_system_ref__fperiodicity').val(),
-        fcertifydate : $('#information_system_ref__fcertifydate').val().trim(),
+        fcertifydate: $('#information_system_ref__fcertifydate').val().trim(),
         fcommissioningdate: $('#information_system_ref__fcommissioningdate').val().trim(),
-        fhasremark : $('#information_system_ref__fhasremark').val(),
+        fhasremark: $('#information_system_ref__fhasremark').val(),
         fstate: $('#information_system_ref__fstate').val()
     };
     jQuery.post(MainData.ajaxurl, data, function (result) {
@@ -430,39 +430,39 @@ $('#information_system_ref__excel').on('click', function(){
     });
 });
 
-function information_systems_to_excel(data){
+function information_systems_to_excel(data) {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Информационные системы');
-    const letr = ['A','B','C','D','E','F','G','H','I','J','K','L'];
-    
+    const letr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
+
     // Шрифт для заголовка
-    const font = { 
-        name: 'Arial', 
-        size: 12,         bold: true
+    const font = {
+        name: 'Arial',
+        size: 12, bold: true
     };
     // Границы ячеек 
     const border = {
-        top: {style:'thin'},
-        left: {style:'thin'},
-        bottom: {style:'thin'},
-        right: {style:'thin'}
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
     }
 
     // Настраиаем колонки
     worksheet.columns = [
-        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'ИД', key : 'id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Полное наименование', key : 'fullname', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
-        {header: 'Краткое наименование', key : 'briefname', width: 50},
-        {header: 'Аттестована', key : 'certified', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Дата сертификации', key : 'certifydate', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Масштаб ИС', key : 'scope', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Уровень значимости', key : 'significancelevel', width: 13, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Периодичность', key : 'periodicity', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Дата аттестации', key : 'commissioningdate', width: 20, style : {alignment :{vertical: 'middle', horizontal: 'left'}}},
-        {header: 'Есть замечания', key : 'hasremark', width: 15, style : {alignment :{vertical: 'middle', horizontal: 'left', wrapText: true}}},
-        {header: 'Статус', key : 'state', width: 20, style : {alignment:{vertical: 'middle', horizontal: 'center'}}}
-    ]       
+        { header: '№', key: 'number', width: 10, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'ИД', key: 'id', width: 10, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Полное наименование', key: 'fullname', width: 50, style: { alignment: { vertical: 'middle', horizontal: 'left', wrapText: true } } },
+        { header: 'Краткое наименование', key: 'briefname', width: 50 },
+        { header: 'Аттестована', key: 'certified', width: 20, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Дата сертификации', key: 'certifydate', width: 13, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Масштаб ИС', key: 'scope', width: 13, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Уровень значимости', key: 'significancelevel', width: 13, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Периодичность', key: 'periodicity', width: 20, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Дата аттестации', key: 'commissioningdate', width: 20, style: { alignment: { vertical: 'middle', horizontal: 'left' } } },
+        { header: 'Есть замечания', key: 'hasremark', width: 15, style: { alignment: { vertical: 'middle', horizontal: 'left', wrapText: true } } },
+        { header: 'Статус', key: 'state', width: 20, style: { alignment: { vertical: 'middle', horizontal: 'center' } } }
+    ]
     worksheet.getRow(1).font = font;
     worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
 
@@ -473,22 +473,22 @@ function information_systems_to_excel(data){
 
     // Добавляем значения в таблицу
     data.forEach((information_system, ind) => {
-        worksheet.getCell('A'+(ind+2)).value = ind+1;
-        worksheet.getCell('B'+(ind+2)).value = information_system['id'];
-        worksheet.getCell('C'+(ind+2)).value = information_system['fullname'];
-        worksheet.getCell('D'+(ind+2)).value = information_system['briefname'];
-        worksheet.getCell('E'+(ind+2)).value = information_system['certifyed'];
-        worksheet.getCell('F'+(ind+2)).value = information_system['certifydate'];
-        worksheet.getCell('G'+(ind+2)).value = information_system['scope'];
-        worksheet.getCell('H'+(ind+2)).value = information_system['significancelevel'];
-        worksheet.getCell('I'+(ind+2)).value = information_system['periodicity'];
-        worksheet.getCell('J'+(ind+2)).value = information_system['commissioningdate'];
-        worksheet.getCell('K'+(ind+2)).value = reference.get_boolean_value(information_system['hasremark']);
-        worksheet.getCell('L'+(ind+2)).value = reference.get_state(information_system['state']);
+        worksheet.getCell('A' + (ind + 2)).value = ind + 1;
+        worksheet.getCell('B' + (ind + 2)).value = information_system['id'];
+        worksheet.getCell('C' + (ind + 2)).value = information_system['fullname'];
+        worksheet.getCell('D' + (ind + 2)).value = information_system['briefname'];
+        worksheet.getCell('E' + (ind + 2)).value = information_system['certifyed'];
+        worksheet.getCell('F' + (ind + 2)).value = information_system['certifydate'];
+        worksheet.getCell('G' + (ind + 2)).value = information_system['scope'];
+        worksheet.getCell('H' + (ind + 2)).value = information_system['significancelevel'];
+        worksheet.getCell('I' + (ind + 2)).value = information_system['periodicity'];
+        worksheet.getCell('J' + (ind + 2)).value = information_system['commissioningdate'];
+        worksheet.getCell('K' + (ind + 2)).value = reference.get_boolean_value(information_system['hasremark']);
+        worksheet.getCell('L' + (ind + 2)).value = reference.get_state(information_system['state']);
 
         // Устанавливаем границы ячеек строки
         letr.forEach((value) => {
-            worksheet.getCell(value + (ind+2)).border = border;
+            worksheet.getCell(value + (ind + 2)).border = border;
         })
     })
 
@@ -508,28 +508,28 @@ $('#information_system_ref__update').on('click', function () {
 /** 
  * ===================== КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ====================
  */
-$('#information_system_ref__out_context_create').on('click', function(){
+$('#information_system_ref__out_context_create').on('click', function () {
     information_system_create_record();
 })
 
 /** 
  * ==================== КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ =================
  */
-$('#information_system_ref__context_edit').on('click', function(){
+$('#information_system_ref__context_edit').on('click', function () {
     information_system_edit_record();
 })
 
 /** 
  * ==================== КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===================
  */
-$('#information_system_ref__context_copy').on('click', function(){
+$('#information_system_ref__context_copy').on('click', function () {
     information_system_copy_record();
 })
 
 /** 
  * ==================== КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ УДАЛИТЬ ===================
  */
-$('#information_system_ref__context_delete').on('click', function(){
+$('#information_system_ref__context_delete').on('click', function () {
     information_system_delete_record();
 })
 
@@ -537,7 +537,7 @@ $('#information_system_ref__context_delete').on('click', function(){
 /** 
  * ===================== КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ ====================
  */
-$('#information_system_ref__out_context_update').on('click', function(){
+$('#information_system_ref__out_context_update').on('click', function () {
     information_system_load_records();
 })
 
@@ -639,51 +639,51 @@ function information_system_update_reference(records) {
     let ind = 1;
     let period;
     // Время в секундах 
-    let half_year = 182*24*60*60*1000;
-    let year = 365*24*60*60*1000;
-    let month = 30*24*60*60*1000;
-    let two_years = 2*365*24*60*60*1000;
+    let half_year = 182 * 24 * 60 * 60 * 1000;
+    let year = 365 * 24 * 60 * 60 * 1000;
+    let month = 30 * 24 * 60 * 60 * 1000;
+    let two_years = 2 * 365 * 24 * 60 * 60 * 1000;
     let today = new Date().getTime();
-    
+
     records.forEach(record => {
         let attention = '';
-        switch(record['periodicity']){
+        switch (record['periodicity']) {
             case 'half_year': period = half_year; break;
-            case 'year' : period = year; break;
-            case 'two_years' : period = two_years; break;
+            case 'year': period = year; break;
+            case 'two_years': period = two_years; break;
         }
         let str = record['certifydate'].split("-");
-        let certifydate = new Date( str[0], str[1] - 1, str[2]);
-        
+        let certifydate = new Date(str[0], str[1] - 1, str[2]);
+
         let result = certifydate.getTime() + period;
         // Если текущая дата превышает дату следующей аттестации
         // Подкрашиваем сроку в красноватый цвет
-        if (today  > result){
+        if (today > result) {
             attention = 'red_background';
         }
         // Если до следующей аттестации осталось меньше месяца 
         // подкрашиваем строку в оранжевый цвет
-        if ((today > (result - month)) && (today < result)){
+        if ((today > (result - month)) && (today < result)) {
             attention = 'orange_background';
         }
-        $('#information_system_ref__table tbody').append(    
-        $("<tr class='information_system_ref__table_row " +attention +"'>")
-            .append($("<td class='id hide'>").text(record['id']))
-            .append($("<td>").text(ind++))
-            .append($("<td>").text(record['briefname'].replace(/\\"/g, '"')))
-            .append($("<td style='text-align: left;'>").text(record['fullname'].replace(/\\"/g, '"')))
-            .append($("<td>").text(reference.get_boolean_value(record['certified'])))
-            .append($("<td>").text(reference.get_periodicity(record['periodicity'])))
-            .append($("<td>").text(record['certifydate']))
-            .append($("<td>").text(record['commissioningdate']))
-            .append($("<td>").text(reference.get_boolean_value(record['hasremark'])))
-            .append($("<td>").text(reference.get_state(record['state'])))
+        $('#information_system_ref__table tbody').append(
+            $("<tr class='information_system_ref__table_row " + attention + "'>")
+                .append($("<td class='id hide'>").text(record['id']))
+                .append($("<td>").text(ind++))
+                .append($("<td>").text(record['briefname'].replace(/\\"/g, '"')))
+                .append($("<td style='text-align: left;'>").text(record['fullname'].replace(/\\"/g, '"')))
+                .append($("<td>").text(reference.get_boolean_value(record['certified'])))
+                .append($("<td>").text(reference.get_periodicity(record['periodicity'])))
+                .append($("<td>").text(record['certifydate']))
+                .append($("<td>").text(record['commissioningdate']))
+                .append($("<td>").text(reference.get_boolean_value(record['hasremark'])))
+                .append($("<td>").text(reference.get_state(record['state'])))
         ).on('click', function (e) {
             reference.highlight(e);
         })
-        .on('dblclick', function () {
-            information_system_edit_record();
-        })
+            .on('dblclick', function () {
+                information_system_edit_record();
+            })
     });
 }
 
@@ -846,19 +846,32 @@ function information_system_card__developpers_delete_record() {
 function information_system_read_document() {
     //let document_id = $('.attachments__item').children('.id').text();
     let length = $('.document__item.highlight').length;
-    if (length > 0){
+    if (length > 0) {
         let version_id = $('.document__item.highlight').children('.version_id').text();
-        let extension =  $('.document__item.highlight').children('.extension').text();
-        let type =  $('.attachments__item').children('.type').text();
+        let extension = $('.document__item.highlight').children('.extension').text();
+        let type = $('.attachments__item').children('.type').text();
         alert(version_id + '|' + extension + '|' + type);
         document_version_read(version_id, extension, type);
     }
 }
 
 /**
+ * ======================== ДОКУМЕНТЫ. ОТКРЫТЬ КАРТОЧКУ =========================
+ */
+function information_system_document_open_card() {
+    let length = $(".document__item.highlight").length;
+    if (length > 0) {
+        var id = $(".document__item.highlight").children('.document').text();
+        var size = { width: 1000, height: 600 };
+        reference.open_card('#information_system_card', 'Карточка Документа', size,
+            OpenMode.Edit, id, '#information_system_card__documents')
+    }
+}
+
+/**
  * ================================= ДОКУМЕНТЫ. ДОБАВИТЬ ================================ 
  */
-function information_system_card__documents_add_record(){
+function information_system_card__documents_add_record() {
     let source = $('#information_system_card__documents');
     reference.open_reference(null, '#information_system_card', 'Справочник документы', 'document', source);
 }
@@ -866,9 +879,9 @@ function information_system_card__documents_add_record(){
 /**
  * ================================ ДОКУМЕНТЫ. УДАЛИТЬ ===================================
  */
-function information_system_card__documents_delete_record(){
+function information_system_card__documents_delete_record() {
     var rows = $('#information_system_card__documents>li.highlight');
-    if (rows.length > 0){
+    if (rows.length > 0) {
         $(rows[0]).children('.is_deleted').text(1);
         $(rows[0]).hide();
     }
@@ -877,7 +890,7 @@ function information_system_card__documents_delete_record(){
 /**
  * ================================= ДОКУМЕНТЫ. ОБНОВИТЬ ================================
  */
-function information_system_card__documents_update_records(){
+function information_system_card__documents_update_records() {
     var information_system_id = $('#information_system_card__id').text();
     // Загружаем детальный раздел Документы
     var data = {
@@ -1110,8 +1123,8 @@ function information_system_contract_edit_record() {
     if (rows.length > 0) {
         var id = rows[0].children.item(0).textContent;
         var size = { width: 1000, height: 500 };
-        reference.open_card('#information_system_card', 'Карточка Контракта', size, 
-            OpenMode.Edit, id,'#information_system_card__contracts');
+        reference.open_card('#information_system_card', 'Карточка Контракта', size,
+            OpenMode.Edit, id, '#information_system_card__contracts');
     }
 }
 
@@ -1275,7 +1288,7 @@ function information_system_card__draw_contract_row(contract) {
 /**
  * ================== ПРИВЯЗКА СОБЫТИЙ К КАРТОЧКЕ СПРАВОЧНИКА ===================
  */
-function information_system_ref_binding_events(){
+function information_system_ref_binding_events() {
     /** ===================== НАЖАТИЕ КНОПКИ СОЗДАТЬ ====================== */
     $('#information_system_ref__create').on('click', function (e) {
         information_system_create_record();
@@ -1302,39 +1315,39 @@ function information_system_ref_binding_events(){
     });
 
     /** ============= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ СОЗДАТЬ =============== */
-    $('#information_system_ref__out_context_create').on('click', function(){
+    $('#information_system_ref__out_context_create').on('click', function () {
         information_system_create_record();
     })
 
     /** ============= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ РЕДАКТИРОВАТЬ =============== */
-    $('#information_system_ref__context_edit').on('click', function(){
+    $('#information_system_ref__context_edit').on('click', function () {
         information_system_edit_record();
     })
 
     /** ============= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ КОПИРОВАТЬ =============== */
-    $('#information_system_ref__context_copy').on('click', function(){
+    $('#information_system_ref__context_copy').on('click', function () {
         information_system_copy_record();
     })
 
     /** ============= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ УДАЛИТЬ =============== */
-    $('#information_system_ref__context_delete').on('click', function(){
+    $('#information_system_ref__context_delete').on('click', function () {
         information_system_delete_record();
     })
 
     /** ============= КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ =============== */
-    $('#information_system_ref__out_context_update').on('click', function(){
+    $('#information_system_ref__out_context_update').on('click', function () {
         information_system_load_records();
     })
 
 
     /** НАЖАТИЕ КНОПКИ ENTER В ОКНЕ ФИЛЬТРА */
-    $('.information_system_filter').on('keyup', function(event){
-        if (event.key === 'Enter'){
+    $('.information_system_filter').on('keyup', function (event) {
+        if (event.key === 'Enter') {
             information_system_load_records();
         }
     })
 
-    $('#information_system_ref__filter').on('click', function(){
+    $('#information_system_ref__filter').on('click', function () {
         let filter = $('#information_system_ref__container_filter');
         if ((filter).hasClass('hide'))
             filter.removeClass('hide');
@@ -1403,14 +1416,18 @@ function information_system_card_binging_events() {
         information_system_card__documents_delete_record();
     })
     /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ ДОБАВИТЬ ================*/
-    $('#information_system_card__documents__out_context_add').on('click', function(){
+    $('#information_system_card__documents__out_context_add').on('click', function () {
         information_system_card__documents_add_record();
     })
+    /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ ОТКРЫТЬ КАРТОЧКУ ===========*/
+    $('#information_system_card__documents_open_card').on('click', function () {
+        information_system_document_open_card();
+    });
 
-     /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. ОБНОВИТЬ */
-     $('#information_system_card__documents__out_context_update').on('click', function(){
+    /** ================== ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. ОБНОВИТЬ */
+    $('#information_system_card__documents__out_context_update').on('click', function () {
         information_system_card__documents_update_records();
-     });
+    });
 
     /** =========================== АДМИНИСТРАТОРЫ. КНОПКА СОЗДАТЬ ========================== */
     $('#information_system_card__administrators_create').on('click', function () {
@@ -1432,32 +1449,32 @@ function information_system_card_binging_events() {
         information_system_card_administrator_delete_record();
     })
     /** =========================== АДМИНИСТРАТОРЫ. КНОПКА EXCEL ========================== */
-    $('#information_system_card__administrators_excel').on('click', function(){
+    $('#information_system_card__administrators_excel').on('click', function () {
         // Выводим данные из базы данных
-    var data = {
-        action: 'load_information_system_administrators',
-        information_system_id : $('#information_system_card__id').text()
-    };
-    jQuery.post(MainData.ajaxurl, data, function (result) {
-        let administrators = JSON.parse(result);
-        information_systems_administrators_to_excel(administrators);
-    });
+        var data = {
+            action: 'load_information_system_administrators',
+            information_system_id: $('#information_system_card__id').text()
+        };
+        jQuery.post(MainData.ajaxurl, data, function (result) {
+            let administrators = JSON.parse(result);
+            information_systems_administrators_to_excel(administrators);
+        });
     })
     /** ================== АДМИНИСТРАТОРЫ. КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ================*/
-    $('#information_system_card_administrators__out_context_create').on('click', function(){
+    $('#information_system_card_administrators__out_context_create').on('click', function () {
         information_system_card__administrator_create_record();
     })
     /** ================== АДМИНИСТРАТОРЫ. КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ================*/
-    $('#information_system_card__administrators_context_copy').on('click', function(){
+    $('#information_system_card__administrators_context_copy').on('click', function () {
         information_system_card__administrator_copy_record();
     })
     /** ================== АДМИНИСТРАТОРЫ. КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ УДАЛИТЬ ================*/
-    $('#information_system_card__administrators_context_delete').on('click', function(){
+    $('#information_system_card__administrators_context_delete').on('click', function () {
         information_system_card_administrator_delete_record();
     })
 
     /** ================== АДМИНИСТРАТОРЫ. КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ ================*/
-    $('#information_system_card_administrators__out_context_update').on('click', function(){
+    $('#information_system_card_administrators__out_context_update').on('click', function () {
         information_system_card__administrator_update_record();
     })
 
@@ -1474,18 +1491,18 @@ function information_system_card_binging_events() {
     $('#information_system_card__contracts_delete').on('click', function () {
         information_system_contract_delete_record();
     })
-    
+
     /** =========================== КОНТРАКТЫ. КНОПКА EXCEL ========================== */
-    $('#information_system_card__contracts_excel').on('click', function(){
+    $('#information_system_card__contracts_excel').on('click', function () {
         // Выводим данные из базы данных
-    var data = {
-        action: 'load_information_system_contracts',
-        information_system_id : $('#information_system_card__id').text()
-    };
-    jQuery.post(MainData.ajaxurl, data, function (result) {
-        let contracts = JSON.parse(result);
-        information_system_contracts_to_excel(contracts);
-    });
+        var data = {
+            action: 'load_information_system_contracts',
+            information_system_id: $('#information_system_card__id').text()
+        };
+        jQuery.post(MainData.ajaxurl, data, function (result) {
+            let contracts = JSON.parse(result);
+            information_system_contracts_to_excel(contracts);
+        });
     })
 
 
@@ -1505,16 +1522,16 @@ function information_system_card_binging_events() {
     })
 
     /** =========================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА EXCEL ========================== */
-    $('#information_system_card__remarks_excel').on('click', function(){
+    $('#information_system_card__remarks_excel').on('click', function () {
         // Выводим данные из базы данных
-    var data = {
-        action: 'load_information_system_remarks',
-        information_system_id : $('#information_system_card__id').text()
-    };
-    jQuery.post(MainData.ajaxurl, data, function (result) {
-        let remarks = JSON.parse(result);
-        information_system_remarks_to_excel(remarks);
-    });
+        var data = {
+            action: 'load_information_system_remarks',
+            information_system_id: $('#information_system_card__id').text()
+        };
+        jQuery.post(MainData.ajaxurl, data, function (result) {
+            let remarks = JSON.parse(result);
+            information_system_remarks_to_excel(remarks);
+        });
     })
 
     /** ===================== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КНОПКА УДАЛИТЬ ======================= */
@@ -1522,10 +1539,10 @@ function information_system_card_binging_events() {
         information_system_remark_delete_record();
     })
 
-     /** ====== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КОНТЕКСТНОЕ МЕНЮ. СОЗДАТЬ =======*/
-     $('#information_system_card_remarks__out_context_create').on('click', function(){
+    /** ====== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КОНТЕКСТНОЕ МЕНЮ. СОЗДАТЬ =======*/
+    $('#information_system_card_remarks__out_context_create').on('click', function () {
         information_system_remark_create_record();
-     })
+    })
 
     /** ============== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КОНТЕКСТНОЕ МЕНЮ. КОПИРОВАТЬ ===============  */
     $('#information_system_card__remarks_context_copy').on('click', function () {
@@ -1537,10 +1554,10 @@ function information_system_card_binging_events() {
         information_system_remark_delete_record();
     })
 
-     /** ====== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ СОЗДАТЬ =======*/
-     $('#information_system_card_remarks__out_context_update').on('click', function(){
+    /** ====== ЗАМЕЧАНИЯ ПО АТТЕСТАЦИИ. КОНТЕКСТНОЕ МЕНЮ. НАЖАТИЕ КНОПКИ СОЗДАТЬ =======*/
+    $('#information_system_card_remarks__out_context_update').on('click', function () {
         information_system_remark_update_records();
-     })
+    })
 
     /** =================== КОНТЕКСТНОЕ МЕНЮ. КОНТРАКТЫ. КНОПКА ДОБАВИТЬ ====================== */
     $('#information_system_card_contracts__out_context_add').on('click', function () {
@@ -1548,49 +1565,49 @@ function information_system_card_binging_events() {
     })
 
     /** =================== КОНТЕКСТНОЕ МЕНЮ. КОНТРАКТЫ. КНОПКА РЕДАКТИРОВАТЬ=================== */
-    $('#information_system_card__contracts_context_edit').on('click', function(){
+    $('#information_system_card__contracts_context_edit').on('click', function () {
         information_system_contract_edit_record();
     })
 
     /** =================== КОНТЕКСТНОЕ МЕНЮ. КОНТРАКТЫ. КНОПКА ИСКЛЮЧИТЬ ====================== */
-    $('#information_system_card__contracts_context_delete').on('click', function(){
+    $('#information_system_card__contracts_context_delete').on('click', function () {
         information_system_contract_delete_record();
     })
-    
+
     /** =================== КОНТЕКСТНОЕ МЕНЮ. КОНТРАКТЫ. КНОПКА ОБНОВИТЬ ====================== */
     $('#information_system_card_contracts__out_context_update').on('click', function () {
         information_system_contract_update_records();
     })
 }
 
-function information_systems_administrators_to_excel(data){
+function information_systems_administrators_to_excel(data) {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Администраторы');
-    const letr = ['A','B','C','D','E','F','G'];
-    
+    const letr = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
     // Шрифт для заголовка
-    const font = { 
-        name: 'Arial', 
-        size: 12,         bold: true
+    const font = {
+        name: 'Arial',
+        size: 12, bold: true
     };
     // Границы ячеек 
     const border = {
-        top: {style:'thin'},
-        left: {style:'thin'},
-        bottom: {style:'thin'},
-        right: {style:'thin'}
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
     }
 
     // Настраиаем колонки
     worksheet.columns = [
-        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'ИД', key : 'id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'ИД Администратора', key : 'administrator_id', width: 30, style : {alignment :{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'ФИО', key : 'administrator_name', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Дата назначения', key : 'appointdate', width: 30, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Дата прекращения', key : 'terminatedate', width: 30, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Тип', key : 'type', width: 15, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-    ]       
+        { header: '№', key: 'number', width: 10, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'ИД', key: 'id', width: 10, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'ИД Администратора', key: 'administrator_id', width: 30, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'ФИО', key: 'administrator_name', width: 50, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Дата назначения', key: 'appointdate', width: 30, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Дата прекращения', key: 'terminatedate', width: 30, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Тип', key: 'type', width: 15, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+    ]
     worksheet.getRow(1).font = font;
     worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
 
@@ -1601,51 +1618,51 @@ function information_systems_administrators_to_excel(data){
 
     // Добавляем значения в таблицу
     data.forEach((administrator, ind) => {
-        worksheet.getCell('A'+(ind+2)).value = ind+1;
-        worksheet.getCell('B'+(ind+2)).value = administrator['id'];
-        worksheet.getCell('C'+(ind+2)).value = administrator['administrator_id'];
-        worksheet.getCell('D'+(ind+2)).value = administrator['administrator_name'];
-        worksheet.getCell('E'+(ind+2)).value = administrator['appointdate'];
-        worksheet.getCell('F'+(ind+2)).value = administrator['terminatedate'];
-        worksheet.getCell('G'+(ind+2)).value = reference.get_administrator_type(administrator['type']);
+        worksheet.getCell('A' + (ind + 2)).value = ind + 1;
+        worksheet.getCell('B' + (ind + 2)).value = administrator['id'];
+        worksheet.getCell('C' + (ind + 2)).value = administrator['administrator_id'];
+        worksheet.getCell('D' + (ind + 2)).value = administrator['administrator_name'];
+        worksheet.getCell('E' + (ind + 2)).value = administrator['appointdate'];
+        worksheet.getCell('F' + (ind + 2)).value = administrator['terminatedate'];
+        worksheet.getCell('G' + (ind + 2)).value = reference.get_administrator_type(administrator['type']);
         // Устанавливаем границы ячеек строки
         letr.forEach((value) => {
-            worksheet.getCell(value + (ind+2)).border = border;
+            worksheet.getCell(value + (ind + 2)).border = border;
         })
     })
 
     saveToExcel(workbook, 'Информационные системы. Дет. разд. Администраторы');
 }
 
-function information_system_remarks_to_excel(data){
+function information_system_remarks_to_excel(data) {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Замечания по аттестации');
-    const letr = ['A','B','C','D','E','F','G','H'];
-    
+    const letr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
     // Шрифт для заголовка
-    const font = { 
-        name: 'Arial', 
-        size: 12,         bold: true
+    const font = {
+        name: 'Arial',
+        size: 12, bold: true
     };
     // Границы ячеек 
     const border = {
-        top: {style:'thin'},
-        left: {style:'thin'},
-        bottom: {style:'thin'},
-        right: {style:'thin'}
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
     }
 
     // Настраиаем колонки
     worksheet.columns = [
-        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'ИД', key : 'information_system_id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Дата замечания', key : 'remarkdate', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Автор замечания', key : 'author', width: 30, style : {alignment :{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Содержание замечания', key : 'content', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Устранено', key : 'eliminated', width: 30, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Дата устранения', key : 'eliminatedate', width: 30, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Кем устранено', key : 'performer', width: 15, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-    ]       
+        { header: '№', key: 'number', width: 10, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'ИД', key: 'information_system_id', width: 10, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Дата замечания', key: 'remarkdate', width: 10, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Автор замечания', key: 'author', width: 30, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Содержание замечания', key: 'content', width: 50, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Устранено', key: 'eliminated', width: 30, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Дата устранения', key: 'eliminatedate', width: 30, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Кем устранено', key: 'performer', width: 15, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+    ]
     worksheet.getRow(1).font = font;
     worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
 
@@ -1656,17 +1673,17 @@ function information_system_remarks_to_excel(data){
 
     // Добавляем значения в таблицу
     data.forEach((remark, ind) => {
-        worksheet.getCell('A'+(ind+2)).value = ind+1;
-        worksheet.getCell('B'+(ind+2)).value = remark['information_system_id'];
-        worksheet.getCell('C'+(ind+2)).value = remark['remarkdate'];
-        worksheet.getCell('D'+(ind+2)).value = remark['author'];
-        worksheet.getCell('E'+(ind+2)).value = remark['content'];
-        worksheet.getCell('F'+(ind+2)).value = reference.get_boolean_value(remark['eliminated']);
-        worksheet.getCell('G'+(ind+2)).value = remark['eliminatedate'];
-        worksheet.getCell('H'+(ind+2)).value = remark['performer'];
+        worksheet.getCell('A' + (ind + 2)).value = ind + 1;
+        worksheet.getCell('B' + (ind + 2)).value = remark['information_system_id'];
+        worksheet.getCell('C' + (ind + 2)).value = remark['remarkdate'];
+        worksheet.getCell('D' + (ind + 2)).value = remark['author'];
+        worksheet.getCell('E' + (ind + 2)).value = remark['content'];
+        worksheet.getCell('F' + (ind + 2)).value = reference.get_boolean_value(remark['eliminated']);
+        worksheet.getCell('G' + (ind + 2)).value = remark['eliminatedate'];
+        worksheet.getCell('H' + (ind + 2)).value = remark['performer'];
         // Устанавливаем границы ячеек строки
         letr.forEach((value) => {
-            worksheet.getCell(value + (ind+2)).border = border;
+            worksheet.getCell(value + (ind + 2)).border = border;
         })
     })
 
@@ -1674,36 +1691,36 @@ function information_system_remarks_to_excel(data){
 }
 
 
-function information_system_contracts_to_excel(data){
+function information_system_contracts_to_excel(data) {
     alert('rab');
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Контракты');
-    const letr = ['A','B','C','D','E','F','G','H'];
-    
+    const letr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
     // Шрифт для заголовка
-    const font = { 
-        name: 'Arial', 
-        size: 12,         bold: true
+    const font = {
+        name: 'Arial',
+        size: 12, bold: true
     };
     // Границы ячеек 
     const border = {
-        top: {style:'thin'},
-        left: {style:'thin'},
-        bottom: {style:'thin'},
-        right: {style:'thin'}
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
     }
 
     // Настраиаем колонки
     worksheet.columns = [
-        {header: '№', key : 'number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'ИД', key : 'contract_id', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Номер', key : 'contract_number', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Дата заключения', key : 'conclusionDate', width: 10, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Предмет контракта', key : 'contract_subject', width: 30, style : {alignment :{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Тип контракта', key : 'contract_type', width: 50, style : {alignment :{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Ссылка на сайт закупок', key : 'link', width: 30, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-        {header: 'Статус', key : 'contract_state', width: 15, style : {alignment:{vertical: 'middle', horizontal: 'center'}}},
-    ]       
+        { header: '№', key: 'number', width: 10, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'ИД', key: 'contract_id', width: 10, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Номер', key: 'contract_number', width: 10, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Дата заключения', key: 'conclusionDate', width: 10, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Предмет контракта', key: 'contract_subject', width: 30, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Тип контракта', key: 'contract_type', width: 50, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Ссылка на сайт закупок', key: 'link', width: 30, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+        { header: 'Статус', key: 'contract_state', width: 15, style: { alignment: { vertical: 'middle', horizontal: 'center' } } },
+    ]
     worksheet.getRow(1).font = font;
     worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
 
@@ -1714,17 +1731,17 @@ function information_system_contracts_to_excel(data){
 
     // Добавляем значения в таблицу
     data.forEach((contract, ind) => {
-        worksheet.getCell('A'+(ind+2)).value = ind+1;
-        worksheet.getCell('B'+(ind+2)).value = contract['contract_id'];
-        worksheet.getCell('C'+(ind+2)).value = contract['contract_number'];
-        worksheet.getCell('D'+(ind+2)).value = contract['conclusionDate'];
-        worksheet.getCell('E'+(ind+2)).value = contract['contract_subject'];
-        worksheet.getCell('F'+(ind+2)).value = reference.get_support(contract['contract_type']);
-        worksheet.getCell('G'+(ind+2)).value = contract['link'];
-        worksheet.getCell('H'+(ind+2)).value = reference.get_state(contract['contract_state']);
+        worksheet.getCell('A' + (ind + 2)).value = ind + 1;
+        worksheet.getCell('B' + (ind + 2)).value = contract['contract_id'];
+        worksheet.getCell('C' + (ind + 2)).value = contract['contract_number'];
+        worksheet.getCell('D' + (ind + 2)).value = contract['conclusionDate'];
+        worksheet.getCell('E' + (ind + 2)).value = contract['contract_subject'];
+        worksheet.getCell('F' + (ind + 2)).value = reference.get_support(contract['contract_type']);
+        worksheet.getCell('G' + (ind + 2)).value = contract['link'];
+        worksheet.getCell('H' + (ind + 2)).value = reference.get_state(contract['contract_state']);
         // Устанавливаем границы ячеек строки
         letr.forEach((value) => {
-            worksheet.getCell(value + (ind+2)).border = border;
+            worksheet.getCell(value + (ind + 2)).border = border;
         })
     })
 
@@ -1736,13 +1753,13 @@ function information_system_contracts_to_excel(data){
 /**
  * НАЖАТИЕ КНОПКИ ENTER В ОКНЕ ФИЛЬТРА
  */
-$('.information_system_filter').on('keyup', function(event){
-    if (event.key === 'Enter'){
+$('.information_system_filter').on('keyup', function (event) {
+    if (event.key === 'Enter') {
         information_system_load_records();
     }
 })
 
-$('#information_system_ref__filter').on('click', function(){
+$('#information_system_ref__filter').on('click', function () {
     let filter = $('#information_system_ref__container_filter');
     if ((filter).hasClass('hide'))
         filter.removeClass('hide');
@@ -1750,7 +1767,7 @@ $('#information_system_ref__filter').on('click', function(){
         filter.addClass('hide');
 })
 
-function load_not_full_complect_report(){
+function load_not_full_complect_report() {
     data = {
         action: 'information_system_not_full_complect'
     }

@@ -980,7 +980,6 @@ async function card_document_load_data(data, openMode) {
     var document_versions = cardData['document_versions']
     var ind = 1;
     document_versions.forEach(document_version => {
-        document_version['ind'] = ind++;
         document_version['is_deleted'] = 0;
         $('#document_card__version_list').prepend(
             document_card_draw_version(document_version)

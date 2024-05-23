@@ -107,7 +107,7 @@ var Context = {
                 case 'organization_ref__out_context_create' : oraganization_create_record(); break;
                 case 'organization_ref__out_context_update' : organization_load_records(); break;
 
-                case 'information_system_card__documents_open_card': Context.document_open_card(); break;
+                
                 case 'information_system_card__documents_create_version': Context.document_open_version_card(); break;
                 case 'main_menu__reports' : Context.show_menu_report(); break;
                 case 'main_menu__references': Context.show_menu_references(); break;
@@ -354,15 +354,6 @@ var Context = {
         Context.menuState = 1;
         $('#sm_help').css('display', 'flex');
     },
-    /** ФУНКЦИИ ДЛЯ РАБОТЫ С ПУНКТАМИ КОНТЕКСТНОГО МЕНЮ ДОКУМЕНТА */
-    document_open_card: function () {
-        var id = $("#information_system_card__id").text();
-        var size = { width: 1000, height: 600 };
-        reference.open_card('#information_system_card', 'Карточка Документа', size, 
-            OpenMode.Edit, id,'#information_system_card__documents');
-    },
-
-
 
     document_open_version_card: function () {
         $('#information_system_card__dialog').css('display', 'flex');
