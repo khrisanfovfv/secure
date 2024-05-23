@@ -187,7 +187,11 @@ $('#department_ref__delete').on('click', function () {
 $('#department_ref__excel').on('click', function(){
     // Выводим данные из базы данных
     var data = {
-        action: 'load_department'
+        action: 'load_department',
+        fname : $('#department_ref___fname').val().trim(),
+        forganization: $('#department_ref___forganization').val().trim(),
+        fboss : $('#department_ref___fboss').val().trim(),
+        fstate: $('#department_ref__fstate').val(),
     };
     jQuery.post(MainData.ajaxurl, data, function (result) {
         let departments = JSON.parse(result);

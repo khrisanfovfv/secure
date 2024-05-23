@@ -293,16 +293,41 @@ class InformationSystem{
 
         // Область с документами
         $documents = $wpdb->get_results(
-            $wpdb->prepare("SELECT inf_sys_doc.id, document.name, document_version.type, inf_sys_doc.document 
+            $wpdb->prepare("SELECT inf_sys_doc.id, document.name, document_version.id as version_id, document_version.type, inf_sys_doc.document, 
+            document_version.extension, MAX(document_version.version_number) 
             FROM {$wpdb->prefix}information_system_documents inf_sys_doc
             JOIN {$wpdb->prefix}document document on inf_sys_doc.document = document.id
-            JOIN (SELECT * 
-                FROM {$wpdb->prefix}document_version document_version
-                WHERE document_version.state = 'Active'
-                LIMIT 1) document_version
-            WHERE inf_sys_doc.information_system = $id"), OBJECT);
-             $results = (object) array_merge( (array)$results, array( 'documents' => $documents ));
-            
+            JOIN {$wpdb->prefix}document_version document_version on document_version.document = document.id
+            WHERE document_version.state = 'Active'
+            AND inf_sys_doc.information_system = $id
+            GROUP BY inf_sys_doc.id, inf_sys_doc.document, document.name, document_version.id, document_version.type, 
+            document_version.extension"), OBJECT);
+             
+            // Проверяем запрос на ошибки
+            if ($wpdb->last_error){
+                wp_die($wpdb->last_error, "Ошибка при загрузке карточки документы",array("response"=>500));
+            }
+        // Если активных версий нет
+        if ($documents == null){
+            $documents = $wpdb->get_results(
+                $wpdb->prepare("SELECT inf_sys_doc.id, document.name, document_version.id as version_id, document_version.type, inf_sys_doc.document, 
+                document_version.extension, MAX(document_version.version_number) 
+                FROM {$wpdb->prefix}information_system_documents inf_sys_doc
+                JOIN {$wpdb->prefix}document document on inf_sys_doc.document = document.id
+                JOIN {$wpdb->prefix}document_version document_version on document_version.document = document.id
+                WHERE document_version.state = 'Inactive'
+                AND inf_sys_doc.information_system = $id
+                GROUP BY inf_sys_doc.id, inf_sys_doc.document, document.name, document_version.id, document_version.type, 
+                document_version.extension"), OBJECT);
+            // Проверяем запрос на ошибки
+            if ($wpdb->last_error){
+                wp_die($wpdb->last_error, "Ошибка при загрузке карточки документы",array("response"=>500));
+            }
+        }
+        
+        $results = (object) array_merge( (array)$results, array( 'documents' => $documents ));
+        
+
 
         // Детальный раздел контракты
         $contracts = $wpdb->get_results( 

@@ -414,7 +414,15 @@ $('#information_system_ref__delete').on('click', function () {
 $('#information_system_ref__excel').on('click', function(){
     // Выводим данные из базы данных
     var data = {
-        action: 'load_information_system'
+        action: 'load_information_system',
+        fbriefname : $('#information_system_ref__fbriefname').val().trim(),
+        ffullname: $('#information_system_ref__ffullname').val().trim(),
+        fcertified : $('#information_system_ref__fcerified').val(),
+        fperiodicity: $('#information_system_ref__fperiodicity').val(),
+        fcertifydate : $('#information_system_ref__fcertifydate').val().trim(),
+        fcommissioningdate: $('#information_system_ref__fcommissioningdate').val().trim(),
+        fhasremark : $('#information_system_ref__fhasremark').val(),
+        fstate: $('#information_system_ref__fstate').val()
     };
     jQuery.post(MainData.ajaxurl, data, function (result) {
         let information_systems = JSON.parse(result);
@@ -836,36 +844,15 @@ function information_system_card__developpers_delete_record() {
  * ================================= ДОКУМЕНТЫ. ОТКРЫТЬ ================================
  */
 function information_system_read_document() {
-    let document_id = $('.attachments__item').children('.id').text();
-
-    let data = {
-        action: 'load_document_version_list',
-        document_id: document_id
+    //let document_id = $('.attachments__item').children('.id').text();
+    let length = $('.document__item.highlight').length;
+    if (length > 0){
+        let version_id = $('.document__item.highlight').children('.version_id').text();
+        let extension =  $('.document__item.highlight').children('.extension').text();
+        let type =  $('.attachments__item').children('.type').text();
+        alert(version_id + '|' + extension + '|' + type);
+        document_version_read(version_id, extension, type);
     }
-
-    jQuery.post(MainData.ajaxurl, data, function (result) {
-        var rows = JSON.parse(result);
-        // Ищем действующие версии
-        let results = rows.filter(function (item) {
-            return item.state === 'Active'
-        })
-        let version;
-        // Если нашли действующие версии выбираем максимальную
-        if (results.length > 0) {
-            version = results.reduce((max, current) => (max.version_number > current.version_number ? max : current), results[0]);
-            // Иначе ищем последнюю версию
-        } else {
-            version = rows.reduce((max, current) => (max.version_number > current.version_number ? max : current), rows[0]);
-        }
-        // Открываем версию документа
-        document_version_read(version.id, version.extension, version.type);
-
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        var size = { width: 500, height: 200 };
-        message = 'Во время загрузки версий документов произощла ошибка' + textStatus + ' ' + errorThrown;
-        reference.show_notification('#information_system_card', 'Ошибка', size, message);
-    });
-
 }
 
 /**
@@ -1184,6 +1171,9 @@ function information_system_card__draw_document(document) {
             .append($("<p class='id hide'>").text(document.id))
             .append($("<img class='attachments__ico'>").attr('src', icon))
             .append($("<p class= 'document hide'>").text(document.document))
+            .append($("<p class= 'version_id hide'>").text(document.version_id))
+            .append($("<p class= 'type hide'>").text(document.type))
+            .append($("<p class= 'extension hide'>").text(document.extension))
             .append($("<p class='attachments__name_item'>").text(document.name))
             .append($("<p class='is_deleted hide'>").text(0))
     return content_html;

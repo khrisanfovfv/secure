@@ -314,7 +314,11 @@ $('#administrator_ref__update').on('click', function () {
 $('#administrator_ref__excel').on('click', function(){
     // Выводим данные из базы данных
     var data = {
-        action: 'load_administrator'
+        action: 'load_administrator',
+        ffullname :$('#administrator_ref__ffullname').val(),
+        forganization : $('#administrator_ref__forganization').val(),
+        fdepartment : $('#administrator_ref__fdepartment').val(),
+        fstate : $('#administrator_ref__fstate').val()
     };
     jQuery.post(MainData.ajaxurl, data, function (result) {
         let administrators = JSON.parse(result);

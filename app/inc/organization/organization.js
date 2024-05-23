@@ -244,7 +244,12 @@ async function organization_to_excel(data){
 $('#organization_excel').on('click', function () {
     // Выводим данные из базы данных
     var data = {
-        action: 'load_organization'
+        action: 'load_organization',
+        fbriefname : $('#organisation_ref__fbriefname').val().trim(),
+        ffullname: $('#organisation_ref__ffullname').val().trim(),
+        fboss : $('#organisation_ref__fboss').val().trim(),
+        femail : $('#organisation_ref__femail').val().trim(),
+        fstate: $('#organisation_ref__fstate').val(),
     };
     jQuery.post(MainData.ajaxurl, data, function (result) {
         let organizations = JSON.parse(result);
