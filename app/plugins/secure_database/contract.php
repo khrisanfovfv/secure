@@ -238,28 +238,42 @@ class Contract
         }
 
         $results = (object) array_merge((array)$results, array('developpers' => $developpers));
-        //     $results = (object) array_merge( (array)$results, array( 'administrators' => $administrators ));
-        // $remarks = $wpdb->get_results(
-        //     $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE contract_id = $id"), OBJECT);
-        //     $results = (object) array_merge( (array)$results, array( 'remarks' => $remarks )); 
-        //contract.id, contract.contract_number, contract.conclusionDate, contract.contract_type, 
-        //contract.contract_subject, contract.contract_state
         
         // Область с документами
         $documents = $wpdb->get_results(
-            $wpdb->prepare("SELECT contract_doc.id, document.name, document_version.type, contract_doc.document_id  
+            $wpdb->prepare("SELECT contract_doc.id, document.name, document_version.id as version_id, document_version.type, 
+            contract_doc.document_id, document_version.extension, MAX(document_version.version_number)   
             FROM {$wpdb->prefix}contract_document contract_doc
             JOIN {$wpdb->prefix}document document on contract_doc.document_id = document.id
-            JOIN (SELECT * 
-                FROM {$wpdb->prefix}document_version document_version
-                WHERE document_version.state = 'Active'
-                LIMIT 1) document_version
-            WHERE contract_doc.contract_id = $id"), OBJECT);
-             $results = (object) array_merge( (array)$results, array( 'documents' => $documents ));
+            JOIN {$wpdb->prefix}document_version document_version on document_version.document = document.id
+            WHERE document_version.state = 'Active'
+            AND contract_doc.contract_id = %d
+            GROUP BY contract_doc.id, document.name, document_version.id, document_version.type, 
+            contract_doc.document_id, document_version.extension
+            ", $id), ARRAY_A);
+
             if ($wpdb->last_error){
                 wp_die($wpdb->last_error, "Ошибка при загрузке карточки документы",array("response"=>500));
+        
+}            // Если активных версий нет
+            if ($documents == null){
+                $documents = $wpdb->get_results(
+                    $wpdb->prepare("SELECT contract_doc.id, document.name, document_version.id as version_id, document_version.type, 
+                    contract_doc.document_id, document_version.extension, MAX(document_version.version_number)   
+                    FROM {$wpdb->prefix}contract_document contract_doc
+                    JOIN {$wpdb->prefix}document document on contract_doc.document_id = document.id
+                    JOIN {$wpdb->prefix}document_version document_version on document_version.document = document.id
+                    WHERE document_version.state = 'inActive'
+                    AND contract_doc.contract_id = %d
+                    GROUP BY contract_doc.id, document.name, document_version.id, document_version.type, 
+                    contract_doc.document_id, document_version.extension
+                    ", $id), ARRAY_A);
+                if ($wpdb->last_error){
+                    wp_die($wpdb->last_error, "Ошибка при загрузке карточки документы",array("response"=>500));
+                }
             }
-             
+             $results = (object) array_merge( (array)$results, array( 'documents' => $documents ));
+           
         return $results;
     }
 

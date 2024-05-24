@@ -413,7 +413,10 @@ function contract_card__draw_document(document) {
         $("<li class='attachments__item contract_document__item'>")
             .append($("<p class='id hide'>").text(document.id))
             .append($("<img class='attachments__ico'>").attr('src', icon))
-            .append($("<p class= 'document hide'>").text(document.document_id))
+            .append($("<p class= 'document hide'>").text(document.document))
+            .append($("<p class= 'version_id hide'>").text(document.version_id))
+            .append($("<p class= 'type hide'>").text(document.type))
+            .append($("<p class= 'extension hide'>").text(document.extension))
             .append($("<p class='attachments__name_item'>").text(document.name))
             .append($("<p class='is_deleted hide'>").text(0))
     return content_html;
@@ -638,7 +641,6 @@ function contract_card_binging_events() {
     /** ==============Карточка КОНТРАКТА: НАЖАТИЕ КНОПКИ OK ============= */
     $('#contract_card__OK').on('click', function (e) {
         contract_card_press_OK(e.target);
-        //$(e.target).parents('.appdialog').css('display', 'none');
     });
     /** ==============Карточка Организации: НАЖАТИЕ КНОПКИ Отмена ============= */
     $('#contract_card__Cancel').on('click', function (e) {
@@ -708,7 +710,7 @@ function contract_card_press_OK(sender) {
         var rows = $('#contract_card__documents li')
         rows.each(function(ind, row){
             document.id = $(row).children('.id').text();
-            document.contract = $('contract_card__id').text();
+            document.contract = $('#contract_card__id').text();
             document.document_id = $(row).children('.document').text();
             document.is_deleted = $(row).children('.is_deleted').text();
             documents[ind] = JSON.parse(JSON.stringify(document));

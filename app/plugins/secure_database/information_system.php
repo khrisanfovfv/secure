@@ -1180,7 +1180,19 @@ class InformationSystem{
      */
     function secure_information_system_not_full_complect(){
         global $wpdb;
-
+        $prefix = $wpdb->prefix;
+        $results =$wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT * FROM {$prefix}information_system system
+                 JOIN {$prefix}information_system_documents inf_sys_doc on system.id = inf_sys_doc.information_system
+                 JOIN 
+                    EXISTS(SELECT id FROM {$prefix}document document
+                           WHERE document.id = inf_sys_doc.document AND document.kind=1)"), ARRAY_A
+            );
+        if ($wpdb->last_error){
+            wp_die($wpdb->last_error, "Ошибка", array('response' => 500));
+        }
+        echo json_encode($results);
         wp_die();
     }
 }
