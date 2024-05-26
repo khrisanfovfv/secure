@@ -31,6 +31,14 @@
             <option value="Yes">Да</option>
             <option value="No">Нет</option>
         </select>
+         <!-- Периодичность аттестации -->
+         <label for="information_system_search__periodicity">Периодичность</label>
+        <select id="information_system_search__periodicity" name="information_system_search__periodicity">
+            <option value=""></option>
+            <option value="half_year">Пол года</option>
+            <option value="year">Год</option>
+            <option value="two_years">Два года</option>
+        </select>
         <!-- Дата аттестации -->
         <label id="certifyDateLabel">Дата аттестации</label> 
         <label for="information_system_search__certifyDateFrom" id="information_system_search__certifyDateFromLabel" >c</label>
@@ -60,9 +68,9 @@
         </select>
        
     </div>
-     <div class="search__finish_buttons">
-        <button class="search__finish_button" id="information_system_search__button_OK">OK</button>
-        <button class="search__finish_button" id="information_system_search__button_Cancel">Отмена</button>
+     <div class="finish_buttons">
+        <button class="finish_button" id="information_system_search__button_OK">OK</button>
+        <button class="finish_button" id="information_system_search__button_Cancel">Отмена</button>
     </div>
 </div>
 

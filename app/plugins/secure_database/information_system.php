@@ -1076,6 +1076,7 @@ class InformationSystem{
         $scope = $_POST['scope'];
         $significancelevel = $_POST['significancelevel'];
         $certified = $_POST['certified'];
+        $periodicity = $_POST['periodicity'];
         $certifydatefrom = $_POST['certifydatefrom'];
         $certifydateto = $_POST['certifydateto'];
         $hasremark = $_POST['hasremark'];
@@ -1085,6 +1086,7 @@ class InformationSystem{
         $scope_query = '';
         $significancelevel_query ='';
         $certified_query = '';
+        $periodicity_query = '';
         $certifydate_query ='';
         $hasremark_query = '';
         $commissioningdate_query = '';
@@ -1101,6 +1103,10 @@ class InformationSystem{
                 $certified_query = "AND certified = '1'";
             else
                 $certified_query = "AND certified = '0'";
+        }
+
+        if (trim($periodicity) !==''){
+            $periodicity_query = " AND periodicity = '$periodicity' "; 
         }
 
         if (trim($certifydatefrom) !=='' and trim($certifydateto) ===''){
@@ -1128,12 +1134,14 @@ class InformationSystem{
             $state_query = "AND state = '$state'";
         }
 
+
         $results = $wpdb->get_results( 
             $wpdb->prepare("SELECT * FROM {$prefix}information_system 
             WHERE fullname LIKE '%$fullname%'
             AND briefname LIKE '%$briefname%'" . $scope_query .
             $significancelevel_query .
             $certified_query .
+            $periodicity_query .
             $certifydate_query .
             $hasremark_query .
             $commissioningdate_query .

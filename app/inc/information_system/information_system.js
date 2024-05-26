@@ -308,7 +308,7 @@ function information_system_common_search(value) {
  * ============================ КНОПКА РАСШИРЕННЫЙ ПОИСК =============================
  */
 function information_system_extended_search() {
-    size = { width: 900, height: 450 };
+    size = { width: 900, height: 500 };
     prefix = '#information_system_ref';
     title = 'Расширенный поиск';
     // Загружаем карточку
@@ -339,6 +339,7 @@ $('#information_system_search__button_OK').on('click', function (e) {
         scope: $('#information_system_search__scope').val(),
         significancelevel: $('#information_system_search__significance_level').val(),
         certified: $('#information_system_search__certified').val(),
+        periodicity : $('#information_system_search__periodicity').val(),
         certifydatefrom: $('#information_system_search__certifyDateFrom').val(),
         certifydateto: $('#information_system_search__certifyDateTo').val(),
         commissioningdatefrom: $('#information_system_search__commissioningDateFrom').val(),
@@ -563,10 +564,10 @@ function card_information_system_load_data(data, openMode) {
     $('#information_system_card__briefName').val(cardData[0].briefname.replace(/\\"/g, '"'));
     $('#information_system_card__significance_level').val(cardData[0].significancelevel);
     $('#information_system_card__scope').val(cardData[0].scope);
-    $('#information_system_card__certified').prop('checked', cardData[0].certified);
+    $('#information_system_card__certified').prop('checked',cardData[0].certified==1 ? true : false);
     $('#information_system_card__periodicity').val(cardData[0].periodicity);
     $('#information_system_card__certifyDate').val(cardData[0].certifydate);
-    $('#information_system_card__has_remark').prop('checked', cardData[0].hasremark);
+    $('#information_system_card__has_remark').prop('checked', cardData[0].hasremark==1 ? true : false);
     $('#information_system_card__commissioningDate').val(cardData[0].commissioningdate);
     $('#information_system_card__state').val(cardData[0].state);
 
