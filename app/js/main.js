@@ -27,7 +27,8 @@ $(function () {
         e.preventDefault();
         href = $(this).children().attr('href');
         switch (href){
-            case 'sm_reports__expiring_is' : load_expiring_systems_report(e); break;
+            //case 'sm_reports__expiring_is' : load_expiring_systems_report(e); break;
+            case 'sm_reports__full_complect' : load_full_complect_report(); break;
             case 'sm_reports__not_full_complect' : load_not_full_complect_report(); break;
             case 'sm_references__information_system': open_page('information_system'); break;
             case 'sm_references__administrators': open_page('administrator'); break;
@@ -250,16 +251,16 @@ $('#setting_card__button_close').on('click', function(){
     $(e.target).parents('.appdialog').css('display', 'none');
 })
 
-function load_expiring_systems_report(e){
-    let data = {
-        action : 'load_expiring_systems'
-    }
+// function load_expiring_systems_report(e){
+//     let data = {
+//         action : 'load_expiring_systems'
+//     }
 
-    jQuery.post( MainData.ajaxurl, data, function( result ){
-        let information_systems = JSON.parse(result);
-        //information_systems_to_excel(information_systems);
-    });
+//     jQuery.post( MainData.ajaxurl, data, function( result ){
+//         let information_systems = JSON.parse(result);
+//         //information_systems_to_excel(information_systems);
+//     });
 
 
 
-}
+//}

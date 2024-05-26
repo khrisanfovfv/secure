@@ -1767,14 +1767,31 @@ $('#information_system_ref__filter').on('click', function () {
         filter.addClass('hide');
 })
 
-function load_not_full_complect_report() {
+/**
+ * ========== ОТЧЕТ. ИНФОРМАЦИОННЫЕ СИСТЕМЫ С ПОЛНЫМ КОМПЛЕКТОМ ДОКУМЕНТОВ =========
+ */
+function load_full_complect_report() {
+    data = {
+        action: 'information_system_full_complect'
+    }
+    jQuery.post(MainData.ajaxurl, data, function (result) {
+        let information_systems = JSON.parse(result);
+        information_systems_to_excel(information_systems);
+    });
+
+}
+
+/**
+ * ========== ОТЧЕТ. ИНФОРМАЦИОННЫЕ СИСТЕМЫ С НЕ ПОЛНЫМ КОМПЛЕКТОМ ДОКУМЕНТОВ =========
+ */
+function load_not_full_complect_report(){
     data = {
         action: 'information_system_not_full_complect'
     }
     jQuery.post(MainData.ajaxurl, data, function (result) {
-        alert(result);
+        let information_systems = JSON.parse(result);
+        information_systems_to_excel(information_systems);
     });
-
 }
 
 

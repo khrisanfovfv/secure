@@ -146,7 +146,8 @@ class SecDb
         //add_action('wp_ajax_nopriv_search_information_system', array('InformationSystem','secure_search_information_system'));
         add_action('wp_ajax_search_information_system_extended', array('InformationSystem','secure_search_information_system_extended'));
         //add_action('wp_ajax_nopriv_search_information_system_extended', array('InformationSystem','secure_search_information_system_extended'));
-        add_action('wp_ajax_load_expiring_systems', array('InformationSystem','secure_load_expiring_systems'));
+        //add_action('wp_ajax_load_expiring_systems', array('InformationSystem','secure_load_expiring_systems'));
+        add_action('wp_ajax_information_system_full_complect', array('InformationSystem','secure_information_system_full_complect'));
         add_action('wp_ajax_information_system_not_full_complect', array('InformationSystem','secure_information_system_not_full_complect'));
 
         // ДОКУМЕНТЫ

@@ -1142,36 +1142,74 @@ class InformationSystem{
         wp_die();
     }
 
-    /** ВЫВОД СИСТЕМ У КОТОРЫХ МЕНЬШЕ МЕСЯЦА ДО АТТЕСТАЦИИ */
-    function secure_load_expiring_systems() {   
+    // /** ВЫВОД СИСТЕМ У КОТОРЫХ МЕНЬШЕ МЕСЯЦА ДО АТТЕСТАЦИИ */
+    // function secure_load_expiring_systems() {   
+    //     global $wpdb;
+    //     $prefix = $wpdb->prefix;
+    //     $current_date = strtotime(date("Y-m-d"));
+    //     $half_year = 182*24*60*60;
+    //     $year = 360*24*60*60;
+    //     $two_years = 2*365*24*60*60;
+    
+    //     $half_year_result = $wpdb->get_results(
+    //         $wpdb->prepare("SELECT * FROM {$prefix}information_system
+    //         WHERE periodicity = 'half_year' AND UNIX_TIMESTAMP(certifydate) + " . $half_year . " < " . $current_date), ARRAY_A 
+    //     );
+
+    //     $year_result = $wpdb->get_results(
+    //         $wpdb->prepare("SELECT * FROM {$prefix}information_system
+    //         WHERE periodicity = 'year' AND UNIX_TIMESTAMP(certifydate) + " . $year . " < " . $current_date), ARRAY_A 
+    //     );
+
+    //     $two_years_result = $wpdb->get_results(
+    //         $wpdb->prepare("SELECT * FROM {$prefix}information_system
+    //         WHERE periodicity = 'two_years' AND (UNIX_TIMESTAMP(certifydate) + " . $two_years . " < " . $current_date), ARRAY_A 
+    //     );
+
+    //     if ($wpdb->last_error){
+    //         wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+    //     } 
+    //     $results = array_merge($half_year_result, $year_result, $two_years_result);
+    //     echo json_encode($results);
+
+    //     wp_die();
+    // }
+
+    /**
+     * СИСТЕМЫ С ПОЛНЫМ КОМПЛЕКТОМ ДОКУМЕНТОВ ДЛЯ АТТЕСТАЦИИ
+     */
+    function secure_information_system_full_complect(){
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $current_date = strtotime(date("Y-m-d"));
-        $half_year = 182*24*60*60;
-        $year = 360*24*60*60;
-        $two_years = 2*365*24*60*60;
-    
-        $half_year_result = $wpdb->get_results(
-            $wpdb->prepare("SELECT * FROM {$prefix}information_system
-            WHERE periodicity = 'half_year' AND UNIX_TIMESTAMP(certifydate) + " . $half_year . " < " . $current_date), ARRAY_A 
+        $results =$wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT * FROM {$prefix}information_system system
+                WHERE
+                    EXISTS(
+                        SELECT * FROM {$prefix}document document
+                        JOIN {$prefix}information_system_documents inf_sys_doc on inf_sys_doc.document = document.id
+                        WHERE inf_sys_doc.information_system = system.id
+                        AND kind = 1
+                    )
+                AND EXISTS(
+                        SELECT * FROM {$prefix}document document
+                        JOIN {$prefix}information_system_documents inf_sys_doc on inf_sys_doc.document = document.id
+                        WHERE inf_sys_doc.information_system = system.id
+                        AND kind = 2
+                    )
+                AND EXISTS(
+                        SELECT * FROM {$prefix}document document
+                        JOIN {$prefix}information_system_documents inf_sys_doc on inf_sys_doc.document = document.id
+                        WHERE inf_sys_doc.information_system = system.id
+                        AND kind = 3
+                    )
+                "
+            ), ARRAY_A
         );
-
-        $year_result = $wpdb->get_results(
-            $wpdb->prepare("SELECT * FROM {$prefix}information_system
-            WHERE periodicity = 'year' AND UNIX_TIMESTAMP(certifydate) + " . $year . " < " . $current_date), ARRAY_A 
-        );
-
-        $two_years_result = $wpdb->get_results(
-            $wpdb->prepare("SELECT * FROM {$prefix}information_system
-            WHERE periodicity = 'two_years' AND (UNIX_TIMESTAMP(certifydate) + " . $two_years . " < " . $current_date), ARRAY_A 
-        );
-
         if ($wpdb->last_error){
-            wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
-        } 
-        $results = array_merge($half_year_result, $year_result, $two_years_result);
+            wp_die($wpdb->last_error, "Ошибка", array('response' => 500));
+        }
         echo json_encode($results);
-
         wp_die();
     }
 
@@ -1184,11 +1222,28 @@ class InformationSystem{
         $results =$wpdb->get_results(
             $wpdb->prepare(
                 "SELECT * FROM {$prefix}information_system system
-                 JOIN {$prefix}information_system_documents inf_sys_doc on system.id = inf_sys_doc.information_system
-                 JOIN 
-                    EXISTS(SELECT id FROM {$prefix}document document
-                           WHERE document.id = inf_sys_doc.document AND document.kind=1)"), ARRAY_A
-            );
+                WHERE
+                    NOT EXISTS(
+                        SELECT * FROM {$prefix}document document
+                        JOIN {$prefix}information_system_documents inf_sys_doc on inf_sys_doc.document = document.id
+                        WHERE inf_sys_doc.information_system = system.id
+                        AND kind = 1
+                    )
+                OR NOT EXISTS(
+                        SELECT * FROM {$prefix}document document
+                        JOIN {$prefix}information_system_documents inf_sys_doc on inf_sys_doc.document = document.id
+                        WHERE inf_sys_doc.information_system = system.id
+                        AND kind = 2
+                    )
+                OR NOT EXISTS(
+                        SELECT * FROM {$prefix}document document
+                        JOIN {$prefix}information_system_documents inf_sys_doc on inf_sys_doc.document = document.id
+                        WHERE inf_sys_doc.information_system = system.id
+                        AND kind = 3
+                    )
+                "
+            ), ARRAY_A
+        );
         if ($wpdb->last_error){
             wp_die($wpdb->last_error, "Ошибка", array('response' => 500));
         }
