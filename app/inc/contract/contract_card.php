@@ -238,7 +238,7 @@ $document_icons = $resources->get_document_icons();
             <p>Открыть карточку</p>
         </li>
 
-        <li class="context-menu__item">
+        <li class="context-menu__item" id="contract_card__document_delete">
             <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
             <p>Удалить</p>
         </li>

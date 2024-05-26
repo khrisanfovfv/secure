@@ -78,7 +78,7 @@ function document_card_press_OK(sender) {
         data.append('sender', $('#document_card__sender').find('.id').text());
         data.append('correspondent', $('#document_card__correspondent').find('.id').text());
         data.append('sendreceive',  $('#document_card__sendreceive').val());
-        data.append('signed', $('#document_card__signed').is(':checked')) ? 1 : 0;
+        data.append('signed', $('#document_card__signed').is(':checked') ? 1 : 0);
         data.append('signer', $('#document_card__signer').val());
         data.append('state', $('#document_card__state').val());
         
@@ -1138,7 +1138,7 @@ function document_card_binging_events() {
 
     /** ================================ ВЫБОР ФАЙЛА ============================== */
     $('#document_card__file').on('change', function (e) {
-        var file = $(e.target).prop('files')[0];
+        var file_list = $(e.target).prop('files');
         
         //console.log(fileByteArray);
         // Находим масимальный номер версии
@@ -1153,16 +1153,24 @@ function document_card_binging_events() {
         }
         var version_number = max_version_number + 1;
 
+        // Делаем остальные версии недействующими
+        versions = $('.version__item');
+        $.each(versions, function(index, element){
+            $(element).addClass('Inactive')
+            $(element).children('.state').text('Inactive');
+        })
 
         // Отображаем созданную версию
         var document_version = [];
         document_version['version_number'] = version_number;
-        document_version['versiondate'] = file.lastModified;
-        document_version['type'] = file.type;
+        //document_version['versiondate'] = file.lastModified;
+        document_version['type'] = file_list[0].type;
         document_version['version_title'] = 'Версия ' + version_number;
         document_version['is_deleted'] = 0;
+        document_version['extension'] = file_list[0].name.split('.').pop();
         document_version['state'] = 'Active';
-        document_version['file'] = $(e.target).clone();
+        document_version['file_list'] = file_list; 
+        //$(e.target).clone();
         $('#document_card__version_list').prepend(
             document_card_draw_version(document_version)
         );

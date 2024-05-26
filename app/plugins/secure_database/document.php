@@ -323,7 +323,8 @@ class Document
                     'correspondent' => $_POST['correspondent']  == ''? null : $_POST['correspondent'],
                     'sendreceive' => $_POST['sendreceive'],
                     'signer' => $_POST['signer'],
-                    'signed' => $_POST['signed'] == true ? 1 : 0,
+                    'signed' => $_POST['signed'], 
+                    //== true ? 1 : 0,
                     'state' => 'Active'
                 ),
                 array(
@@ -404,7 +405,7 @@ class Document
                 'correspondent' => $_POST['correspondent']  == ''? null : $_POST['correspondent'],
                 'sendreceive' => $_POST['sendreceive'],
                 'signer' => $_POST['signer'],
-                'signed' => $_POST['signed'] == true ? 1 : 0,
+                'signed' => $_POST['signed']== true ? 1 : 0,
                 'state' => 'Active'
             ),
             array( 'ID' => $_POST['id'] ),

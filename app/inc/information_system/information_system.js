@@ -851,7 +851,6 @@ function information_system_read_document() {
         let version_id = $('.document__item.highlight').children('.version_id').text();
         let extension = $('.document__item.highlight').children('.extension').text();
         let type = $('.attachments__item').children('.type').text();
-        alert(version_id + '|' + extension + '|' + type);
         document_version_read(version_id, extension, type);
     }
 }

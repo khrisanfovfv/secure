@@ -242,7 +242,7 @@ class Contract
         // Область с документами
         $documents = $wpdb->get_results(
             $wpdb->prepare("SELECT contract_doc.id, document.name, document_version.id as version_id, document_version.type, 
-            contract_doc.document_id, document_version.extension, MAX(document_version.version_number)   
+            contract_doc.document_id as document, document_version.extension, MAX(document_version.version_number)   
             FROM {$wpdb->prefix}contract_document contract_doc
             JOIN {$wpdb->prefix}document document on contract_doc.document_id = document.id
             JOIN {$wpdb->prefix}document_version document_version on document_version.document = document.id

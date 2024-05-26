@@ -340,36 +340,16 @@ function card_contract_load_data(data, openMode) {
  * ================================= ДОКУМЕНТЫ. ОТКРЫТЬ ================================
  */
 function contract_read_document() {
-    let document_id = $('.attachments__item.highlight').children('.id').text();
-
-    let data = {
-        action: 'load_document_version_list',
-        document_id: document_id
+   
+    //let document_id = $('.attachments__item.highlight').children('.id').text();
+    let length = $('.contract_document__item.highlight').length;
+    if (length > 0) {
+        let version_id = $('.contract_document__item.highlight').children('.version_id').text();
+        let extension = $('.contract_document__item.highlight').children('.extension').text();
+        let type = $('.contract_document__item').children('.type').text();
+        document_version_read(version_id, extension, type);
     }
-
-    jQuery.post(MainData.ajaxurl, data, function (result) {
-        var rows = JSON.parse(result);
-        // Ищем действующие версии
-        let results = rows.filter(function (item) {
-            return item.state === 'Active'
-        })
-        let version;
-        // Если нашли действующие версии выбираем максимальную
-        if (results.length > 0) {
-            version = results.reduce((max, current) => (max.version_number > current.version_number ? max : current), results[0]);
-            // Иначе ищем последнюю версию
-        } else {
-            version = rows.reduce((max, current) => (max.version_number > current.version_number ? max : current), rows[0]);
-        }
-        // Открываем версию документа
-        document_version_read(version.id, version.extension, version.type);
-
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        var size = { width: 500, height: 200 };
-        message = 'Во время загрузки версий документов произощла ошибка' + textStatus + ' ' + errorThrown;
-        reference.show_notification('#information_system_card', 'Ошибка', size, message);
-    });
-
+   
 }
 
 /**
@@ -392,6 +372,17 @@ function contract_document_open_card() {
             reference.open_card('#contract_card', 'Карточка Документа', size, 
                 OpenMode.Edit, id,'#contract_card__documents');
         }
+    }
+}
+
+/**
+ * ================ ДОКУМЕНТЫ. КОНТЕКСТНОЕ МЕНЮ. УДАЛИТЬ ЗАПИСЬ
+ */
+function contract_card__documents_delete_record(){
+    var rows = $('#contract_card__documents>li.highlight');
+    if (rows.length > 0) {
+        $(rows[0]).children('.is_deleted').text(1);
+        $(rows[0]).hide();
     }
 }
 
@@ -615,6 +606,10 @@ function contract_card_binging_events() {
         contract_document_open_card();
     })
 
+    /**  */
+    $('#contract_card__document_delete').on('click', function(){
+        contract_card__documents_delete_record();
+    })
 
     /** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ================ */
     //$('.contract_card__tabs_item').on('click', function (e) {
