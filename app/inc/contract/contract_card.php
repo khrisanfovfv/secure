@@ -28,7 +28,7 @@ $document_icons = $resources->get_document_icons();
                                 <!-- ИД -->
                                 <p class="hide" id="contract_card__id"></p>
                                 <!-- Предмет Контракта-->
-                                <label for="contract_card__subject">Предмет Контракта</label>
+                                <label for="contract_card__subject" id="contract_card__subject_title">Предмет Контракта</label>
                                 <textarea id="contract_card__subject" size="80" rows="3"></textarea>
                                 <!-- Номер контракта-->
                                 <label for="contract_card__number">Номер контракта</label>

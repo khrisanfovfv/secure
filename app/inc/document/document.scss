@@ -113,7 +113,10 @@
     &__signed_label{
         grid-column: 13/25;
     }
-    
+    &__version_list{
+        overflow-y: auto;
+        height: 450px;
+    }
 
 }
 

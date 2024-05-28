@@ -297,13 +297,16 @@ html, body, .wrapper{
         /*align-items: stretch;*/
         overflow-y: auto;
         overflow-x: hidden;
-        height: 100%;
         margin: 5px;
     }
     &__item{
         display: flex;
         align-items: center;
         margin: 5px 0;
+    }
+
+    &__item p{
+        font-size: 15px;
     }
     &__item:hover{
         background-color: lightblue;
@@ -453,4 +456,8 @@ th select:focus{
 }
 .orange_background{
     background-color: rgb(250, 242, 228);
+}
+
+label{
+    color: #2778f1;
 }
