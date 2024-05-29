@@ -415,29 +415,29 @@ class Contract
         if ($wpdb->last_error) {
             wp_die($wpdb->last_error, 'Ошибка при обновлении записи', array('response' => 500));
         }
-        echo 'Запись ид = ' . $record['id'] . ' успешно обновлена ' .$customers_json;
-        wp_die();
-        // //         // Обновляем записи в детальном разделе ИСПОЛНИТЕЛИ
-        // //         // Убираем символы экранирования '/'
-        // $developpers_json = stripcslashes($record['developpers']);
-        // $developpers = json_decode($developpers_json);
-        // foreach ($developpers as $developper){
-        //     if ($developper->id ==''){
-        //         if ($developper->is_deleted == 0){
-        //             Contract::secure_create_developper($record['id'], $developper);
-        //         }
-        //     }elseif ($developper->is_deleted ==='1'){
-        //         Contract::secure_delete_developper($developper);
-        //     } else {
-        //         Contract::secure_update_developper($developper);
-        //      }
-        // }
-
-        // if ($wpdb->last_error) {
-        //     wp_die($wpdb->last_error, 'Ошибка при обновлении записи', array('response' => 500));
-        // }
-        // echo 'Запись ид = ' . $record['id'] . ' успешно обновлена ' .$developpers_json;
+        // echo 'Запись ид = ' . $record['id'] . ' успешно обновлена ' .$customers_json;
         // wp_die();
+        //         // Обновляем записи в детальном разделе ИСПОЛНИТЕЛИ
+        //         // Убираем символы экранирования '/'
+        $developpers_json = stripcslashes($record['developpers']);
+        $developpers = json_decode($developpers_json);
+        foreach ($developpers as $developper){
+            if ($developper->id ==''){
+                if ($developper->is_deleted == 0){
+                    Contract::secure_create_developper($record['id'], $developper);
+                }
+            }elseif ($developper->is_deleted ==='1'){
+                Contract::secure_delete_developper($developper);
+            } else {
+                Contract::secure_update_developper($developper);
+             }
+        }
+
+        if ($wpdb->last_error) {
+            wp_die($wpdb->last_error, 'Ошибка при обновлении записи', array('response' => 500));
+        }
+        echo 'Запись ид = ' . $record['id'] . ' успешно обновлена ';
+        wp_die();
     }
 
     //     /**
@@ -468,28 +468,7 @@ class Contract
 
     //     }
 
-        /**
-         * ============== ДЕТАЛЬНАЯ СТРАНИЦА ЗАКАЗЧИКИ. СОЗДАНИЕ ЗАПИСИ ==============
-         */
-        protected function secure_create_customer($contract_id, $customer){
-            global $wpdb;
-            $table_name = $wpdb->prefix . 'contract_customer';
-            $wpdb->insert(
-                $table_name,
-                array(
-                    'contract_id' => $contract_id,
-                    'organization_id' =>$customer->organization_id
-                ),
-                array(
-                    '%d', // contract_id
-                    '%d', // organization_id
-                )
-            );
-
-            if($wpdb-> last_error){
-                wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
-            }
-        }
+        
 
         /**
          * ================ ДЕТАЛЬНЫЙ РАЗДЕЛ ДОКУМЕНТЫ. СОЗДАНИЕ ЗАПИСИ ================
@@ -551,6 +530,29 @@ class Contract
         }
     }
 
+    /**
+         * ============== ДЕТАЛЬНАЯ СТРАНИЦА ЗАКАЗЧИКИ. СОЗДАНИЕ ЗАПИСИ ==============
+         */
+        protected function secure_create_customer($contract_id, $customer){
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'contract_customer';
+            $wpdb->insert(
+                $table_name,
+                array(
+                    'contract_id' => $contract_id,
+                    'organization_id' =>$customer->organization_id
+                ),
+                array(
+                    '%d', // contract_id
+                    '%d', // organization_id
+                )
+            );
+
+            if($wpdb-> last_error){
+                wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+            }
+        }
+
         /**
          * ============== ДЕТАЛЬНАЯ СТРАНИЦА ЗАКАЗЧИКИ. РЕДАКТИРОВАНИЕ ЗАПИСИ ==============
          */
@@ -593,69 +595,69 @@ class Contract
             wp_die();
         }
 
-    //     /** ============== ДЕТАЛЬНАЯ СТРАНИЦА ЗАКАЗЧИКИ. СОЗДАНИЕ ЗАПИСИ ==============
-    //     */
-    //    protected function secure_create_developper($contract_id, $developper){
-    //        global $wpdb;
-    //        $table_name = $wpdb->prefix . 'contract_developper';
-    //        $wpdb->insert(
-    //            $table_name,
-    //            array(
-    //                'contract_id' => $contract_id,
-    //                'organization_id' =>$developper->organization_id
-    //            ),
-    //            array(
-    //                '%d', // contract_id
-    //                '%d', // organization_id
-    //            )
-    //        );
+        /** ============== ДЕТАЛЬНАЯ СТРАНИЦА ИСПОЛНИТЕЛИ. СОЗДАНИЕ ЗАПИСИ ==============
+        */
+       protected function secure_create_developper($contract_id, $developper){
+           global $wpdb;
+           $table_name = $wpdb->prefix . 'contract_developper';
+           $wpdb->insert(
+            $table_name,
+               array(
+                   'contract_id' => $contract_id,
+                   'organization_id' =>$developper->organization_id
+               ),
+               array(
+                   '%d', // contract_id
+                   '%d', // organization_id
+               )
+           );
 
-    //        if($wpdb-> last_error){
-    //            wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
-    //        }
-    //    }
+           if($wpdb-> last_error){
+               wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+           }
+       }
 
-    //    /**
-    //     * ============== ДЕТАЛЬНАЯ СТРАНИЦА ЗАКАЗЧИКИ. РЕДАКТИРОВАНИЕ ЗАПИСИ ==============
-    //     */
-    //    protected function secure_update_developper($developper){
-    //        global $wpdb;
-    //        $prefix = $wpdb->prefix;
-    //        print_r($developper->eliminated);
-    //        $wpdb->update(
-    //            $prefix.'contarct_developper',
-    //            array(
-    //                'contract_id' => $developper->contract_id,
-    //                'organization_id' =>$developper->organization_id
-    //            ),
-    //            array( 'ID' => $developper->id ),
-    //            array(
-    //                '%d', // contract_id
-    //                '%d', // organization_id
-    //            ),
-    //            array( '%d' )
-    //        );
+       /**
+        * ============== ДЕТАЛЬНАЯ СТРАНИЦА ИСПОЛНИТЕЛИ. РЕДАКТИРОВАНИЕ ЗАПИСИ ==============
+        */
+       protected function secure_update_developper($developper){
+           global $wpdb;
+           $prefix = $wpdb->prefix;
+           print_r($developper->eliminated);
+           $wpdb->update(
+               $prefix.'contarct_developper',
+               array(
+                   'contract_id' => $developper->contract_id,
+                   'organization_id' =>$developper->organization_id
+               ),
+               array( 'ID' => $developper->id ),
+               array(
+                   '%d', // contract_id
+                   '%d', // organization_id
+               ),
+               array( '%d' )
+           );
 
-    //        if($wpdb-> last_error){
-    //            wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
-    //        }
+           if($wpdb-> last_error){
+               wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+           }
 
-    //    }
-    //    /**
-    //     * ============== ЗАКАЗЧИКИ. УДАЛЕНИЕ ЗАПИСИ ==============
-    //     */
-    //    protected function secure_delete_developper($developper){
-    //        global $wpdb;
-    //        $prefix = $wpdb->prefix;
-    //        $wpdb->delete( $prefix . 'contract_developper', array( 'ID' => $developper->id ), array( '%d' ));
-    //        echo 'Запись ид = ' . $developper->id . ' успешно удалена';
+       }
+       /**
+        * ============== ИСПОЛНИТЕЛИ. УДАЛЕНИЕ ЗАПИСИ ==============
+        */
+       protected function secure_delete_developper($developper){
+           global $wpdb;
+           $prefix = $wpdb->prefix;
+           $wpdb->delete( $prefix . 'contract_developper', array( 'ID' => $developper->id ), array( '%d' ));
+           echo 'Запись ид = ' . $developper->id . ' успешно удалена';
            
-    //        if($wpdb-> last_error){
-    //            wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
-    //        }
+           if($wpdb-> last_error){
+               wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+           }
 
-    //        wp_die();
-    //    }
+           wp_die();
+       }
 
 
     /**
