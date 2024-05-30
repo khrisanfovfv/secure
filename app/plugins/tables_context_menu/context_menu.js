@@ -32,6 +32,7 @@ var Context = {
         '#contract_ref__out_context',
         '#contract_card__customer_context',
         '#contract_card_customers__out_context',
+        '#contract_card__developper_context',
         '#contract_card__documents_out_context',
         '#contract_card__document_context',
         '#employeer_ref__context',
@@ -196,6 +197,7 @@ var Context = {
             'attachments__item contract_document__item',
             'contract_ref__table_row',
             'contract_card__customers_table_num',
+            'contract_card__developpers_table_num',
             'attachments__item document__item',
             'employee_ref__table_row',
             'employee_card__photo',
@@ -231,6 +233,7 @@ var Context = {
                 (result.classList.contains('administrator_card__information_systems_table_num'))||
                 (result.classList.contains('information_system_card__administrators_table_num'))||
                 (result.classList.contains('contract_card__customers_table_num'))||
+                (result.classList.contains('contract_card__developpers_table_num'))||
                 (result.classList.contains('document_card__send_list_table_num'))){
                     reference.highlight(e);
             }
@@ -265,6 +268,7 @@ var Context = {
             case 'document_kind_ref__table_row': Context.menu = $('#document_kind_ref__context'); break;
             case 'contract_ref__table_row': Context.menu = $('#contract_ref__context'); break;
             case 'contract_card__customers_table_num' : Context.menu = $('#contract_card__customer_context'); break;
+            case 'contract_card__developpers_table_num' : Context.menu = $('#contract_card__developper_context'); break;
             case 'contract_document__item' : Context.menu = $('#contract_card__document_context'); break;
             case 'employee_ref__table_row': Context.menu = $('#employee_ref__context'); break;
             case 'employee_card__photo' : Context.menu = $('#employee_card__photo_context'); break;

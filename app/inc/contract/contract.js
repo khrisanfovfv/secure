@@ -251,6 +251,30 @@ function contract_card__developpers_create() {
     );
 }
 
+/**
+ * ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ. УДАЛЕНИЕ ЗАПИСИ
+ */
+function contract_card__customers_delete(){
+    rows = $('.contract_card__customers_table_row.highlight');
+    if (rows.length > 0) {
+        var id = rows[0].children.item(0).textContent;
+        rows[0].children.item(3).textContent = 1;
+        rows[0].classList.add('hide');
+    }
+}
+
+/**
+ * ДЕТАЛЬНЫЙ РАЗДЕЛ РАЗРАБОТЧИКИ. УДАЛЕНИЕ ЗАПИСИ
+ */
+function contract_card__developpers_delete(){
+    rows = $('.contract_card__developpers_table_row.highlight');
+    if (rows.length > 0) {
+        var id = rows[0].children.item(0).textContent;
+        rows[0].children.item(3).textContent = 1;
+        rows[0].classList.add('hide');
+    }
+}
+
 
 /**
  * ========================= НАЖАТИЕ КНОПКИ КОПИРОВАТЬ ===========================
@@ -437,7 +461,7 @@ function contract_card__draw_customers_row(customer) {
 /** ================== ОТРИСОВКА СТРОКИ ТАБЛИЦЫ ИСПОЛНИТЕЛИ ================= */
 function contract_card__draw_developpers_row(developper) {
     var content_html =
-        $("<tr>")
+        $("<tr class = 'contract_card__developpers_table_row'>")
             .append($("<td class='id hide'>").text(developper['id']))
             .append($("<td class='contract_card__developpers_table_num'>").text(developper['ind']))
             .append($("<td>")
@@ -565,7 +589,7 @@ function contract_ref_binding_events() {
     })
 
 
-
+    /** ===================== НАЖАТИЕ КНОПКИ ВЫБРАТЬ ====================== */
     $('#contract_ref__select').on('click', function (e) {
         contract_select_record(e);
     })
@@ -584,6 +608,7 @@ function contract_ref_binding_events() {
         contract_delete_record();
     });
 
+    /** ===================== НАЖАТИЕ КНОПКИ ОБНОВИТЬ ====================== */
     $('#contract_ref__update').on('click', function () {
         contract_load_records();
     });
@@ -606,16 +631,21 @@ function contract_card_binging_events() {
         contract_document_open_card();
     })
 
-    /**  */
+    /** ДЕТАЛЬНЫЙ РАЗДЕЛ ДОКУМЕНТЫ. УДАЛИТЬ ЗАПИСЬ */
     $('#contract_card__document_delete').on('click', function(){
         contract_card__documents_delete_record();
     })
 
     /** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ. НАЖАТИЕ КНОПКИ СОЗДАТЬ ================ */
-    //$('.contract_card__tabs_item').on('click', function (e) {
     $('#contract_card__customers_create').on('click', function () {
         contract_card__customers_create();
     })
+
+    /** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ. НАЖАТИЕ КНОПКИ УДАЛИТЬ ================ */
+    $('#contract_card__customers_delete').on('click', function () {
+        contract_card__customers_delete();
+    })
+
     /** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ЗАКАЗЧИКИ. НАЖАТИЕ КНОПКИ Обновить ================ */
 
     $('#contract_card__customers_update').on('click', function () {
@@ -627,6 +657,11 @@ function contract_card_binging_events() {
     $('#contract_card__developpers_create').on('click', function () {
         contract_card__developpers_create();
     })
+
+    /** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ИСПОЛНИТЕЛИ. НАЖАТИЕ КНОПКИ УДАЛИТЬ ================ */
+    $('#contract_card__developpers_delete').on('click', function () {
+        contract_card__developpers_delete();
+    });
     /** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ИСПОЛНИТЕЛИ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ ================ */
     //$('.contract_card__tabs_item').on('click', function (e) {
     $('#contract_card__developpers_update').on('click', function () {
@@ -717,22 +752,26 @@ function contract_card_press_OK(sender) {
         let customers_html = $('#contract_card__customers_table>tbody>tr');
         $.each(customers_html, function (index, element) {
             customer.id = $(element).children('.id').text();
+            customer.contract_id = $('#contract_card__id').text();
             customer.organization_id = $(element).find('.ref_record').children('.id').text();
-            customer.organization_name = $(element).find('.ref_record').children('.fullname').val();
+            //customer.organization_name = $(element).find('.ref_record').children('.fullname').val();
             customer.is_deleted = $(element).children('.is_deleted').text();
+            customers[index] = JSON.parse(JSON.stringify(customer));
         })
-        customers.push(customer);
+        
 
         let developpers = [];
         let developper = {};
         let developpers_html = $('#contract_card__developpers_table>tbody>tr');
         $.each(developpers_html, function (index, element) {
             developper.id = $(element).children('.id').text();
+            developper.contract_id = $('#contract_card__id').text();
             developper.organization_id = $(element).find('.ref_record').children('.id').text();
-            developper.organization_name = $(element).find('.ref_record').children('.fullname').val();
-            developper.is_deleted = $(element).children('.is_deleted');
+            //developper.organization_name = $(element).find('.ref_record').children('.fullname').val();
+            developper.is_deleted = $(element).children('.is_deleted').text();
+            developpers[index] = JSON.parse(JSON.stringify(developper));
         })
-        developpers.push(developper);
+        
 
         record = {
             id: $('#contract_card__id').text(),

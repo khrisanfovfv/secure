@@ -189,7 +189,7 @@ $document_icons = $resources->get_document_icons();
 </div>
 
 <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ РАЗРАБОТЧИКИ -->
-<div class="context-menu" id="contract_card__general_developpers_context">
+<div class="context-menu" id="contract_card__developper_context">
     <ul class="context-menu__list">
         <li class="context-menu__item">
             <img src="<?php echo $button_icons->edit ?>" alt=Редактировать">

@@ -215,7 +215,7 @@ class Contract
         );
         //ДЕТАЛЬНАЯ СТРАНИЦА ЗАКАЗЧИКИ
         $customers = $wpdb->get_results(
-            $wpdb->prepare("SELECT organization.id as organization_id, organization.fullname as organization_name  FROM {$prefix}contract_customer customer
+            $wpdb->prepare("SELECT customer.id, organization.id as organization_id, organization.fullname as organization_name  FROM {$prefix}contract_customer customer
             JOIN {$prefix}organization organization on organization.id = customer.organization_id
             WHERE customer.contract_id = %d", $id),
             OBJECT
@@ -228,7 +228,7 @@ class Contract
 
         //ДЕТАЛЬНАЯ СТРАНИЦА ИСПОЛНИТЕЛИ
         $developpers = $wpdb->get_results(
-            $wpdb->prepare("SELECT organization.id as organization_id, organization.fullname as organization_name  FROM {$prefix}contract_developper developper
+            $wpdb->prepare("SELECT developper.id, organization.id as organization_id, organization.fullname as organization_name  FROM {$prefix}contract_developper developper
             JOIN {$prefix}organization organization on organization.id = developper.organization_id
             WHERE developper.contract_id = %d", $id),
             OBJECT
@@ -405,7 +405,7 @@ class Contract
                 if ($customer->is_deleted == 0){
                     Contract::secure_create_customer($record['id'], $customer);
                 }
-            }elseif ($customer->is_deleted ==='1'){
+            }elseif ($customer->is_deleted == 1){
                 Contract::secure_delete_customer($customer);
             } else {
                 Contract::secure_update_customer($customer);
@@ -426,7 +426,7 @@ class Contract
                 if ($developper->is_deleted == 0){
                     Contract::secure_create_developper($record['id'], $developper);
                 }
-            }elseif ($developper->is_deleted ==='1'){
+            }elseif ($developper->is_deleted == 1){
                 Contract::secure_delete_developper($developper);
             } else {
                 Contract::secure_update_developper($developper);
@@ -561,7 +561,7 @@ class Contract
             $prefix = $wpdb->prefix;
             print_r($customer->eliminated);
             $wpdb->update(
-                $prefix.'contarct_customer',
+                $prefix.'contract_customer',
                 array(
                     'contract_id' => $customer->contract_id,
                     'organization_id' =>$customer->organization_id
@@ -592,7 +592,6 @@ class Contract
                 wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
             }
 
-            wp_die();
         }
 
         /** ============== ДЕТАЛЬНАЯ СТРАНИЦА ИСПОЛНИТЕЛИ. СОЗДАНИЕ ЗАПИСИ ==============
@@ -625,7 +624,7 @@ class Contract
            $prefix = $wpdb->prefix;
            print_r($developper->eliminated);
            $wpdb->update(
-               $prefix.'contarct_developper',
+               $prefix.'contract_developper',
                array(
                    'contract_id' => $developper->contract_id,
                    'organization_id' =>$developper->organization_id
