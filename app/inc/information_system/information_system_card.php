@@ -31,8 +31,6 @@ $document_icons = $resources->get_document_icons();
                             <div class="information_system_card__general_fields">
                                 <!-- ИД -->
                                 <p class="hide" id="information_system_card__id"></p>
-                                <!-- Кнопка начать аттестацию -->
-                                <button id="start_certification_button">Начать аттестацию</button>
                                 <!-- Полное наименование -->
                                 <label for="information_system_card__fullName" id="information_system_card__fullName_title">Полное наименование<span class="required">*</span></label>
                                 <textarea id="information_system_card__fullName" name="information_system_card__fullName" size="80" rows="3" cols="33"></textarea>

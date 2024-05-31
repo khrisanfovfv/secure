@@ -65,7 +65,8 @@ class Employee
         $result['login'] = $user->user_login;
         $avatar_folder = wp_normalize_path(get_option('avatars_folder', ''));
         // ЗАГРУЖАЕМ аватар
-        $result['photo'] = $avatar_folder . get_user_meta($id, 'avatar_path', true);
+        //$result['photo'] = $avatar_folder . get_user_meta($id, 'avatar_path', true);
+        $result['photo'] = wp_normalize_path(get_template_directory_uri() . '/storage/avatars/' . get_user_meta($id, 'avatar_path', true)) ;
         $result['last_name'] = $user->last_name;
         $result['first_name'] = $user->first_name;
         $result['middle_name'] = $user->middle_name;
@@ -74,6 +75,7 @@ class Employee
         $result['organization_name'] = $wpdb->get_var($wpdb->prepare("SELECT fullname FROM {$prefix}organization WHERE id = %d", $user->organization));
         $result['department_id'] = $user->department;
         $result['department_name'] = $wpdb->get_var($wpdb->prepare("SELECT name FROM {$prefix}department WHERE id = %d", $user->department));
+        $result["state"] = $user->state;
         return $result;
     }
 
