@@ -675,8 +675,8 @@ function information_system_update_reference(records) {
                 .append($("<td style='text-align: left;'>").text(record['fullname'].replace(/\\"/g, '"')))
                 .append($("<td>").text(reference.get_boolean_value(record['certified'])))
                 .append($("<td>").text(reference.get_periodicity(record['periodicity'])))
-                .append($("<td>").text(record['certifydate']))
-                .append($("<td>").text(record['commissioningdate']))
+                .append($("<td>").text(reference.get_date_value(record['certifydate'])))
+                .append($("<td>").text(reference.get_date_value(record['commissioningdate'])))
                 .append($("<td>").text(reference.get_boolean_value(record['hasremark'])))
                 .append($("<td>").text(reference.get_state(record['state'])))
         ).on('click', function (e) {
@@ -1121,7 +1121,7 @@ function information_system_contract_add_record() {
 function information_system_contract_edit_record() {
     var rows = $('#information_system_card__contracts_table>tbody>tr.highlight')
     if (rows.length > 0) {
-        var id = rows[0].children.item(0).textContent;
+        var id = rows[0].children.item(1).textContent;
         var size = { width: 1000, height: 500 };
         reference.open_card('#information_system_card', 'Карточка Контракта', size,
             OpenMode.Edit, id, '#information_system_card__contracts');
@@ -1277,9 +1277,9 @@ function information_system_card__draw_contract_row(contract) {
             .append($("<td class='contract_number'>").text(contract['contract_number']))
             .append($("<td class='conclusionDate'>").text(contract['conclusionDate']))
             .append($("<td class='contract_subject'>").text(contract['contract_subject']))
-            .append($("<td class='contract_type'>").text(contract['contract_type']))
+            .append($("<td class='contract_type'>").text(reference.get_contract_type(contract['contract_type'])))
             .append($("<td class='link'>").text(contract['link']))
-            .append($("<td class='contract_state'>").text(contract['contract_state']))
+            .append($("<td class='contract_state'>").text(reference.get_state(contract['contract_state'])))
             .append($("<td class='is_deleted hide'>").text(0));
     return content_html;
 
@@ -1736,7 +1736,7 @@ function information_system_contracts_to_excel(data) {
         worksheet.getCell('C' + (ind + 2)).value = contract['contract_number'];
         worksheet.getCell('D' + (ind + 2)).value = contract['conclusionDate'];
         worksheet.getCell('E' + (ind + 2)).value = contract['contract_subject'];
-        worksheet.getCell('F' + (ind + 2)).value = reference.get_support(contract['contract_type']);
+        worksheet.getCell('F' + (ind + 2)).value = reference.get_contract_type(contract['contract_type']);
         worksheet.getCell('G' + (ind + 2)).value = contract['link'];
         worksheet.getCell('H' + (ind + 2)).value = reference.get_state(contract['contract_state']);
         // Устанавливаем границы ячеек строки

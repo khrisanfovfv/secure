@@ -64,7 +64,7 @@ function contract_extended_search() {
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена =============
 */
 $('#contract_search__button_Cancel').on('click', function () {
-    $(this).parents('.appdialog').css('display', 'none');
+    $(this).parents('.appdialog:first').css('display', 'none');
 });
 
 
@@ -164,7 +164,7 @@ function contracts_to_excel(data) {
         worksheet.getCell('C' + (ind + 2)).value = contract['contract_subject'];
         worksheet.getCell('D' + (ind + 2)).value = contract['contract_number'];
         worksheet.getCell('E' + (ind + 2)).value = contract['conclusionDate'];
-        worksheet.getCell('F' + (ind + 2)).value = reference.get_support(contract['contract_type']);
+        worksheet.getCell('F' + (ind + 2)).value = reference.get_contract_type(contract['contract_type']);
         worksheet.getCell('G' + (ind + 2)).value = contract['link'];
         worksheet.getCell('H' + (ind + 2)).value = reference.get_state(contract['contract_state']);
 
@@ -674,7 +674,7 @@ function contract_card_binging_events() {
     });
     /** ==============Карточка Организации: НАЖАТИЕ КНОПКИ Отмена ============= */
     $('#contract_card__Cancel').on('click', function (e) {
-        $(e.target).parents('.appdialog').css('display', 'none');
+        $(e.target).parents('.appdialog:first').css('display', 'none');
     });
 
     /** ============= КОНТЕКСТНОЕ МЕНЮ ДОКУМЕНТЫ. СОЗДАТЬ ===================  */
@@ -722,7 +722,7 @@ function contract_search_binding_events() {
     })
     /** ======================== НАЖАТИЕ КНОПКИ ОТМЕНА  ======================= */
     $('#contract_search__button_Cancel').on('click', function (e) {
-        $(e.target).parents('.appdialog').css('display', 'none');
+        $(e.target).parents('.appdialog:first').css('display', 'none');
     })
 
 
@@ -817,7 +817,7 @@ function contract_card_press_OK(sender) {
                 reference.show_notification('contract_ref', 'Ошибка', size, message);
             })
         }
-        $(sender).parents('.appdialog').css('display', 'none');
+        $(sender).parents('.appdialog:first').css('display', 'none');
     }
 }
 
@@ -974,7 +974,7 @@ function contract_extended_search() {
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена =============
 */
 $('#contract_search__button_Cancel').on('click', function () {
-    $(this).parents('.appdialog').css('display', 'none');
+    $(this).parents('.appdialog:first').css('display', 'none');
 });
 
 /**
@@ -1001,7 +1001,7 @@ function contract_extended_search_OK(e) {
         var records = JSON.parse(result);
         var ind = 1;
         contract_update_reference(records);
-        $(e.target).parents('.appdialog').css('display', 'none');
+        $(e.target).parents('.appdialog:first').css('display', 'none');
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var size = { width: 500, height: 200 };

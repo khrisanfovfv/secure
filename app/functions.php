@@ -258,9 +258,9 @@
      * */
     function secure_get_state($state){
         switch ($state){
-            case 'Active' : return 'Действующая'; break;
-            case 'Inactive' : return 'Не действующая'; break;
-            default : '';
+            case 'Active' : return 'Действующая';            
+            case 'Inactive' : return 'Не действующая';
+            default : return '';
         }
     }
 
@@ -282,8 +282,20 @@
      */
     function get_data_value($value){
         if ($value ==='0000-00-00'){
-            echo '';
-        } else echo $value;
+            return '';
+        } else return $value;
+    }
+
+    /**
+     * =========== ВОЗВРАЩАЕТ НАЗВАНИЕ ТИПА КОНТРАКТА ==============
+     */
+    function get_contract_type($type){
+        switch($type){
+            case 'Support': return 'Поддержка'; 
+            case 'Develop': return 'Развитие';
+            case 'Certification': return 'Аттестация'; 
+            default: return '';
+        }
     }
 
     /**

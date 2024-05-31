@@ -288,8 +288,8 @@ var reference = {
      * @param {string} support значение в базе 
      * @returns значение в интерфейсе
      */
-    get_support(support) {
-        switch (support) {
+    get_contract_type(type) {
+        switch (type) {
             case 'Support': return 'Поддержка'; break;
             case 'Develop': return 'Развитие'; break;
             case 'Certification': return 'Аттестация'; break;

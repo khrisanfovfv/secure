@@ -75,7 +75,7 @@ $prefix = $wpdb->prefix;
                                 <td><?php echo str_replace("\\","", $row["contract_number"]) ?></td>
                                 <td style="text-align: left;"><?php echo str_replace("\\","", $row["conclusionDate"]) ?></td>
                                 <td><?php echo $row["contract_subject"] ?></td>
-                                <td><?php echo $row["contract_type"] ?></td>
+                                <td><?php echo get_contract_type($row["contract_type"]) ?></td>
                                 <td><?php echo $row["link"] ?></td>
                                 <td><?php echo secure_get_state($row["contract_state"]) ?></td>
                                 <!--td><!?php echo secure_get_state($row["state"]) ?></td-->
