@@ -67,7 +67,8 @@ $(function () {
             switch(page_id){
                 case 'document_kind' :  document_kind_common_search(value); break;
                 case 'document' : document_common_search(value); break; 
-                case 'department' : department_common_search(value); break; 
+                case 'department' : department_common_search(value); break;
+                case 'contract' : contract_common_search(value); break; 
                 case 'administrator' : administrator_common_search(value); break;
                 case 'organization' : organization_common_search(value); break;
                 case 'information_system' : information_system_common_search(value); break;
@@ -85,6 +86,7 @@ $(function () {
             case 'document_kind' : document_kind_extended_search(); break;
             case 'document' : document_extended_search(); break;
             case 'department' : department_extended_search(); break;
+            case 'contract' : contract_extended_search(); break;
             case 'administrator' : administrator_extended_search(); break;
             case 'information_system' : information_system_extended_search();break;
             case 'organization' : organization_extended_search();break;

@@ -325,8 +325,6 @@ class Contract
                 Contract::secure_update_document($document);
              }
         }
-
-        $id = $wpdb->insert_id;
         
         // Обновляем записи в детальном разделе ЗАКАЗЧИКИ
         // Убираем символы экранирования '/'
@@ -343,6 +341,24 @@ class Contract
                 Contract::secure_update_customer($customer);
              }
         }
+
+        // Обновляем записи в детальном разделе ИСПОЛНИТЕЛИ
+        // Убираем символы экранирования '/'
+        $developpers_json = stripcslashes($record['developpers']);
+        $developpers = json_decode($developpers_json);
+        foreach ($developpers as $developper){
+            if ($developper->id ==''){
+                if ($developper->is_deleted == 0){
+                    Contract::secure_create_developper($id, $developper);
+                }
+            }elseif ($developper->is_deleted ==='1'){
+                Contract::secure_delete_developper($developper);
+            } else {
+                Contract::secure_update_developper($developper);
+             }
+        }
+
+
 
 
         echo 'Запись добавлена ИД=' . $id;
@@ -412,11 +428,7 @@ class Contract
              }
         }
 
-        if ($wpdb->last_error) {
-            wp_die($wpdb->last_error, 'Ошибка при обновлении записи', array('response' => 500));
-        }
-        // echo 'Запись ид = ' . $record['id'] . ' успешно обновлена ' .$customers_json;
-        // wp_die();
+       
         //         // Обновляем записи в детальном разделе ИСПОЛНИТЕЛИ
         //         // Убираем символы экранирования '/'
         $developpers_json = stripcslashes($record['developpers']);
@@ -433,40 +445,46 @@ class Contract
              }
         }
 
-        if ($wpdb->last_error) {
-            wp_die($wpdb->last_error, 'Ошибка при обновлении записи', array('response' => 500));
-        }
         echo 'Запись ид = ' . $record['id'] . ' успешно обновлена ';
         wp_die();
     }
 
-    //     /**
-    //      * ============== УДАЛЕНИЕ ЗАПИСИ ИНФОРМАЦИОННАЯ СИСТЕМА ===============
-    //      */
-    //     public function secure_delete_contract(){
-    //         global $wpdb;
-    //         $prefix = $wpdb->prefix;
-    //         $contract_id = $_POST['id'];
-    //         // Удаляем связанные записи из таблицы remarks
-    //         $remarks = $wpdb->get_results( 
-    //             $wpdb->prepare("SELECT * FROM {$prefix}remarks WHERE contract_id = %d", Array($contract_id)), OBJECT );
-    //         foreach($remarks as $remark){
-    //             InformationSystem::secure_delete_remark($remark);
-    //         }
+        /**
+         * ============== УДАЛЕНИЕ ЗАПИСИ КОНТРАКТА ===============
+         */
+        public function secure_delete_contract(){
+            global $wpdb;
+            $prefix = $wpdb->prefix;
+            $contract_id = $_POST['id'];
+            // Удаляем связанные записи из таблицы Заказчики
+            $customers = $wpdb->get_results( 
+                $wpdb->prepare("SELECT * FROM {$prefix}contract_customer WHERE contract_id = %d", Array($contract_id)), OBJECT );
+            foreach($customers as $customer){
+                Contract::secure_delete_customer($customer);
+            }
 
-    //         // Удаляем связанные записи из таблицы contract_administrator
-    //         $administrators = $wpdb->get_results( 
-    //             $wpdb->prepare("SELECT * FROM {$prefix}contract_administrator WHERE contract_id = %d", Array($contract_id)), OBJECT );
-    //         foreach($administrators as $administrator){
-    //             InformationSystem::secure_delete_administrator($administrator);
-    //         }
+            // Удаляем связанные записи из таблицы Исполнители
+            $developpers = $wpdb->get_results( 
+                $wpdb->prepare("SELECT * FROM {$prefix}contract_developper WHERE contract_id = %d", Array($contract_id)), OBJECT );
+            foreach($developpers as $developper){
+                Contract::secure_delete_developper($developper);
+            }
 
-    //         // Удаляем запись информационная система
-    //         $wpdb->delete( $prefix.'contract', array( 'ID' => $contract_id ), array( '%d' ));
-    //         echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
-    //         wp_die();
+            // Удаляем связанные записи из таблицы Документы
+            $documents = $wpdb->get_results( 
+                $wpdb->prepare("SELECT * FROM {$prefix}contract_document WHERE contract_id = %d", Array($contract_id)), OBJECT );
+            foreach($documents as $document){
+                Contract::secure_delete_document($document);
+            }
 
-    //     }
+            
+
+            // Удаляем запись информационная система
+            $wpdb->delete( $prefix.'contract', array( 'ID' => $contract_id ), array( '%d' ));
+            echo 'Запись ид = ' . $_POST['id'] . ' успешно удалена';
+            wp_die();
+
+        }
 
         
 
@@ -703,177 +721,68 @@ class Contract
         wp_die();
     }
 
-    //     /**
-    //      * ======================== АДМИНИСТРАТОРЫ. ЗАГРУЗКА ЗАПИСЕЙ ===============
-    //      */
-    //     public function secure_load_contract_administrators(){
-    //         global $wpdb;
-    //         $prefix = $wpdb->prefix;
-    //         $contract_id = $_POST['contract_id'];
-    //         $results = $wpdb->get_results(
-    //                 $wpdb->prepare("SELECT inf_sys_adm.id,inf_sys_adm.administrator_id, administrator.fullname as administrator_name , inf_sys_adm.appointdate, inf_sys_adm.terminatedate, inf_sys_adm.type 
-    //             FROM {$prefix}contract_administrator inf_sys_adm 
-    //             JOIN {$prefix}administrator administrator on inf_sys_adm.administrator_id = administrator.id            
-    //             WHERE inf_sys_adm.contract_id = $contract_id"), OBJECT);
-    //          echo json_encode($results);
-    //         wp_die();
-    //     }
+    /**
+    * ================ КОНТРАКТЫ. ОБЩИЙ ПОИСК =================
+    */
+    function secure_search_contract(){
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $value = $_POST['value'];
+        $results = $wpdb->get_results( 
+            $wpdb->prepare("SELECT * FROM {$prefix}contract 
+            WHERE contract_subject LIKE '%$value%'
+            OR contract_number LIKE '%$value%'
+            OR conclusionDate LIKE '%$value%'
+            OR link LIKE '%$value%'
+        "), ARRAY_A ); 
+            echo json_encode($results);
+            wp_die();
+        }
 
-    //     /**
-    //      * ============== АДМИНИСТРАТОРЫ. СОЗДАНИЕ ЗАПИСИ ==============
-    //      */
-    //     protected function secure_create_administrator($contract_id, $administrator){
-    //         global $wpdb;
-    //         $table_name = $wpdb->prefix . 'contract_administrator';
-    //         $wpdb->insert(
-    //             $table_name,
-    //             array(
-    //                 'contract_id' => $contract_id,
-    //                 'administrator_id' => $administrator->administrator_id,
-    //                 'appointdate' => $administrator->appointdate,
-    //                 'terminatedate' => $administrator->terminatedate,
-    //                 'type' => $administrator->type
-    //             ),
-    //             array(
-    //                 '%d', // contract_id
-    //                 '%d', // administrator_id
-    //                 '%s', // appointdate
-    //                 '%s', // terminatedate
-    //                 '%s'  // type   
-    //             )
-    //         );
-    //     }
+        /**
+         * ================= ИНФОРМАЦИОННЫЕ СИСТЕМЫ. РАСШИРЕННЫЙ ПОИСК =================
+         */
+        function secure_search_contract_extended(){
+            global $wpdb;
+            $prefix = $wpdb->prefix;
+            $wild = '%';
+            $contract_subject_like  = $wild .  $_POST['contract_subject'] . $wild;
+            $contract_number_like = $wild .  $_POST['contract_number'] .$wild;
+            $conclusionDateFrom = trim($_POST['conclusionDateFrom']);
+            $conclusionDateTo = trim($_POST['conclusionDateTo']);
+            $type = trim($_POST['type']);
+            $link_like = $wild .  $_POST['link'] . $wild;
+            $state = $_POST['state'];
+            $conclusionDate_query = '';
+            $type_query = '';
+            $state_query = '';
+            
+            if ($conclusionDateFrom !=='' and $conclusionDateTo ===''){
+                $conclusionDate_query = " AND conclusionDate >= '" . $conclusionDateFrom . "'";
+            } elseif($conclusionDateFrom !== '' and $conclusionDateTo !== ''){
+                $conclusionDate_query = " AND conclusionDate BETWEEN '" . $conclusionDateFrom . "' and '" . $conclusionDateTo . "'" ;
+            } elseif(trim($conclusionDateFrom) ==='' and trim($conclusionDateTo) !=='')
+                $conclusionDate_query = " AND conclusionDate <= '" . $conclusionDateTo . "'";
 
-    //     function secure_update_administrator($administrator){
-    //         global $wpdb;
-    //         $prefix = $wpdb->prefix;
-    //         $wpdb->update(
-    //             $prefix.'administrators',
-    //             array(
-    //                 'contract_id' => $administrator->contract_id,
-    //                 'administrator_id' => $administrator->administrator_id,
-    //                 'appointdate' => $administrator->appointdate,
-    //                 'terminatedate' => $administrator->terminatedate,
-    //                 'type' => $administrator->type
-    //             ),
-    //             array( 'ID' => $administrator->id ),
-    //             array(
-    //                 '%d', // contract_id
-    //                 '%d', // administrator_id
-    //                 '%s', // appointdate
-    //                 '%s', // terminatedate
-    //                 '%s'  // type   
-    //             ),
-    //             array( '%d' )
-    //         );
-    //     }
+            if ($type !== ''){
+                $type_query = "AND contract_type = '$type'";
+            }
+           
+            if ($state !==''){
+                $state_query = "AND contract_state = '$state'";
+            }
 
-    //     /**
-    //      * ============== АДМИНИСТРАТОРЫ. УДАЛЕНИЕ ЗАПИСИ ==============
-    //      */
-    //     protected function secure_delete_administrator($administrator){
-    //         global $wpdb;
-    //         $prefix = $wpdb->prefix;
-    //         $wpdb->delete( $prefix . 'contract_administrator', array( 'ID' => $administrator->id ), array( '%d' ));
-    //         echo 'Запись ид = ' . $administrator->id . ' успешно удалена';
-    //         wp_die();
-    //     }
+            $results = $wpdb->get_results( 
+                $wpdb->prepare("SELECT * FROM {$prefix}contract 
+                WHERE contract_subject LIKE %s AND contract_number like %s
+                AND link LIKE %s $conclusionDate_query $type_query $state_query", 
+                array($contract_subject_like, $contract_number_like, $link_like )), ARRAY_A ); 
 
-
-
-    //     /**
-    //      * ================ ИНФОРМАЦИОННЫЕ СИСТЕМЫ. ОБЩИЙ ПОИСК =================
-    //      */
-    //     function secure_search_contract(){
-    //         global $wpdb;
-    //         $prefix = $wpdb->prefix;
-    //         $value = $_POST['value'];
-    //         $results = $wpdb->get_results( 
-    //             $wpdb->prepare("SELECT * FROM {$prefix}contract 
-    //             WHERE fullname LIKE '%$value%'
-    //             OR briefname LIKE '%$value%'
-    //             OR certifydate LIKE '%$value%'
-    //             OR commissioningdate LIKE '%$value%'
-    //             "), ARRAY_A ); 
-    //         echo json_encode($results);
-    //         wp_die();
-    //     }
-
-    //     /**
-    //      * ================= ИНФОРМАЦИОННЫЕ СИСТЕМЫ. РАСШИРЕННЫЙ ПОИСК =================
-    //      */
-    //     function secure_search_contract_extended(){
-    //         global $wpdb;
-    //         $prefix = $wpdb->prefix;
-    //         $fullname = $_POST['fullname'];
-    //         $briefname = $_POST['briefname'];
-    //         $scope = $_POST['scope'];
-    //         $significancelevel = $_POST['significancelevel'];
-    //         $certified = $_POST['certified'];
-    //         $certifydatefrom = $_POST['certifydatefrom'];
-    //         $certifydateto = $_POST['certifydateto'];
-    //         $hasremark = $_POST['hasremark'];
-    //         $commissioningdatefrom = $_POST['commissioningdatefrom'];
-    //         $commissioningdateto = $_POST['commissioningdateto'];
-    //         $state = $_POST['state'];
-    //         $scope_query = '';
-    //         $significancelevel_query ='';
-    //         $certified_query = '';
-    //         $certifydate_query ='';
-    //         $hasremark_query = '';
-    //         $commissioningdate_query = '';
-    //         $state_query = '';
-    //         if (trim($scope) !==''){
-    //             $scope_query = "AND scope = '$scope'";        
-    //         }
-    //         if (trim($significancelevel) !==''){
-    //             $significancelevel_query = "AND significancelevel = '$significancelevel'";
-    //         }
-
-    //         if (trim($certified) !==''){
-    //             if ($certified === 'Yes')
-    //                 $certified_query = "AND certified = '1'";
-    //             else
-    //                 $certified_query = "AND certified = '0'";
-    //         }
-
-    //         if (trim($certifydatefrom) !=='' and trim($certifydateto) ===''){
-    //             $certifydate_query = " AND certifydate >= '" . $certifydatefrom . "'";
-    //         } elseif(trim($certifydatefrom) !== '' and trim($certifydateto) !== ''){
-    //             $certifydate_query = " AND certifydate BETWEEN '" . $certifydatefrom . "' and '" . $certifydateto . "'" ;
-    //         } elseif(trim($certifydatefrom) ==='' and trim($certifydateto) !=='')
-    //             $certifydate_query = " AND certifydate <= '" . $certifydateto . "'";
-
-    //         if (trim($hasremark) !==''){
-    //             if ($hasremark === 'Yes')
-    //                 $hasremark_query = "AND hasremark = '1'";
-    //             else
-    //                 $hasremark_query = "AND hasremark = '0'";
-    //         }
-
-    //         if (trim($commissioningdatefrom) !=='' and trim($commissioningdateto) ===''){
-    //             $commissioningdate_query = " AND commissioningdate >= '" . $commissioningdatefrom . "'";
-    //         } elseif(trim($commissioningdatefrom) !== '' and trim($commissioningdateto) !== ''){
-    //             $commissioningdate_query = " AND commissioningdate BETWEEN '" . $commissioningdatefrom . "' and '" . $commissioningdateto . "'" ;
-    //         } elseif(trim($commissioningdatefrom) ==='' and trim($commissioningdateto) !=='')
-    //             $commissioningdate_query = " AND commissioningdate <= '" . $commissioningdateto . "'";
-
-    //         if (trim($state) !==''){
-    //             $state_query = "AND state = '$state'";
-    //         }
-
-    //         $results = $wpdb->get_results( 
-    //             $wpdb->prepare("SELECT * FROM {$prefix}contract 
-    //             WHERE fullname LIKE '%$fullname%'
-    //             AND briefname LIKE '%$briefname%'" . $scope_query .
-    //             $significancelevel_query .
-    //             $certified_query .
-    //             $certifydate_query .
-    //             $hasremark_query .
-    //             $commissioningdate_query .
-    //             $state_query), ARRAY_A ); 
-    //         echo json_encode($results);
-    //         wp_die();
-    //     }
+            if ($wpdb->last_error){
+                wp_die($wpdb->last_error, 'Ошибка', array('response' => 500));
+            }
+            echo json_encode($results);
+            wp_die();
+        }
 
 }

@@ -118,6 +118,38 @@
     
 }
 
+.contract_search{
+    &__content{
+        padding:20px 10px 10px 10px;
+        font-size: 18px;
+        display: flex;
+        flex-direction: column;
+    }
+    &__fields{
+        display: grid;
+        grid-template-columns: repeat(24,1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    &__fields label{
+        grid-column: 1/9;
+        font-weight: bold;
+    }
+
+    &__fields input{
+        grid-column: 10/24;
+    }
+
+    
+
+
+    &__fields select{
+        grid-column: 10/15;
+        background-color: white;
+    }
+}
+
 
 
 #contract_ref__dialog_content{

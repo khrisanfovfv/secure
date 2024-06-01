@@ -37,28 +37,6 @@ function contract_load_records() {
 }
 
 
-/**
- * ============================ КНОПКА РАСШИРЕННЫЙ ПОИСК =============================
- */
-function contract_extended_search() {
-    size = { width: 500, height: 200 };
-    prefix = '#contract_ref';
-    title = 'Расширенный поиск';
-    // Загружаем карточку
-    var data = {
-        action: 'load_card',
-        card: 'contract_search'
-    };
-    reference.show_dialog(prefix, size, title);
-    jQuery.post(MainData.ajaxurl, data, function (textStatus) {
-        $(prefix + '__dialog_content').html(textStatus);
-
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        var size = { width: 500, height: 200 };
-        message = 'Во время загрузки карточки ' + data.card + ' произошла ошибка' + textStatus + ' ' + errorThrown;
-        reference.show_notification('#contract_ref', 'Ошибка', size, message);
-    });
-}
 
 /**
  * ============== РАСШИРЕННЫЙ ПОИСК НАЖАТИЕ КНОПКИ Отмена =============
@@ -519,7 +497,9 @@ function contract_delete_record() {
     $('#contract_ref__context').css('display', 'none');
 }
 
-/** ВКЛАДКА ЗАКАЗЧИКИ. ДЕЙСТВИЕ ОБНОВЛЕНИЕ */
+/** 
+ * =========== ВКЛАДКА ЗАКАЗЧИКИ. ДЕЙСТВИЕ ОБНОВЛЕНИЕ ============== 
+ * */
 function contract_card__customers_update() {
     var contract_id = $('#contract_card__id').text();
     // Загружаем детальный раздел ЗАКАЗЧИКИ
@@ -547,8 +527,7 @@ function contract_card__customers_update() {
 }
 
 /** ВКЛАДКА ИСПОЛНИТЕЛИ. ДЕЙСТВИЕ ОБНОВЛЕНИЕ */
-function contract_card__developpers_update() {
-    alert('rabotaet')
+function contract_card__developpers_update_records() {
     var contract_id = $('#contract_card__id').text();
     // Загружаем детальный раздел ИСПОЛНИТЕЛИ
     var data = {
@@ -665,7 +644,7 @@ function contract_card_binging_events() {
     /** ===================== ДЕТАЛЬНЫЙ РАЗДЕЛ ИСПОЛНИТЕЛИ. НАЖАТИЕ КНОПКИ ОБНОВИТЬ ================ */
     //$('.contract_card__tabs_item').on('click', function (e) {
     $('#contract_card__developpers_update').on('click', function () {
-        contract_card__developpers_update();
+        contract_card__developpers_update_records();
     })
 
     /** ==============Карточка КОНТРАКТА: НАЖАТИЕ КНОПКИ OK ============= */
@@ -771,7 +750,6 @@ function contract_card_press_OK(sender) {
             developper.is_deleted = $(element).children('.is_deleted').text();
             developpers[index] = JSON.parse(JSON.stringify(developper));
         })
-        
 
         record = {
             id: $('#contract_card__id').text(),
@@ -886,7 +864,7 @@ function contract_load_records(textStatus = '') {
 
 }
 /**
- *  ========================= ОБНОВЛЕНИЕ СПРАВОЧНИКА ОРГАНИЗАЦИИ ===========================
+ *  ========================= ОБНОВЛЕНИЕ СПРАВОЧНИКА КОНТРАКТЫ ===========================
  * @param {Object} records 
  */
 function contract_update_reference(records) {
@@ -900,7 +878,7 @@ function contract_update_reference(records) {
                 .append($("<td>").text(record["contract_number"]))
                 .append($("<td>").text(record["conclusionDate"]))
                 .append($("<td style='text-align: left'>").text(record["contract_subject"].replace(/\\"/g, '"')))
-                .append($("<td>").text(record["contract_type"]))
+                .append($("<td>").text(reference.get_contract_type(record["contract_type"])))
                 .append($("<td>").text(record["link"]))
                 .append($("<td>").text(reference.get_state(record["contract_state"])))
         ).on('click', function (e) {
@@ -949,7 +927,7 @@ function contract_common_search(value) {
  * ============================ КНОПКА РАСШИРЕННЫЙ ПОИСК =============================
  */
 function contract_extended_search() {
-    size = { width: 600, height: 500 };
+    size = { width: 800, height: 400 };
     prefix = '#contract_ref';
     title = 'Расширенный поиск';
     // Загружаем карточку
@@ -983,18 +961,13 @@ $('#contract_search__button_Cancel').on('click', function () {
 function contract_extended_search_OK(e) {
     var data = {
         action: 'search_contract_extended',
-        fullname: $('#contract__search_fullname').val(),
-        briefname: $('#contract__search_briefname').val(),
-        boss: $('#contract__search_boss').val(),
-        email: $('#contract__search_email').val(),
-        inn: $('#contract__search_inn').val(),
-        okpo: $('#contract__search_okpo').val(),
-        kpp: $('#contract__search_kpp').val(),
-        kpp: $('#contract__search_kpp').val(),
-        ogrn: $('#contract__search_ogrn').val(),
-        postAddress: $('#contract__search_postAddress').val(),
-        LegalAddress: $('#contract__search_LegalAddress').val(),
-        state: $('#contract__search_state').val()
+        contract_subject: $('#contract_search__contract_subject').val(),
+        contract_number: $('#contract_search__contract_number').val(),
+        conclusionDateFrom: $('#contract_search__conclusionDateFrom').val(),
+        conclusionDateTo: $('#contract_search__conclusionDateTo').val(),
+        type: $('#contract_search__type').val(),
+        link: $('#contract_search__link').val(),
+        state: $('#contract_search__state').val()
     };
 
     jQuery.post(MainData.ajaxurl, data, function (result) {
