@@ -776,6 +776,21 @@ function information_system_card__developpers_create_record() {
 }
 
 /**
+ * ============================== РАЗРАБОТЧИКИ. РЕДАКТИРОВАТЬ ==============================
+ */
+function information_system_card__developpers_edit_record(){
+    let rows = $('#information_system_card__developpers_table>tbody>tr.highlight');
+    if (rows.length>0){
+        let developper_id = $(rows[0]).find('.ref_record').children('.id').text();
+        if (developper_id !== ''){
+            var size = { width: 1000, height: 640 };
+            reference.open_card('#information_system_card', 'Карточка Организации', size,
+            OpenMode.Edit, developper_id, '#information_system_card__developpers')
+        }
+    }
+}
+
+/**
  * ============================== РАЗРАБОТЧИКИ. КОПИРОВАТЬ ==============================
  */
 
@@ -1378,14 +1393,18 @@ function information_system_card_binging_events() {
     });
 
     /** ============================= РАЗРАБОТЧИКИ. КНОПКА СОЗДАТЬ ============================== */
-    $('#information_system_card__developpers_create').on('click', function () {
+    $('#information_system_card__developpers_add').on('click', function () {
         information_system_card__developpers_create_record();
     })
-
-    /** ===================== РАЗРАБОТЧИКИ. КНОПКА КОПИРОВАТЬ ==================== */
-    $('#information_system_card__developpers_copy').on('click', function () {
-        information_system_card__developpers_copy_record();
+    /** ============================= РАЗРАБОТЧИКИ. КНОПКА РЕДАКТИРОВАТЬ ============================== */
+    $('#information_system_card_developpers_edit').on('click', function(){
+        information_system_card__developpers_edit_record();
     })
+
+    // /** ===================== РАЗРАБОТЧИКИ. КНОПКА КОПИРОВАТЬ ==================== */
+    // $('#information_system_card__developpers_copy').on('click', function () {
+    //     information_system_card__developpers_copy_record();
+    // })
     /** ===================== РАЗРАБОТЧИКИ. КНОПКА ОБНОВИТЬ ===================== */
     $('#information_system_card__developpers_update').on('click', function () {
         information_system_card__developpers_update_records();
@@ -1396,13 +1415,22 @@ function information_system_card_binging_events() {
         information_system_card__developpers_delete_record();
     })
 
-    /** =================== КОНТЕКСТНОЕ МЕНЮ. РАЗРАБОТЧИКИ. КНОПКА СОЗДАТЬ ====================== */
-    $('#information_system_card_developpers__out_context_create').on('click', function () {
+    /** =================== КОНТЕКСТНОЕ МЕНЮ. РАЗРАБОТЧИКИ. КНОПКА ДОБАВИТЬ ====================== */
+    $('#information_system_card__developpers_out_context_add').on('click', function () {
         information_system_card__developpers_create_record();
     })
 
+    /** =================== КОНТЕКСТНОЕ МЕНЮ. РАЗРАБОТЧИКИ. КНОПКА РЕДАКТИРОВАТЬ ====================== */
+    $('#information_system_card_developpers_context_edit').on('click', function(){
+        information_system_card__developpers_edit_record();
+    })
+    /** =================== КОНТЕКСТНОЕ МЕНЮ. РАЗРАБОТЧИКИ. КНОПКА УДАЛИТЬ ====================== */
+    $('#information_system_card_developpers_context_delete').on('click', function(){
+        information_system_card__developpers_delete_record();
+    })
+
     /** =================== КОНТЕКСТНОЕ МЕНЮ. РАЗРАБОТЧИКИ. КНОПКА ОБНОВИТЬ ====================== */
-    $('#information_system_card_developpers__out_context_update').on('click', function () {
+    $('#information_system_card__developpers_out_context_update').on('click', function () {
         information_system_card__developpers_update_records();
     })
 

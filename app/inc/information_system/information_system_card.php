@@ -89,13 +89,13 @@ $document_icons = $resources->get_document_icons();
                         <div class="information_system_card__developpers" id="information_system_card__developpers">
                             <p class="reference__title">Разработчик</p>
                             <div class="reference__buttons">
-                                <button class="reference__button" id="information_system_card__developpers_create">
-                                    <img src="<?php echo $button_icons->create ?>" alt="Создать">
-                                    <p>Создать</p>
+                                <button class="reference__button" id="information_system_card__developpers_add">
+                                    <img src="<?php echo $button_icons->create ?>" alt="Добавить">
+                                    <p>Добавить</p>
                                 </button>
-                                <button class="reference__button" id="information_system_card__developpers_copy">
-                                    <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
-                                    <p>Копировать</p>
+                                <button class="reference__button" id="information_system_card__developpers_edit">
+                                    <img src="<?php echo $button_icons->edit ?>" alt="Редактировать">
+                                    <p>Редактировать</p>
                                 </button>
                                 <button class="reference__button" id="information_system_card__developpers_update">
                                     <img src="<?php echo $button_icons->update ?>" alt="Обновить">
@@ -305,17 +305,13 @@ $document_icons = $resources->get_document_icons();
 </div>
 
 <!-- КОНТЕКТНОЕ МЕНЮ ДЛЯ ТАБЛИЦЫ РАЗРАБОТЧИКИ -->
-<div class="context-menu" id="information_system_card__general_developpers_context">
+<div class="context-menu" id="information_system_card__developpers_context">
     <ul class="context-menu__list">
-        <li class="context-menu__item">
+        <li class="context-menu__item" id="information_system_card_developpers_context_edit" >
             <img src="<?php echo $button_icons->edit ?>" alt=Редактировать">
             <p>Редактировать</p>
         </li>
-        <li class="context-menu__item">
-            <img src="<?php echo $button_icons->copy ?>" alt="Копировать">
-            <p>Копировать</p>
-        </li>
-        <li class="context-menu__item">
+        <li class="context-menu__item" id="information_system_card_developpers_context_delete">
             <img src="<?php echo $button_icons->delete ?>" alt="Удалить">
             <p>Удалить</p>
         </li>
@@ -351,13 +347,13 @@ $document_icons = $resources->get_document_icons();
 </div>
 
 <!-- КОНТЕКСТНОЕ МЕНЮ ЭЛЕМЕНТА information_system_card__developpers_container -->
-<div class="context-menu" id="information_system_card_developpers__out_context">
+<div class="context-menu" id="information_system_card__developpers_out_context">
     <ul class="context-menu__list">
-        <li class="context-menu__item" id="information_system_card_developpers__out_context_create">
+        <li class="context-menu__item" id="information_system_card__developpers_out_context_add">
             <img src="<?php echo $button_icons->create ?>">
             <p>Создать</p>
         </li>
-        <li class="context-menu__item" id="information_system_card_developpers__out_context_update">
+        <li class="context-menu__item" id="information_system_card__developpers_out_context_update">
             <img src="<?php echo $button_icons->update ?>">
             <p>Обновить</p>
         </li>

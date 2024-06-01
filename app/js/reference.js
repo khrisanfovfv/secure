@@ -120,6 +120,7 @@ var reference = {
             case '#administrator_ref' : card = 'administrator_card'; break;
             case '#organization_ref' : card = 'organization_card' ; break;
             case '#document_card__version_list' : card = 'document_version_card'; break;
+            case '#information_system_card__developpers' : card= 'organization_card'; break;
             case '#information_system_card__documents' : card = 'document_card'; break;
             case '#information_system_card__contracts' : card = 'contract_card'; break;
             case '#contract_ref' : card = 'contract_card'; break;
@@ -162,6 +163,7 @@ var reference = {
                 case '#information_system_card__documents' : document_card_binging_events(); break;
                 case '#contract_card__documents' : document_card_binging_events(); break;
                 case '#information_system_card__contracts' : contract_card_binging_events(); break;
+                case '#information_system_card__developpers' : organization_card_binding_events(); break;
                 case '#user_profile' : employee_card_binging_events(); break;
                 case '#change_password' : employee_change_password_binding_events(); break;
                 case '#about' : about_binding_events(); break;
@@ -236,8 +238,9 @@ var reference = {
                     
                     // Детальные разделы
                     case '#information_system_card__documents' : card_document_load_data(result, openMode); break;
-                    case '#contract_card__documents' : card_document_load_data(result, openMode); break;
+                    case '#information_system_card__developpers' : card_organization_load_data(result, openMode); break;
                     case '#information_system_card__contracts' : card_contract_load_data(result, openMode); break;
+                    case '#contract_card__documents' : card_document_load_data(result, openMode); break;
                     case '#document_card__version_list' : card_document_version_load_data(result, openMode); break;
                     case '#user_profile' : card_employee_load_data(result, openMode); break;
                 }

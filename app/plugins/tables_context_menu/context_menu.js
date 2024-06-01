@@ -8,9 +8,9 @@ var Context = {
     menuState: 0,
     // Cписок всех контекстных меню приложения
     menus: ['#information_system_card__general_admins_context',
-        '#information_system_card__general_developpers_context',
+        '#information_system_card__developpers_context',
         '#information_system_card__remarks_context',
-        '#information_system_card_developpers__out_context',
+        '#information_system_card__developpers_out_context',
         '#information_system_card_remarks__out_context',
         '#information_system_card__administrators_context',
         '#information_system_card_administrators__out_context',
@@ -255,7 +255,7 @@ var Context = {
         switch (className) {
             case 'information_system_ref__table_row': Context.menu = $('#information_system_ref__context'); break;
             case 'information_system_card__administrators_table_num': Context.menu = $('#information_system_card__administrators_context'); break;
-            case 'information_system_card__developpers_table_num': Context.menu = $('#information_system_card__general_developpers_context'); break;
+            case 'information_system_card__developpers_table_num': Context.menu = $('#information_system_card__developpers_context'); break;
             case 'information_system_card__contracts_table_row': Context.menu = $('#information_system_card__contracts_context'); break;
             case 'information_system_card__remarks_table_num': Context.menu = $('#information_system_card__remarks_context'); break;
             case 'document__item': Context.menu = $('#information_system_card__document_context'); break;
@@ -371,7 +371,7 @@ var Context = {
             case 'information_system_ref__container': Context.menu = $('#information_system_ref__out_context'); break;
             case 'attachments__list information_system_card__documents' : Context.menu = $('#information_system_card__documents_out_context'); break;
             case 'information_system_card__remarks_container' : Context.menu = $('#information_system_card_remarks__out_context'); break;
-            case 'information_system_card__developpers_container' : Context.menu = $('#information_system_card_developpers__out_context'); break;
+            case 'information_system_card__developpers_container' : Context.menu = $('#information_system_card__developpers_out_context'); break;
             case 'information_system_card__administrators_container' : Context.menu = $('#information_system_card_administrators__out_context'); break;
             case 'information_system_card__contracts_container' : Context.menu = $('#information_system_card_contracts__out_context'); break;
             case 'administrator_ref__container': Context.menu = $('#administrator_ref__out_context'); break;
