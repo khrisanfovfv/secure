@@ -290,7 +290,6 @@ function document_version_card_press_OK(sender){
             document_version['version_title'] = $('#document_version_card__title').val(); 
             document_version['is_deleted'] = 0;
             document_version['extension'] = file_list[0].name.split('.').pop();
-            alert(document_version['extension']);
             document_version['file_list'] = file_list;
             document_version['state'] = $('#document_version_card__state').val();
             
