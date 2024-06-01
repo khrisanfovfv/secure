@@ -127,16 +127,17 @@
 
     // Добавляем действия для ajax-запросов 
     add_action('wp_ajax_get_site_url', 'get_url_site');
-    add_action('wp_ajax_nopriv_get_site_url', 'get_url_site');
+    //add_action('wp_ajax_nopriv_get_site_url', 'get_url_site');
     add_action('wp_ajax_login', 'secure_login');
     add_action('wp_ajax_exit', 'secure_exit');
     add_action('wp_ajax_nopriv_login', 'secure_login');
     add_action('wp_ajax_load_card', 'secure_load_card');
     //add_action('wp_ajax_nopriv_load_card', 'secure_load_card');
     add_action('wp_ajax_load_reference', 'secure_load_reference');
-    add_action('wp_ajax_nopriv_load_reference', 'secure_load_reference');
+    //add_action('wp_ajax_nopriv_load_reference', 'secure_load_reference');
     add_action('wp_ajax_load_document_icons', 'secure_load_document_icons');
-    add_action('wp_ajax_nopriv_load_document_icons', 'secure_load_document_icons');
+    //add_action('wp_ajax_nopriv_load_document_icons', 'secure_load_document_icons');
+    add_action('wp_ajax_load_user_instruction','secure_load_user_instruction');
     
     
     
@@ -357,6 +358,22 @@
             $color = 'orange_background';
         }           
         return $color;
+    }
+
+    /** 
+     * ЗАГРУЖАЕТ ИНСТРУКЦИЮ ПОЛЬЗОВАТЕЛЯ
+     */
+    function secure_load_user_instruction(){
+        $file_path = wp_normalize_path(get_template_directory() . '/storage/instructions/' . 'user_instruction.docx');
+
+        if (file_exists($file_path)) {
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
+            readfile($file_path);
+            exit;
+        }else {
+            echo "Файл" .  $file_path . "не найден.";
+        }
     }
 
    

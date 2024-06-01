@@ -38,7 +38,7 @@ $(function () {
             case 'sm_references__contract': open_page('contract'); break;
             case 'sm_references__employees': open_page('employee'); break;
             case 'sm_references__documents' : open_page('document'); break;
-            case 'sm_help__help' : open_page('help'); break;
+            case 'sm_help__help' : open_user_help(); break;
             case 'sm_help__about' : {
                 let size = {width : 500, height : 230};
                 reference.open_card('#footer_ref', 'О программе', size, OpenMode.Create, 0, '#about');
@@ -243,6 +243,30 @@ $('#main_menu__settings').on('click', function(){
     let size = {width: 600, height:200};
         reference.open_card('#footer_ref', 'Настройки', size, OpenMode.Edit, 0, '#settings_card');
 })
+
+/** 
+ * ============= ЗАГРУЖАЕМ ИНСТРУКЦИЮ ПОЛЬЗОВАТЕЛЯ
+ */
+function open_user_help(){
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', MainData.ajaxurl + '?action=load_user_instruction', true); // URL обработчика
+    type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+    xhr.responseType = 'blob';
+    xhr.onload = function() {
+        if (xhr.status === 200) {          
+            var blob = xhr.response;
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(new Blob([blob], {type : type}));
+            link.download = 'Инструкция пользователя.docx'; // Имя файла, которое будет предложено пользователю
+            link.click();
+            URL.revokeObjectURL(link.href);
+        } else{
+            alert('Ошибка при загрузке файла');
+        }
+    }
+    xhr.send();
+}
 
 /**
  * ПАНЕЛЬ НАСТРОЕК. КНОПКА ЗАКРЫТЬ
