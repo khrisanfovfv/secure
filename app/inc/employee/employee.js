@@ -496,9 +496,9 @@ async function card_employee_load_data(data, openMode) {
     $('.employee_card__photo').attr('src', cardData.photo);
 
     $('#employee_card__organization').find('.id').text(cardData.organization_id);
-    $('#employee_card__organization').find('.fullname').val(cardData.organization_name);
+    $('#employee_card__organization').find('.fullname').val(cardData.organization_name.replace(/\\"/g, '"'));
     $('#employee_card__department').find('.id').text(cardData.department_id);
-    $('#employee_card__department').find('.fullname').val(cardData.department_name);
+    $('#employee_card__department').find('.fullname').val(cardData.department_name.replace(/\\"/g, '"'));
     $('#employee_card__email').val(cardData.email);
     $('#employee_card__state').val(cardData.state);
 
